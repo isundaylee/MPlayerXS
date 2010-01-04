@@ -580,7 +580,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# shell script goes here\ncd ../update\n./package.sh > out.txt";
+			shellScript = "# shell script goes here\ncd ../update\n./package.sh > out.txt\nopen out.txt";
 		};
 /* End PBXShellScriptBuildPhase section */
 
