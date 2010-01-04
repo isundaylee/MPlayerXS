@@ -312,7 +312,7 @@
 	
 	// 用文件名查找有没有之前的播放记录
 	NSNumber *stopTime = [[[NSUserDefaults standardUserDefaults] objectForKey:kUDKeyPlayingTimeDic] objectForKey:lastPlayedPathPre];
-	NSLog(@"Pre:%@", lastPlayedPathPre);
+	// NSLog(@"Pre:%@", lastPlayedPathPre);
 	if (stopTime) {
 		// 有的话，通知controlUI
 		[controlUI gotLastStoppedPlace:[stopTime floatValue]];
@@ -337,9 +337,8 @@
 		// 删除这个文件key的播放时间
 		[ptDic removeObjectForKey:lastPlayedPath];
 	}
-	NSLog(@"StopPath:%@", lastPlayedPath);
+	// NSLog(@"StopPath:%@", lastPlayedPath);
 	[[NSUserDefaults standardUserDefaults] setObject:ptDic forKey:kUDKeyPlayingTimeDic];
-	//[[NSUserDefaults standardUserDefaults] synchronize];
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyAutoPlayNext] && 
 		(![[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue])
@@ -540,6 +539,7 @@
 {
 	[mplayer performStop];
 	lastPlayedPath = nil;
+
 	[[NSUserDefaults standardUserDefaults] synchronize];
 	
 	return NSTerminateNow;	
