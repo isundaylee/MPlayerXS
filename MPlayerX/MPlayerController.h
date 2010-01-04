@@ -34,6 +34,7 @@
 #define kMPCPlayStartedNotification		(@"kMPCPlayStartedNotification")
 #define kMPCPlayStoppedNotification		(@"kMPCPlayStoppedNotification")
 #define kMPCPlayStoppedByForceKey		(@"kMPCPlayStoppedByForceKey")
+#define kMPCPlayStoppedTimeKey			(@"kMPCPlayStoppedTimeKey")
 
 @interface MPlayerController : NSObject <PlayerCoreDelegate>
 {

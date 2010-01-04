@@ -26,6 +26,7 @@
 {
 	MPlayerController *mplayer;
 	NSString *lastPlayedPath;
+	NSString *lastPlayedPathPre;
 	NSMutableSet *supportMediaFormats;
 	
 	IBOutlet NSWindow *window;

@@ -50,7 +50,7 @@
 @interface MPlayerController (MPlayerControllerInternal)
 -(void) getCurrentTime:(NSTimer *)theTimer;
 -(void) playerTaskTerminatedOnMainThread;
--(void) playerTaskTerminatedNotifyOnMainThread:(NSNumber*)byForce;
+-(void) playerTaskTerminatedNotifyOnMainThread:(NSDictionary*)info;
 @end
 
 @implementation MPlayerController
@@ -134,6 +134,9 @@
 //////////////////////////////////////////////comunication with playerCore/////////////////////////////////////////////////////
 -(void) playerTaskTerminated: (BOOL) byForce from:(id)sender
 {
+	// 如果是强制中断的话，记录下现在的播放时间
+	NSNumber *stopTime = [[[movieInfo.playingInfo currentTime] retain] autorelease];
+	
 	// 这个Delegate方法，可能发生在主线程（当调用playerCore的terminate方法），也可能发生在Player线程（播放过程结束）
 	// 而这里需要销毁的东西，会在主线程里读写，因此，销毁工作必须放在主线程里进行
 	// 要保证执行顺序，需要waitUntilDone为YES
@@ -148,7 +151,8 @@
 	// 在MplayerController的playerStopped的方法里面，会根据playing状态设定window level
 	// 因此要先设定playing再通知
 	[self performSelectorOnMainThread:@selector(playerTaskTerminatedNotifyOnMainThread:)
-						   withObject:[NSNumber numberWithBool:byForce]
+						   withObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:byForce], kMPCPlayStoppedByForceKey,
+																				 stopTime, kMPCPlayStoppedTimeKey, nil]
 						waitUntilDone:YES];
 	NSLog(@"term:%d", byForce);
 }
@@ -163,11 +167,11 @@
 	SAFERELEASE(sharedBufferName);
 }
 
--(void) playerTaskTerminatedNotifyOnMainThread:(NSNumber*)byForce
+-(void) playerTaskTerminatedNotifyOnMainThread:(NSDictionary*)info
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayStoppedNotification 
 														object:self
-													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:byForce, kMPCPlayStoppedByForceKey, nil]];	
+													  userInfo:info];	
 }
 
 

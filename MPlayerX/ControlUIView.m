@@ -31,6 +31,7 @@
 #define NUMOFVOLUMEIMAGES		(3)	//这个值是除了没有音量之后的image个数
 #define AUTOHIDETIMEINTERNAL	(2)
 
+#define LASTSTOPPEDTIMERATIO	(100)
 
 @implementation ControlUIView
 
@@ -54,10 +55,10 @@
 	imVolLow		= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"vol_low.pdf"]];
 	imVolMid		= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"vol_mid.pdf"]];
 	imVolHigh		= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"vol_high.pdf"]];
-	imFillScrnInLR	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"fillScreen_LR.pdf"]];
-	imFillScrnOutLR	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"exitfillScreen_LR.pdf"]];
-	imFillScrnInUB	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"fillScreen_UB.pdf"]];
-	imFillScrnOutUB	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"exitfillScreen_UB.pdf"]];
+	imFillScrnInLR	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"fillscreen_lr.pdf"]];
+	imFillScrnOutLR	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"exitfillscreen_lr.pdf"]];
+	imFillScrnInUB	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"fillscreen_ub.pdf"]];
+	imFillScrnOutUB	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"exitfillscreen_ub.pdf"]];
 	
 	// 初始化音量大小图标
 	volumeButtonImages = [[NSArray alloc] initWithObjects:imVolNo, imVolLow, imVolMid, imVolHigh, nil];
@@ -77,10 +78,14 @@
 	[toggleAcceButton setKeyEquivalent:kSCMAcceControlKeyEquivalent];
 	[menuSnapshot setKeyEquivalent:kSCMSnapShotKeyEquivalent];
 	[menuSwitchSub setKeyEquivalent:kSCMStepSubKeyEquivalent];
-	[menuSubScaleInc setKeyEquivalentModifierMask:NSCommandKeyMask];
+	
+	[menuSubScaleInc setKeyEquivalentModifierMask:kSCMSubScaleIncreaseKeyEquivalentModifierFlagMask];
 	[menuSubScaleInc setKeyEquivalent:kSCMSubScaleIncreaseKeyEquivalent];
-	[menuSubScaleDec setKeyEquivalentModifierMask:NSCommandKeyMask];
+	[menuSubScaleDec setKeyEquivalentModifierMask:kSCMSubScaleDecreaseKeyEquivalentModifierFlagMask];
 	[menuSubScaleDec setKeyEquivalent:kSCMSubScaleDecreaseKeyEquivalent];
+	
+	[menuPlayFromLastStoppedPlace setKeyEquivalent:kSCMPlayFromLastStoppedKeyEquivalent];
+	[menuPlayFromLastStoppedPlace setKeyEquivalentModifierMask:kSCMPlayFromLastStoppedKeyEquivalentModifierFlagMask];
 }
 
 - (void)awakeFromNib
@@ -370,6 +375,16 @@
 	}
 	[sender setState:NSOnState];
 }
+
+-(IBAction) playFromLastStopped:(id)sender
+{
+	float tm = [sender tag];
+	tm /= LASTSTOPPEDTIMERATIO;
+	
+	[timeSlider setTimeDest:tm];
+	[self seekTo:timeSlider];
+}
+
 ////////////////////////////////////////////////FullscreenThings//////////////////////////////////////////////////
 -(NSInteger) isFullScreen
 {
@@ -448,6 +463,8 @@
 	[menuSwitchSub setEnabled:NO];
 	[menuSubScaleInc setEnabled:NO];
 	[menuSubScaleDec setEnabled:NO];
+	[menuPlayFromLastStoppedPlace setEnabled:NO];
+	[menuPlayFromLastStoppedPlace setTag:0];
 }
 
 ////////////////////////////////////////////////mute/Volume//////////////////////////////////////////////////
@@ -546,6 +563,12 @@
 		[menuSubScaleInc setEnabled:NO];
 		[menuSubScaleDec setEnabled:NO];
 	}
+}
+
+-(void) gotLastStoppedPlace:(float) tm
+{
+	[menuPlayFromLastStoppedPlace setTag: ((NSInteger)tm * LASTSTOPPEDTIMERATIO)];
+	[menuPlayFromLastStoppedPlace setEnabled: YES];
 }
 
 ////////////////////////////////////////////////draw myself//////////////////////////////////////////////////

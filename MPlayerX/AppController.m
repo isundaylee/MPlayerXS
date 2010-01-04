@@ -60,6 +60,7 @@
 					   [NSNumber numberWithFloat:4], kUDKeySubScale,
 					   [NSNumber numberWithFloat:0.1], kUDKeySubScaleStepValue,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
+					   [NSDictionary dictionary], kUDKeyPlayingTimeDic, 
 					   nil]];
 }
 
@@ -69,6 +70,7 @@
 	if (self = [super init]) {
 		mplayer = [[MPlayerController alloc] init];
 		lastPlayedPath = nil;
+		lastPlayedPathPre = nil;
 	}
 	return self;
 }
@@ -238,9 +240,16 @@
 			if ([supportMediaFormats containsObject:[path pathExtension]]) {
 				BOOL isDir = YES;
 				if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && (!isDir)) {
+					// 为了保险期间，每次播放开始的时候
+					// 将播放开始时间重置
+					[mplayer.pm setStartTime:-1];
+					
+					lastPlayedPathPre = [NSString stringWithString:path];
+					[mplayer playMedia:lastPlayedPathPre];
 					// 通过的话就播放
-					lastPlayedPath = [NSString stringWithString:path];
-					[mplayer playMedia:lastPlayedPath];
+					lastPlayedPath = lastPlayedPathPre;
+					lastPlayedPathPre = nil;
+					
 					ret = YES;
 				}
 			} else {
@@ -256,8 +265,13 @@
 		} else {
 			// 非本地文件
 			path = [[url standardizedURL] absoluteString];
-			lastPlayedPath = [NSString stringWithString:path];
-			[mplayer playMedia:lastPlayedPath];
+			
+			[mplayer.pm setStartTime:-1];
+			
+			lastPlayedPathPre = [NSString stringWithString:path];
+			[mplayer playMedia:path];
+			lastPlayedPath = lastPlayedPathPre;
+			lastPlayedPathPre = nil;
 			ret = YES;
 		}
 	}
@@ -291,10 +305,18 @@
 ///////////////////////////////////////MPlayer Notifications/////////////////////////////////////////////
 -(void) mplayerStarted:(NSNotification *)notification
 {
-	[window setTitle:[lastPlayedPath lastPathComponent]];
+	[window setTitle:[lastPlayedPathPre lastPathComponent]];
 	[dispView setPlayerWindowLevel];
 	[controlUI playBackStarted];
 	[self preventSystemSleep];
+	
+	// 用文件名查找有没有之前的播放记录
+	NSNumber *stopTime = [[[NSUserDefaults standardUserDefaults] objectForKey:kUDKeyPlayingTimeDic] objectForKey:lastPlayedPathPre];
+	NSLog(@"Pre:%@", lastPlayedPathPre);
+	if (stopTime) {
+		// 有的话，通知controlUI
+		[controlUI gotLastStoppedPlace:[stopTime floatValue]];
+	}
 }
 
 -(void) mplayerStopped:(NSNotification *)notification
@@ -302,6 +324,22 @@
 	[window setTitle: @"MPlayerX"];
 	[dispView setPlayerWindowLevel];
 	[controlUI playBackStopped];
+	
+	// 得到文件播放时刻的Dict
+	NSMutableDictionary *ptDic = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey: kUDKeyPlayingTimeDic]];
+	
+	if ([[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue]) {
+		// 如果是强制停止
+		// 用文件名做key，记录这个文件的播放时间
+		[ptDic setObject:[[notification userInfo] objectForKey:kMPCPlayStoppedTimeKey] forKey:lastPlayedPath];
+	} else {
+		// 自然关闭
+		// 删除这个文件key的播放时间
+		[ptDic removeObjectForKey:lastPlayedPath];
+	}
+	NSLog(@"StopPath:%@", lastPlayedPath);
+	[[NSUserDefaults standardUserDefaults] setObject:ptDic forKey:kUDKeyPlayingTimeDic];
+	//[[NSUserDefaults standardUserDefaults] synchronize];
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyAutoPlayNext] && 
 		(![[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue])

@@ -41,6 +41,8 @@
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 
+#define kUDKeyPlayingTimeDic		(@"PlayingTimeDic")
+
 // 键盘快捷键定义
 #define kSCMVolumeUpKey			('=')
 #define kSCMVolumeDownKey		('-')
@@ -52,5 +54,11 @@
 #define kSCMFullScrnKeyEquivalent	(@"f")
 #define kSCMFillScrnKeyEquivalent	(@"F")
 #define kSCMAcceControlKeyEquivalent	(@"c")
+
 #define kSCMSubScaleIncreaseKeyEquivalent	(@"=")
+#define kSCMSubScaleIncreaseKeyEquivalentModifierFlagMask	(NSCommandKeyMask)
 #define kSCMSubScaleDecreaseKeyEquivalent	(@"-")
+#define kSCMSubScaleDecreaseKeyEquivalentModifierFlagMask	(NSCommandKeyMask)
+
+#define kSCMPlayFromLastStoppedKeyEquivalent	(@"c")
+#define kSCMPlayFromLastStoppedKeyEquivalentModifierFlagMask	(NSCommandKeyMask|NSShiftKeyMask)
