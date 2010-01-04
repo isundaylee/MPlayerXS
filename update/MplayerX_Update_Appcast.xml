@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+   <channel>
+      <title>MplayerX's Changelog</title>
+      <link>http://mplayerx.googlecode.com/svn/trunk/update/MplayerX_Update_Appcast.xml</link>
+      <description>MplayerX</description>
+      <language>en</language>      
+         <item>
+            <title>Version 0.9.2</title>
+			<description><![CDATA[
+				<h2>MplayerX 0.9.2</h2>
+				2010/01/03
+				<ul>
+					<li>add sparkle framework to support autoUpdate</li>
+					<li>Enable liabass to render text subtitle</li>
+					<li>add change subtitle size while playing</li>
+				</ul>
+            ]]></description>
+            <pubDate>Sun, 03 Jan 2010 18:40:52 +0900</pubDate>
+            <enclosure url="http://mplayerx.googlecode.com/svn/releases/MPlayerX.zip"
+					   sparkle:version="0.9.2"
+					   length="21145082"
+					   type="application/octet-stream"
+					   sparkle:dsaSignature="MC0CFQC0TZ1+4eZld9m/i9Ypt6+t6XJONgIUThQsvlYPRhfwSD0Kb301/FH7SU8=" />
+         </item>
+   </channel>
+</rss>
