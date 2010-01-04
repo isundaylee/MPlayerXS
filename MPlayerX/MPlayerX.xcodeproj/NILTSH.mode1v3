@@ -301,7 +301,7 @@
 							<real>270</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>56 -438 1264 1047 0 0 1920 1178 </string>
+						<string>114 131 1264 1047 0 0 1920 1178 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -383,14 +383,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {972, 668}}</string>
+								<string>{{0, 0}, {972, 661}}</string>
 								<key>RubberWindowFrame</key>
-								<string>56 -438 1264 1047 0 0 1920 1178 </string>
+								<string>114 131 1264 1047 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>668pt</string>
+							<string>661pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -403,14 +403,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 673}, {972, 333}}</string>
+								<string>{{0, 666}, {972, 340}}</string>
 								<key>RubberWindowFrame</key>
-								<string>56 -438 1264 1047 0 0 1920 1178 </string>
+								<string>114 131 1264 1047 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>333pt</string>
+							<string>340pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -429,9 +429,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>86B89CC710F1F0C600A09061</string>
+				<string>86E1B8F510F1F14E00CBFDA7</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>86B89CC810F1F0C600A09061</string>
+				<string>86E1B8F610F1F14E00CBFDA7</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -573,7 +573,7 @@
 		<string>/Users/NILTSH/Desktop/MPlayerX/SVN/trunk/MPlayerX/MPlayerX.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>56 -438 1264 1047 0 0 1920 1178 </string>
+	<string>114 131 1264 1047 0 0 1920 1178 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -650,7 +650,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>86CAF19D10BA3F5E00848B8E</string>
-				<string>86B89CC910F1F0C600A09061</string>
+				<string>86E1B8F710F1F14E00CBFDA7</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
