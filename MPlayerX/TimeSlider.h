@@ -26,6 +26,6 @@
 	float timeDest;
 }
 
-@property (readonly) float timeDest;
+@property (assign, readwrite) float timeDest;
 
 @end
