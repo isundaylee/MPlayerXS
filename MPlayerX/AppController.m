@@ -269,7 +269,7 @@
 			[mplayer.pm setStartTime:-1];
 			
 			lastPlayedPathPre = [NSString stringWithString:path];
-			[mplayer playMedia:path];
+			[mplayer playMedia:lastPlayedPathPre];
 			lastPlayedPath = lastPlayedPathPre;
 			lastPlayedPathPre = nil;
 			ret = YES;

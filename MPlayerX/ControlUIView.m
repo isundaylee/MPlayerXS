@@ -379,7 +379,7 @@
 -(IBAction) playFromLastStopped:(id)sender
 {
 	float tm = [sender tag];
-	tm = MAX(0, tm/LASTSTOPPEDTIMERATIO-5); // 给大家一个5秒钟的回忆时间
+	tm = MAX(0, (tm / LASTSTOPPEDTIMERATIO) - 5); // 给大家一个5秒钟的回忆时间
 	
 	[timeSlider setTimeDest:tm];
 	[self seekTo:timeSlider];
