@@ -60,7 +60,6 @@
 					   [NSNumber numberWithFloat:4], kUDKeySubScale,
 					   [NSNumber numberWithFloat:0.1], kUDKeySubScaleStepValue,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
-					   [NSDictionary dictionary], kUDKeyPlayingTimeDic, 
 					   nil]];
 }
 
@@ -71,6 +70,9 @@
 		mplayer = [[MPlayerController alloc] init];
 		lastPlayedPath = nil;
 		lastPlayedPathPre = nil;
+		supportVideoFormats = nil;
+		supportAudioFormats = nil;
+		bookmarks = nil;
 	}
 	return self;
 }
@@ -157,11 +159,27 @@
 				 context:NULL];
 
 	// 建立支持格式的Set
-	supportMediaFormats = [[NSMutableSet alloc] initWithCapacity:80];
 	for( NSDictionary *dict in [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDocumentTypes"]) {
-		[supportMediaFormats addObjectsFromArray:[dict objectForKey:@"CFBundleTypeExtensions"]];
+		// 对不同种类的格式
+		if ([[dict objectForKey:@"CFBundleTypeName"] isEqualToString:@"Audio Media"]) {
+			// 如果是音频文件
+			supportAudioFormats = [[NSSet alloc] initWithArray:[dict objectForKey:@"CFBundleTypeExtensions"]];
+		} else if ([[dict objectForKey:@"CFBundleTypeName"] isEqualToString:@"Video Media"]) {
+			//如果是视频文件
+			supportVideoFormats = [[NSSet alloc] initWithArray:[dict objectForKey:@"CFBundleTypeExtensions"]];
+		}
 	}
 	
+	// 得到书签的文件名
+	NSString *lastStoppedTimePath = [NSString stringWithFormat:@"%@/Library/Preferences/%@.bookmarks.plist", 
+															   NSHomeDirectory(), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
+	
+	bookmarks = [[NSMutableDictionary alloc] initWithContentsOfFile:lastStoppedTimePath];
+	if (!bookmarks) {
+		// 如果文件不存在或者格式非法
+		bookmarks = [[NSMutableDictionary alloc] initWithCapacity:10];
+	}
+
 	[[SUUpdater sharedUpdater] setAutomaticallyChecksForUpdates:NO];
 }
 
@@ -179,7 +197,10 @@
 	[mplayer removeObserver:self forKeyPath:kObservedValueStringSubInfo];
 	
 	[mplayer release];
-	[supportMediaFormats release];
+	[supportVideoFormats release];
+	[supportAudioFormats release];
+	
+	[bookmarks release];
 	[super dealloc];
 }
 
@@ -237,7 +258,8 @@
 			// 如果是本地文件
 			path = [url path];
 			// 进行格式验证
-			if ([supportMediaFormats containsObject:[path pathExtension]]) {
+			if ((supportVideoFormats && [supportVideoFormats containsObject:[path pathExtension]]) ||
+				(supportAudioFormats && [supportAudioFormats containsObject:[path pathExtension]])) {
 				BOOL isDir = YES;
 				if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && (!isDir)) {
 					// 为了保险期间，每次播放开始的时候
@@ -311,7 +333,7 @@
 	[self preventSystemSleep];
 	
 	// 用文件名查找有没有之前的播放记录
-	NSNumber *stopTime = [[[NSUserDefaults standardUserDefaults] objectForKey:kUDKeyPlayingTimeDic] objectForKey:lastPlayedPathPre];
+	NSNumber *stopTime = [bookmarks objectForKey:lastPlayedPathPre];
 	// NSLog(@"Pre:%@", lastPlayedPathPre);
 	if (stopTime) {
 		// 有的话，通知controlUI
@@ -325,20 +347,16 @@
 	[dispView setPlayerWindowLevel];
 	[controlUI playBackStopped];
 	
-	// 得到文件播放时刻的Dict
-	NSMutableDictionary *ptDic = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey: kUDKeyPlayingTimeDic]];
-	
 	if ([[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue]) {
 		// 如果是强制停止
 		// 用文件名做key，记录这个文件的播放时间
-		[ptDic setObject:[[notification userInfo] objectForKey:kMPCPlayStoppedTimeKey] forKey:lastPlayedPath];
+		[bookmarks setObject:[[notification userInfo] objectForKey:kMPCPlayStoppedTimeKey] forKey:lastPlayedPath];
 	} else {
 		// 自然关闭
 		// 删除这个文件key的播放时间
-		[ptDic removeObjectForKey:lastPlayedPath];
+		[bookmarks removeObjectForKey:lastPlayedPath];
 	}
 	// NSLog(@"StopPath:%@", lastPlayedPath);
-	[[NSUserDefaults standardUserDefaults] setObject:ptDic forKey:kUDKeyPlayingTimeDic];
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyAutoPlayNext] && 
 		(![[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue])
@@ -541,7 +559,12 @@
 	lastPlayedPath = nil;
 
 	[[NSUserDefaults standardUserDefaults] synchronize];
-	
+
+	NSString *lastStoppedTimePath = [NSString stringWithFormat:@"%@/Library/Preferences/%@.bookmarks.plist", 
+															   NSHomeDirectory(), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
+
+	[bookmarks writeToFile:lastStoppedTimePath atomically:YES];
+
 	return NSTerminateNow;	
 }
 

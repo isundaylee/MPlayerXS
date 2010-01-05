@@ -27,7 +27,9 @@
 	MPlayerController *mplayer;
 	NSString *lastPlayedPath;
 	NSString *lastPlayedPathPre;
-	NSMutableSet *supportMediaFormats;
+	NSSet *supportVideoFormats;
+	NSSet *supportAudioFormats;
+	NSMutableDictionary *bookmarks;
 	
 	IBOutlet NSWindow *window;
 	IBOutlet RootLayerView *dispView;

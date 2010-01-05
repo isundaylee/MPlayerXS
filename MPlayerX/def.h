@@ -41,8 +41,6 @@
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 
-#define kUDKeyPlayingTimeDic		(@"PlayingTimeDic")
-
 // 键盘快捷键定义
 #define kSCMVolumeUpKey			('=')
 #define kSCMVolumeDownKey		('-')
