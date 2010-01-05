@@ -27,7 +27,7 @@
 	if (self = [super init]) {
 		if (analyzeData) {
 			log = [[NSData alloc] initWithData:analyzeData];
-			result = [[NSMutableDictionary alloc] init];
+			result = [[NSMutableDictionary alloc] initWithCapacity:1];
 			
 		} else {
 			log = nil;
