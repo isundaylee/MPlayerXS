@@ -6,8 +6,14 @@
       <description>MplayerX</description>
       <language>en</language>      
          <item>
-            <title>Version 0.9.3</title>
+            <title>Version 0.9.4</title>
 			<description><![CDATA[
+				<h2>MPlayerX 0.9.4</h2>
+				2010/01/05
+				<ul>
+					<li>bug fix: crash on case-sensitive partition</li>
+					<li>New: Play from last stopped place</li>
+				</ul>
 				<h2>MPlayerX 0.9.3</h2>
 				2010/01/04
 				<ul>
@@ -25,12 +31,12 @@
 					<li>add change subtitle size while playing</li>
 				</ul>
             ]]></description>
-            <pubDate>Mon, 04 Jan 2010 17:33:13 +0900</pubDate>
+            <pubDate>Tue, 05 Jan 2010 21:59:54 +0900</pubDate>
             <enclosure url="http://mplayerx.googlecode.com/svn/releases/MPlayerX.zip"
-					   sparkle:version="0.9.3"
-					   length="21145276"
+					   sparkle:version="0.9.4"
+					   length="21147327"
 					   type="application/octet-stream"
-					   sparkle:dsaSignature="MCwCFBmQS/QxLXokzGwScEu8AfYaWTIgAhQy48p6KSR1ZizRe34ZYKdTevahzw==" />
+					   sparkle:dsaSignature="MC4CFQDDYq+zKnOrNWZe3bF+GNSxVXZFOAIVAMX3U+77ovsrp8FIA5YEPWzujEnm" />
          </item>
    </channel>
 </rss>
