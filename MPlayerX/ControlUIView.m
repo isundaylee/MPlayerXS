@@ -26,7 +26,7 @@
 #import "ArrowTextField.h"
 #import "ResizeIndicator.h"
 
-#define BACKGROUND_ALPHA		(0.85)
+#define BACKGROUND_ALPHA		(0.95)
 #define CONTROL_CORNER_RADIUS	(8)
 
 #define NUMOFVOLUMEIMAGES		(3)	//这个值是除了没有音量之后的image个数
@@ -94,9 +94,9 @@
 	// 自身的设定
 	[self setAlphaValue:BACKGROUND_ALPHA];
 	
-	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:0.2 alpha:1], 0.0,
-																  [NSColor colorWithCalibratedWhite:0.1 alpha:1], 0.4,
-																  [NSColor colorWithCalibratedWhite:0.01 alpha:1], 1.0, nil];
+	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:0.152 alpha:1], 0.0,
+																  [NSColor colorWithCalibratedWhite:0.075 alpha:1], 0.35,
+																  [NSColor colorWithCalibratedWhite:0.072 alpha:1], 1.0, nil];
 
 	[self setKeyEquivalents];
 	[self loadButtonImages];
