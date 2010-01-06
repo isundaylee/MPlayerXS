@@ -218,7 +218,7 @@
 {
 	shouldHide = NO;
 
-	[self setAlphaValue: BACKGROUND_ALPHA];
+	[[self animator] setAlphaValue:BACKGROUND_ALPHA];
 
 	if ([fullScreenButton state] == NSOnState) {
 		// 全屏模式还要显示鼠标
