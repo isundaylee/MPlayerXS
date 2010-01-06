@@ -50,16 +50,16 @@
 -(void) loadButtonImages
 {
 	// 通用资源
-	NSBundle *mb = [NSBundle mainBundle];
+	NSString *resPath = [[NSBundle mainBundle] resourcePath];
 	
-	imVolNo			= [[NSImage alloc] initWithContentsOfFile:[mb pathForImageResource:@"vol_no.pdf"]];
-	imVolLow		= [[NSImage alloc] initWithContentsOfFile:[mb pathForImageResource:@"vol_low.pdf"]];
-	imVolMid		= [[NSImage alloc] initWithContentsOfFile:[mb pathForImageResource:@"vol_mid.pdf"]];
-	imVolHigh		= [[NSImage alloc] initWithContentsOfFile:[mb pathForImageResource:@"vol_high.pdf"]];
-	imFillScrnInLR	= [[NSImage alloc] initWithContentsOfFile:[mb pathForImageResource:@"fillscreen_lr.pdf"]];
-	imFillScrnOutLR	= [[NSImage alloc] initWithContentsOfFile:[mb pathForImageResource:@"exitfillscreen_lr.pdf"]];
-	imFillScrnInUB	= [[NSImage alloc] initWithContentsOfFile:[mb pathForImageResource:@"fillscreen_ub.pdf"]];
-	imFillScrnOutUB	= [[NSImage alloc] initWithContentsOfFile:[mb pathForImageResource:@"exitfillscreen_ub.pdf"]];
+	imVolNo			= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"vol_no.pdf"]];
+	imVolLow		= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"vol_low.pdf"]];
+	imVolMid		= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"vol_mid.pdf"]];
+	imVolHigh		= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"vol_high.pdf"]];
+	imFillScrnInLR	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"fillscreen_lr.pdf"]];
+	imFillScrnOutLR	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"exitfillscreen_lr.pdf"]];
+	imFillScrnInUB	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"fillscreen_ub.pdf"]];
+	imFillScrnOutUB	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"exitfillscreen_ub.pdf"]];	
 	
 	// 初始化音量大小图标
 	volumeButtonImages = [[NSArray alloc] initWithObjects:imVolNo, imVolLow, imVolMid, imVolHigh, nil];
