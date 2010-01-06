@@ -22,7 +22,7 @@
 #import "TimeFormatter.h"
 #import "TimeSlider.h"
 
-@class RootLayerView, AppController, FloatWrapFormatter, ArrowTextField;
+@class RootLayerView, AppController, FloatWrapFormatter, ArrowTextField, ResizeIndicator;
 
 @interface ControlUIView : NSView
 {
@@ -62,6 +62,8 @@
 	IBOutlet ArrowTextField *speedText;
 	IBOutlet ArrowTextField *subDelayText;
 	IBOutlet ArrowTextField *audioDelayText;
+	
+	IBOutlet ResizeIndicator *rzIndicator;
 	
 	IBOutlet NSMenuItem *menuSnapshot;
 	IBOutlet NSMenuItem *menuSwitchSub;
@@ -119,7 +121,6 @@
 
 //////////////////////////////其他控件相关/////////////////////////////
 -(IBAction) toggleAccessaryControls:(id)sender;
--(void) hideAccessaryControls;
 
 -(IBAction) changeSpeed:(id) sender;
 -(IBAction) changeAudioDelay:(id) sender;

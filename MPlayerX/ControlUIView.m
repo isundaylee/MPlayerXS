@@ -24,6 +24,7 @@
 #import "AppController.h"
 #import "FloatWrapFormatter.h"
 #import "ArrowTextField.h"
+#import "ResizeIndicator.h"
 
 #define BACKGROUND_ALPHA			(0.85)
 #define CONTROL_CORNER_RADIUS	(8)
@@ -49,16 +50,16 @@
 -(void) loadButtonImages
 {
 	// 通用资源
-	NSString *resPath = [[NSBundle mainBundle] resourcePath];
+	NSBundle *mb = [NSBundle mainBundle];
 	
-	imVolNo			= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"vol_no.pdf"]];
-	imVolLow		= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"vol_low.pdf"]];
-	imVolMid		= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"vol_mid.pdf"]];
-	imVolHigh		= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"vol_high.pdf"]];
-	imFillScrnInLR	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"fillscreen_lr.pdf"]];
-	imFillScrnOutLR	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"exitfillscreen_lr.pdf"]];
-	imFillScrnInUB	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"fillscreen_ub.pdf"]];
-	imFillScrnOutUB	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"exitfillscreen_ub.pdf"]];
+	imVolNo			= [[NSImage alloc] initWithContentsOfFile:[mb pathForImageResource:@"vol_no.pdf"]];
+	imVolLow		= [[NSImage alloc] initWithContentsOfFile:[mb pathForImageResource:@"vol_low.pdf"]];
+	imVolMid		= [[NSImage alloc] initWithContentsOfFile:[mb pathForImageResource:@"vol_mid.pdf"]];
+	imVolHigh		= [[NSImage alloc] initWithContentsOfFile:[mb pathForImageResource:@"vol_high.pdf"]];
+	imFillScrnInLR	= [[NSImage alloc] initWithContentsOfFile:[mb pathForImageResource:@"fillscreen_lr.pdf"]];
+	imFillScrnOutLR	= [[NSImage alloc] initWithContentsOfFile:[mb pathForImageResource:@"exitfillscreen_lr.pdf"]];
+	imFillScrnInUB	= [[NSImage alloc] initWithContentsOfFile:[mb pathForImageResource:@"fillscreen_ub.pdf"]];
+	imFillScrnOutUB	= [[NSImage alloc] initWithContentsOfFile:[mb pathForImageResource:@"exitfillscreen_ub.pdf"]];
 	
 	// 初始化音量大小图标
 	volumeButtonImages = [[NSArray alloc] initWithObjects:imVolNo, imVolLow, imVolMid, imVolHigh, nil];
@@ -191,9 +192,14 @@
 			// 如果不在这个View的话，那么就隐藏自己
 			if (!NSPointInRect(pos, self.bounds)) {
 				[[self animator] setAlphaValue:0];
+				
 				// 如果是全屏模式也要隐藏鼠标
 				if ([fullScreenButton state] == NSOnState) {
 					CGDisplayHideCursor(dispView.fullScrnDevID);
+				} else {
+					// 不是全屏的话，隐藏resizeindicator
+					// 全屏的话不管
+					[[rzIndicator animator] setAlphaValue:0];
 				}
 			}			
 		}
@@ -201,6 +207,7 @@
 		shouldHide = YES;
 	}
 }
+
 -(void) showUp
 {
 	shouldHide = NO;
@@ -210,14 +217,14 @@
 	if ([fullScreenButton state] == NSOnState) {
 		// 全屏模式还要显示鼠标
 		CGDisplayShowCursor(dispView.fullScrnDevID);
+	} else {
+		// 不是全屏模式的话，要显示resizeindicator
+		// 全屏的时候不管
+		[[rzIndicator animator] setAlphaValue:1];
 	}
+
 }
 
--(void) hideAccessaryControls
-{
-	[toggleAcceButton setState:NSOffState];
-	[self toggleAccessaryControls:nil];
-}
 ////////////////////////////////////////////////Actions//////////////////////////////////////////////////
 -(IBAction) togglePlayPause:(id)sender
 {
@@ -282,6 +289,9 @@
 			if ([self alphaValue] < (BACKGROUND_ALPHA-0.05)) {
 				CGDisplayHideCursor(dispView.fullScrnDevID);
 			}
+			
+			// 进入全屏，强制隐藏resizeindicator
+			[[rzIndicator animator] setAlphaValue:0];
 		} else {
 			// 退出全屏
 			[self exitedFullScreen];
@@ -412,6 +422,11 @@
 	CGDisplayShowCursor(dispView.fullScrnDevID);
 	[fullScreenButton setState: NSOffState];
 	[fillScreenButton setHidden: YES];
+	
+	if ([self alphaValue] > (BACKGROUND_ALPHA-0.05)) {
+		// 如果controlUI没有隐藏，那么显示resizeindiccator
+		[[rzIndicator animator] setAlphaValue:1];
+	}
 }
 
 ////////////////////////////////////////////////displayThings//////////////////////////////////////////////////
