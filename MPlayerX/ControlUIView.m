@@ -26,7 +26,7 @@
 #import "ArrowTextField.h"
 #import "ResizeIndicator.h"
 
-#define BACKGROUND_ALPHA			(0.85)
+#define BACKGROUND_ALPHA		(0.85)
 #define CONTROL_CORNER_RADIUS	(8)
 
 #define NUMOFVOLUMEIMAGES		(3)	//这个值是除了没有音量之后的image个数
@@ -93,6 +93,10 @@
 {
 	// 自身的设定
 	[self setAlphaValue:BACKGROUND_ALPHA];
+	
+	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:0.2 alpha:1], 0.0,
+																  [NSColor colorWithCalibratedWhite:0.1 alpha:1], 0.4,
+																  [NSColor colorWithCalibratedWhite:0.01 alpha:1], 1.0, nil];
 
 	[self setKeyEquivalents];
 	[self loadButtonImages];
@@ -163,6 +167,8 @@
 	[subListMenu removeAllItems];
 	[subListMenu release];
 
+	[fillGradient release];
+	
 	[super dealloc];
 }
 
@@ -588,10 +594,9 @@
 
 ////////////////////////////////////////////////draw myself//////////////////////////////////////////////////
 - (void)drawRect:(NSRect)dirtyRect
-{
-	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:[self bounds] xRadius:CONTROL_CORNER_RADIUS yRadius:CONTROL_CORNER_RADIUS];
-	[[NSColor blackColor] set];		[path fill];
-	[[NSColor darkGrayColor] set];	[path stroke];
+{	
+	NSBezierPath* fillPath = [NSBezierPath bezierPathWithRoundedRect:[self bounds] xRadius:CONTROL_CORNER_RADIUS yRadius:CONTROL_CORNER_RADIUS];
+	[fillGradient drawInBezierPath:fillPath angle:270];
 }
 
 - (void)mouseDragged:(NSEvent *)event

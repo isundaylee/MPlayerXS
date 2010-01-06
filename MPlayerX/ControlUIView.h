@@ -26,6 +26,8 @@
 
 @interface ControlUIView : NSView
 {
+	NSGradient *fillGradient;
+	
 	TimeFormatter *timeFormatter;
 	FloatWrapFormatter *floatWrapFormatter;
 

@@ -27,7 +27,7 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-	[im drawAtPoint:NSMakePoint(0, 0) fromRect:imRect operation:NSCompositeSourceOver fraction:1];
+	[im drawAtPoint:NSMakePoint(0, 0) fromRect:imRect operation:NSCompositeCopy fraction:1];
 }
 
 @end
