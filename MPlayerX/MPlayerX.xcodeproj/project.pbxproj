@@ -61,8 +61,8 @@
 		863F1A4410EF4CE20089C695 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 863F1A4010EF4CD40089C695 /* Sparkle.framework */; };
 		8654807F10CBB231009438A4 /* FloatWrapFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8654807E10CBB231009438A4 /* FloatWrapFormatter.m */; };
 		865AB3FD10EC82A300065E2F /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 865AB3FC10EC82A300065E2F /* PrefController.m */; };
-		86A486BD10F1BA8E0022BE21 /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86A486BC10F1BA8E0022BE21 /* UniversalDetector.framework */; };
-		86A486D910F1BA9F0022BE21 /* UniversalDetector.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 86A486BC10F1BA8E0022BE21 /* UniversalDetector.framework */; };
+		86A34A0910F60F7E00AECBB2 /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86A34A0810F60F7E00AECBB2 /* UniversalDetector.framework */; };
+		86A34A2510F60FA000AECBB2 /* UniversalDetector.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 86A34A0810F60F7E00AECBB2 /* UniversalDetector.framework */; };
 		86A5E40C10C7D24D00D061C7 /* wqy-microhei.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E40B10C7D24D00D061C7 /* wqy-microhei.ttc */; };
 		86B99D0210C9418600AB28FB /* OpenURLController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B99D0110C9418600AB28FB /* OpenURLController.m */; };
 		86C5492510C5216600DC1511 /* PlayList.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C5492410C5216600DC1511 /* PlayList.m */; };
@@ -115,7 +115,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				86A486D910F1BA9F0022BE21 /* UniversalDetector.framework in Copy Frameworks */,
+				86A34A2510F60FA000AECBB2 /* UniversalDetector.framework in Copy Frameworks */,
 				863F1A4410EF4CE20089C695 /* Sparkle.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -155,7 +155,7 @@
 		8609C25810C693D400B102CE /* RemoteControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteControl.h; path = "../Apple Remote Control/RemoteControl.h"; sourceTree = SOURCE_ROOT; };
 		8609C25910C693D500B102CE /* RemoteControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemoteControl.m; path = "../Apple Remote Control/RemoteControl.m"; sourceTree = SOURCE_ROOT; };
 		8609C28010C6944A00B102CE /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		861097EB10F1C96B0085B3DF /* MPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPlayerController.h; sourceTree = SOURCE_ROOT; };
+		861097EB10F1C96B0085B3DF /* MPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPlayerController.h; sourceTree = "<group>"; };
 		861097EC10F1C96B0085B3DF /* MPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPlayerController.m; sourceTree = SOURCE_ROOT; };
 		861097EE10F1C98C0085B3DF /* MPlayerX-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MPlayerX-Info.plist"; sourceTree = SOURCE_ROOT; };
 		861097F010F1C9A50085B3DF /* MPlayerX.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = MPlayerX.icns; sourceTree = SOURCE_ROOT; };
@@ -191,7 +191,7 @@
 		865AB3FB10EC82A300065E2F /* PrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefController.h; sourceTree = "<group>"; };
 		865AB3FC10EC82A300065E2F /* PrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefController.m; sourceTree = "<group>"; };
 		868BB6B810EF598500A942B3 /* MplayerX_Update_Appcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MplayerX_Update_Appcast.xml; path = ../update/MplayerX_Update_Appcast.xml; sourceTree = SOURCE_ROOT; };
-		86A486BC10F1BA8E0022BE21 /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniversalDetector.framework; path = ../UniversalDetector.framework; sourceTree = SOURCE_ROOT; };
+		86A34A0810F60F7E00AECBB2 /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniversalDetector.framework; path = ../UniversalDetector/build/Release/UniversalDetector.framework; sourceTree = SOURCE_ROOT; };
 		86A5E40B10C7D24D00D061C7 /* wqy-microhei.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "wqy-microhei.ttc"; sourceTree = "<group>"; };
 		86B99D0010C9418600AB28FB /* OpenURLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenURLController.h; sourceTree = "<group>"; };
 		86B99D0110C9418600AB28FB /* OpenURLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenURLController.m; sourceTree = "<group>"; };
@@ -238,7 +238,7 @@
 				8608654010BA56C100459392 /* QuartzCore.framework in Frameworks */,
 				8609C28110C6944A00B102CE /* IOKit.framework in Frameworks */,
 				863F1A4110EF4CD40089C695 /* Sparkle.framework in Frameworks */,
-				86A486BD10F1BA8E0022BE21 /* UniversalDetector.framework in Frameworks */,
+				86A34A0910F60F7E00AECBB2 /* UniversalDetector.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,7 +334,7 @@
 				8608653F10BA56C100459392 /* QuartzCore.framework */,
 				8609C28010C6944A00B102CE /* IOKit.framework */,
 				863F1A4010EF4CD40089C695 /* Sparkle.framework */,
-				86A486BC10F1BA8E0022BE21 /* UniversalDetector.framework */,
+				86A34A0810F60F7E00AECBB2 /* UniversalDetector.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
