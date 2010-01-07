@@ -92,7 +92,8 @@
 	[metaData removeAllObjects];
 	[videoInfo removeAllObjects];
 	[audioInfo removeAllObjects];
-
+	
+	[subInfo release];
 	[demuxer release];
 	[chapters release];
 	
@@ -100,7 +101,7 @@
 	demuxer = nil;
 	chapters = nil;
 	[self setLength:nil];
-	[self setSubInfo:nil];
+	subInfo = nil;
 }
 
 // 这个是LogAnalyzer的delegate方法，

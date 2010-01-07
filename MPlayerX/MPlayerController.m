@@ -416,13 +416,6 @@
 	}
 }
 
--(void) setSubVisibility: (BOOL) visible
-{
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d", kMPCSetPropertyPreFix, kMPCSubVisibility, (visible)?1:0]]) {
-		[movieInfo.playingInfo setSubVisibility:visible];
-	}
-}
-
 -(void) setSubScale: (float) scale
 {
 	scale = MAX(0.1, MIN(scale, 100));

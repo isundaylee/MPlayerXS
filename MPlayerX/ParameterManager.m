@@ -81,12 +81,9 @@
 																				 kPMDefaultSubFontPathCht, @"CHT",
 																				 kPMDefaultSubFontPathJpn, @"JPN",
 																				 nil];
-		msgLevel = [[NSString alloc] initWithString:@"all=-1:global=4:cplayer=4:identify=4"];
 		autoSync = 30;
 		frameDrop = YES;
-		slave = YES;
 		osdLevel = 0;
-		forceIdx = NO;
 		subFuzziness = kPMSubCPRuleContainName;
 		font = [[NSString alloc] initWithString:kPMDefaultFontPath]; // Everyone Should have this font
 		ao = [[NSString alloc] initWithString:kPMDefaultAudioOutput];
@@ -117,7 +114,6 @@
 	SAFERELEASE(subFileExts);
 	SAFERELEASE(subEncodeLangDict);
 	SAFERELEASE(subLangDefaultSubFontDict);
-	SAFERELEASE(msgLevel);
 	SAFERELEASE(font);
 	SAFERELEASE(ao);
 	SAFERELEASE(vo);
@@ -137,7 +133,6 @@
 	[pi setVolume: volume];
 	[pi setSubPos: subPos];
 	[pi setSubScale: [NSNumber numberWithFloat:(ass.enabled)?(ass.fontScale):subScale]];
-	[pi setSubVisibility:YES];
 }
 
 -(void) disableAudio
@@ -168,27 +163,20 @@
 {
 	NSMutableArray *paramArray = [[NSMutableArray alloc] init];
 	
-	if (msgLevel) {
-		[paramArray addObject:@"-msglevel"];
-		[paramArray addObject:msgLevel];
-	}
+	[paramArray addObject:@"-msglevel"];
+	[paramArray addObject:@"all=-1:global=4:cplayer=4:identify=4"];
 	
 	[paramArray addObject:@"-autosync"];
 	[paramArray addObject:[NSString stringWithFormat: @"%d", autoSync]];
 	
+	[paramArray addObject:@"-slave"];
+	
 	if (frameDrop) {
 		[paramArray addObject:@"-framedrop"];
-	}
-	if (slave) {
-		[paramArray addObject:@"-slave"];
 	}
 	
 	[paramArray addObject:@"-osdlevel"];
 	[paramArray addObject: [NSString stringWithFormat: @"%d",osdLevel]];
-	
-	if (forceIdx) {
-		[paramArray addObject:@"-forceidx"];
-	}
 	
 	[paramArray addObject:@"-sub-fuzziness"];
 	[paramArray addObject:[NSString stringWithFormat: @"%d",subFuzziness]];

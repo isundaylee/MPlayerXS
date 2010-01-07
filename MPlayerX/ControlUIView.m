@@ -94,9 +94,9 @@
 	// 自身的设定
 	[self setAlphaValue:BACKGROUND_ALPHA];
 	
-	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:0.152 alpha:1], 0.0,
-																  [NSColor colorWithCalibratedWhite:0.075 alpha:1], 0.35,
-																  [NSColor colorWithCalibratedWhite:0.072 alpha:1], 1.0, nil];
+	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:0.150 alpha:1], 0.0,
+																  [NSColor colorWithCalibratedWhite:0.078 alpha:1], 0.35,
+																  [NSColor colorWithCalibratedWhite:0.078 alpha:1], 1.0, nil];
 
 	[self setKeyEquivalents];
 	[self loadButtonImages];
@@ -197,7 +197,7 @@
 									fromView:nil];
 			// 如果不在这个View的话，那么就隐藏自己
 			if (!NSPointInRect(pos, self.bounds)) {
-				[[self animator] setAlphaValue:0];
+				[self.animator setAlphaValue:0];
 				
 				// 如果是全屏模式也要隐藏鼠标
 				if ([fullScreenButton state] == NSOnState) {
@@ -205,7 +205,7 @@
 				} else {
 					// 不是全屏的话，隐藏resizeindicator
 					// 全屏的话不管
-					[[rzIndicator animator] setAlphaValue:0];
+					[rzIndicator.animator setAlphaValue:0];
 				}
 			}			
 		}
@@ -218,7 +218,7 @@
 {
 	shouldHide = NO;
 
-	[[self animator] setAlphaValue:BACKGROUND_ALPHA];
+	[self.animator setAlphaValue:BACKGROUND_ALPHA];
 
 	if ([fullScreenButton state] == NSOnState) {
 		// 全屏模式还要显示鼠标
@@ -226,7 +226,7 @@
 	} else {
 		// 不是全屏模式的话，要显示resizeindicator
 		// 全屏的时候不管
-		[[rzIndicator animator] setAlphaValue:1];
+		[rzIndicator.animator setAlphaValue:1];
 	}
 
 }
@@ -297,7 +297,7 @@
 			}
 			
 			// 进入全屏，强制隐藏resizeindicator
-			[[rzIndicator animator] setAlphaValue:0];
+			[rzIndicator.animator setAlphaValue:0];
 		} else {
 			// 退出全屏
 			[self exitedFullScreen];
@@ -323,7 +323,7 @@
 		rcSelf.size.height += accessaryContainer.frame.size.height;
 		rcSelf.origin.y -= MIN(rcSelf.origin.y, accessaryContainer.frame.size.height);
 		
-		[[self animator] setFrame:rcSelf];
+		[self.animator setFrame:rcSelf];
 		[accessaryContainer.animator setHidden: NO];
 		
 	} else {
@@ -331,7 +331,7 @@
 		rcSelf.size.height -= accessaryContainer.frame.size.height;
 		rcSelf.origin.y += accessaryContainer.frame.size.height;
 		
-		[[self animator] setFrame:rcSelf];
+		[self.animator setFrame:rcSelf];
 	}
 }
 
@@ -431,7 +431,7 @@
 	
 	if ([self alphaValue] > (BACKGROUND_ALPHA-0.05)) {
 		// 如果controlUI没有隐藏，那么显示resizeindiccator
-		[[rzIndicator animator] setAlphaValue:1];
+		[rzIndicator.animator setAlphaValue:1];
 	}
 }
 
@@ -474,17 +474,11 @@
 
 	[timeText setStringValue:@""];
 	[timeSlider setFloatValue:0];
-	[timeSlider setEnabled:NO];
 	
 	// 由于mplayer无法静音开始，因此每次都要回到非静音状态
 	[volumeButton setState:NSOffState];
 	[volumeSlider setEnabled:YES];
-	
-	// 重置，虽然modal会自动重置，但是KVO接不到通知
-	[speedText setFloatValue:[appController.mplayer.movieInfo.playingInfo.speed floatValue]];
-	[subDelayText setFloatValue:[appController.mplayer.movieInfo.playingInfo.subDelay floatValue]];
-	[audioDelayText setFloatValue:[appController.mplayer.movieInfo.playingInfo.audioDelay floatValue]];
-	
+
 	[speedText setEnabled:NO];
 	[subDelayText setEnabled:NO];
 	[audioDelayText setEnabled:NO];
@@ -511,7 +505,10 @@
 	if ([length isGreaterThan:[NSNumber numberWithFloat:0]]) {
 		[timeSlider setMaxValue:[length doubleValue]];
 		[timeSlider setMinValue:0];
+	} else {
+		[timeSlider setEnabled:NO];
 	}
+
 }
 
 -(void) gotCurentTime:(NSNumber*) timePos

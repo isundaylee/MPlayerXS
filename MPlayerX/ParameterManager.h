@@ -36,12 +36,9 @@ typedef struct
 	NSDictionary *subFileExts;
 	NSDictionary *subEncodeLangDict;
 	NSDictionary *subLangDefaultSubFontDict;
-	NSString *msgLevel;
 	unsigned char autoSync;
 	BOOL frameDrop;
-	BOOL slave;
 	unsigned char osdLevel;
-	BOOL forceIdx;
 	unsigned char subFuzziness;
 	NSString *font;
 	NSString *ao;

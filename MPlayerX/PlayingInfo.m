@@ -26,7 +26,6 @@
 @synthesize	currentChapter;
 @synthesize	currentTime;
 @synthesize	currentAudio;
-@synthesize	currentVideo;
 @synthesize	currentSub;
 
 @synthesize	volume;
@@ -35,7 +34,6 @@
 @synthesize	audioDelay;
 @synthesize	subDelay;
 @synthesize	subPos;
-@synthesize	subVisibility;
 @synthesize	subScale;
 @synthesize speed;
 
@@ -43,9 +41,8 @@
 {
 	if (self = [super init]) {
 		currentChapter = 0;
-		currentTime = nil;
+		currentTime = [[NSNumber alloc] initWithFloat:0];
 		currentAudio = 0;
-		currentVideo = 0;
 		currentSub = 0;
 		volume = 100;
 		audioBalance = 0;
@@ -53,7 +50,6 @@
 		audioDelay = [[NSNumber alloc] initWithFloat:0];
 		subDelay = [[NSNumber alloc] initWithFloat:0];
 		subPos = 100;
-		subVisibility = YES;
 		subScale = [[NSNumber alloc] initWithFloat:4];
 		speed = [[NSNumber alloc] initWithFloat:1.0];
 	}
@@ -76,7 +72,6 @@
 	currentChapter = 0;
 	[self setCurrentTime:[NSNumber numberWithFloat:0]];
 	currentAudio = 0;
-	currentVideo = 0;
 	currentSub = 0;
 	volume = 100;
 	audioBalance = 0;
@@ -84,7 +79,6 @@
 	[self setAudioDelay:[NSNumber numberWithFloat:0]];
 	[self setSubDelay:[NSNumber numberWithFloat:0]];
 	subPos = 100;
-	subVisibility = YES;
 	[self setSubScale:[NSNumber numberWithFloat:4]];
 	[self setSpeed:[NSNumber numberWithFloat:1]];
 }

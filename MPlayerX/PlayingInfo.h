@@ -25,7 +25,6 @@
 	unsigned char	currentChapter;
 	NSNumber		*currentTime;
 	unsigned char	currentAudio;
-	unsigned char	currentVideo;
 	unsigned char	currentSub;
 	
 	float volume;
@@ -34,7 +33,6 @@
 	NSNumber *audioDelay;
 	NSNumber *subDelay;
 	unsigned char subPos;
-	BOOL subVisibility;
 	NSNumber *subScale;
 	NSNumber *speed;
 }
@@ -42,7 +40,6 @@
 @property(assign, readwrite) unsigned char	currentChapter;
 @property(retain, readwrite) NSNumber		*currentTime;
 @property(assign, readwrite) unsigned char	currentAudio;
-@property(assign, readwrite) unsigned char	currentVideo;
 @property(assign, readwrite) unsigned char	currentSub;
 
 @property(assign, readwrite) float volume;
@@ -51,7 +48,6 @@
 @property(retain, readwrite) NSNumber *audioDelay;
 @property(retain, readwrite) NSNumber *subDelay;
 @property(assign, readwrite) unsigned char subPos;
-@property(assign, readwrite) BOOL subVisibility;
 @property(retain, readwrite) NSNumber * subScale;
 @property(retain, readwrite) NSNumber *speed;
 -(void) reset;

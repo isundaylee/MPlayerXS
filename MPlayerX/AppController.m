@@ -155,7 +155,7 @@
 				 context:NULL];
 	[mplayer addObserver:self
 			  forKeyPath:kObservedValueStringSubInfo
-				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+				 options:NSKeyValueObservingOptionNew
 				 context:NULL];
 
 	// 建立支持格式的Set
@@ -174,12 +174,14 @@
 	NSString *lastStoppedTimePath = [NSString stringWithFormat:@"%@/Library/Preferences/%@.bookmarks.plist", 
 															   NSHomeDirectory(), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
 	
+	// 得到记录播放时间的dict
 	bookmarks = [[NSMutableDictionary alloc] initWithContentsOfFile:lastStoppedTimePath];
 	if (!bookmarks) {
 		// 如果文件不存在或者格式非法
 		bookmarks = [[NSMutableDictionary alloc] initWithCapacity:10];
 	}
-
+	
+	// 设定手动更新
 	[[SUUpdater sharedUpdater] setAutomaticallyChecksForUpdates:NO];
 }
 
@@ -201,6 +203,7 @@
 	[supportAudioFormats release];
 	
 	[bookmarks release];
+
 	[super dealloc];
 }
 
@@ -321,9 +324,9 @@
 	[mplayer setMpPathPair: [NSDictionary dictionaryWithObjectsAndKeys: 
 							 [resPath stringByAppendingString:[NSString stringWithFormat:@"/binaries/m32/%@", mplayerName]], kI386Key,
 							 [resPath stringByAppendingString:[NSString stringWithFormat:@"/binaries/x86_64/%@", mplayerName]], kX86_64Key,
-							 nil]];		
-	
+							 nil]];
 }
+
 ///////////////////////////////////////MPlayer Notifications/////////////////////////////////////////////
 -(void) mplayerStarted:(NSNotification *)notification
 {
