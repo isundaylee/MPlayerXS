@@ -66,15 +66,12 @@
 		86A5E40C10C7D24D00D061C7 /* wqy-microhei.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E40B10C7D24D00D061C7 /* wqy-microhei.ttc */; };
 		86B99D0210C9418600AB28FB /* OpenURLController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B99D0110C9418600AB28FB /* OpenURLController.m */; };
 		86C5492510C5216600DC1511 /* PlayList.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C5492410C5216600DC1511 /* PlayList.m */; };
-		86CAF23810BA44D100848B8E /* AudioInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF23710BA44D100848B8E /* AudioInfo.m */; };
 		86CAF23D10BA44DD00848B8E /* LogAnalyzeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF23A10BA44DD00848B8E /* LogAnalyzeOperation.m */; };
 		86CAF23E10BA44DD00848B8E /* LogAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF23C10BA44DD00848B8E /* LogAnalyzer.m */; };
 		86CAF24110BA44EA00848B8E /* MovieInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF24010BA44EA00848B8E /* MovieInfo.m */; };
 		86CAF24710BA44F700848B8E /* ParameterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF24510BA44F700848B8E /* ParameterManager.m */; };
 		86CAF24A10BA450300848B8E /* PlayerCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF24910BA450300848B8E /* PlayerCore.m */; };
 		86CAF25110BA451100848B8E /* PlayingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF24C10BA451100848B8E /* PlayingInfo.m */; };
-		86CAF25210BA451100848B8E /* SubInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF24E10BA451100848B8E /* SubInfo.m */; };
-		86CAF25310BA451100848B8E /* VideoInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF25010BA451100848B8E /* VideoInfo.m */; };
 		86D10C1310F4A29A000B573F /* ResizeIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D10C1210F4A29A000B573F /* ResizeIndicator.m */; };
 		86D10C1C10F4A40D000B573F /* resizeindicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D10C1B10F4A40D000B573F /* resizeindicator.png */; };
 		86F4DADB10BC329F007AE56A /* ControlUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86F4DADA10BC329F007AE56A /* ControlUIView.m */; };
@@ -600,15 +597,12 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				256AC3DA0F4B6AC300CF3369 /* AppController.m in Sources */,
-				86CAF23810BA44D100848B8E /* AudioInfo.m in Sources */,
 				86CAF23D10BA44DD00848B8E /* LogAnalyzeOperation.m in Sources */,
 				86CAF23E10BA44DD00848B8E /* LogAnalyzer.m in Sources */,
 				86CAF24110BA44EA00848B8E /* MovieInfo.m in Sources */,
 				86CAF24710BA44F700848B8E /* ParameterManager.m in Sources */,
 				86CAF24A10BA450300848B8E /* PlayerCore.m in Sources */,
 				86CAF25110BA451100848B8E /* PlayingInfo.m in Sources */,
-				86CAF25210BA451100848B8E /* SubInfo.m in Sources */,
-				86CAF25310BA451100848B8E /* VideoInfo.m in Sources */,
 				8608652E10BA55CE00459392 /* DisplayLayer.m in Sources */,
 				8608652F10BA55CE00459392 /* RootLayerView.m in Sources */,
 				8608676B10BA9DA700459392 /* fast_memcpy.c in Sources */,
