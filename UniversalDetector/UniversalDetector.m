@@ -27,8 +27,7 @@
 
 -(void) analyzeContentsOfFile:(NSString*) path
 {
-	NSError *err;
-	NSData *data = [[NSData alloc] initWithContentsOfFile:path options:NSDataReadingUncached error:&err];
+	NSData *data = [[NSData alloc] initWithContentsOfMappedFile:path];
 
 	if (data) {
 		[self analyzeBytes:[data bytes] length:[data length]];
