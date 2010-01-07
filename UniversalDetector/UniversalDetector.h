@@ -12,6 +12,7 @@
 -(id)init;
 -(void)dealloc;
 
+-(void)analyzeContentsOfFile:(NSString*) path;
 -(void)analyzeData:(NSData *)data;
 -(void)analyzeBytes:(const char *)data length:(int)len;
 -(void)reset;
