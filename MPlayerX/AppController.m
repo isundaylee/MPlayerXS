@@ -131,31 +131,31 @@
 	// 设置监听KVO
 	[mplayer addObserver:self
 			  forKeyPath:kObservedValueStringMediaLength
-				 options:NSKeyValueObservingOptionNew
+				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 	[mplayer addObserver:self
 			  forKeyPath:kObservedValueStringCurrentTime
-				 options:NSKeyValueObservingOptionNew
+				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 	[mplayer addObserver:self
 			  forKeyPath:kObservedValueStringSeekable
-				 options:NSKeyValueObservingOptionNew
+				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 	[mplayer addObserver:self
 			  forKeyPath:kObservedValueStringSpeed
-				 options:NSKeyValueObservingOptionNew
+				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 	[mplayer addObserver:self
 			  forKeyPath:kObservedValueStringSubDelay
-				 options:NSKeyValueObservingOptionNew
+				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 	[mplayer addObserver:self
 			  forKeyPath:kObservedValueStringAudioDelay
-				 options:NSKeyValueObservingOptionNew
+				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 	[mplayer addObserver:self
 			  forKeyPath:kObservedValueStringSubInfo
-				 options:NSKeyValueObservingOptionNew
+				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 
 	// 建立支持格式的Set

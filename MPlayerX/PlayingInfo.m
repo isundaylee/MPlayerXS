@@ -54,7 +54,7 @@
 		subDelay = [[NSNumber alloc] initWithFloat:0];
 		subPos = 100;
 		subVisibility = YES;
-		subScale = [[NSNumber alloc] initWithFloat:3];
+		subScale = [[NSNumber alloc] initWithFloat:4];
 		speed = [[NSNumber alloc] initWithFloat:1.0];
 	}
 	return self;
@@ -80,7 +80,7 @@
 	[subScale release];
 	
 	currentChapter = 0;
-	currentTime = nil;
+	currentTime = [[NSNumber alloc] initWithFloat:0];
 	currentAudio = 0;
 	currentVideo = 0;
 	currentSub = 0;
@@ -91,7 +91,7 @@
 	subDelay = [[NSNumber alloc] initWithFloat:0];
 	subPos = 100;
 	subVisibility = YES;
-	subScale = [[NSNumber alloc] initWithFloat:3];
+	subScale = [[NSNumber alloc] initWithFloat:4];
 	speed = [[NSNumber alloc] initWithFloat:1.0];
 }
 @end
