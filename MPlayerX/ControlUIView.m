@@ -459,6 +459,10 @@
 -(void) playBackStarted
 {
 	[playPauseButton setState:PlayState];
+	
+	[speedText setEnabled:YES];
+	[subDelayText setEnabled:YES];
+	[audioDelayText setEnabled:YES];
 }
 
 /** 这个API会在两个时间点被调用，
@@ -480,6 +484,10 @@
 	[speedText setFloatValue:[appController.mplayer.movieInfo.playingInfo.speed floatValue]];
 	[subDelayText setFloatValue:[appController.mplayer.movieInfo.playingInfo.subDelay floatValue]];
 	[audioDelayText setFloatValue:[appController.mplayer.movieInfo.playingInfo.audioDelay floatValue]];
+	
+	[speedText setEnabled:NO];
+	[subDelayText setEnabled:NO];
+	[audioDelayText setEnabled:NO];
 	
 	[menuSwitchSub setEnabled:NO];
 	[menuSubScaleInc setEnabled:NO];
@@ -594,7 +602,7 @@
 
 ////////////////////////////////////////////////draw myself//////////////////////////////////////////////////
 - (void)drawRect:(NSRect)dirtyRect
-{	
+{
 	NSBezierPath* fillPath = [NSBezierPath bezierPathWithRoundedRect:[self bounds] xRadius:CONTROL_CORNER_RADIUS yRadius:CONTROL_CORNER_RADIUS];
 	[fillGradient drawInBezierPath:fillPath angle:270];
 }
