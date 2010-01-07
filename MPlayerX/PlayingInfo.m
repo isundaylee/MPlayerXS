@@ -73,25 +73,19 @@
 
 -(void) reset
 {
-	[currentTime release];
-	[audioDelay release];
-	[subDelay release];
-	[speed release];
-	[subScale release];
-	
 	currentChapter = 0;
-	currentTime = [[NSNumber alloc] initWithFloat:0];
+	[self setCurrentTime:[NSNumber numberWithFloat:0]];
 	currentAudio = 0;
 	currentVideo = 0;
 	currentSub = 0;
 	volume = 100;
 	audioBalance = 0;
 	mute = NO;
-	audioDelay = [[NSNumber alloc] initWithFloat:0];
-	subDelay = [[NSNumber alloc] initWithFloat:0];
+	[self setAudioDelay:[NSNumber numberWithFloat:0]];
+	[self setSubDelay:[NSNumber numberWithFloat:0]];
 	subPos = 100;
 	subVisibility = YES;
-	subScale = [[NSNumber alloc] initWithFloat:4];
-	speed = [[NSNumber alloc] initWithFloat:1.0];
+	[self setSubScale:[NSNumber numberWithFloat:4]];
+	[self setSpeed:[NSNumber numberWithFloat:1]];
 }
 @end

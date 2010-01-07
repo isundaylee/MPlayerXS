@@ -88,21 +88,19 @@
 
 -(void) reset
 {
-	seekable = NO;
 	[playingInfo reset];
 	[metaData removeAllObjects];
 	[videoInfo removeAllObjects];
 	[audioInfo removeAllObjects];
-	[subInfo release];
 
 	[demuxer release];
 	[chapters release];
-	[length release];
 	
+	[self setSeekable:NO];
 	demuxer = nil;
 	chapters = nil;
-	length = nil;
-	subInfo = nil;
+	[self setLength:nil];
+	[self setSubInfo:nil];
 }
 
 // 这个是LogAnalyzer的delegate方法，
