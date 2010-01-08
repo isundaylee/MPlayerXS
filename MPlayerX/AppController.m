@@ -380,8 +380,14 @@
 					   withObject:nil 
 					   afterDelay:0.5
 						  inModes:[NSArray arrayWithObjects:NSDefaultRunLoopMode, NSModalPanelRunLoopMode,NSEventTrackingRunLoopMode,nil]];
+			return;
 		}
 	}
+
+	// 如果不继续播放，或者没有下一个播放文件，那么退出全屏
+	// 这个时候的显示状态displaying是NO
+	// 因此，如果是全屏的话，会退出全屏，如果不是全屏的话，也不会进入全屏
+	[controlUI toggleFullScreen:nil];
 }
 
 -(void) tryToPlayNext
@@ -393,8 +399,14 @@
 		NSString *nextPath = [PlayList AutoSearchNextMoviePathFrom:lastPlayedPath];
 		if (nextPath != nil) {
 			[self playMedia:[NSURL fileURLWithPath:nextPath isDirectory:NO]];
+			// 如果能够播放，并且有东西放，就直接结束
+			return;
 		}
 	}
+	// 如果不继续播放，或者没有下一个播放文件，那么退出全屏
+	// 这个时候的显示状态displaying是NO
+	// 因此，如果是全屏的话，会退出全屏，如果不是全屏的话，也不会进入全屏
+	[controlUI toggleFullScreen:nil];	
 }
 
 ////////////////////////////////////////////////cooperative actions with UI//////////////////////////////////////////////////
