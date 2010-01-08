@@ -190,7 +190,7 @@
 	// 如果task正在运行
 	if (task && [task isRunning]) {
 		// 以防万一，在命令后面加一个回车
-		[[[task standardInput] fileHandleForWriting] writeData: [[cmd stringByAppendingString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+		[[[task standardInput] fileHandleForWriting] writeData:[cmd dataUsingEncoding:NSUTF8StringEncoding]];
 		return YES;
 	}
 	return NO;
