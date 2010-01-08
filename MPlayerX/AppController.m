@@ -44,7 +44,6 @@
 
 @implementation AppController
 
-@synthesize mplayer;
 @synthesize lastPlayedPath;
 
 +(void) initialize
