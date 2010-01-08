@@ -38,8 +38,13 @@
 #define kUDKeyEnableMultiThread		(@"EnableMultiThread")
 #define kUDKeySubScale				(@"SubScale")
 #define kUDKeySubScaleStepValue		(@"SubScaleStepValue")
+#define kUDKeySwitchTimeHintPressOnAbusolute	(@"SwitchTHPrsOnAbs")
+#define kUDKeyQuitOnClose			(@"QuitOnClose")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
+
+
+#define kSCMSwitchTimeHintKeyModifierMask	(NSCommandKeyMask)
 
 // 键盘快捷键定义
 #define kSCMVolumeUpKey			('=')
