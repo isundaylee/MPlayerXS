@@ -56,6 +56,7 @@
 					   [NSNumber numberWithBool:NO], kUDKeyEnableMultiThread,
 					   [NSNumber numberWithFloat:4], kUDKeySubScale,
 					   [NSNumber numberWithFloat:0.1], kUDKeySubScaleStepValue,
+					   [NSNumber numberWithBool:NO], kUDKeyQuitOnClose,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   nil]];
 }
@@ -571,9 +572,13 @@
 ////////////////////////////////////////Window Delegate////////////////////////////////////////
 -(void) windowWillClose:(NSNotification *)notification
 {
-	[mplayer performStop];
-	// 窗口一旦关闭，清理lastPlayPath，则即使再次打开窗口也不会播放以前的文件
-	lastPlayedPath = nil;
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyQuitOnClose]) {
+		[NSApp terminate:self];
+	} else {
+		[mplayer performStop];
+		// 窗口一旦关闭，清理lastPlayPath，则即使再次打开窗口也不会播放以前的文件
+		lastPlayedPath = nil;		
+	}
 }
 
 @end
