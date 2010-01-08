@@ -20,8 +20,6 @@
 
 #import "def.h"
 #import "AppController.h"
-#import "MPlayerController.h"
-#import "RootLayerView.h"
 #import "ControlUIView.h"
 #import "PlayList.h"
 #import <sys/sysctl.h>
@@ -115,9 +113,6 @@
 
 	// 设定字幕大小
 	[mplayer.pm setSubScale:[[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySubScale]];
-	
-	// 通知dispView接受mplayer的渲染通知
-	[mplayer setDispDelegate:dispView];
 	
 	// 开始监听mplayer的开始/结束事件
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -245,10 +240,20 @@
 
 -(void) preventSystemSleep
 {
-	if (mplayer.isPlaying &&(!mplayer.isPaused)) {
+	if (mplayer.state == kMPCPlayingState) {
 		UpdateSystemActivity(OverallAct);
 		[self performSelector:@selector(preventSystemSleep) withObject:nil afterDelay:20];
 	}
+}
+
+-(void) setDelegateForMPlayer:(id<MPlayerDisplayDelegate>) delegate
+{
+	[mplayer setDispDelegate:delegate];
+}
+
+-(int) playerState
+{
+	return mplayer.state;
 }
 
 -(BOOL) playMedia:(NSURL*)url
@@ -331,7 +336,6 @@
 -(void) mplayerStarted:(NSNotification *)notification
 {
 	[window setTitle:[lastPlayedPathPre lastPathComponent]];
-	[dispView setPlayerWindowLevel];
 	[controlUI playBackStarted];
 	[self preventSystemSleep];
 	
@@ -347,7 +351,6 @@
 -(void) mplayerStopped:(NSNotification *)notification
 {
 	[window setTitle: @"MPlayerX"];
-	[dispView setPlayerWindowLevel];
 	[controlUI playBackStopped];
 	
 	if ([[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue]) {
@@ -384,7 +387,7 @@
 -(void) tryToPlayNext
 {
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyAutoPlayNext] && 
-		(!mplayer.isPlaying)
+		(mplayer.state == kMPCStoppedState)
 	   ) {
 		//如果不是本地文件，肯定返回nil
 		NSString *nextPath = [PlayList AutoSearchNextMoviePathFrom:lastPlayedPath];
@@ -398,19 +401,17 @@
 -(BOOL) togglePlayPause
 {
 	BOOL ret = YES;
-	if (mplayer.isPlaying) {
+	if (mplayer.state != kMPCStoppedState) {
 		// mplayer正在播放
 		if ([controlUI playPauseState] == PauseState) {
 			// 想暂停
-			if (!mplayer.isPaused) {
+			if (mplayer.state == kMPCPlayingState) {
 				[mplayer togglePause];
-				[dispView setPlayerWindowLevel];
 			}
 		} else {
 			// 想播放
-			if (mplayer.isPaused) {
+			if (mplayer.state == kMPCPausedState) {
 				[mplayer togglePause];
-				[dispView setPlayerWindowLevel];
 			}
 		}
 	} else {
@@ -433,7 +434,7 @@
 
 -(BOOL) toggleMute
 {
-	return (mplayer.isPlaying)? ([mplayer setMute:((controlUI.mute == NSOnState)?YES:NO)]):NO;
+	return (mplayer.state != kMPCStoppedState)? ([mplayer setMute:((controlUI.mute == NSOnState)?YES:NO)]):NO;
 }
 
 -(float) setVolume:(float) vol
@@ -446,7 +447,7 @@
 -(float) seekTo:(float) time
 {
 	// playingInfo的currentTime是通过获取log来同步的，因此这里不进行直接设定
-	if (mplayer.isPlaying) {
+	if (mplayer.state != kMPCStoppedState) {
 		time = [mplayer setTimePos:time];
 		[mplayer.la stop];
 		return time;
@@ -457,7 +458,7 @@
 -(float) changeTimeBy:(float) delta
 {
 	// playingInfo的currentTime是通过获取log来同步的，因此这里不进行直接设定
-	if (mplayer.isPlaying) {
+	if (mplayer.state != kMPCStoppedState) {
 		delta = [mplayer setTimePos:[mplayer.movieInfo.playingInfo.currentTime floatValue] + delta];	
 		[mplayer.la stop];
 		return delta;
@@ -467,7 +468,7 @@
 
 -(float) changeSpeedBy:(float) delta
 {
-	if (mplayer.isPlaying && (!mplayer.isPaused)) {
+	if (mplayer.state != kMPCStoppedState) {
 		[mplayer setSpeed:[mplayer.movieInfo.playingInfo.speed floatValue] + delta];
 	}
 	return [mplayer.movieInfo.playingInfo.speed floatValue];
@@ -475,7 +476,7 @@
 
 -(float) changeSubDelayBy:(float) delta
 {
-	if (mplayer.isPlaying && (!mplayer.isPaused)) {
+	if (mplayer.state != kMPCStoppedState) {
 		[mplayer setSubDelay:[mplayer.movieInfo.playingInfo.subDelay floatValue] + delta];
 	}
 	return [mplayer.movieInfo.playingInfo.subDelay floatValue];
@@ -483,7 +484,7 @@
 
 -(float) changeAudioDelayBy:(float) delta
 {
-	if (mplayer.isPlaying && (!mplayer.isPaused)) {
+	if (mplayer.state != kMPCStoppedState) {
 		[mplayer setAudioDelay:[mplayer.movieInfo.playingInfo.audioDelay floatValue] + delta];
 	}
 	return [mplayer.movieInfo.playingInfo.audioDelay floatValue];	
@@ -491,7 +492,7 @@
 
 -(float) changeSubScaleBy:(float) delta
 {
-	if (mplayer.isPlaying && (!mplayer.isPaused)) {
+	if (mplayer.state != kMPCStoppedState) {
 		[mplayer setSubScale: [mplayer.movieInfo.playingInfo.subScale floatValue] + delta];
 	}
 	return [mplayer.movieInfo.playingInfo.subScale floatValue];
@@ -499,7 +500,7 @@
 
 -(float) setSpeed:(float) spd
 {
-	if (mplayer.isPlaying && (!mplayer.isPaused)) {
+	if (mplayer.state != kMPCStoppedState) {
 		[mplayer setSpeed:spd];
 	}
 	return [mplayer.movieInfo.playingInfo.speed floatValue];
@@ -507,7 +508,7 @@
 
 -(float) setSubDelay:(float) sd
 {
-	if (mplayer.isPlaying && (!mplayer.isPaused)) {
+	if (mplayer.state != kMPCStoppedState) {
 		[mplayer setSubDelay:sd];
 	}
 	return [mplayer.movieInfo.playingInfo.subDelay floatValue];	
@@ -515,7 +516,7 @@
 
 -(float) setAudioDelay:(float) ad
 {
-	if (mplayer.isPlaying && (!mplayer.isPaused)) {
+	if (mplayer.state != kMPCStoppedState) {
 		[mplayer setAudioDelay:ad];
 	}
 	return [mplayer.movieInfo.playingInfo.audioDelay floatValue];	

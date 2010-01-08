@@ -19,8 +19,9 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import "MPlayerController.h"
 
-@class MPlayerController, RootLayerView, ControlUIView;
+@class ControlUIView;
 
 @interface AppController : NSObject <NSApplicationDelegate>
 {
@@ -32,13 +33,14 @@
 	NSMutableDictionary *bookmarks;
 	
 	IBOutlet NSWindow *window;
-	IBOutlet RootLayerView *dispView;
 	IBOutlet ControlUIView *controlUI;
 	IBOutlet NSTextField *aboutText;
 }
 
-@property (readonly) MPlayerController *mplayer;
 @property (readonly) NSString *lastPlayedPath;
+
+-(void) setDelegateForMPlayer:(id<MPlayerDisplayDelegate>) delegate;
+-(int) playerState;
 
 -(void) setMultiThreadMode:(BOOL) mt;
 
