@@ -67,11 +67,7 @@
 	SAFERELEASEOPENGLBUFFER(bufRef);
 	
 	SAFEFREE(bufRaw);
-	fmt.width = 0;
-	fmt.height = 0;
-	fmt.imageSize = 0;
-	fmt.pixelFormat = 0;
-	fmt.aspect = 0;
+	memset(&fmt, 0, sizeof(fmt));
 }
 
 -(BOOL) buildOpenGLEnvironment
