@@ -32,6 +32,10 @@
 
 #define kSnapshotSaveDefaultPath	(@"~/Desktop")
 
+@interface RootLayerView (RootLayerViewInternal)
+-(NSSize) calculateContentSize;
+@end
+
 @implementation RootLayerView
 
 @synthesize fullScrnDevID;
@@ -51,6 +55,7 @@
 {
 	if (self = [super initWithFrame:frameRect]) {
 		// 成功创建self
+		shouldResize = NO;
 		dispLayer = [[DisplayLayer alloc] init];
 		displaying = NO;
 		fullScreenOptions = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -97,7 +102,7 @@
 {
 	if (NSPointInRect([self convertPoint:[theEvent locationInWindow] fromView:nil], self.bounds)) {
 		[controlUI showUp];
-		[controlUI mouseMoved:theEvent];
+		[controlUI updateHintTime];
 	}
 }
 
@@ -121,9 +126,39 @@
 	}
 }
 
+-(NSSize) calculateContentSize
+{
+	const DisplayFormat *pf = [dispLayer getDisplayFormat];
+	
+	NSWindow *win = [self window];
+	
+	// 如果现在是没有显示的状态，那么返回当前的content size
+	if (pf->width == 0) {
+		return [[win contentView] bounds].size;
+	}
+	
+	// 在播放中，有合法的尺寸
+	NSSize sz = NSMakeSize(pf->width, ((CGFloat)(pf->width))/(pf->aspect));
+	
+	NSSize sizeMin = [[self window] contentMinSize];
+	
+	if ((sz.height < sizeMin.height) || (sz.width < sizeMin.width)) {
+		if ((sizeMin.width * sz.height) < (sizeMin.height * sz.width)) {
+			// 横图
+			sz.width = sizeMin.height * sz.width / sz.height;
+			sz.height = sizeMin.height;
+		} else {
+			// 竖图
+			sz.height = sizeMin.width * sz.height / sz.width;
+			sz.width = sizeMin.width;
+		}
+	}
+	return sz;
+}
+
 -(void) magnifyWithEvent:(NSEvent *)event
 {
-	if (displaying && (![self isInFullScreenMode])) {
+	if (![self isInFullScreenMode]) {
 		// 得到能够放大的最大frame
 		NSRect rcLimit = [[[self window] screen] visibleFrame];
 		// 得到现在的content的size，要保持比例
@@ -138,7 +173,11 @@
 		
 		// 得到需要缩放的content的size
 		rcWin.size.height = sz.height * ([event magnification] +1.0);
-		rcWin.size.width = rcWin.size.height * fmt->aspect;
+		if (fmt->width == 0) {
+			rcWin.size.width = sz.width * ([event magnification] +1.0);
+		} else {
+			rcWin.size.width = rcWin.size.height * fmt->aspect;
+		}
 
 		// 保持中心不变反算出窗口的
 		rcWin.origin.x -= ((rcWin.size.width - sz.width)/2);
@@ -226,6 +265,14 @@
 		// 应该退出全屏
 		// 无论否在显示都可以退出全屏
 		[self exitFullScreenModeWithOptions:fullScreenOptions];
+		
+		// 如果是连续全屏播放的话，是不会设定window的size的
+		// 这样会有可能退出全屏的时候是一个不对的size
+		// 这里会设定window的size，但是如果是播放关闭的状态退出播放，得到的size就是当前content的size
+		if (shouldResize) {
+			shouldResize = NO;
+			[[self window] setContentSize:[self calculateContentSize]];
+		}
 		[[self window] makeFirstResponder:self];
 		// 必须要在退出全屏之后才能设定window level
 		[self setPlayerWindowLevel];
@@ -314,11 +361,8 @@
 		displaying = YES;
 
 		// [dispLayer setFillScreen: NO];
-
-		const DisplayFormat *pf = [dispLayer getDisplayFormat];
-		NSValue *szVal = [NSValue valueWithSize: NSMakeSize(pf->width, (pf->width)/(pf->aspect))];
 		
-		[self performSelectorOnMainThread:@selector(adjustWindowSizeAndAspectRatio:) withObject:szVal waitUntilDone:YES];
+		[self performSelectorOnMainThread:@selector(adjustWindowSizeAndAspectRatio) withObject:nil waitUntilDone:YES];
 
 		[controlUI displayStarted];
 
@@ -335,29 +379,21 @@
 	}
 	return 0;
 }
--(void) adjustWindowSizeAndAspectRatio:(NSValue*) size
-{
-	NSSize sz = [size sizeValue];
-	NSSize sizeMin = [[self window] contentMinSize];
-	
-	NSWindow *win = [self window];
-	
-	if ((sz.height < sizeMin.height) || (sz.width < sizeMin.width)) {
-		if ((sizeMin.width * sz.height) < (sizeMin.height * sz.width)) {
-			// 横图
-			sz.width = sizeMin.height * sz.width / sz.height;
-			sz.height = sizeMin.height;
-		} else {
-			// 竖图
-			sz.height = sizeMin.width * sz.height / sz.width;
-			sz.width = sizeMin.width;
-		}
-	}
 
-	[win setContentSize:sz];
-	[win setContentAspectRatio:sz];
+-(void) adjustWindowSizeAndAspectRatio
+{
+	if ([self isInFullScreenMode]) {
+		shouldResize = YES;
+	} else {
+		// 如果没有在全屏
+		NSSize sz = [self calculateContentSize];
+		NSWindow *win = [self window];
+		
+		[win setContentSize:sz];
+		[win setContentAspectRatio:sz];
 	
-	[win makeKeyAndOrderFront:self];
+		[win makeKeyAndOrderFront:self];
+	}	
 }
 
 -(void) draw:(void*)imageData from:(id)sender
