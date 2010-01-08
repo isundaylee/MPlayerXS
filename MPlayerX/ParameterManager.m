@@ -64,11 +64,10 @@
 		NSNumber *haveKey = [NSNumber numberWithBool:YES];
 
 		subFileExts = [[NSDictionary alloc] initWithObjectsAndKeys:	haveKey, @"utf", haveKey, @"utf8", 
-																	haveKey, @"utf-8", haveKey, @"srt", 
+																	haveKey, @"srt", haveKey, @"ass", 
 																	haveKey, @"smi", haveKey, @"rt", 
 																	haveKey, @"txt", haveKey, @"ssa", 
 																	haveKey, @"aqt", haveKey, @"jss", 
-																	haveKey, @"js", haveKey, @"ass", 
 																	nil];
 		subEncodeLangDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"CHS", @"GB18030",
 																		 @"CHS", @"GBK",
