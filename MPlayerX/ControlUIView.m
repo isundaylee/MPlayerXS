@@ -34,6 +34,9 @@
 
 #define LASTSTOPPEDTIMERATIO	(100)
 
+#define PlayState	(NSOnState)
+#define PauseState	(NSOffState)
+
 @implementation ControlUIView
 
 @synthesize autoHideTimeInterval;
@@ -201,7 +204,7 @@
 				[self.animator setAlphaValue:0];
 				
 				// 如果是全屏模式也要隐藏鼠标
-				if ([fullScreenButton state] == NSOnState) {
+				if ([dispView isInFullScreenMode]) {
 					CGDisplayHideCursor(dispView.fullScrnDevID);
 				} else {
 					// 不是全屏的话，隐藏resizeindicator
@@ -221,7 +224,7 @@
 
 	[self.animator setAlphaValue:BACKGROUND_ALPHA];
 
-	if ([fullScreenButton state] == NSOnState) {
+	if ([dispView isInFullScreenMode]) {
 		// 全屏模式还要显示鼠标
 		CGDisplayShowCursor(dispView.fullScrnDevID);
 	} else {
@@ -235,7 +238,9 @@
 ////////////////////////////////////////////////Actions//////////////////////////////////////////////////
 -(IBAction) togglePlayPause:(id)sender
 {
-	if (![appController togglePlayPause]) {
+	[appController togglePlayPause];
+	
+	if (appController.playerState == kMPCStoppedState) {
 		// 如果失败的话，ControlUI回到停止状态
 		[self playBackStopped];
 	} else {
@@ -282,13 +287,13 @@
 
 -(IBAction) toggleFullScreen:(id)sender
 {
-	NSInteger fs = [fullScreenButton state];
-
 	if ([dispView toggleFullScreen]) {
 		// 成功
-		if (fs == NSOnState) {
+		if ([dispView isInFullScreenMode]) {
 			// 进入全屏
 			
+			[fullScreenButton setState: NSOnState];
+
 			// fillScreenButton的Image设定之类的，
 			// 在RootLayerView里面实现，因为设定这个需要比较多的参数
 			// 会让接口变的很难看
@@ -301,22 +306,30 @@
 			
 			// 进入全屏，强制隐藏resizeindicator
 			[rzIndicator.animator setAlphaValue:0];
+
 		} else {
 			// 退出全屏
-			[self exitedFullScreen];
+			CGDisplayShowCursor(dispView.fullScrnDevID);
+
+			[fullScreenButton setState: NSOffState];
+
+			[fillScreenButton setHidden: YES];
+			
+			if ([self alphaValue] > (BACKGROUND_ALPHA-0.05)) {
+				// 如果controlUI没有隐藏，那么显示resizeindiccator
+				[rzIndicator.animator setAlphaValue:1];
+			}
 		}
 	} else {
 		// 失败
 		[fullScreenButton setState: NSOffState];
+		[fillScreenButton setHidden: YES];
 	}
 }
 
 -(IBAction) toggleFillScreen:(id)sender
 {
-	if(![dispView toggleFillScreen]) {
-		[fillScreenButton setHidden: YES];
-		[fillScreenButton setState: NSOffState];
-	}
+	[fillScreenButton setState: ([dispView toggleFillScreen])?NSOnState:NSOffState];
 }
 
 -(IBAction) toggleAccessaryControls:(id)sender
@@ -405,16 +418,6 @@
 }
 
 ////////////////////////////////////////////////FullscreenThings//////////////////////////////////////////////////
--(NSInteger) isFullScreen
-{
-	return [fullScreenButton state];
-}
-
--(NSInteger) isFillScreen
-{
-	return [fillScreenButton state];
-}
-
 -(void) setFillScreenMode:(NSString*)modeKey state:(NSInteger) state
 {
 	NSArray *fillScrnBtnModeImages = [fillScreenButtonAllImages objectForKey:modeKey];
@@ -424,18 +427,6 @@
 		[fillScreenButton setAlternateImage:[fillScrnBtnModeImages objectAtIndex:1]];
 	}	
 	[fillScreenButton setState:state];
-}
-
--(void) exitedFullScreen
-{
-	CGDisplayShowCursor(dispView.fullScrnDevID);
-	[fullScreenButton setState: NSOffState];
-	[fillScreenButton setHidden: YES];
-	
-	if ([self alphaValue] > (BACKGROUND_ALPHA-0.05)) {
-		// 如果controlUI没有隐藏，那么显示resizeindiccator
-		[rzIndicator.animator setAlphaValue:1];
-	}
 }
 
 ////////////////////////////////////////////////displayThings//////////////////////////////////////////////////
@@ -454,11 +445,6 @@
 }
 
 ////////////////////////////////////////////////playback//////////////////////////////////////////////////
--(NSInteger) playPauseState
-{
-	return [playPauseButton state];
-}
-
 -(void) playBackStarted
 {
 	[dispView setPlayerWindowLevel];

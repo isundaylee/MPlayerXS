@@ -45,7 +45,7 @@
 -(void) setMultiThreadMode:(BOOL) mt;
 
 -(BOOL) playMedia:(NSURL*)url;
--(BOOL) togglePlayPause;	/** 返回PlayPause是否成功 */
+-(void) togglePlayPause;	/** 返回PlayPause是否成功 */
 -(BOOL) toggleMute;			/** 返回现在的mute状态 */
 -(float) setVolume:(float) vol;	/** 返回现在的音量 */
 -(float) seekTo:(float) time;	/** 返回现在要去的时间 */

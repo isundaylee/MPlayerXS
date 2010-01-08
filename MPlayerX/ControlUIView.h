@@ -86,22 +86,14 @@
 -(IBAction) toggleFillScreen:(id)sender;
 
 ////////////////////////////////显示相关////////////////////////////////
--(NSInteger) isFullScreen;
--(NSInteger) isFillScreen;
-
 #define kFillScreenButtonImageLRKey		(@"LR")
 #define kFillScreenButtonImageUBKey		(@"UB")
 -(void) setFillScreenMode:(NSString*)modeKey state:(NSInteger) state;
-
--(void) exitedFullScreen;
 
 -(void) displayStarted;
 -(void) displayStopped;
 
 ////////////////////////////////播放相关////////////////////////////////
-#define PlayState	(NSOnState)
-#define PauseState	(NSOffState)
--(NSInteger) playPauseState;
 -(void) playBackStarted;
 -(void) playBackStopped;
 
@@ -124,7 +116,6 @@
 
 //////////////////////////////其他控件相关/////////////////////////////
 -(IBAction) toggleAccessaryControls:(id)sender;
-
 -(IBAction) changeSpeed:(id) sender;
 -(IBAction) changeAudioDelay:(id) sender;
 -(IBAction) changeSubDelay:(id)sender;

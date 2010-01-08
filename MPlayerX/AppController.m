@@ -398,38 +398,19 @@
 }
 
 ////////////////////////////////////////////////cooperative actions with UI//////////////////////////////////////////////////
--(BOOL) togglePlayPause
+-(void) togglePlayPause
 {
-	BOOL ret = YES;
 	if (mplayer.state != kMPCStoppedState) {
 		// mplayer正在播放
-		if ([controlUI playPauseState] == PauseState) {
-			// 想暂停
-			if (mplayer.state == kMPCPlayingState) {
-				[mplayer togglePause];
-			}
-		} else {
-			// 想播放
-			if (mplayer.state == kMPCPausedState) {
-				[mplayer togglePause];
-			}
-		}
+		[mplayer togglePause];
 	} else {
 		//mplayer不在播放状态
-		if ([controlUI playPauseState] == PauseState) {
-			// 想暂停
-		} else {
-			// 想播放
-			if (lastPlayedPath) {
-				// 有可以播放的文件
-				ret = [self playMedia:[NSURL fileURLWithPath:lastPlayedPath isDirectory:NO]];
-			} else {
-				// 没有可以播放的文件
-				ret = NO;
-			}
+		// 想播放
+		if (lastPlayedPath) {
+			// 有可以播放的文件
+			[self playMedia:[NSURL fileURLWithPath:lastPlayedPath isDirectory:NO]];
 		}
 	}
-	return ret;
 }
 
 -(BOOL) toggleMute

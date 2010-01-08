@@ -103,7 +103,7 @@
 
 - (void)mouseDragged:(NSEvent *)event
 {
-	if ([controlUI isFullScreen] == NSOffState) {
+	if (![self isInFullScreenMode]) {
 		// 全屏的时候不能移动屏幕
 		NSPoint winOrg = [[self window] frame].origin;
 		
@@ -123,7 +123,7 @@
 
 -(void) magnifyWithEvent:(NSEvent *)event
 {
-	if (displaying && ([controlUI isFullScreen] == NSOffState)) {
+	if (displaying && (![self isInFullScreenMode])) {
 		// 得到能够放大的最大frame
 		NSRect rcLimit = [[[self window] screen] visibleFrame];
 		// 得到现在的content的size，要保持比例
@@ -221,55 +221,53 @@
 
 -(BOOL) toggleFullScreen
 {
-	if (displaying) {
-		// 处于显示状态
-		// ！注意：这里的显示状态和mplayer的播放状态时不一样的，比如，mplayer在MP3的时候，播放状态为YES，显示状态为NO
-		if ([controlUI isFullScreen] == NSOnState) {
-			// should enter the full screen
-			// 进入全屏前，将window强制设定为普通mode，否则之后程序切换就无法正常
-			[[self window] setLevel:NSNormalWindowLevel];
-			
-			NSScreen *chosenScreen = [[self window] screen];
-			
-			[self enterFullScreenMode:chosenScreen withOptions:fullScreenOptions];
-			
-			fullScrnDevID = [[[chosenScreen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
-			
-			// 得到screen的分辨率，并和播放中的图像进行比较
-			// 知道是横图还是竖图
-			NSSize sz = [chosenScreen frame].size;
-			const DisplayFormat *pf = [dispLayer getDisplayFormat];
-			
-			[controlUI setFillScreenMode:((sz.height * (pf->aspect) >= sz.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
-								   state:([dispLayer fillScreen])?NSOnState:NSOffState];
-			// 这里不需要调用 [self setPlayerWindowLevel];
-		} else {
-			// should exit the full screen
-			[self exitFullScreenModeWithOptions:fullScreenOptions];
-			[[self window] makeFirstResponder:self];
-			// 必须要在退出全屏之后才能设定window level
-			[self setPlayerWindowLevel];
-		}
-		// 暂停的时候能够正确显示
-		[dispLayer setNeedsDisplay];
-		return YES;
+	// ！注意：这里的显示状态和mplayer的播放状态时不一样的，比如，mplayer在MP3的时候，播放状态为YES，显示状态为NO
+	if ([self isInFullScreenMode]) {
+		// 应该退出全屏
+		// 无论否在显示都可以退出全屏
+		[self exitFullScreenModeWithOptions:fullScreenOptions];
+		[[self window] makeFirstResponder:self];
+		// 必须要在退出全屏之后才能设定window level
+		[self setPlayerWindowLevel];
+	} else if (displaying) {
+		// 应该进入全屏
+		// 只有在显示图像的时候才能进入全屏
+		// 进入全屏前，将window强制设定为普通mode，否则之后程序切换就无法正常
+		[[self window] setLevel:NSNormalWindowLevel];
+		
+		NSScreen *chosenScreen = [[self window] screen];
+		
+		[self enterFullScreenMode:chosenScreen withOptions:fullScreenOptions];
+		
+		fullScrnDevID = [[[chosenScreen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
+		
+		// 得到screen的分辨率，并和播放中的图像进行比较
+		// 知道是横图还是竖图
+		NSSize sz = [chosenScreen frame].size;
+		const DisplayFormat *pf = [dispLayer getDisplayFormat];
+		
+		[controlUI setFillScreenMode:((sz.height * (pf->aspect) >= sz.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
+							   state:([dispLayer fillScreen])?NSOnState:NSOffState];
+		// 这里不需要调用 [self setPlayerWindowLevel];
+	} else {
+		return NO;
 	}
-	return NO;
+	// 暂停的时候能够正确显示
+	[dispLayer setNeedsDisplay];
+	return YES;
 }
 
 -(BOOL) toggleFillScreen
 {
-	if (displaying) {
-		[dispLayer setFillScreen: ([controlUI isFillScreen] == NSOnState)?YES:NO];
-		// 暂停的时候能够正确显示
-		[dispLayer setNeedsDisplay];
-	}
-	return displaying;
+	[dispLayer setFillScreen: ![dispLayer fillScreen]];
+	// 暂停的时候能够正确显示
+	[dispLayer setNeedsDisplay];
+	return [dispLayer fillScreen];
 }
 
 -(void) setPlayerWindowLevel
 {
-	if ([controlUI isFullScreen] == NSOffState) {
+	if (![self isInFullScreenMode]) {
 		int onTopMode = [[NSUserDefaults standardUserDefaults] integerForKey:kUDKeyOnTopMode];
 
 		if ((onTopMode == kOnTopModeAlways) || 
@@ -315,7 +313,7 @@
 						   aspect:aspect] == 1) {
 		displaying = YES;
 
-		[dispLayer setFillScreen: NO];
+		// [dispLayer setFillScreen: NO];
 
 		const DisplayFormat *pf = [dispLayer getDisplayFormat];
 		NSValue *szVal = [NSValue valueWithSize: NSMakeSize(pf->width, (pf->width)/(pf->aspect))];
@@ -325,7 +323,7 @@
 		[controlUI displayStarted];
 
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyStartByFullScreen]) {
-			if ([controlUI isFillScreen] == NSOffState) {
+			if (![self isInFullScreenMode]) {
 				[self performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
 														windowNumber:0 context:nil
 														  characters:kSCMFullScrnKeyEquivalent
@@ -369,18 +367,6 @@
 
 -(void) stop:(id)sender
 {
-	if ([controlUI isFullScreen] == NSOnState) {
-		// 这个方法里面会将FullScreen的状态设为NSOffState
-		// 因为这个事件不是User发起的，是内部发起的，所以要先设定状态，再发message
-		
-		// 必须在controlUI退出全屏之后，fullScreenButton的状态才会变为OFF，然后再设定window level才能正确设定
-		// setPlayerWindowLevel里面需要得到fullScreenButton的状态
-		// 所以这个需要先调用
-		[controlUI exitedFullScreen];
-		
-		[self performSelectorOnMainThread:@selector(toggleFullScreen) withObject:nil waitUntilDone:YES];
-	}
-	
 	[dispLayer stop];
 
 	// 这个时候必须保证在推出全屏之后设为NO，因为切换全屏会参照现在displaying状态，NO的时候不动作
