@@ -385,11 +385,6 @@
 	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d\n", kMPCSetPropertyPreFix, kMPCSwitchAudio, audioID]];	
 }
 
--(void) stepSubs
-{
-	[playerCore sendStringCommand:kMPCSubSelectCmd];
-}
-
 -(void) setSub: (int) subID
 {
 	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d\n", kMPCSetPropertyPreFixPauseKeep, kMPCSub, subID]];

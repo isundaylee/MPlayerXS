@@ -98,7 +98,7 @@
 -(void) setAudioDelay: (float) delay;
 
 -(void) setSwitchAudio: (unsigned char) audioID;
--(void) stepSubs;
+
 -(void) setSub: (int) subID;
 
 /** 成功发送的话，playingInfo的subDelay属性会被更新 */
