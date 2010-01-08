@@ -74,6 +74,9 @@
 	[self setWantsLayer:YES];
 	[self setLayer:dispLayer];
 	
+	// 通知dispView接受mplayer的渲染通知
+	[appController setDelegateForMPlayer:self];
+	
 	// 默认的全屏的DisplayID
 	fullScrnDevID = [[[[NSScreen mainScreen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 	
@@ -273,7 +276,7 @@
 		int onTopMode = [[NSUserDefaults standardUserDefaults] integerForKey:kUDKeyOnTopMode];
 
 		if ((onTopMode == kOnTopModeAlways) || 
-			((onTopMode == kOnTopModePlaying) && [appController.mplayer isPlaying] && (![appController.mplayer isPaused]))
+			((onTopMode == kOnTopModePlaying) && (appController.playerState == kMPCPlayingState))
 			) {
 			[[self window] setLevel: NSTornOffMenuWindowLevel];
 		} else {
@@ -316,6 +319,7 @@
 		displaying = YES;
 
 		[dispLayer setFillScreen: NO];
+
 		const DisplayFormat *pf = [dispLayer getDisplayFormat];
 		NSValue *szVal = [NSValue valueWithSize: NSMakeSize(pf->width, (pf->width)/(pf->aspect))];
 		

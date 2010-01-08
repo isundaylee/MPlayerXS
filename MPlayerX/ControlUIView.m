@@ -238,6 +238,8 @@
 	if (![appController togglePlayPause]) {
 		// 如果失败的话，ControlUI回到停止状态
 		[self playBackStopped];
+	} else {
+		[dispView setPlayerWindowLevel];
 	}
 }
 
@@ -459,6 +461,8 @@
 
 -(void) playBackStarted
 {
+	[dispView setPlayerWindowLevel];
+	
 	[playPauseButton setState:PlayState];
 	
 	[speedText setEnabled:YES];
@@ -471,6 +475,8 @@
  * 2. mplayer播放失败 */
 -(void) playBackStopped
 {
+	[dispView setPlayerWindowLevel];
+	
 	[playPauseButton setState:PauseState];
 
 	[timeText setStringValue:@""];
