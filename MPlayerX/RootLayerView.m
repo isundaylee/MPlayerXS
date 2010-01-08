@@ -85,9 +85,6 @@
 	
 	// 设定window可以接受MouseMoved Event
 	[[self window] setAcceptsMouseMovedEvents:YES];
-	
-	// 设定window的level
-	[self setPlayerWindowLevel];
 }
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)event 
