@@ -21,10 +21,8 @@
 #import "def.h"
 #import "ShortCutManager.h"
 #import "AppController.h"
-#import "MPlayerController.h"
 #import "ControlUIView.h"
 #import "RootLayerView.h"
-
 
 @implementation ShortCutManager
 
@@ -79,7 +77,6 @@
 
 -(BOOL) processKeyDown:(NSEvent*) event
 {
-	MPlayerController *mp = [appController mplayer];
 	unichar key;
 	NSUInteger mod;
 	BOOL ret = YES;
@@ -158,12 +155,7 @@
 				switch (key)
 				{
 					case NSRightArrowFunctionKey:
-						if ([mp isPaused]) {
-							// 如果是暂停状态，那么就FrameStep
-							[mp performFrameStep];
-						} else {
-							[appController changeTimeBy:seekStepTimeLR];
-						}
+						[appController changeTimeBy:seekStepTimeLR];
 						break;
 					case NSLeftArrowFunctionKey:
 						[appController changeTimeBy:-seekStepTimeLR];
