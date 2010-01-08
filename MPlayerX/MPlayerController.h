@@ -36,11 +36,14 @@
 #define kMPCPlayStoppedByForceKey		(@"kMPCPlayStoppedByForceKey")
 #define kMPCPlayStoppedTimeKey			(@"kMPCPlayStoppedTimeKey")
 
+#define kMPCStoppedState	(0)		/** 完全停止状态 */
+#define kMPCPlayingState	(1)		/** 正在播放并且没有暂停 */
+#define kMPCPausedState		(2)		/** 有文件正在播放但是暂停中 */
+
 @interface MPlayerController : NSObject <PlayerCoreDelegate>
 {
-	BOOL pause;
-	BOOL playing;
-	
+	int state;
+
 	MovieInfo *movieInfo;
 	LogAnalyzer *la;
 	ParameterManager *pm;
@@ -57,8 +60,7 @@
 	NSTimer *pollingTimer;
 }
 
-@property (readonly, getter=isPaused) BOOL pause;
-@property (readonly, getter=isPlaying) BOOL playing;
+@property (readonly) int state;
 
 @property (retain, readwrite) NSDictionary *mpPathPair;
 @property (readonly) MovieInfo *movieInfo;

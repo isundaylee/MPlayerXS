@@ -49,15 +49,12 @@
 
 @interface MPlayerController (MPlayerControllerInternal)
 -(void) getCurrentTime:(NSTimer *)theTimer;
--(void) playerTaskTerminatedOnMainThread;
--(void) playerTaskTerminatedNotifyOnMainThread:(NSDictionary*)info;
+-(void) playerTaskTerminatedOnMainThread:(NSDictionary*)info;
 @end
 
 @implementation MPlayerController
 
-@synthesize pause;
-@synthesize playing;
-
+@synthesize state;
 @synthesize dispDelegate;
 @synthesize pm;
 @synthesize movieInfo;
@@ -68,8 +65,7 @@
 -(id) init
 {
 	if (self = [super init]) {
-		pause = NO;
-		playing = NO;
+		state = kMPCStoppedState;
 		
 		movieInfo = [[MovieInfo alloc] init];
 		la = [[LogAnalyzer alloc] initWithDelegate:movieInfo];
@@ -114,9 +110,7 @@
 	SAFERELEASE(pm);
 	SAFERELEASE(playerCore);
 	SAFERELEASE(mpPathPair);
-	
 	SAFERELEASE(sharedBufferName);
-
 	SAFERELEASETIMER(pollingTimer);
 	
 	[super dealloc];
@@ -137,27 +131,23 @@
 	// 如果是强制中断的话，记录下现在的播放时间
 	NSNumber *stopTime = [[[movieInfo.playingInfo currentTime] retain] autorelease];
 	
+	state = kMPCStoppedState;
+
 	// 这个Delegate方法，可能发生在主线程（当调用playerCore的terminate方法），也可能发生在Player线程（播放过程结束）
 	// 而这里需要销毁的东西，会在主线程里读写，因此，销毁工作必须放在主线程里进行
 	// 要保证执行顺序，需要waitUntilDone为YES
-	[self performSelectorOnMainThread:@selector(playerTaskTerminatedOnMainThread)
-						   withObject:nil
-						waitUntilDone:YES];
-	if (playing) {
-		playing = NO;
-		pause = NO;
-	}
+
 	// 为了保证执行顺序，要先清理主线程上的东西，然后设定播放状态，才能通知
 	// 在MplayerController的playerStopped的方法里面，会根据playing状态设定window level
 	// 因此要先设定playing再通知
-	[self performSelectorOnMainThread:@selector(playerTaskTerminatedNotifyOnMainThread:)
+	[self performSelectorOnMainThread:@selector(playerTaskTerminatedOnMainThread:)
 						   withObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:byForce], kMPCPlayStoppedByForceKey,
 																				 stopTime, kMPCPlayStoppedTimeKey, nil]
 						waitUntilDone:YES];
 	NSLog(@"term:%d", byForce);
 }
 
--(void) playerTaskTerminatedOnMainThread
+-(void) playerTaskTerminatedOnMainThread:(NSDictionary*)info
 {
 	// Timer是在主线程上创建的，所以要在主线程上销毁
 	SAFERELEASETIMER(pollingTimer);
@@ -165,15 +155,11 @@
 	[movieInfo reset];
 	[pm synchronizePlayingInfo: movieInfo.playingInfo];
 	SAFERELEASE(sharedBufferName);
-}
-
--(void) playerTaskTerminatedNotifyOnMainThread:(NSDictionary*)info
-{
+	
 	[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayStoppedNotification 
 														object:self
 													  userInfo:info];	
 }
-
 
 - (BOOL) outputAvailable: (NSData*) outData from:(id)sender
 {
@@ -185,7 +171,7 @@
 {
 	NSString *log = [[NSString alloc] initWithData:errData encoding:NSUTF8StringEncoding];
 	
-	NSLog(@"E:%@", log);
+	NSLog(@"ERR:%@", log);
 	[log release];
 	return NO;	
 }
@@ -194,7 +180,7 @@
 - (int) startWithWidth: (bycopy int)width withHeight: (bycopy int)height withBytes: (bycopy int)bytes withAspect: (bycopy int)aspect
 {
 	// NSLog(@"start");
-	if (dispDelegate) {
+	if (dispDelegate && sharedBufferName) {
 		// 打开shmem
 		shMemID = shm_open([sharedBufferName UTF8String], O_RDONLY, S_IRUSR);
 		if (shMemID == -1) {
@@ -248,7 +234,7 @@
 	static unsigned int cnt = 1;
 
 	// 如果正在放映，那么现强制停止
-	if (playing) {
+	if (state != kMPCStoppedState) {
 		[self performStop];
 	}
 
@@ -276,8 +262,8 @@
 					  withExec:[mpPathPair objectForKey:(pm.prefer64bMPlayer)?kX86_64Key:kI386Key] 
 					withParams:[pm arrayOfParametersWithName:sharedBufferName]]
 	   ) {
-		playing = YES;
-		pause = NO;
+		state = kMPCPlayingState;
+		
 		[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayStartedNotification object:self];
 		
 		// 这里需要打开Timer去Polling播放时间，然后定期发送现在的播放时间
@@ -291,18 +277,15 @@
 		[[NSRunLoop currentRunLoop] addTimer:pollingTimer forMode:NSEventTrackingRunLoopMode];
 	} else {
 		// 如果没有成功打开媒体文件
-		[la stop];
-		[movieInfo reset];
-		[pm synchronizePlayingInfo: movieInfo.playingInfo];
 		SAFERELEASE(sharedBufferName);
 	}
 }
 
 -(void) getCurrentTime:(NSTimer*)theTimer
 {
-	if ((!pause) && playing) {
+	if (state == kMPCPlayingState) {
 		// 发这个命令会自动让mplayer退出pause状态，而用keep_pause的perfix会得不到任何返回,因此只有在没有pause的时候会polling播放时间
-		[playerCore sendStringCommand: [NSString stringWithFormat:@"%@ %@", kMPCGetPropertyPreFix, kMPCTimePos]];
+		[playerCore sendStringCommand: [NSString stringWithFormat:@"%@ %@\n", kMPCGetPropertyPreFix, kMPCTimePos]];
 	}
 }
 
@@ -316,27 +299,38 @@
 
 -(void) togglePause
 {
-	pause = (!pause);
-	[playerCore sendStringCommand: kMPCTogglePauseCmd];
+	if (state != kMPCStoppedState) {
+		// 如果不是停止状态
+		[playerCore sendStringCommand: kMPCTogglePauseCmd];
+
+		if (state == kMPCPlayingState) {
+			state = kMPCPausedState;
+		} else {
+			state = kMPCPlayingState;
+		}
+	}
 }
 
 -(void) performFrameStep
 {
-	[playerCore sendStringCommand:kMPCFrameStepCmd];
-	pause = YES;
+	if (state != kMPCStoppedState) {
+		// 如果不是停止状态
+		[playerCore sendStringCommand:kMPCFrameStepCmd];
+		state = kMPCPausedState;
+	}
 }
 
 -(void) setSpeed: (float) speed
 {
 	speed = MAX(speed, 0.1);
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f", kMPCSetPropertyPreFixPauseKeep, kMPCSpeed, speed]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f\n", kMPCSetPropertyPreFixPauseKeep, kMPCSpeed, speed]]) {
 		[movieInfo.playingInfo setSpeed:[NSNumber numberWithFloat: speed]];
 	}
 }
 
 -(void) setChapter: (int) chapter
 {
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d", kMPCSetPropertyPreFix, kMPCChapter, chapter]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d\n", kMPCSetPropertyPreFix, kMPCChapter, chapter]]) {
 		[movieInfo.playingInfo setCurrentChapter: chapter];
 	}
 }
@@ -344,7 +338,7 @@
 -(float) setTimePos: (float) time
 {
 	time = MAX(time, 0);
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f", kMPCSetPropertyPreFixPauseKeep, kMPCTimePos, time]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f\n", kMPCSetPropertyPreFixPauseKeep, kMPCTimePos, time]]) {
 		[movieInfo.playingInfo setCurrentTime:[NSNumber numberWithFloat:time]];
 		return time;
 	}
@@ -354,7 +348,7 @@
 -(float) setVolume: (float) vol
 {
 	vol = MIN(100, MAX(vol, 0));
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f", kMPCSetPropertyPreFixPauseKeep, kMPCVolume, GetRealVolume(vol)]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f\n", kMPCSetPropertyPreFixPauseKeep, kMPCVolume, GetRealVolume(vol)]]) {
 		[movieInfo.playingInfo setVolume: vol];
 	}
 	return vol;
@@ -363,14 +357,14 @@
 -(void) setBalance: (float) bal
 {
 	bal = MIN(1, MAX(bal, -1));
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f", kMPCSetPropertyPreFix, kMPCAudioBalance, bal]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f\n", kMPCSetPropertyPreFix, kMPCAudioBalance, bal]]) {
 		[movieInfo.playingInfo setAudioBalance: bal];
 	}
 }
 
 -(BOOL) setMute: (BOOL) mute
 {
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d", kMPCSetPropertyPreFixPauseKeep, kMPCMute, (mute)?1:0]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d\n", kMPCSetPropertyPreFixPauseKeep, kMPCMute, (mute)?1:0]]) {
 		[movieInfo.playingInfo setMute:mute];
 	} else {
 		[movieInfo.playingInfo setMute:NO];
@@ -381,14 +375,14 @@
 
 -(void) setAudioDelay: (float) delay
 {
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f", kMPCSetPropertyPreFixPauseKeep, kMPCAudioDelay, delay]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f\n", kMPCSetPropertyPreFixPauseKeep, kMPCAudioDelay, delay]]) {
 		[movieInfo.playingInfo setAudioDelay: [NSNumber numberWithFloat: delay]];
 	}
 }
 
 -(void) setSwitchAudio: (unsigned char) audioID
 {
-	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d", kMPCSetPropertyPreFix, kMPCSwitchAudio, audioID]];	
+	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d\n", kMPCSetPropertyPreFix, kMPCSwitchAudio, audioID]];	
 }
 
 -(void) stepSubs
@@ -398,12 +392,12 @@
 
 -(void) setSub: (int) subID
 {
-	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d", kMPCSetPropertyPreFixPauseKeep, kMPCSub, subID]];
+	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d\n", kMPCSetPropertyPreFixPauseKeep, kMPCSub, subID]];
 }
 
 -(void) setSubDelay: (float) delay
 {
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f", kMPCSetPropertyPreFixPauseKeep, kMPCSubDelay, delay]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f\n", kMPCSetPropertyPreFixPauseKeep, kMPCSubDelay, delay]]) {
 		[movieInfo.playingInfo setSubDelay:[NSNumber numberWithFloat: delay]];
 	}
 }
@@ -411,7 +405,7 @@
 -(void) setSubPos: (int) pos
 {
 	pos = MIN(100, MAX(pos, 0));
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d", kMPCSetPropertyPreFix, kMPCSubPos, pos]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d\n", kMPCSetPropertyPreFix, kMPCSubPos, pos]]) {
 		[movieInfo.playingInfo setSubPos:pos];
 	}
 }
@@ -420,14 +414,14 @@
 {
 	scale = MAX(0.1, MIN(scale, 100));
 
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f", kMPCSetPropertyPreFixPauseKeep, kMPCSubScale, scale]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f\n", kMPCSetPropertyPreFixPauseKeep, kMPCSubScale, scale]]) {
 		[movieInfo.playingInfo setSubScale:[NSNumber numberWithFloat:scale]];
 	}
 }
 
 -(void) simulateKeyDown: (char) keyCode
 {
-	[playerCore sendStringCommand: [NSString stringWithFormat:@"%@ %d", kMPCKeyEventCmd, keyCode]];
+	[playerCore sendStringCommand: [NSString stringWithFormat:@"%@ %d\n", kMPCKeyEventCmd, keyCode]];
 }
 
 @end
