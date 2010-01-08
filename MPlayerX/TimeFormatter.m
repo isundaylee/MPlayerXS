@@ -26,8 +26,17 @@
 
 - (NSString *)stringForObjectValue:(id)obj
 {
-	unsigned int time = [obj unsignedIntValue];
-	unsigned int hour, minute, sec;
+	NSInteger time = [obj integerValue];
+	NSInteger hour, minute, sec;
+	NSString *formatString;
+	
+	if (time < 0) {
+		time = -time;
+		formatString = @"-";
+	} else {
+		formatString = @"";
+	}
+
 	sec = time % 60;
 	time = (time -sec) / 60;
 	
@@ -35,11 +44,11 @@
 	hour = (time - minute) / 60;
 	
 	if (hour != 0) {
-		return [NSString stringWithFormat:@"%d:%d:%d", hour, minute, sec];		
+		return [formatString stringByAppendingFormat:@"%d:%02d:%02d", hour, minute, sec];		
 	} else if (minute != 0) {
-		return [NSString stringWithFormat:@"%d:%d", minute, sec];
+		return [formatString stringByAppendingFormat:@"%d:%02d", minute, sec];
 	} else {
-		return [NSString stringWithFormat:NSLocalizedString(@"%ds", nil), sec];
+		return [formatString stringByAppendingFormat:NSLocalizedString(@"%ds", nil), sec];
 	}
 }
 
