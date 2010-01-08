@@ -57,6 +57,7 @@
 	IBOutlet NSSlider *volumeSlider;
 	IBOutlet NSTextField *timeText;
 	IBOutlet TimeSlider *timeSlider;
+	IBOutlet NSTextField *hintTime;
 	
 	IBOutlet NSView *accessaryContainer;
 	IBOutlet NSButton *toggleAcceButton;

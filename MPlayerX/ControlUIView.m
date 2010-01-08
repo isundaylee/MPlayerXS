@@ -118,6 +118,7 @@
 	[[timeText cell] setFormatter:timeFormatter];
 	[timeText setStringValue:@""];
 	[timeSlider setEnabled:NO];
+	[hintTime setAlphaValue:0];
 	
 	// 初始状态是hide
 	[fullScreenButton setHidden: YES];
@@ -507,6 +508,7 @@
 		[timeSlider setMinValue:0];
 	} else {
 		[timeSlider setEnabled:NO];
+		[hintTime.animator setAlphaValue:0];
 	}
 
 }
@@ -602,6 +604,27 @@
 {
 	NSBezierPath* fillPath = [NSBezierPath bezierPathWithRoundedRect:[self bounds] xRadius:CONTROL_CORNER_RADIUS yRadius:CONTROL_CORNER_RADIUS];
 	[fillGradient drawInBezierPath:fillPath angle:270];
+}
+
+-(void) mouseMoved:(NSEvent *)theEvent
+{
+	// 得到鼠标在CotrolUI中的位置
+	NSPoint pt = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+	NSRect frm = timeSlider.frame;
+	
+	if (NSPointInRect(pt, frm) && [timeSlider isEnabled]) {
+		// 如果鼠标在timeSlider中
+		[hintTime setStringValue:[timeFormatter stringForObjectValue:[NSNumber numberWithFloat:((pt.x-frm.origin.x) * [timeSlider maxValue])/ frm.size.width]]];
+		
+		pt.x -= ([hintTime bounds].size.width /2);
+		pt.y = frm.origin.y + frm.size.height + 2;
+		[hintTime setFrameOrigin:pt];
+		
+		[hintTime.animator setAlphaValue:1];
+		// [self setNeedsDisplay:YES];
+	} else {
+		[hintTime.animator setAlphaValue:0];
+	}
 }
 
 - (void)mouseDragged:(NSEvent *)event

@@ -97,6 +97,7 @@
 {
 	if (NSPointInRect([self convertPoint:[theEvent locationInWindow] fromView:nil], self.bounds)) {
 		[controlUI showUp];
+		[controlUI mouseMoved:theEvent];
 	}
 }
 
