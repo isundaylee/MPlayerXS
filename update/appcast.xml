@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
    <channel>
       <title>MplayerX's Changelog</title>
@@ -8,6 +8,14 @@
          <item>
             <title>Version 0.9.4</title>
 			<description><![CDATA[
+				<h2>MPlayerX X.X.X</h2>
+				2010/XX/XX
+				<ul>
+					<li>UI tweaks</li>
+					<li>when cursor moved onto the time slider, a time hint will display according to the current cusor position</li>
+					<li>Feature Delete: when pause, key → will not function "frame step" anymore, since frameStep doesn't support backward, it will cause confusion</li>
+					<li>If one Movie is finished at FullScreen, and AutoPlayNext is ON, and there really is a next Movie could be played. the Fullscreen status will continue, rather than exit</li>
+				</ul>
 				<h2>MPlayerX 0.9.4</h2>
 				2010/01/05
 				<ul>
