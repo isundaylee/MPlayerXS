@@ -47,7 +47,6 @@
 #define kMPCSub					(@"sub")
 #define kMPCSubDelay			(@"sub_delay")
 #define kMPCSubPos				(@"sub_pos")
-#define kMPCSubVisibility		(@"sub_visibility")
 #define kMPCSubScale			(@"sub_scale")
 
 // 有ID结尾的是 只用来做属性字符串的
