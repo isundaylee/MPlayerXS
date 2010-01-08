@@ -37,6 +37,12 @@
 #define PlayState	(NSOnState)
 #define PauseState	(NSOffState)
 
+@interface ControlUIView (ControlUIViewInternal)
+- (void) windowHasResized:(NSNotification *)notification;
+-(void) calculateHintTime;
+@end
+
+
 @implementation ControlUIView
 
 @synthesize autoHideTimeInterval;
@@ -47,6 +53,7 @@
 	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 					   [NSNumber numberWithFloat:100], kUDKeyVolume,
 					   [NSNumber numberWithDouble:AUTOHIDETIMEINTERNAL], kUDKeyCtrlUIAutoHideTime,
+					   [NSNumber numberWithBool:YES], kUDKeySwitchTimeHintPressOnAbusolute,
 					   nil]];
 }
 
@@ -121,8 +128,11 @@
 	[[timeText cell] setFormatter:timeFormatter];
 	[timeText setStringValue:@""];
 	[timeSlider setEnabled:NO];
-	[hintTime setAlphaValue:0];
 	
+	[hintTime setAlphaValue:0];
+	[[hintTime cell] setFormatter:timeFormatter];
+	[hintTime setStringValue:@""];
+
 	// 初始状态是hide
 	[fullScreenButton setHidden: YES];
 	
@@ -147,11 +157,18 @@
 	
 	[menuSubScaleInc setTag:1];
 	[menuSubScaleDec setTag:-1];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(windowHasResized:)
+												 name:NSWindowDidResizeNotification
+											   object:[self window]];
 }
 
 -(void) dealloc
 {
 	[autoHideTimer invalidate];
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[imVolNo release];
 	[imVolLow release];
@@ -325,6 +342,7 @@
 		[fullScreenButton setState: NSOffState];
 		[fillScreenButton setHidden: YES];
 	}
+	[hintTime.animator setAlphaValue:0];
 }
 
 -(IBAction) toggleFillScreen:(id)sender
@@ -349,6 +367,8 @@
 		
 		[self.animator setFrame:rcSelf];
 	}
+
+	[hintTime.animator setAlphaValue:0];
 }
 
 -(IBAction) changeSpeed:(id) sender
@@ -502,17 +522,23 @@
 		[timeSlider setEnabled:NO];
 		[hintTime.animator setAlphaValue:0];
 	}
-
 }
 
 -(void) gotCurentTime:(NSNumber*) timePos
 {
 	float time = [timePos floatValue];
 	
-	[timeText setIntValue:time];
-	
+	if (!([NSEvent modifierFlags] & kSCMSwitchTimeHintKeyModifierMask)) {
+		// 如果没有按cmd，显示现在的时间
+		[timeText setIntValue:time];
+	} else if ([timeSlider isEnabled]) {
+		// 按下cmd，并且有全长信息，显示影片总长度
+		[timeText setIntValue:[timeSlider maxValue]];
+	}
+
 	if ([timeSlider isEnabled]) {
 		[timeSlider setFloatValue:time];
+		[self calculateHintTime];
 	}
 }
 
@@ -598,18 +624,37 @@
 	[fillGradient drawInBezierPath:fillPath angle:270];
 }
 
--(void) mouseMoved:(NSEvent *)theEvent
+-(void) calculateHintTime
 {
-	// 得到鼠标在CotrolUI中的位置
-	NSPoint pt = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+	NSPoint pt = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
 	NSRect frm = timeSlider.frame;
 	
+	float timeDisp = ((pt.x-frm.origin.x) * [timeSlider maxValue])/ frm.size.width;;
+
+	if ((([NSEvent modifierFlags] & kSCMSwitchTimeHintKeyModifierMask)?YES:NO) != [[NSUserDefaults standardUserDefaults] boolForKey:kUDKeySwitchTimeHintPressOnAbusolute]) {
+		// 如果没有按cmd，显示时间差
+		// 否则显示绝对时间
+		timeDisp -= [timeSlider floatValue];
+	}
+	[hintTime setIntValue:timeDisp];
+}
+
+-(void) updateHintTime
+{
+	// 得到鼠标在CotrolUI中的位置
+	NSPoint pt = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
+	NSRect frm = timeSlider.frame;
+
 	if (NSPointInRect(pt, frm) && [timeSlider isEnabled]) {
 		// 如果鼠标在timeSlider中
-		[hintTime setStringValue:[timeFormatter stringForObjectValue:[NSNumber numberWithFloat:((pt.x-frm.origin.x) * [timeSlider maxValue])/ frm.size.width]]];
+		// 更新时间
+		[self calculateHintTime];
 		
-		pt.x -= ([hintTime bounds].size.width /2);
-		pt.y = frm.origin.y + frm.size.height + 2;
+		CGFloat wd = [hintTime bounds].size.width;
+		pt.x -= (wd/2);
+		pt.x = MIN(pt.x, [self bounds].size.width - wd);
+		pt.y = frm.origin.y + frm.size.height - 1;
+		
 		[hintTime setFrameOrigin:pt];
 		
 		[hintTime.animator setAlphaValue:1];
@@ -635,4 +680,8 @@
 	[self setFrameOrigin:selfFrame.origin];
 }
 
+-(void) windowHasResized:(NSNotification *)notification
+{
+	[hintTime.animator setAlphaValue:0];
+}
 @end
