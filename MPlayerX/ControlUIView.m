@@ -59,24 +59,14 @@
 
 -(void) loadButtonImages
 {
-	// 通用资源
-	NSString *resPath = [[NSBundle mainBundle] resourcePath];
-	
-	imVolNo			= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"vol_no.pdf"]];
-	imVolLow		= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"vol_low.pdf"]];
-	imVolMid		= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"vol_mid.pdf"]];
-	imVolHigh		= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"vol_high.pdf"]];
-	imFillScrnInLR	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"fillscreen_lr.pdf"]];
-	imFillScrnOutLR	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"exitfillscreen_lr.pdf"]];
-	imFillScrnInUB	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"fillscreen_ub.pdf"]];
-	imFillScrnOutUB	= [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", resPath, @"exitfillscreen_ub.pdf"]];	
-	
 	// 初始化音量大小图标
-	volumeButtonImages = [[NSArray alloc] initWithObjects:imVolNo, imVolLow, imVolMid, imVolHigh, nil];
+	volumeButtonImages = [[NSArray alloc] initWithObjects:	[NSImage imageNamed:@"vol_no"], [NSImage imageNamed:@"vol_low"],
+															[NSImage imageNamed:@"vol_mid"], [NSImage imageNamed:@"vol_high"],
+															nil];
 	// fillScreenButton初期化
 	fillScreenButtonAllImages =  [[NSDictionary alloc] initWithObjectsAndKeys: 
-								  [NSArray arrayWithObjects:imFillScrnInLR, imFillScrnOutLR, nil], kFillScreenButtonImageLRKey,
-								  [NSArray arrayWithObjects:imFillScrnInUB, imFillScrnOutUB, nil], kFillScreenButtonImageUBKey, 
+								  [NSArray arrayWithObjects:[NSImage imageNamed:@"fillscreen_lr"], [NSImage imageNamed:@"exitfillscreen_lr"], nil], kFillScreenButtonImageLRKey,
+								  [NSArray arrayWithObjects:[NSImage imageNamed:@"fillscreen_ub"], [NSImage imageNamed:@"exitfillscreen_ub"], nil], kFillScreenButtonImageUBKey, 
 								  nil];
 }
 
@@ -169,15 +159,6 @@
 	[autoHideTimer invalidate];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[imVolNo release];
-	[imVolLow release];
-	[imVolMid release];
-	[imVolHigh release];
-	[imFillScrnInLR release];
-	[imFillScrnOutLR release];
-	[imFillScrnInUB release];
-	[imFillScrnOutUB release];
 
 	[fillScreenButtonAllImages release];
 	[volumeButtonImages release];

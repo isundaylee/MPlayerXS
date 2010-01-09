@@ -37,14 +37,6 @@
 
 	NSDictionary *fillScreenButtonAllImages;
 	NSArray *volumeButtonImages;
-	NSImage *imVolNo;
-	NSImage *imVolLow;
-	NSImage *imVolMid;
-	NSImage *imVolHigh;
-	NSImage *imFillScrnInLR;
-	NSImage *imFillScrnOutLR;
-	NSImage *imFillScrnInUB;
-	NSImage *imFillScrnOutUB;
 
 	NSMenu *subListMenu;
 
