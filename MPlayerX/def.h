@@ -42,7 +42,7 @@
 #define kUDKeyQuitOnClose			(@"QuitOnClose")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
-
+#define kUDKeySelectedPrefView		(@"SelectedPrefView")
 
 #define kSCMSwitchTimeHintKeyModifierMask	(NSCommandKeyMask)
 
