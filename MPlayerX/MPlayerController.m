@@ -374,9 +374,9 @@
 	}
 }
 
--(void) setSwitchAudio: (unsigned char) audioID
+-(void) setAudio: (int) audioID
 {
-	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d\n", kMPCSetPropertyPreFix, kMPCSwitchAudio, audioID]];	
+	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d\n", kMPCSetPropertyPreFixPauseKeep, kMPCSwitchAudio, audioID]];	
 }
 
 -(void) setSub: (int) subID

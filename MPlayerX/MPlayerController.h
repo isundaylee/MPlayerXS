@@ -96,7 +96,7 @@
 
 -(void) setAudioDelay: (float) delay;
 
--(void) setSwitchAudio: (unsigned char) audioID;
+-(void) setAudio: (int) audioID;
 
 -(void) setSub: (int) subID;
 
