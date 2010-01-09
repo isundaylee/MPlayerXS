@@ -119,6 +119,17 @@
 	}
 }
 
+-(void) mouseUp:(NSEvent *)theEvent
+{
+	if ([theEvent clickCount] == 2) {
+		[controlUI performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
+													 windowNumber:0 context:nil
+													   characters:kSCMFullScrnKeyEquivalent
+									  charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
+														isARepeat:NO keyCode:0]];
+	}
+}
+
 -(void) keyDown:(NSEvent *)theEvent
 {
 	if (![shortCutManager processKeyDown:theEvent]) {
@@ -173,9 +184,12 @@
 		
 		// 得到需要缩放的content的size
 		rcWin.size.height = sz.height * ([event magnification] +1.0);
+		
 		if (fmt->width == 0) {
+			// 如果不是在播放状态，那么就根据当前的比例进行缩放
 			rcWin.size.width = sz.width * ([event magnification] +1.0);
 		} else {
+			// 如果正在播放，那么根据影片的比例进行缩放
 			rcWin.size.width = rcWin.size.height * fmt->aspect;
 		}
 
@@ -274,6 +288,7 @@
 			[[self window] setContentSize:[self calculateContentSize]];
 		}
 		[[self window] makeFirstResponder:self];
+		
 		// 必须要在退出全屏之后才能设定window level
 		[self setPlayerWindowLevel];
 	} else if (displaying) {
@@ -383,6 +398,7 @@
 -(void) adjustWindowSizeAndAspectRatio
 {
 	if ([self isInFullScreenMode]) {
+		// 如果正在全屏，那么将设定窗口size的工作放到退出全屏的时候进行
 		shouldResize = YES;
 	} else {
 		// 如果没有在全屏
