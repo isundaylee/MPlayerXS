@@ -268,8 +268,7 @@
 -(IBAction) toggleMute:(id)sender
 {
 	BOOL mute = [appController toggleMute];
-	
-	// mplayer在暂停的时候不能mute，所以要根据返回值进行重新设定
+
 	[volumeButton setState:(mute)?NSOnState:NSOffState];
 	[volumeSlider setEnabled:(!mute)];
 }
@@ -504,10 +503,6 @@
 }
 
 ////////////////////////////////////////////////mute/Volume//////////////////////////////////////////////////
--(NSInteger) mute
-{
-	return [volumeButton state];
-}
 -(float) volume
 {
 	return [volumeSlider floatValue];
