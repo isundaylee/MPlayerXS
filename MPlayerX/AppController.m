@@ -520,6 +520,11 @@
 	[mplayer setSub:subID];
 }
 
+-(void) setAudio:(int) audioID
+{
+	[mplayer setAudio:audioID];
+}
+
 /////////////////////////////////////Actions//////////////////////////////////////
 -(IBAction) openFile:(id) sender
 {

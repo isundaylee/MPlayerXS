@@ -62,6 +62,7 @@
 -(float) setSubDelay:(float) sd;
 -(float) setAudioDelay:(float) ad;
 -(void) setSubtitle:(int) subID;
+-(void) setAudio:(int) audioID;
 
 -(IBAction) openFile:(id) sender;
 
