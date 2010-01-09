@@ -46,10 +46,8 @@
 
 #define kSCMSwitchTimeHintKeyModifierMask	(NSCommandKeyMask)
 
-// 键盘快捷键定义
-#define kSCMVolumeUpKey			('=')
-#define kSCMVolumeDownKey		('-')
-
+#define kSCMVolumeUpKeyEquivalent		(@"=")
+#define kSCMVolumeDownKeyEquivalent		(@"-")
 #define kSCMSwitchAudioKeyEquivalent	(@"a")
 #define kSCMSwitchSubKeyEquivalent		(@"s")
 #define kSCMSnapShotKeyEquivalent		(@"S")
