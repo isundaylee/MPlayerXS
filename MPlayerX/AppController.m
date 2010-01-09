@@ -109,9 +109,6 @@
 	
 	// 决定是否使用64bit的mplayer
 	[mplayer.pm setPrefer64bMPlayer:[self shouldRun64bitMPlayer]];
-
-	// 设定字幕大小
-	[mplayer.pm setSubScale:[[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySubScale]];
 	
 	// 开始监听mplayer的开始/结束事件
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -272,6 +269,8 @@
 					// 为了保险期间，每次播放开始的时候
 					// 将播放开始时间重置
 					[mplayer.pm setStartTime:-1];
+					// 设定字幕大小
+					[mplayer.pm setSubScale:[[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySubScale]];
 					
 					lastPlayedPathPre = [NSString stringWithString:path];
 					[mplayer playMedia:lastPlayedPathPre];
@@ -296,6 +295,8 @@
 			path = [[url standardizedURL] absoluteString];
 			
 			[mplayer.pm setStartTime:-1];
+			// 设定字幕大小
+			[mplayer.pm setSubScale:[[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySubScale]];
 			
 			lastPlayedPathPre = [NSString stringWithString:path];
 			[mplayer playMedia:lastPlayedPathPre];
