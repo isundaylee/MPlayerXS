@@ -65,6 +65,7 @@
 	IBOutlet NSMenuItem *menuSubScaleInc;
 	IBOutlet NSMenuItem *menuSubScaleDec;
 	IBOutlet NSMenuItem *menuPlayFromLastStoppedPlace;
+	IBOutlet NSMenuItem *menuSwitchAudio;
 }
 
 @property (assign, readwrite) NSTimeInterval autoHideTimeInterval;
@@ -111,9 +112,13 @@
 -(IBAction) changeSpeed:(id) sender;
 -(IBAction) changeAudioDelay:(id) sender;
 -(IBAction) changeSubDelay:(id)sender;
+
 -(IBAction) stepSubtitles:(id)sender;
 -(IBAction) setSubWithID:(id)sender;
+
 -(IBAction) changeSubScale:(id)sender;
 -(IBAction) playFromLastStopped:(id)sender;
+
+-(IBAction) stepAudios:(id)sender;
 
 @end

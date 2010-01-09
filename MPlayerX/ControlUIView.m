@@ -77,8 +77,9 @@
 	[fullScreenButton setKeyEquivalent:kSCMFullScrnKeyEquivalent];
 	[fillScreenButton setKeyEquivalent:kSCMFillScrnKeyEquivalent];
 	[toggleAcceButton setKeyEquivalent:kSCMAcceControlKeyEquivalent];
+
 	[menuSnapshot setKeyEquivalent:kSCMSnapShotKeyEquivalent];
-	[menuSwitchSub setKeyEquivalent:kSCMStepSubKeyEquivalent];
+	[menuSwitchSub setKeyEquivalent:kSCMSwitchSubKeyEquivalent];
 	
 	[menuSubScaleInc setKeyEquivalentModifierMask:kSCMSubScaleIncreaseKeyEquivalentModifierFlagMask];
 	[menuSubScaleInc setKeyEquivalent:kSCMSubScaleIncreaseKeyEquivalent];
@@ -87,6 +88,8 @@
 	
 	[menuPlayFromLastStoppedPlace setKeyEquivalent:kSCMPlayFromLastStoppedKeyEquivalent];
 	[menuPlayFromLastStoppedPlace setKeyEquivalentModifierMask:kSCMPlayFromLastStoppedKeyEquivalentModifierFlagMask];
+	
+	[menuSwitchAudio setKeyEquivalent:kSCMSwitchAudioKeyEquivalent];
 }
 
 - (void)awakeFromNib
@@ -417,6 +420,12 @@
 	[self seekTo:timeSlider];
 }
 
+/** \warning this is a temporary implementation */
+-(IBAction) stepAudios:(id)sender
+{
+	[appController setAudio:-1];
+}
+
 ////////////////////////////////////////////////FullscreenThings//////////////////////////////////////////////////
 -(void) setFillScreenMode:(NSString*)modeKey state:(NSInteger) state
 {
@@ -454,6 +463,8 @@
 	[speedText setEnabled:YES];
 	[subDelayText setEnabled:YES];
 	[audioDelayText setEnabled:YES];
+	
+	[menuSwitchAudio setEnabled:YES];
 }
 
 /** 这个API会在两个时间点被调用，
@@ -476,6 +487,7 @@
 	[subDelayText setEnabled:NO];
 	[audioDelayText setEnabled:NO];
 	
+	[menuSwitchAudio setEnabled:NO];
 	[menuSwitchSub setEnabled:NO];
 	[menuSubScaleInc setEnabled:NO];
 	[menuSubScaleDec setEnabled:NO];
