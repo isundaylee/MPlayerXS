@@ -90,7 +90,6 @@
 {
 	[aboutText setStringValue:[NSString stringWithFormat: @"MPlayerX %@ by Niltsh@2009\nhttp://code.google.com/p/mplayerx/\nzongyao.qu@gmail.com\n\nThanks to\n\nmplayer\nhttp://www.mplayerhq.hu\n\nUniversalDetector\nhttp://wakaba.c3.cx/s/apps/unarchiver.html\n\nBGHUDAppKit\nhttp://www.binarymethod.com/bghudappkit/\n\nWenQuan MicroHei Font\nhttp://www.wenq.org", 
 															[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]]];
-	
 
 	// 初始化MPlayerController
 	NSString *resPath = [[NSBundle mainBundle] resourcePath];
@@ -241,7 +240,7 @@
 -(void) preventSystemSleep
 {
 	if (mplayer.state == kMPCPlayingState) {
-		UpdateSystemActivity(OverallAct);
+		UpdateSystemActivity(UsrActivity);
 		[self performSelector:@selector(preventSystemSleep) withObject:nil afterDelay:20];
 	}
 }
@@ -427,7 +426,7 @@
 
 -(BOOL) toggleMute
 {
-	return (mplayer.state != kMPCStoppedState)? ([mplayer setMute:((controlUI.mute == NSOnState)?YES:NO)]):NO;
+	return (mplayer.state != kMPCStoppedState)? ([mplayer setMute:!mplayer.movieInfo.playingInfo.mute]):NO;
 }
 
 -(float) setVolume:(float) vol
