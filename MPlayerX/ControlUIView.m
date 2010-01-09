@@ -424,6 +424,8 @@
 -(IBAction) stepAudios:(id)sender
 {
 	[appController setAudio:-1];
+	// 这个可能是mplayer的bug，当轮转一圈从各个音轨到无声在回到音轨时，声音会变到最大，所以这里再设定一次音量
+	[self setVolume:volumeSlider];
 }
 
 ////////////////////////////////////////////////FullscreenThings//////////////////////////////////////////////////
