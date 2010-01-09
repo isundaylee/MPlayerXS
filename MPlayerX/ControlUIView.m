@@ -54,6 +54,7 @@
 					   [NSNumber numberWithFloat:100], kUDKeyVolume,
 					   [NSNumber numberWithDouble:AUTOHIDETIMEINTERNAL], kUDKeyCtrlUIAutoHideTime,
 					   [NSNumber numberWithBool:YES], kUDKeySwitchTimeHintPressOnAbusolute,
+					   [NSNumber numberWithFloat:10], kUDKeyVolumeStep,
 					   nil]];
 }
 
@@ -90,6 +91,9 @@
 	[menuPlayFromLastStoppedPlace setKeyEquivalentModifierMask:kSCMPlayFromLastStoppedKeyEquivalentModifierFlagMask];
 	
 	[menuSwitchAudio setKeyEquivalent:kSCMSwitchAudioKeyEquivalent];
+
+	[menuVolInc setKeyEquivalent:kSCMVolumeUpKeyEquivalent];
+	[menuVolDec setKeyEquivalent:kSCMVolumeDownKeyEquivalent];
 }
 
 - (void)awakeFromNib
@@ -115,6 +119,14 @@
 	// 从userdefault中获得default 音量值
 	[volumeSlider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:kUDKeyVolume]];
 	[self setVolume:volumeSlider];
+
+	[menuVolInc setEnabled:YES];
+	[menuVolInc setTag:1];
+	
+	[menuVolDec setEnabled:YES];
+	[menuVolDec setTag:-1];
+
+	volStep = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeyVolumeStep];
 
 	// 初始化时间显示slider和text
 	timeFormatter = [[TimeFormatter alloc] init];
@@ -254,7 +266,9 @@
 	BOOL mute = [appController toggleMute];
 
 	[volumeButton setState:(mute)?NSOnState:NSOffState];
-	[volumeSlider setEnabled:(!mute)];
+	[volumeSlider setEnabled:!mute];
+	[menuVolInc setEnabled:!mute];
+	[menuVolDec setEnabled:!mute];
 }
 
 -(IBAction) setVolume:(id)sender
@@ -274,6 +288,11 @@
 		// 将音量作为UserDefaults存储
 		[[NSUserDefaults standardUserDefaults] setFloat:vol forKey:kUDKeyVolume];
 	}
+}
+
+-(IBAction) changeVolumeBy:(id)sender
+{
+	[self setVolume:[NSNumber numberWithFloat:[volumeSlider floatValue] + ([sender tag] * volStep)]];
 }
 
 -(IBAction) seekTo:(id) sender
@@ -484,6 +503,8 @@
 	// 由于mplayer无法静音开始，因此每次都要回到非静音状态
 	[volumeButton setState:NSOffState];
 	[volumeSlider setEnabled:YES];
+	[menuVolInc setEnabled:YES];
+	[menuVolDec setEnabled:YES];
 
 	[speedText setEnabled:NO];
 	[subDelayText setEnabled:NO];
@@ -497,11 +518,6 @@
 	[menuPlayFromLastStoppedPlace setTag:0];
 }
 
-////////////////////////////////////////////////mute/Volume//////////////////////////////////////////////////
--(float) volume
-{
-	return [volumeSlider floatValue];
-}
 ////////////////////////////////////////////////KVO for time//////////////////////////////////////////////////
 -(void) gotMediaLength:(NSNumber*) length
 {

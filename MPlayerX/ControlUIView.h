@@ -40,6 +40,8 @@
 
 	NSMenu *subListMenu;
 
+	float volStep;
+
 	IBOutlet AppController *appController;
 	IBOutlet RootLayerView *dispView;
 	IBOutlet NSButton *fillScreenButton;
@@ -66,13 +68,18 @@
 	IBOutlet NSMenuItem *menuSubScaleDec;
 	IBOutlet NSMenuItem *menuPlayFromLastStoppedPlace;
 	IBOutlet NSMenuItem *menuSwitchAudio;
+	IBOutlet NSMenuItem *menuVolInc;
+	IBOutlet NSMenuItem *menuVolDec;
 }
 
 @property (assign, readwrite) NSTimeInterval autoHideTimeInterval;
 
 -(IBAction) togglePlayPause:(id)sender;
 -(IBAction) toggleMute:(id)sender;
+
 -(IBAction) setVolume:(id)sender;
+-(IBAction) changeVolumeBy:(id)sender;
+
 -(IBAction) seekTo:(id) sender;
 
 -(IBAction) toggleFullScreen:(id)sender;
@@ -89,9 +96,6 @@
 ////////////////////////////////播放相关////////////////////////////////
 -(void) playBackStarted;
 -(void) playBackStopped;
-
-////////////////////////////////音量相关////////////////////////////////
--(float) volume;
 
 ////////////////////////////////KVO相关////////////////////////////////
 -(void) gotMediaLength:(NSNumber*) length;
