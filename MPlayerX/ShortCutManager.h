@@ -30,13 +30,13 @@
 	float speedStepTime;
 	float seekStepTimeLR;
 	float seekStepTimeUB;
-	float volumeStep;
 	float subDelayStepTime;
 	float audioDelayStepTime;
 
 	IBOutlet AppController *appController;
 	IBOutlet ControlUIView *controlUI;
 	IBOutlet RootLayerView *dispView;
+	IBOutlet NSMenu *mainMenu;
 }
 
 -(BOOL) processKeyDown:(NSEvent*) event;

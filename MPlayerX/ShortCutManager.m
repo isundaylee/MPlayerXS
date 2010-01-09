@@ -33,7 +33,6 @@
 					   [NSNumber numberWithFloat:0.1], kUDKeySpeedStep,
 					   [NSNumber numberWithFloat:10], kUDKeySeekStepLR,
 					   [NSNumber numberWithFloat:60], kUDKeySeekStepUB,
-					   [NSNumber numberWithFloat:10], kUDKeyVolumeStep,
 					   [NSNumber numberWithFloat:0.1], kUDKeySubDelayStepTime,
 					   [NSNumber numberWithFloat:0.1], kUDKeyAudioDelayStepTime,
 					   nil]];
@@ -45,7 +44,6 @@
 		speedStepTime = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySpeedStep];
 		seekStepTimeLR = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySeekStepLR];
 		seekStepTimeUB = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySeekStepUB];
-		volumeStep = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeyVolumeStep];
 		appleRemoteControl = [[AppleRemote alloc] initWithDelegate:self];
 		subDelayStepTime = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySubDelayStepTime];
 		audioDelayStepTime = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeyAudioDelayStepTime];
@@ -166,12 +164,6 @@
 					case NSDownArrowFunctionKey:
 						[appController changeTimeBy:-seekStepTimeUB];
 						break;
-					case kSCMVolumeUpKey:
-						[controlUI setVolume:[NSNumber numberWithFloat:[controlUI volume] + volumeStep]];
-						break;
-					case kSCMVolumeDownKey:
-						[controlUI setVolume:[NSNumber numberWithFloat:[controlUI volume] - volumeStep]];
-						break;
 					default:
 						ret = NO;
 						break;
@@ -194,16 +186,19 @@
 	unichar key = 0;
 	int type = kSCMTypeNone;
 	NSString *keyEqTemp = nil;
-	
+	id keyEquivalentHolder = controlUI;
+
 	if (pressedDown) {
 		switch(event) {
 			case kRemoteButtonPlus:
-				key = kSCMVolumeUpKey;
-				type = kSCMTypeKeyDownEvent;
+				keyEqTemp = kSCMVolumeUpKeyEquivalent;
+				type = kSCMTypeKeyEquivalent;
+				keyEquivalentHolder = mainMenu;
 				break;
 			case kRemoteButtonMinus:
-				key = kSCMVolumeDownKey;
-				type = kSCMTypeKeyDownEvent;
+				keyEqTemp = kSCMVolumeDownKeyEquivalent;
+				type = kSCMTypeKeyEquivalent;
+				keyEquivalentHolder = mainMenu;
 				break;			
 			case kRemoteButtonMenu:
 				keyEqTemp = kSCMFullScrnKeyEquivalent;
@@ -253,11 +248,11 @@
 												 isARepeat:NO keyCode:0]];
 			
 		} else if (kSCMTypeKeyEquivalent == type) {
-			[controlUI performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
-														 windowNumber:0 context:nil
-														   characters:keyEqTemp
-										  charactersIgnoringModifiers:keyEqTemp
-															isARepeat:NO keyCode:0]];			
+			[keyEquivalentHolder performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
+																   windowNumber:0 context:nil
+																	 characters:keyEqTemp
+													charactersIgnoringModifiers:keyEqTemp
+																	  isARepeat:NO keyCode:0]];			
 		}			
 	}
 }
