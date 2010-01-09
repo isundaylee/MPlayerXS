@@ -33,7 +33,7 @@
 
 -(void) awakeFromNib
 {
-	im = [[NSImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], @"resizeindicator.png"]];
+	im = [NSImage imageNamed: @"resizeindicator"];
 	imRect = NSMakeRect(0, 0, [im size].width, [im size].height);
 }
 
