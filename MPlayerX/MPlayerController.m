@@ -67,11 +67,11 @@
 	if (self = [super init]) {
 		state = kMPCStoppedState;
 		
-		movieInfo = [[MovieInfo alloc] init];
-		la = [[LogAnalyzer alloc] initWithDelegate:movieInfo];
-
 		pm = [[ParameterManager alloc] init];
-		[pm synchronizePlayingInfo:[movieInfo playingInfo]];
+		movieInfo = [[MovieInfo alloc] init];
+
+		la = [[LogAnalyzer alloc] initWithDelegate:movieInfo];
+		[movieInfo resetWithParameterManager:pm];
 		
 		playerCore = [[PlayerCore alloc] init];
 		[playerCore setDelegate:self];
@@ -128,21 +128,17 @@
 //////////////////////////////////////////////comunication with playerCore/////////////////////////////////////////////////////
 -(void) playerTaskTerminated: (BOOL) byForce from:(id)sender
 {
-	// 如果是强制中断的话，记录下现在的播放时间
-	NSNumber *stopTime = [[[movieInfo.playingInfo currentTime] retain] autorelease];
-	
 	state = kMPCStoppedState;
 
 	// 这个Delegate方法，可能发生在主线程（当调用playerCore的terminate方法），也可能发生在Player线程（播放过程结束）
 	// 而这里需要销毁的东西，会在主线程里读写，因此，销毁工作必须放在主线程里进行
 	// 要保证执行顺序，需要waitUntilDone为YES
 
-	// 为了保证执行顺序，要先清理主线程上的东西，然后设定播放状态，才能通知
 	// 在MplayerController的playerStopped的方法里面，会根据playing状态设定window level
-	// 因此要先设定playing再通知
+	// 因此要先设定state再通知
 	[self performSelectorOnMainThread:@selector(playerTaskTerminatedOnMainThread:)
 						   withObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:byForce], kMPCPlayStoppedByForceKey,
-																				 stopTime, kMPCPlayStoppedTimeKey, nil]
+																				 [[[movieInfo.playingInfo currentTime] retain] autorelease], kMPCPlayStoppedTimeKey, nil]
 						waitUntilDone:YES];
 	NSLog(@"term:%d", byForce);
 }
@@ -152,8 +148,7 @@
 	// Timer是在主线程上创建的，所以要在主线程上销毁
 	SAFERELEASETIMER(pollingTimer);
 	[la stop];
-	[movieInfo reset];
-	[pm synchronizePlayingInfo: movieInfo.playingInfo];
+	[movieInfo resetWithParameterManager:pm];
 	SAFERELEASE(sharedBufferName);
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayStoppedNotification 
@@ -253,8 +248,7 @@
 	}
 
 	// 重置影片信息，同步PlayingInfo
-	[movieInfo reset];
-	[pm synchronizePlayingInfo: movieInfo.playingInfo];
+	[movieInfo resetWithParameterManager:pm];
 	
 	NSLog(@"%@", [pm arrayOfParametersWithName:sharedBufferName]);
 	

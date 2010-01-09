@@ -94,7 +94,6 @@
 /** 成功发送的话，playingInfo的mute属性会被更新 */
 -(BOOL) setMute: (BOOL) mute;
 
-/** 成功发送的话，playingInfo的mute属性会被更新 */
 -(void) setAudioDelay: (float) delay;
 
 -(void) setSwitchAudio: (unsigned char) audioID;
@@ -103,8 +102,10 @@
 
 /** 成功发送的话，playingInfo的subDelay属性会被更新 */
 -(void) setSubDelay: (float) delay;
+
 /** 成功发送的话，playingInfo的subPos属性会被更新 */
 -(void) setSubPos: (int) pos;
+
 /** 成功发送的话，playingInfo的subScale属性会被更新 */
 -(void) setSubScale: (float) scale;
 
