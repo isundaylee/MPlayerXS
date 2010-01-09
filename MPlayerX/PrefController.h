@@ -24,10 +24,24 @@
 
 @interface PrefController : NSObject
 {
+	BOOL nibLoaded;
+	NSArray *prefViews;
+	
+	IBOutlet NSWindow *prefWin;
+	IBOutlet NSToolbar *prefToolbar;
+	IBOutlet NSView *viewGeneral;
+	IBOutlet NSView *viewDisplay;
+	
     IBOutlet AppController *appController;
     IBOutlet RootLayerView *dispView;
 }
 
+@property (readonly) NSWindow *prefWin;
+
+-(IBAction) showUI:(id)sender;
+-(IBAction) switchViews:(id)sender;
+
 - (IBAction)multiThreadChanged:(id)sender;
 - (IBAction)onTopModeChanged:(id)sender;
+
 @end
