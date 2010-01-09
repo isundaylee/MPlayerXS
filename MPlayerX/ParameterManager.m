@@ -21,7 +21,6 @@
 #import "coredef_private.h"
 #import "ParameterManager.h"
 #import <UniversalDetector/UniversalDetector.h>
-#import "PlayingInfo.h"
 
 #define kPMDefaultFontPath			(@"/System/Library/Fonts/HelveticaNeue.ttc")
 
@@ -67,7 +66,6 @@
 																	haveKey, @"srt", haveKey, @"ass", 
 																	haveKey, @"smi", haveKey, @"rt", 
 																	haveKey, @"txt", haveKey, @"ssa", 
-																	haveKey, @"aqt", haveKey, @"jss", 
 																	nil];
 		subEncodeLangDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"CHS", @"GB18030",
 																		 @"CHS", @"GBK",
@@ -88,10 +86,11 @@
 		ao = [[NSString alloc] initWithString:kPMDefaultAudioOutput];
 		vo = [[NSString alloc] initWithString:kPMDefaultVideoOutput];
 		subPreferedLanguage = [[NSString alloc] initWithString:kPMDefaultSubLang];
+		
 		ass.enabled = YES;
 		ass.frontColor = 0xFFFFFF00; //RRGGBBAA
 		ass.fontScale = 1.5;
-		ass.borderColor = 0x00000000; //RRGGBBAA
+		ass.borderColor = 0x0000000F; //RRGGBBAA
 		ass.forceStyle = [NSString stringWithString:@"BorderStyle=1,Outline=1"];
 
 		prefer64bMPlayer = YES;
@@ -127,13 +126,6 @@
 	threads = MIN(kPMThreadsNumMax, th);
 }
 
--(void) synchronizePlayingInfo:(PlayingInfo*) pi
-{
-	[pi setVolume: volume];
-	[pi setSubPos: subPos];
-	[pi setSubScale: [NSNumber numberWithFloat:(ass.enabled)?(ass.fontScale):subScale]];
-}
-
 -(void) disableAudio
 {
 	[ao release];
@@ -156,6 +148,11 @@
 {
 	[vo release];
 	vo = [[NSString alloc] initWithString:kPMDefaultVideoOutput];
+}
+
+-(float) subScaleInternal
+{
+	return (ass.enabled)?ass.fontScale:subScale;
 }
 
 -(NSArray *) arrayOfParametersWithName:(NSString*) name

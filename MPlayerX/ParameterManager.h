@@ -20,8 +20,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class PlayingInfo;
-
 typedef struct
 {
 	BOOL enabled;
@@ -74,12 +72,11 @@ typedef struct
 -(void) enableAudio;
 -(void) disableVideo;
 -(void) enableVideo;
+-(float) subScaleInternal;
 
 -(NSArray *) arrayOfParametersWithName:(NSString*) name;
 
 #define kParameterManagerSetSubCPIfGuessedOut  (1)
 -(NSString*) getCPFromMoviePath:(NSString*)moviePath withOptions:(unsigned long)options;
-
--(void) synchronizePlayingInfo:(PlayingInfo*) pi;
 
 @end
