@@ -25,6 +25,8 @@
 #import "VideoInfo.h"
 #import "AudioInfo.h"
 
+@class ParameterManager;
+
 @interface MovieInfo : NSObject <LogAnalyzerDelegate>
 {
 	NSString *demuxer;
@@ -58,5 +60,5 @@
 @property (retain, readwrite) NSMutableArray *audioInfo;
 @property (retain, readwrite) NSArray *subInfo;
 
--(void) reset;
+-(void) resetWithParameterManager:(ParameterManager*)pm;
 @end

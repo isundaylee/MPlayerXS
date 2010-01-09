@@ -20,6 +20,7 @@
 
 #import "MovieInfo.h"
 #import "coredef_private.h"
+#import "ParameterManager.h"
 
 @interface MovieInfo (LogAnalyzerDelegate)
 -(void) logAnalyzeFinished:(NSDictionary*) dict;
@@ -86,9 +87,9 @@
 	[super dealloc];
 }
 
--(void) reset
+-(void) resetWithParameterManager:(ParameterManager*)pm
 {
-	[playingInfo reset];
+	[playingInfo resetWithParameterManager:pm];
 	[metaData removeAllObjects];
 	[videoInfo removeAllObjects];
 	[audioInfo removeAllObjects];
