@@ -351,6 +351,25 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
+								<object class="NSMenuItem" id="848891455">
+									<reference key="NSMenu" ref="891719963"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsSeparator">YES</bool>
+									<string key="NSTitle"/>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="290781217">
+									<reference key="NSMenu" ref="891719963"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<string key="NSTitle">Switch Audio</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
 								<object class="NSMenuItem" id="406411077">
 									<reference key="NSMenu" ref="891719963"/>
 									<bool key="NSIsDisabled">YES</bool>
@@ -1862,6 +1881,22 @@
 					</object>
 					<int key="connectionID">852</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">stepAudios:</string>
+						<reference key="source" ref="85098728"/>
+						<reference key="destination" ref="290781217"/>
+					</object>
+					<int key="connectionID">855</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">menuSwitchAudio</string>
+						<reference key="source" ref="85098728"/>
+						<reference key="destination" ref="290781217"/>
+					</object>
+					<int key="connectionID">856</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -2612,6 +2647,8 @@
 							<reference ref="1012303407"/>
 							<reference ref="666544122"/>
 							<reference ref="406411077"/>
+							<reference ref="290781217"/>
+							<reference ref="848891455"/>
 						</object>
 						<reference key="parent" ref="95117089"/>
 					</object>
@@ -2675,6 +2712,16 @@
 						<int key="objectID">850</int>
 						<reference key="object" ref="607023488"/>
 						<reference key="parent" ref="663614641"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">853</int>
+						<reference key="object" ref="290781217"/>
+						<reference key="parent" ref="891719963"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">854</int>
+						<reference key="object" ref="848891455"/>
+						<reference key="parent" ref="891719963"/>
 					</object>
 				</object>
 			</object>
@@ -2877,6 +2924,8 @@
 					<string>849.IBViewIntegration.shadowOffsetHeight</string>
 					<string>849.IBViewIntegration.shadowOffsetWidth</string>
 					<string>850.IBPluginDependency</string>
+					<string>853.IBPluginDependency</string>
+					<string>854.IBPluginDependency</string>
 					<string>92.IBPluginDependency</string>
 					<string>92.ImportedFromIB2</string>
 				</object>
@@ -3117,7 +3166,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{939, 880}, {244, 123}}</string>
+					<string>{{939, 850}, {244, 153}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3144,6 +3193,8 @@
 					<real value="0.0"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 				</object>
 			</object>
@@ -3163,7 +3214,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">852</int>
+			<int key="maxID">856</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3218,6 +3269,7 @@
 							<string>seekTo:</string>
 							<string>setSubWithID:</string>
 							<string>setVolume:</string>
+							<string>stepAudios:</string>
 							<string>stepSubtitles:</string>
 							<string>toggleAccessaryControls:</string>
 							<string>toggleFillScreen:</string>
@@ -3227,6 +3279,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3258,6 +3311,7 @@
 							<string>menuSnapshot</string>
 							<string>menuSubScaleDec</string>
 							<string>menuSubScaleInc</string>
+							<string>menuSwitchAudio</string>
 							<string>menuSwitchSub</string>
 							<string>playPauseButton</string>
 							<string>rzIndicator</string>
@@ -3278,6 +3332,7 @@
 							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSTextField</string>
+							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
