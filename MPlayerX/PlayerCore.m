@@ -199,7 +199,7 @@
 #pragma mark Internal 
 - (void) readOutput:(NSNotification *)notification
 {
-	NSData *data = [[notification userInfo] objectForKey:@"NSFileHandleNotificationDataItem"];
+	NSData *data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
 	
 	if (task && [task isRunning] && ([data length] != 0)) {
 		if (delegate) {
@@ -210,7 +210,7 @@
 
 - (void) readError:(NSNotification *)notification
 {
-	NSData *data = [[notification userInfo] objectForKey:@"NSFileHandleNotificationDataItem"];
+	NSData *data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
 	
 	if (task && [task isRunning] && ([data length] != 0)) {
 		if (delegate) {
