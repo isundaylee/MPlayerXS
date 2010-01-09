@@ -20,6 +20,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class ParameterManager;
+
 @interface PlayingInfo : NSObject 
 {
 	unsigned char	currentChapter;
@@ -50,6 +52,7 @@
 @property(assign, readwrite) unsigned char subPos;
 @property(retain, readwrite) NSNumber * subScale;
 @property(retain, readwrite) NSNumber *speed;
--(void) reset;
+
+-(void) resetWithParameterManager:(ParameterManager*)pm;
 
 @end

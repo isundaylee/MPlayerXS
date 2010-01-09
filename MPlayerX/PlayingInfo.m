@@ -19,7 +19,7 @@
  */
 
 #import "PlayingInfo.h"
-
+#import "ParameterManager.h"
 
 @implementation PlayingInfo
 
@@ -67,19 +67,19 @@
 	[super dealloc];
 }
 
--(void) reset
-{
+-(void) resetWithParameterManager:(ParameterManager*)pm
+{	
 	currentChapter = 0;
 	[self setCurrentTime:[NSNumber numberWithFloat:0]];
 	currentAudio = 0;
 	currentSub = 0;
-	volume = 100;
+	volume = pm.volume;
 	audioBalance = 0;
 	mute = NO;
 	[self setAudioDelay:[NSNumber numberWithFloat:0]];
 	[self setSubDelay:[NSNumber numberWithFloat:0]];
-	subPos = 100;
-	[self setSubScale:[NSNumber numberWithFloat:4]];
+	subPos = pm.subPos;
+	[self setSubScale:[NSNumber numberWithFloat:[pm subScaleInternal]]];
 	[self setSpeed:[NSNumber numberWithFloat:1]];
 }
 @end
