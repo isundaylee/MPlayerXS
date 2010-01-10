@@ -539,10 +539,12 @@
 	
 	if (!([NSEvent modifierFlags] & kSCMSwitchTimeHintKeyModifierMask)) {
 		// 如果没有按cmd，显示现在的时间
-		[timeText setIntValue:time];
+		// 有四舍五入
+		[timeText setIntValue:time + 0.5];
 	} else if ([timeSlider isEnabled]) {
 		// 按下cmd，并且有全长信息，显示影片总长度
-		[timeText setIntValue:[timeSlider maxValue]];
+		// [timeSlider maxValue] 是准确值，所以要四舍五入
+		[timeText setIntValue:[timeSlider maxValue] + 0.5];
 	}
 
 	if ([timeSlider isEnabled]) {
@@ -645,7 +647,7 @@
 		// 否则显示绝对时间
 		timeDisp -= [timeSlider floatValue];
 	}
-	[hintTime setIntValue:timeDisp];
+	[hintTime setIntValue:timeDisp + ((timeDisp>0)?0.5:-0.5)];
 }
 
 -(void) updateHintTime
