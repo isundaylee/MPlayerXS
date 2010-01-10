@@ -176,6 +176,22 @@
 	
 	// 设定手动更新
 	[[SUUpdater sharedUpdater] setAutomaticallyChecksForUpdates:NO];
+	
+	NSFileManager *fm = [NSFileManager defaultManager];
+	BOOL isDir = NO;
+	NSString *subConvWorkDirectory = [homeDirectory stringByAppendingString:@"/Library/Application Support/MPlayerX"];
+
+	if (!([fm fileExistsAtPath:subConvWorkDirectory isDirectory:&isDir] && isDir)) {
+		// 如果没有这个文件夹
+		if (![fm createDirectoryAtPath:subConvWorkDirectory withIntermediateDirectories:YES attributes:nil error:NULL]) {
+			// 如果文件夹创建失败
+			subConvWorkDirectory = nil;
+		}
+	}
+	
+	[mplayer setSubConvWorkDir:subConvWorkDirectory];
+	
+	[mplayer clearSubConvWorkDir];
 }
 
 -(void) dealloc
@@ -352,6 +368,8 @@
 
 -(void) mplayerStopped:(NSNotification *)notification
 {
+	[mplayer clearSubConvWorkDir];
+	
 	[window setTitle: @"MPlayerX"];
 	[controlUI playBackStopped];
 	
@@ -572,7 +590,7 @@
 															   NSHomeDirectory(), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
 
 	[bookmarks writeToFile:lastStoppedTimePath atomically:YES];
-
+	
 	return NSTerminateNow;	
 }
 
