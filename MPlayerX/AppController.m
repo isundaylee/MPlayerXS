@@ -93,7 +93,8 @@
 															[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
 
 	// 初始化MPlayerController
-	NSString *resPath = [[NSBundle mainBundle] resourcePath];
+	NSBundle *mainBundle = [NSBundle mainBundle];
+	NSString *homeDirectory = NSHomeDirectory();
 	
 	[self setMultiThreadMode:[[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyEnableMultiThread]];
 	
@@ -102,7 +103,7 @@
 	
 	if ([subFontPath isEqualToString:kMPCDefaultSubFontPath]) {
 		// 如果是默认的路径的话，需要添加一些路径头
-		[mplayer.pm setSubFont:[resPath stringByAppendingString:subFontPath]];
+		[mplayer.pm setSubFont:[[mainBundle resourcePath] stringByAppendingString:subFontPath]];
 	} else {
 		// 否则直接设定
 		[mplayer.pm setSubFont:subFontPath];
@@ -151,7 +152,7 @@
 				 context:NULL];
 
 	// 建立支持格式的Set
-	for( NSDictionary *dict in [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDocumentTypes"]) {
+	for( NSDictionary *dict in [mainBundle objectForInfoDictionaryKey:@"CFBundleDocumentTypes"]) {
 		// 对不同种类的格式
 		if ([[dict objectForKey:@"CFBundleTypeName"] isEqualToString:@"Audio Media"]) {
 			// 如果是音频文件
@@ -164,7 +165,7 @@
 	
 	// 得到书签的文件名
 	NSString *lastStoppedTimePath = [NSString stringWithFormat:@"%@/Library/Preferences/%@.bookmarks.plist", 
-															   NSHomeDirectory(), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
+															   homeDirectory, [mainBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
 	
 	// 得到记录播放时间的dict
 	bookmarks = [[NSMutableDictionary alloc] initWithContentsOfFile:lastStoppedTimePath];
