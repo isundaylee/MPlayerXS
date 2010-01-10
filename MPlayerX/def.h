@@ -24,7 +24,7 @@
 #define kUDKeyVolume				(@"volume")
 #define kUDKeyOnTopMode				(@"OnTopMode")
 #define kUDKeyCtrlUIAutoHideTime	(@"CtrlUIAutoHideTime")
-#define kUDKeySpeedStep				(@"SpeedStepTime")
+#define kUDKeySpeedStep				(@"SpeedStepIncre")
 #define kUDKeySeekStepLR			(@"SeekStepTimeLR")
 #define kUDKeySeekStepUB			(@"SeekStepTimeUB")
 #define kUDKeyVolumeStep			(@"VolumeStep")

@@ -27,7 +27,7 @@
 {
 	AppleRemote *appleRemoteControl;
 	
-	float speedStepTime;
+	float speedStepIncre;
 	float seekStepTimeLR;
 	float seekStepTimeUB;
 	float subDelayStepTime;

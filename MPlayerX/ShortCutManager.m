@@ -41,7 +41,7 @@
 -(id) init
 {
 	if (self = [super init]) {		
-		speedStepTime = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySpeedStep];
+		speedStepIncre = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySpeedStep];
 		seekStepTimeLR = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySeekStepLR];
 		seekStepTimeUB = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySeekStepUB];
 		appleRemoteControl = [[AppleRemote alloc] initWithDelegate:self];
@@ -92,10 +92,10 @@
 				switch (key)
 				{
 					case NSUpArrowFunctionKey:
-						[appController changeSpeedBy:speedStepTime];
+						[appController changeSpeedBy:speedStepIncre];
 						break;
 					case NSDownArrowFunctionKey:
-						[appController changeSpeedBy:-speedStepTime];
+						[appController changeSpeedBy:-speedStepIncre];
 						break;
 					case NSLeftArrowFunctionKey:
 						[appController setSpeed:1];
