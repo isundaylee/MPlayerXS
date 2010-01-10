@@ -76,6 +76,6 @@ typedef struct
 
 -(NSArray *) arrayOfParametersWithName:(NSString*) name;
 
--(NSString*) getCPFromMoviePath:(NSString*)moviePath;
+-(NSDictionary*) getCPFromMoviePath:(NSString*)moviePath;
 
 @end

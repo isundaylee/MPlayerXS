@@ -260,10 +260,12 @@
 	return [paramArray autorelease];
 }
 
--(NSString*) getCPFromMoviePath:(NSString*)moviePath
+-(NSDictionary*) getCPFromMoviePath:(NSString*)moviePath
 {
 	NSString *cpStr = nil;
-	
+	NSString *subPath = nil;
+	NSMutableDictionary *subEncDict = [[NSMutableDictionary alloc] initWithCapacity:2];
+
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	UniversalDetector *dt = [[UniversalDetector alloc] init];
 	
@@ -297,18 +299,27 @@
 					break;
 			}
 			
-			[dt analyzeContentsOfFile: [NSString stringWithFormat:@"%@/%@", directoryPath, path]];
+			subPath = [NSString stringWithFormat:@"%@/%@", directoryPath, path];
 			
-			if ([dt confidence] >= 0.5) {
-				cpStr = [[NSString alloc] initWithString: [[dt MIMECharset] uppercaseString]];
-				break;
+			[dt analyzeContentsOfFile: subPath];
+			
+			cpStr = [dt MIMECharset];
+			
+			if (cpStr) {
+				// 如果猜出来了，不管有多少的确认率
+				[subEncDict setObject:[cpStr uppercaseString] forKey:subPath];
+			} else {
+				// 如果没有才出来，那么设为空
+				[subEncDict setObject:@"" forKey:subPath];
 			}
+
+			[dt reset];
 		}
 	}
 	[dt release];
 	[pool release];
 
-	return [cpStr autorelease];	
+	return [subEncDict autorelease];	
 }
 
 @end
