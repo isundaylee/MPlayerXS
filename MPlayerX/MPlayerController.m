@@ -244,7 +244,9 @@
 
 	// 如果想要自动获得字幕文件的codepage，需要调用这个函数
 	if ([pm guessSubCP]) {
-		[pm getCPFromMoviePath:moviePath withOptions: kParameterManagerSetSubCPIfGuessedOut];
+		[pm setSubCP:[pm getCPFromMoviePath:moviePath]];
+	} else {
+		[pm setSubCP:nil];
 	}
 
 	// 重置影片信息，同步PlayingInfo

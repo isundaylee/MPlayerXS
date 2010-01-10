@@ -76,7 +76,6 @@ typedef struct
 
 -(NSArray *) arrayOfParametersWithName:(NSString*) name;
 
-#define kParameterManagerSetSubCPIfGuessedOut  (1)
--(NSString*) getCPFromMoviePath:(NSString*)moviePath withOptions:(unsigned long)options;
+-(NSString*) getCPFromMoviePath:(NSString*)moviePath;
 
 @end

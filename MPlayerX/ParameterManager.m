@@ -95,7 +95,7 @@
 
 		prefer64bMPlayer = YES;
 		guessSubCP = YES;
-		startTime = 0.0f;
+		startTime = -1;
 		volume = 100;
 		subPos = 100;
 		subAlign = 2;
@@ -201,7 +201,7 @@
 		[paramArray addObject:[NSString stringWithFormat: @"%@",subPreferedLanguage]];		
 	}
 	
-	if (((unsigned int)startTime) > 0) {
+	if (startTime > 0) {
 		[paramArray addObject:@"-ss"];
 		[paramArray addObject:[NSString stringWithFormat: @"%.1f",startTime]];
 	}
@@ -260,7 +260,7 @@
 	return [paramArray autorelease];
 }
 
--(NSString*) getCPFromMoviePath:(NSString*)moviePath withOptions:(unsigned long)options
+-(NSString*) getCPFromMoviePath:(NSString*)moviePath
 {
 	NSString *cpStr = nil;
 	
@@ -292,6 +292,7 @@
 					break; // any sub file is OK
 				case kPMSubCPRuleContainName:
 					if ([path rangeOfString: movieName].location == NSNotFound) continue; // contain the movieName
+					break;
 				default:
 					break;
 			}
@@ -306,10 +307,7 @@
 	}
 	[dt release];
 	[pool release];
-	
-	if ((options & kParameterManagerSetSubCPIfGuessedOut) && cpStr) {
-		[self setSubCP:cpStr];
-	}
+
 	return [cpStr autorelease];	
 }
 
