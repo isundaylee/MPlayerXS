@@ -63,11 +63,7 @@
 	{
 		NSNumber *haveKey = [NSNumber numberWithBool:YES];
 
-		subFileExts = [[NSDictionary alloc] initWithObjectsAndKeys:	haveKey, @"utf", haveKey, @"utf8", 
-																	haveKey, @"srt", haveKey, @"ass", 
-																	haveKey, @"smi", haveKey, @"rt", 
-																	haveKey, @"txt", haveKey, @"ssa", 
-																	nil];
+		subFileExts = [[NSSet alloc] initWithObjects:@"utf", @"utf8", @"srt", @"ass", @"smi", @"rt", @"txt", @"ssa", nil];
 		subEncodeLangDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"CHS", @"GB18030",
 																		 @"CHS", @"GBK",
 																		 @"CHS", @"EUC-CN",
@@ -303,7 +299,7 @@
 		if ([fileAttr objectForKey:NSFileType] == NSFileTypeDirectory) { //不遍历子目录
 			[directoryEnumerator skipDescendants];
 			
-		} else if(([[fileAttr objectForKey:NSFileType] isEqualToString: NSFileTypeRegular]) && [subFileExts objectForKey: [path pathExtension]]) {
+		} else if(([[fileAttr objectForKey:NSFileType] isEqualToString: NSFileTypeRegular]) && [subFileExts containsObject: [path pathExtension]]) {
 			// 如果是普通的字幕文件
 			switch (subFuzziness) {
 				case kPMSubCPRuleExactMatchName:
