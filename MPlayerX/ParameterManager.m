@@ -54,6 +54,7 @@
 @synthesize subFont;
 @synthesize subCP;
 @synthesize threads;
+@synthesize subs;
 
 #pragma mark Init/Dealloc
 -(id) init
@@ -103,21 +104,24 @@
 		subFont = nil;
 		subCP = nil;
 		threads = 1;
+		subs = nil;
 	}
 	return self;
 }
 
 -(void) dealloc
 {
-	SAFERELEASE(subFileExts);
-	SAFERELEASE(subEncodeLangDict);
-	SAFERELEASE(subLangDefaultSubFontDict);
-	SAFERELEASE(font);
-	SAFERELEASE(ao);
-	SAFERELEASE(vo);
-	SAFERELEASE(subPreferedLanguage);
-	SAFERELEASE(subFont);
-	SAFERELEASE(subCP);
+	[subFileExts release];
+	[subEncodeLangDict release];
+	[subLangDefaultSubFontDict release];
+	[font release];
+	[ao release];
+	[vo release];
+	[subPreferedLanguage release];
+	[subFont release];
+	[subCP release];
+	[subs release];
+	
 	[super dealloc];
 }
 
@@ -257,6 +261,21 @@
 		[paramArray addObject:@"-ass-force-style"];
 		[paramArray addObject:[NSString stringWithFormat: @"%@", ass.forceStyle]];
 	}
+	
+	if (subs && [subs count]) {
+		[paramArray addObject:@"-noautosub"];
+		[paramArray addObject:@"-sub"];
+		
+		NSString *str = [subs objectAtIndex:0];
+		
+		NSUInteger i;
+		NSUInteger cnt = [subs count];
+		for (i = 1; i < cnt; i++) {
+			str = [str stringByAppendingFormat:@",%@", [subs objectAtIndex:i]];
+		}
+		[paramArray addObject:str];
+	}
+
 	return [paramArray autorelease];
 }
 

@@ -55,6 +55,7 @@ typedef struct
 	NSString *subFont;
 	NSString *subCP;
 	unsigned int threads;
+	NSArray *subs;
 }
 
 @property (assign, readwrite) BOOL prefer64bMPlayer;
@@ -67,6 +68,7 @@ typedef struct
 @property (retain, readwrite) NSString *subFont;
 @property (retain, readwrite) NSString *subCP;
 @property (assign, readwrite) unsigned int threads;
+@property (retain, readwrite) NSArray *subs;
 
 -(void) disableAudio;
 -(void) enableAudio;
