@@ -38,8 +38,9 @@
 #define kUDKeyEnableMultiThread		(@"EnableMultiThread")
 #define kUDKeySubScale				(@"SubScale")
 #define kUDKeySubScaleStepValue		(@"SubScaleStepValue")
-#define kUDKeySwitchTimeHintPressOnAbusolute	(@"SwitchTHPrsOnAbs")
+#define kUDKeySwitchTimeHintPressOnAbusolute	(@"TimeHintPrsOnAbs")
 #define kUDKeyQuitOnClose			(@"QuitOnClose")
+#define kUDKeySwitchTimeTextPressOnRemain		(@"TimeTextPrsOnRemain")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")
