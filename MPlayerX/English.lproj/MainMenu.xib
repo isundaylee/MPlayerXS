@@ -1956,6 +1956,14 @@
 					</object>
 					<int key="connectionID">863</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">controlUI</string>
+						<reference key="source" ref="924801219"/>
+						<reference key="destination" ref="85098728"/>
+					</object>
+					<int key="connectionID">864</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -3289,7 +3297,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">863</int>
+			<int key="maxID">864</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3512,6 +3520,7 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>appController</string>
+							<string>controlUI</string>
 							<string>dispView</string>
 							<string>prefToolbar</string>
 							<string>prefWin</string>
@@ -3521,6 +3530,7 @@
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>AppController</string>
+							<string>ControlUIView</string>
 							<string>RootLayerView</string>
 							<string>NSToolbar</string>
 							<string>NSWindow</string>

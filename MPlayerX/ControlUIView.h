@@ -41,6 +41,7 @@
 	NSMenu *subListMenu;
 
 	float volStep;
+	BOOL hintTimePrsOnAbs;
 
 	IBOutlet AppController *appController;
 	IBOutlet RootLayerView *dispView;
@@ -73,6 +74,7 @@
 }
 
 @property (assign, readwrite) NSTimeInterval autoHideTimeInterval;
+@property (assign, readwrite) BOOL hintTimePrsOnAbs;
 
 -(IBAction) togglePlayPause:(id)sender;
 -(IBAction) toggleMute:(id)sender;

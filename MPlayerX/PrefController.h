@@ -20,7 +20,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class AppController, RootLayerView;
+@class AppController, RootLayerView, ControlUIView;
 
 @interface PrefController : NSObject
 {
@@ -34,6 +34,7 @@
 	
     IBOutlet AppController *appController;
     IBOutlet RootLayerView *dispView;
+	IBOutlet ControlUIView *controlUI;
 }
 
 @property (readonly) NSWindow *prefWin;
@@ -43,5 +44,6 @@
 
 - (IBAction)multiThreadChanged:(id)sender;
 - (IBAction)onTopModeChanged:(id)sender;
+- (IBAction)hintTimeModeChanged:(id)sender;
 
 @end

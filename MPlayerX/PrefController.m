@@ -22,6 +22,7 @@
 #import "PrefController.h"
 #import "AppController.h"
 #import "RootLayerView.h"
+#import "ControlUIView.h"
 
 #define PrefToolBarItemIdGeneral	(@"TBIGeneral")
 #define PrefToolBarItemIdDisplay	(@"TBIDisplay")
@@ -103,6 +104,11 @@
 - (IBAction)onTopModeChanged:(id)sender
 {
 	[dispView setPlayerWindowLevel];
+}
+
+- (IBAction)hintTimeModeChanged:(id)sender
+{
+	[controlUI setHintTimePrsOnAbs:[[NSUserDefaults standardUserDefaults] boolForKey:kUDKeySwitchTimeHintPressOnAbusolute]];
 }
 
 /////////////////////////////Toolbar Delegate/////////////////////

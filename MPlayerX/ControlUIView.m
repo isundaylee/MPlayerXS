@@ -46,6 +46,7 @@
 @implementation ControlUIView
 
 @synthesize autoHideTimeInterval;
+@synthesize hintTimePrsOnAbs;
 
 +(void) initialize
 {
@@ -162,6 +163,8 @@
 	
 	[menuSubScaleInc setTag:1];
 	[menuSubScaleDec setTag:-1];
+	
+	hintTimePrsOnAbs = [[NSUserDefaults standardUserDefaults] boolForKey:kUDKeySwitchTimeHintPressOnAbusolute];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(windowHasResized:)
@@ -637,7 +640,7 @@
 	
 	float timeDisp = ((pt.x-frm.origin.x) * [timeSlider maxValue])/ frm.size.width;;
 
-	if ((([NSEvent modifierFlags] & kSCMSwitchTimeHintKeyModifierMask)?YES:NO) != [[NSUserDefaults standardUserDefaults] boolForKey:kUDKeySwitchTimeHintPressOnAbusolute]) {
+	if ((([NSEvent modifierFlags] & kSCMSwitchTimeHintKeyModifierMask)?YES:NO) != hintTimePrsOnAbs) {
 		// 如果没有按cmd，显示时间差
 		// 否则显示绝对时间
 		timeDisp -= [timeSlider floatValue];
