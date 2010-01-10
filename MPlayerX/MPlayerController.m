@@ -21,6 +21,7 @@
 #import "MPlayerController.h"
 #import <sys/mman.h>
 #import "coredef_private.h"
+#import "SubConverter.h"
 
 #define kPollingTimeForTimePos	(1)
 
@@ -85,6 +86,7 @@
 		dispDelegate = nil;
 		
 		pollingTimer = nil;
+		subConv = [[SubConverter alloc] init];
 	}
 	return self;
 }
@@ -105,17 +107,27 @@
 
 -(void) dealloc
 {
-	SAFERELEASE(movieInfo);
-	SAFERELEASE(la);
-	SAFERELEASE(pm);
-	SAFERELEASE(playerCore);
-	SAFERELEASE(mpPathPair);
-	SAFERELEASE(sharedBufferName);
+	[movieInfo release];
+	[la release];
+	[pm release];
+	[playerCore release];
+	[mpPathPair release];
+	[sharedBufferName release];
 	SAFERELEASETIMER(pollingTimer);
-	
+	[subConv release];
+
 	[super dealloc];
 }
 
+-(void) setSubConvWorkDir:(NSString*)dir
+{
+	[subConv setWorkDirectory:dir];
+}
+
+-(void) clearSubConvWorkDir
+{
+	[subConv clearWorkDirectory];
+}
 //////////////////////////////////////////////Hack to get communicate with mplayer/////////////////////////////////////////////
 -(BOOL) conformsToProtocol:(Protocol *)aProtocol
 {
@@ -243,10 +255,43 @@
 	}
 
 	// 如果想要自动获得字幕文件的codepage，需要调用这个函数
+	[pm setSubs:nil];
+	[pm setSubCP:nil];
+	
 	if ([pm guessSubCP]) {
-		[pm setSubCP:[pm getCPFromMoviePath:moviePath]];
-	} else {
-		[pm setSubCP:nil];
+		
+		NSDictionary *subEncDict = [pm getCPFromMoviePath:moviePath];
+		NSString *subStr;
+		NSArray *subsArray;
+		
+		switch ([subEncDict count]) {
+			case 0:
+				// 根本没有字幕文件
+				break;
+			case 1:
+				// 只有一个字幕文件
+				subStr = [[subEncDict allValues] objectAtIndex:0];
+				if (![subStr isEqualToString:@""]) {
+					// 如果猜出来了
+					[pm setSubCP:subStr];
+				}
+				break;
+			default:
+				// 如果有多个字幕文件
+				subsArray = [subConv convertSubsAndEncodings:subEncDict];
+				
+				if (subsArray && ([subsArray count] > 0)) {
+					[pm setSubCP:@"UTF-8"];
+					[pm setSubs:subsArray];
+				} else {
+					subStr = [[subEncDict allValues] objectAtIndex:0];
+					if (![subStr isEqualToString:@""]) {
+						// 如果猜出来了
+						[pm setSubCP:subStr];
+					}
+				}
+				break;
+		}
 	}
 
 	// 重置影片信息，同步PlayingInfo
@@ -282,7 +327,12 @@
 	if (state == kMPCPlayingState) {
 		// 发这个命令会自动让mplayer退出pause状态，而用keep_pause的perfix会得不到任何返回,因此只有在没有pause的时候会polling播放时间
 		[playerCore sendStringCommand: [NSString stringWithFormat:@"%@ %@\n", kMPCGetPropertyPreFix, kMPCTimePos]];
+	} else if (state == kMPCPausedState) {
+		// 即使是暂停的时候这样更新时间，会引发KVO事件，这样是为了保持界面更新
+		float tm = [movieInfo.playingInfo.currentTime floatValue];
+		[movieInfo.playingInfo setCurrentTime:[NSNumber numberWithFloat:tm]];
 	}
+
 }
 
 -(void) performStop

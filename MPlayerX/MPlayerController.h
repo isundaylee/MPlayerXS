@@ -40,6 +40,8 @@
 #define kMPCPlayingState	(1)		/** 正在播放并且没有暂停 */
 #define kMPCPausedState		(2)		/** 有文件正在播放但是暂停中 */
 
+@class SubConverter;
+
 @interface MPlayerController : NSObject <PlayerCoreDelegate>
 {
 	int state;
@@ -49,6 +51,7 @@
 	ParameterManager *pm;
 	PlayerCore *playerCore;
 	NSDictionary *mpPathPair;
+	SubConverter *subConv;
 
 	void *imageData;
 	unsigned int imageSize;
@@ -68,6 +71,9 @@
 @property (readonly) LogAnalyzer *la;
 
 @property (assign, readwrite) id<MPlayerDisplayDelegate> dispDelegate;
+
+-(void) setSubConvWorkDir:(NSString*)dir;
+-(void) clearSubConvWorkDir;
 
 -(void) playMedia:(NSString*)moviePath;
 -(void) performStop;
