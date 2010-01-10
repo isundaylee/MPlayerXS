@@ -65,5 +65,6 @@
 -(void) setAudio:(int) audioID;
 
 -(IBAction) openFile:(id) sender;
+-(IBAction) showHelp:(id) sender;
 
 @end

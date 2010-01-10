@@ -43,6 +43,7 @@
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")
+#define kUDKeyHelpURL				(@"HelpURL")
 
 #define kSCMSwitchTimeHintKeyModifierMask	(NSCommandKeyMask)
 

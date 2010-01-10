@@ -58,6 +58,7 @@
 					   [NSNumber numberWithFloat:0.1], kUDKeySubScaleStepValue,
 					   [NSNumber numberWithBool:NO], kUDKeyQuitOnClose,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
+					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
 }
 
@@ -542,6 +543,10 @@
 	}
 }
 
+-(IBAction) showHelp:(id) sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[[NSUserDefaults standardUserDefaults] stringForKey:kUDKeyHelpURL]]];
+}
 /////////////////////////////////////Application Delegate//////////////////////////////////////
 -(BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
