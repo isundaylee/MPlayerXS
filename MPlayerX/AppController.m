@@ -89,8 +89,8 @@
 
 -(void) awakeFromNib
 {
-	[aboutText setStringValue:[NSString stringWithFormat: @"MPlayerX %@ by Niltsh@2009\nhttp://code.google.com/p/mplayerx/\nzongyao.qu@gmail.com\n\nThanks to\n\nmplayer\nhttp://www.mplayerhq.hu\n\nUniversalDetector\nhttp://wakaba.c3.cx/s/apps/unarchiver.html\n\nBGHUDAppKit\nhttp://www.binarymethod.com/bghudappkit/\n\nWenQuan MicroHei Font\nhttp://www.wenq.org", 
-															[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]]];
+	[aboutText setStringValue:[NSString stringWithFormat: @"MPlayerX %@\nby Niltsh@2009\nhttp://code.google.com/p/mplayerx/\nzongyao.qu@gmail.com\n\nThanks to\n\nmplayer\nhttp://www.mplayerhq.hu\n\nUniversalDetector\nhttp://wakaba.c3.cx/s/apps/unarchiver.html\n\nBGHUDAppKit\nhttp://www.binarymethod.com/bghudappkit/\n\nWenQuan MicroHei Font\nhttp://www.wenq.org", 
+															[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
 
 	// 初始化MPlayerController
 	NSString *resPath = [[NSBundle mainBundle] resourcePath];
