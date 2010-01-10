@@ -65,6 +65,8 @@
 			
 			[self switchViews:tbi];
 		}
+		[prefWin setLevel:NSFloatingWindowLevel];
+		
 		nibLoaded = YES;
 	}
 	[prefWin makeKeyAndOrderFront:nil];
