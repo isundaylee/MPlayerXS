@@ -42,6 +42,7 @@
 
 	float volStep;
 	BOOL hintTimePrsOnAbs;
+	BOOL timeTextPrsOnRmn;
 
 	IBOutlet AppController *appController;
 	IBOutlet RootLayerView *dispView;
@@ -75,6 +76,7 @@
 
 @property (assign, readwrite) NSTimeInterval autoHideTimeInterval;
 @property (assign, readwrite) BOOL hintTimePrsOnAbs;
+@property (assign, readwrite) BOOL timeTextPrsOnRmn;
 
 -(IBAction) togglePlayPause:(id)sender;
 -(IBAction) toggleMute:(id)sender;

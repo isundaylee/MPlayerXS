@@ -47,6 +47,7 @@
 
 @synthesize autoHideTimeInterval;
 @synthesize hintTimePrsOnAbs;
+@synthesize timeTextPrsOnRmn;
 
 +(void) initialize
 {
@@ -56,6 +57,7 @@
 					   [NSNumber numberWithDouble:AUTOHIDETIMEINTERNAL], kUDKeyCtrlUIAutoHideTime,
 					   [NSNumber numberWithBool:YES], kUDKeySwitchTimeHintPressOnAbusolute,
 					   [NSNumber numberWithFloat:10], kUDKeyVolumeStep,
+					   [NSNumber numberWithBool:YES], kUDKeySwitchTimeTextPressOnRemain,
 					   nil]];
 }
 
@@ -134,7 +136,9 @@
 	[[timeText cell] setFormatter:timeFormatter];
 	[timeText setStringValue:@""];
 	[timeSlider setEnabled:NO];
-	
+	[timeSlider setMaxValue:-1];
+	[timeSlider setMinValue:-2];
+
 	[hintTime setAlphaValue:0];
 	[[hintTime cell] setFormatter:timeFormatter];
 	[hintTime setStringValue:@""];
@@ -165,6 +169,7 @@
 	[menuSubScaleDec setTag:-1];
 	
 	hintTimePrsOnAbs = [[NSUserDefaults standardUserDefaults] boolForKey:kUDKeySwitchTimeHintPressOnAbusolute];
+	timeTextPrsOnRmn = [[NSUserDefaults standardUserDefaults] boolForKey:kUDKeySwitchTimeTextPressOnRemain];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(windowHasResized:)
@@ -529,6 +534,8 @@
 		[timeSlider setMinValue:0];
 	} else {
 		[timeSlider setEnabled:NO];
+		[timeSlider setMaxValue:-1];
+		[timeSlider setMinValue:-2];
 		[hintTime.animator setAlphaValue:0];
 	}
 }
@@ -537,14 +544,14 @@
 {
 	float time = [timePos floatValue];
 	
-	if (!([NSEvent modifierFlags] & kSCMSwitchTimeHintKeyModifierMask)) {
-		// 如果没有按cmd，显示现在的时间
-		// 有四舍五入
+	if (([timeSlider maxValue] > 0) && 
+		((([NSEvent modifierFlags]&NSCommandKeyMask)?YES:NO) == timeTextPrsOnRmn)) {
+		// 如果有时间的长度，并且按键和设定相符合的时候，显示remain时间
+		[timeText setIntValue:time - [timeSlider maxValue] - 0.5];
+		
+	} else {
+		// 没有得到电影的长度，只显示现在的时间
 		[timeText setIntValue:time + 0.5];
-	} else if ([timeSlider isEnabled]) {
-		// 按下cmd，并且有全长信息，显示影片总长度
-		// [timeSlider maxValue] 是准确值，所以要四舍五入
-		[timeText setIntValue:[timeSlider maxValue] + 0.5];
 	}
 
 	if ([timeSlider isEnabled]) {
@@ -694,5 +701,11 @@
 -(void) windowHasResized:(NSNotification *)notification
 {
 	[hintTime.animator setAlphaValue:0];
+	
+	NSRect frm = self.frame;
+	NSRect contBounds = [self superview].bounds;
+	
+	frm.origin.y = MIN(frm.origin.y, contBounds.size.height-frm.size.height);
+	[self setFrame:frm];
 }
 @end
