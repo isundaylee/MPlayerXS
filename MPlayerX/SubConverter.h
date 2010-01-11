@@ -28,6 +28,7 @@
 
 -(void) setWorkDirectory:(NSString *)wd;
 
+/** 返回根据subEncDict的文件名和编码信息，将各个文件转换成UTF-8编码之后的文件群，需要调用clearWorkDirectory清空 */
 -(NSArray*) convertTextSubsAndEncodings:(NSDictionary*)subEncDict;
 
 -(void) clearWorkDirectory;
