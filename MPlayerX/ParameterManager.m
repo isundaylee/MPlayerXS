@@ -127,6 +127,21 @@
 	return (ass.enabled)?ass.fontScale:subScale;
 }
 
+-(void) setSubFontColor:(NSColor*)col
+{
+	ass.frontColor = (((unsigned char)(255 * [col redComponent]))  <<24) + 
+					 (((unsigned char)(255 * [col greenComponent]))<<16) + 
+					 (((unsigned char)(255 * [col blueComponent])) <<8);
+}
+
+-(void) setSubFontBorderColor:(NSColor*)col
+{
+	ass.borderColor = (((unsigned char)(255 * [col redComponent]))  <<24) + 
+					  (((unsigned char)(255 * [col greenComponent]))<<16) + 
+					  (((unsigned char)(255 * [col blueComponent])) <<8) + 0x0F;
+	
+}
+
 -(NSArray *) arrayOfParametersWithName:(NSString*) name
 {
 	NSMutableArray *paramArray = [[NSMutableArray alloc] init];

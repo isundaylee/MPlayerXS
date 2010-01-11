@@ -72,6 +72,8 @@ typedef struct
 
 // 这个接口是面向playingInfo
 -(float) subScaleInternal;
+-(void) setSubFontColor:(NSColor*)col;
+-(void) setSubFontBorderColor:(NSColor*)col;
 
 -(NSArray *) arrayOfParametersWithName:(NSString*) name;
 

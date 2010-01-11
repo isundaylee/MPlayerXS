@@ -57,6 +57,8 @@
 					   [NSNumber numberWithFloat:4], kUDKeySubScale,
 					   [NSNumber numberWithFloat:0.1], kUDKeySubScaleStepValue,
 					   [NSNumber numberWithBool:NO], kUDKeyQuitOnClose,
+					   [NSArchiver archivedDataWithRootObject:[NSColor whiteColor]], kUDKeySubFontColor,
+					   [NSArchiver archivedDataWithRootObject:[NSColor blackColor]], kUDKeySubFontBorderColor,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
@@ -290,6 +292,14 @@
 					// 设定字幕大小
 					[mplayer.pm setSubScale:[[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySubScale]];
 					
+					[mplayer.pm setSubFontColor:
+					 [NSUnarchiver unarchiveObjectWithData:
+					  [[NSUserDefaults standardUserDefaults] objectForKey:kUDKeySubFontColor]]];
+					
+					[mplayer.pm setSubFontBorderColor:
+					 [NSUnarchiver unarchiveObjectWithData:
+					  [[NSUserDefaults standardUserDefaults] objectForKey:kUDKeySubFontBorderColor]]];
+					
 					lastPlayedPathPre = [NSString stringWithString:path];
 					[mplayer playMedia:lastPlayedPathPre];
 					// 通过的话就播放
@@ -315,6 +325,14 @@
 			[mplayer.pm setStartTime:-1];
 			// 设定字幕大小
 			[mplayer.pm setSubScale:[[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySubScale]];
+			
+			[mplayer.pm setSubFontColor:
+			 [NSUnarchiver unarchiveObjectWithData:
+			  [[NSUserDefaults standardUserDefaults] objectForKey:kUDKeySubFontColor]]];
+			
+			[mplayer.pm setSubFontBorderColor:
+			 [NSUnarchiver unarchiveObjectWithData:
+			  [[NSUserDefaults standardUserDefaults] objectForKey:kUDKeySubFontBorderColor]]];
 			
 			lastPlayedPathPre = [NSString stringWithString:path];
 			[mplayer playMedia:lastPlayedPathPre];

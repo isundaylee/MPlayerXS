@@ -41,6 +41,8 @@
 #define kUDKeySwitchTimeHintPressOnAbusolute	(@"TimeHintPrsOnAbs")
 #define kUDKeyQuitOnClose			(@"QuitOnClose")
 #define kUDKeySwitchTimeTextPressOnRemain		(@"TimeTextPrsOnRemain")
+#define kUDKeySubFontColor			(@"SubFontColor")
+#define kUDKeySubFontBorderColor	(@"SubFontBorderColor")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")
