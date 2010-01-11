@@ -33,7 +33,7 @@
 #define kObservedValueStringAudioDelay		(@"movieInfo.playingInfo.audioDelay")
 #define kObservedValueStringSubInfo			(@"movieInfo.subInfo")
 
-#define kMPCDefaultSubFontPath				(@"/wqy-microhei.ttc")
+#define kMPCDefaultSubFontPath				(@"wqy-microhei.ttc")
 
 @interface AppController (MPlayerControllerNotification)
 -(void) mplayerStarted:(NSNotification *)notification;
@@ -105,7 +105,7 @@
 	
 	if ([subFontPath isEqualToString:kMPCDefaultSubFontPath]) {
 		// 如果是默认的路径的话，需要添加一些路径头
-		[mplayer.pm setSubFont:[[mainBundle resourcePath] stringByAppendingString:subFontPath]];
+		[mplayer.pm setSubFont:[[mainBundle resourcePath] stringByAppendingPathComponent:subFontPath]];
 	} else {
 		// 否则直接设定
 		[mplayer.pm setSubFont:subFontPath];

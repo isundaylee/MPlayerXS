@@ -259,7 +259,7 @@
 	// 重置字幕文件和 编码
 	if ([pm guessSubCP]) {
 		// 如果是要猜的话
-		[pm setSubs:nil];
+		[pm setTextSubs:nil];
 		[pm setSubCP:nil];
 		
 		NSDictionary *subEncDict = [pm getCPFromMoviePath:moviePath];
@@ -280,11 +280,11 @@
 				break;
 			default:
 				// 如果有多个字幕文件
-				subsArray = [subConv convertSubsAndEncodings:subEncDict];
+				subsArray = [subConv convertTextSubsAndEncodings:subEncDict];
 				
 				if (subsArray && ([subsArray count] > 0)) {
 					[pm setSubCP:@"UTF-8"];
-					[pm setSubs:subsArray];
+					[pm setTextSubs:subsArray];
 				} else {
 					subStr = [[subEncDict allValues] objectAtIndex:0];
 					if (![subStr isEqualToString:@""]) {
@@ -316,7 +316,7 @@
 											  userInfo:nil
 											   repeats:YES] retain];
 
-		NSRunLoop *rl = [[NSRunLoop currentRunLoop];
+		NSRunLoop *rl = [NSRunLoop currentRunLoop];
 		[rl addTimer:pollingTimer forMode:NSDefaultRunLoopMode];
 		[rl addTimer:pollingTimer forMode:NSModalPanelRunLoopMode];
 		[rl addTimer:pollingTimer forMode:NSEventTrackingRunLoopMode];
