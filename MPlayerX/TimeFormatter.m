@@ -48,7 +48,7 @@
 	} else if (minute != 0) {
 		return [formatString stringByAppendingFormat:@"%d:%02d", minute, sec];
 	} else {
-		return [formatString stringByAppendingFormat:NSLocalizedString(@"%ds", nil), sec];
+		return [formatString stringByAppendingFormat:@"%d\"", sec];
 	}
 }
 
