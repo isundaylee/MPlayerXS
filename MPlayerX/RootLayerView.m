@@ -155,15 +155,16 @@
 	
 	NSSize sizeMin = [[self window] contentMinSize];
 	
-	if ((sz.height < sizeMin.height) || (sz.width < sizeMin.width)) {
+	if ((sz.height < sizeMin.height) && (sz.width < sizeMin.width)) {
+		// 现在的窗口最小原则是，不能全都小于最小值，有一个是可以的
 		if ((sizeMin.width * sz.height) < (sizeMin.height * sz.width)) {
 			// 横图
-			sz.width = sizeMin.height * sz.width / sz.height;
-			sz.height = sizeMin.height;
-		} else {
-			// 竖图
 			sz.height = sizeMin.width * sz.height / sz.width;
 			sz.width = sizeMin.width;
+		} else {
+			// 竖图
+			sz.width = sizeMin.height * sz.width / sz.height;
+			sz.height = sizeMin.height;
 		}
 	}
 	return sz;
