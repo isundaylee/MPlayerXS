@@ -31,7 +31,7 @@ typedef struct
 
 @interface ParameterManager : NSObject 
 {
-	NSSet *subFileExts;
+	NSSet *textSubFileExts;
 	NSDictionary *subEncodeLangDict;
 	NSDictionary *subLangDefaultSubFontDict;
 	unsigned char autoSync;
@@ -56,6 +56,7 @@ typedef struct
 	NSString *subCP;
 	unsigned int threads;
 	NSArray *textSubs;
+	NSString *vobSub;
 }
 
 @property (assign, readwrite) BOOL prefer64bMPlayer;
@@ -69,6 +70,7 @@ typedef struct
 @property (retain, readwrite) NSString *subCP;
 @property (assign, readwrite) unsigned int threads;
 @property (retain, readwrite) NSArray *textSubs;
+@property (retain, readwrite) NSString *vobSub;
 
 // 这个接口是面向playingInfo
 -(float) subScaleInternal;
@@ -77,6 +79,6 @@ typedef struct
 
 -(NSArray *) arrayOfParametersWithName:(NSString*) name;
 
--(NSDictionary*) getCPFromMoviePath:(NSString*)moviePath;
+-(NSDictionary*) getCPFromMoviePath:(NSString*)moviePath alsoFindVobSub:(NSString**)vobPath;
 
 @end

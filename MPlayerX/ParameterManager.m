@@ -53,13 +53,14 @@
 @synthesize subCP;
 @synthesize threads;
 @synthesize textSubs;
+@synthesize vobSub;
 
 #pragma mark Init/Dealloc
 -(id) init
 {
 	if (self = [super init])
 	{
-		subFileExts = [[NSSet alloc] initWithObjects:@"utf", @"utf8", @"srt", @"ass", @"smi", @"rt", @"txt", @"ssa", nil];
+		textSubFileExts = [[NSSet alloc] initWithObjects:@"utf", @"utf8", @"srt", @"ass", @"smi", @"rt", @"txt", @"ssa", nil];
 		subEncodeLangDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"CHS", @"GB18030",
 																		 @"CHS", @"GBK",
 																		 @"CHS", @"EUC-CN",
@@ -97,13 +98,15 @@
 		subCP = nil;
 		threads = 1;
 		textSubs = nil;
+		vobSub = nil;
 	}
 	return self;
 }
 
 -(void) dealloc
 {
-	[subFileExts release];
+	[textSubFileExts release];
+	
 	[subEncodeLangDict release];
 	[subLangDefaultSubFontDict release];
 	[font release];
@@ -113,7 +116,8 @@
 	[subFont release];
 	[subCP release];
 	[textSubs release];
-
+	[vobSub release];
+	
 	[super dealloc];
 }
 
@@ -129,6 +133,7 @@
 
 -(void) setSubFontColor:(NSColor*)col
 {
+	col = [col colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 	ass.frontColor = (((unsigned char)(255 * [col redComponent]))  <<24) + 
 					 (((unsigned char)(255 * [col greenComponent]))<<16) + 
 					 (((unsigned char)(255 * [col blueComponent])) <<8);
@@ -136,6 +141,7 @@
 
 -(void) setSubFontBorderColor:(NSColor*)col
 {
+	col = [col colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 	ass.borderColor = (((unsigned char)(255 * [col redComponent]))  <<24) + 
 					  (((unsigned char)(255 * [col greenComponent]))<<16) + 
 					  (((unsigned char)(255 * [col blueComponent])) <<8) + 0x0F;
@@ -258,15 +264,24 @@
 		}
 		[paramArray addObject:str];
 	}
+	
+	if (vobSub && (![vobSub isEqualToString:@""])) {
+		[paramArray addObject:@"-vobsub"];
+		[paramArray addObject:vobSub];
+	}
 
 	return [paramArray autorelease];
 }
 
--(NSDictionary*) getCPFromMoviePath:(NSString*)moviePath
+-(NSDictionary*) getCPFromMoviePath:(NSString*)moviePath alsoFindVobSub:(NSString**)vobPath
 {
 	NSString *cpStr = nil;
 	NSString *subPath = nil;
 	NSMutableDictionary *subEncDict = [[NSMutableDictionary alloc] initWithCapacity:2];
+
+	if (vobPath) {
+		*vobPath = nil;
+	}
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	UniversalDetector *dt = [[UniversalDetector alloc] init];
@@ -286,8 +301,8 @@
 		if ([fileAttr objectForKey:NSFileType] == NSFileTypeDirectory) { //不遍历子目录
 			[directoryEnumerator skipDescendants];
 			
-		} else if(([[fileAttr objectForKey:NSFileType] isEqualToString: NSFileTypeRegular]) && [subFileExts containsObject: [path pathExtension]]) {
-			// 如果是普通的字幕文件
+		} else if ([[fileAttr objectForKey:NSFileType] isEqualToString: NSFileTypeRegular]) {
+			// 如果是普通文件
 			switch (subFuzziness) {
 				case kPMSubCPRuleExactMatchName:
 					if (![movieName isEqualToString:[path stringByDeletingPathExtension]]) continue; // exact match
@@ -303,25 +318,33 @@
 			
 			subPath = [NSString stringWithFormat:@"%@/%@", directoryPath, path];
 
-			[dt analyzeContentsOfFile: subPath];
+			NSString *ext = [path pathExtension];
 			
-			cpStr = [dt MIMECharset];
-			
-			if (cpStr) {
-				// 如果猜出来了，不管有多少的确认率
-				[subEncDict setObject:[cpStr uppercaseString] forKey:subPath];
-			} else {
-				// 如果没有才出来，那么设为空
-				[subEncDict setObject:@"" forKey:subPath];
+			if ([textSubFileExts containsObject: ext]) {
+				// 如果是文本字幕文件
+				[dt analyzeContentsOfFile: subPath];
+				
+				cpStr = [dt MIMECharset];
+				
+				if (cpStr) {
+					// 如果猜出来了，不管有多少的确认率
+					[subEncDict setObject:[cpStr uppercaseString] forKey:subPath];
+				} else {
+					// 如果没有猜出来，那么设为空
+					[subEncDict setObject:@"" forKey:subPath];
+				}
+				[dt reset];				
+			} else if ([[ext uppercaseString] isEqualToString:@"SUB"]) {
+				// 如果是vobsub并且设定要寻找vobsub
+				[*vobPath release];
+				*vobPath = [[subPath stringByDeletingPathExtension] retain];
 			}
-
-			[dt reset];
 		}
 	}
 	[dt release];
 	[pool release];
 
+	[*vobPath autorelease];
 	return [subEncDict autorelease];	
 }
-
 @end
