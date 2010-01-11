@@ -455,6 +455,11 @@
 	[self setVolume:volumeSlider];
 }
 
+-(IBAction) toggleTimeTextDispMode:(id)sender
+{
+	timeTextPrsOnRmn = !timeTextPrsOnRmn;
+}
+
 ////////////////////////////////////////////////FullscreenThings//////////////////////////////////////////////////
 -(void) setFillScreenMode:(NSString*)modeKey state:(NSInteger) state
 {
@@ -524,6 +529,8 @@
 	[menuSubScaleDec setEnabled:NO];
 	[menuPlayFromLastStoppedPlace setEnabled:NO];
 	[menuPlayFromLastStoppedPlace setTag:0];
+	
+	timeTextPrsOnRmn = [[NSUserDefaults standardUserDefaults] boolForKey:kUDKeySwitchTimeTextPressOnRemain];
 }
 
 ////////////////////////////////////////////////KVO for time//////////////////////////////////////////////////

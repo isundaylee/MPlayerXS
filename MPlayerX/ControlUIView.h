@@ -129,4 +129,5 @@
 
 -(IBAction) stepAudios:(id)sender;
 
+-(IBAction) toggleTimeTextDispMode:(id)sender;
 @end
