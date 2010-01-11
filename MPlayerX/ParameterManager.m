@@ -59,8 +59,6 @@
 {
 	if (self = [super init])
 	{
-		NSNumber *haveKey = [NSNumber numberWithBool:YES];
-
 		subFileExts = [[NSSet alloc] initWithObjects:@"utf", @"utf8", @"srt", @"ass", @"smi", @"rt", @"txt", @"ssa", nil];
 		subEncodeLangDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"CHS", @"GB18030",
 																		 @"CHS", @"GBK",
