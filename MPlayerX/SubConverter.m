@@ -54,7 +54,7 @@
 	workDirectory = wd;
 }
 
--(NSArray*) convertSubsAndEncodings:(NSDictionary*)subEncDict
+-(NSArray*) convertTextSubsAndEncodings:(NSDictionary*)subEncDict
 {
 	if (!workDirectory) {
 		return nil;

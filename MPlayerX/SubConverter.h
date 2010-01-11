@@ -28,7 +28,7 @@
 
 -(void) setWorkDirectory:(NSString *)wd;
 
--(NSArray*) convertSubsAndEncodings:(NSDictionary*)subEncDict;
+-(NSArray*) convertTextSubsAndEncodings:(NSDictionary*)subEncDict;
 
 -(void) clearWorkDirectory;
 
