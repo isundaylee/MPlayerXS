@@ -83,6 +83,9 @@
 	NSView *viewToShow = [prefViews objectAtIndex:[sender tag]];
 	
 	if (viewToShow && ([prefWin contentView] != viewToShow)) {
+		
+		[prefToolbar setSelectedItemIdentifier:[sender itemIdentifier]];
+		
 		NSRect rc = [prefWin frameRectForContentRect:[viewToShow bounds]];
 		NSRect winFrm = [prefWin frame];
 		
