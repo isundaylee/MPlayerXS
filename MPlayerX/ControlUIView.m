@@ -553,9 +553,11 @@
 		// 没有得到电影的长度，只显示现在的时间
 		[timeText setIntValue:time + 0.5];
 	}
-
+	
+	// 即使timeSlider被禁用也可以显示时间
+	[timeSlider setFloatValue:time];
+	
 	if ([timeSlider isEnabled]) {
-		[timeSlider setFloatValue:time];
 		[self calculateHintTime];
 	}
 }

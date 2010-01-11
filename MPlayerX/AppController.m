@@ -460,7 +460,7 @@
 -(float) seekTo:(float) time
 {
 	// playingInfo的currentTime是通过获取log来同步的，因此这里不进行直接设定
-	if (mplayer.state != kMPCStoppedState) {
+	if ((mplayer.state != kMPCStoppedState) && mplayer.movieInfo.seekable) {
 		time = [mplayer setTimePos:time];
 		[mplayer.la stop];
 		return time;
@@ -471,7 +471,7 @@
 -(float) changeTimeBy:(float) delta
 {
 	// playingInfo的currentTime是通过获取log来同步的，因此这里不进行直接设定
-	if (mplayer.state != kMPCStoppedState) {
+	if ((mplayer.state != kMPCStoppedState) && mplayer.movieInfo.seekable) {
 		delta = [mplayer setTimePos:[mplayer.movieInfo.playingInfo.currentTime floatValue] + delta];	
 		[mplayer.la stop];
 		return delta;

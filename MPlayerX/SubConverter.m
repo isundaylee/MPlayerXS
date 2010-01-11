@@ -49,8 +49,9 @@
 {
 	[self clearWorkDirectory];
 
+	[wd retain];
 	[workDirectory release];
-	workDirectory = [wd retain];
+	workDirectory = wd;
 }
 
 -(NSArray*) convertSubsAndEncodings:(NSDictionary*)subEncDict
@@ -65,6 +66,7 @@
 	// 删除文件夹
 	[fm removeItemAtPath:subDir error:NULL];
 	
+	// 创建sub工作文件夹
 	if (![fm createDirectoryAtPath:subDir withIntermediateDirectories:YES attributes:nil error:NULL]) {
 		return nil;
 	}
@@ -80,10 +82,11 @@
 		enc = [subEncDict objectForKey:subPathOld];
 		
 		if (enc) {
+			// 如果能够得到编码字符串，先转换为CF格式
 			CFStringEncoding ce = CFStringConvertIANACharSetNameToEncoding((CFStringRef)enc);
 			
 			subPathNew = [subDir stringByAppendingPathComponent:[subPathOld lastPathComponent]];
-			
+
 			if (ce != kCFStringEncodingInvalidId) {
 				// 如果合法就转码
 				NSStringEncoding ne = CFStringConvertEncodingToNSStringEncoding(ce);

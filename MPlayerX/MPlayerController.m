@@ -149,8 +149,9 @@
 	// 在MplayerController的playerStopped的方法里面，会根据playing状态设定window level
 	// 因此要先设定state再通知
 	[self performSelectorOnMainThread:@selector(playerTaskTerminatedOnMainThread:)
-						   withObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:byForce], kMPCPlayStoppedByForceKey,
-																				 [[[movieInfo.playingInfo currentTime] retain] autorelease], kMPCPlayStoppedTimeKey, nil]
+						   withObject:[NSDictionary dictionaryWithObjectsAndKeys:
+									   [NSNumber numberWithBool:byForce], kMPCPlayStoppedByForceKey,
+									   [[[movieInfo.playingInfo currentTime] retain] autorelease], kMPCPlayStoppedTimeKey, nil]
 						waitUntilDone:YES];
 	NSLog(@"term:%d", byForce);
 }
@@ -255,10 +256,11 @@
 	}
 
 	// 如果想要自动获得字幕文件的codepage，需要调用这个函数
-	[pm setSubs:nil];
-	[pm setSubCP:nil];
-	
+	// 重置字幕文件和 编码
 	if ([pm guessSubCP]) {
+		// 如果是要猜的话
+		[pm setSubs:nil];
+		[pm setSubCP:nil];
 		
 		NSDictionary *subEncDict = [pm getCPFromMoviePath:moviePath];
 		NSString *subStr;
@@ -329,8 +331,7 @@
 		[playerCore sendStringCommand: [NSString stringWithFormat:@"%@ %@\n", kMPCGetPropertyPreFix, kMPCTimePos]];
 	} else if (state == kMPCPausedState) {
 		// 即使是暂停的时候这样更新时间，会引发KVO事件，这样是为了保持界面更新
-		float tm = [movieInfo.playingInfo.currentTime floatValue];
-		[movieInfo.playingInfo setCurrentTime:[NSNumber numberWithFloat:tm]];
+		[movieInfo.playingInfo setCurrentTime:movieInfo.playingInfo.currentTime];
 	}
 
 }
@@ -354,15 +355,6 @@
 		} else {
 			state = kMPCPlayingState;
 		}
-	}
-}
-
--(void) performFrameStep
-{
-	if (state != kMPCStoppedState) {
-		// 如果不是停止状态
-		[playerCore sendStringCommand:kMPCFrameStepCmd];
-		state = kMPCPausedState;
 	}
 }
 

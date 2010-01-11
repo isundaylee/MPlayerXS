@@ -40,8 +40,6 @@
 
 #define kPMThreadsNumMax	(8)
 
-#define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
-
 @implementation ParameterManager
 
 @synthesize prefer64bMPlayer;
@@ -117,37 +115,13 @@
 	[subFont release];
 	[subCP release];
 	[subs release];
-	
+
 	[super dealloc];
 }
 
 -(void) setThreads:(unsigned int) th
 {
 	threads = MIN(kPMThreadsNumMax, th);
-}
-
--(void) disableAudio
-{
-	[ao release];
-	ao = [[NSString alloc] initWithString:kPMNoAudio];
-}
-
--(void) enableAudio
-{
-	[ao release];
-	ao = [[NSString alloc] initWithString:kPMDefaultAudioOutput];
-}
-
--(void) disableVideo
-{
-	[vo release];
-	vo = [[NSString alloc] initWithString:kPMNoVideo];
-}
-
--(void) enableVideo
-{
-	[vo release];
-	vo = [[NSString alloc] initWithString:kPMDefaultVideoOutput];
 }
 
 -(float) subScaleInternal
@@ -315,7 +289,7 @@
 			}
 			
 			subPath = [NSString stringWithFormat:@"%@/%@", directoryPath, path];
-			
+
 			[dt analyzeContentsOfFile: subPath];
 			
 			cpStr = [dt MIMECharset];

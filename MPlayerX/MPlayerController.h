@@ -78,7 +78,6 @@
 -(void) playMedia:(NSString*)moviePath;
 -(void) performStop;
 -(void) togglePause;
--(void) performFrameStep;
 
 /** 成功发送的话，playingInfo的speed属性会被更新 */
 -(void) setSpeed: (float) speed;

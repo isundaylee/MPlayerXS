@@ -70,10 +70,7 @@ typedef struct
 @property (assign, readwrite) unsigned int threads;
 @property (retain, readwrite) NSArray *subs;
 
--(void) disableAudio;
--(void) enableAudio;
--(void) disableVideo;
--(void) enableVideo;
+// 这个接口是面向playingInfo
 -(float) subScaleInternal;
 
 -(NSArray *) arrayOfParametersWithName:(NSString*) name;

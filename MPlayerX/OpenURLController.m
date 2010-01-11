@@ -28,7 +28,7 @@
 {
 	[[NSUserDefaults standardUserDefaults] registerDefaults:
 	 [NSDictionary dictionaryWithObjectsAndKeys:
-	  [NSNumber numberWithBool:NO], kUDKeyDebugEnableOpenURL,
+	  [NSNumber numberWithBool:YES], kUDKeyDebugEnableOpenURL,
 	  nil]];
 }
 
