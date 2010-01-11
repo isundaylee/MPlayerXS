@@ -55,7 +55,7 @@ typedef struct
 	NSString *subFont;
 	NSString *subCP;
 	unsigned int threads;
-	NSArray *subs;
+	NSArray *textSubs;
 }
 
 @property (assign, readwrite) BOOL prefer64bMPlayer;
@@ -68,7 +68,7 @@ typedef struct
 @property (retain, readwrite) NSString *subFont;
 @property (retain, readwrite) NSString *subCP;
 @property (assign, readwrite) unsigned int threads;
-@property (retain, readwrite) NSArray *subs;
+@property (retain, readwrite) NSArray *textSubs;
 
 // 这个接口是面向playingInfo
 -(float) subScaleInternal;

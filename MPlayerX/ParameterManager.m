@@ -52,7 +52,7 @@
 @synthesize subFont;
 @synthesize subCP;
 @synthesize threads;
-@synthesize subs;
+@synthesize textSubs;
 
 #pragma mark Init/Dealloc
 -(id) init
@@ -96,7 +96,7 @@
 		subFont = nil;
 		subCP = nil;
 		threads = 1;
-		subs = nil;
+		textSubs = nil;
 	}
 	return self;
 }
@@ -112,7 +112,7 @@
 	[subPreferedLanguage release];
 	[subFont release];
 	[subCP release];
-	[subs release];
+	[textSubs release];
 
 	[super dealloc];
 }
@@ -245,16 +245,16 @@
 		[paramArray addObject:[NSString stringWithFormat: @"%@", ass.forceStyle]];
 	}
 	
-	if (subs && [subs count]) {
+	if (textSubs && [textSubs count]) {
 		[paramArray addObject:@"-noautosub"];
 		[paramArray addObject:@"-sub"];
 		
-		NSString *str = [subs objectAtIndex:0];
+		NSString *str = [textSubs objectAtIndex:0];
 		
 		NSUInteger i;
-		NSUInteger cnt = [subs count];
+		NSUInteger cnt = [textSubs count];
 		for (i = 1; i < cnt; i++) {
-			str = [str stringByAppendingFormat:@",%@", [subs objectAtIndex:i]];
+			str = [str stringByAppendingFormat:@",%@", [textSubs objectAtIndex:i]];
 		}
 		[paramArray addObject:str];
 	}
