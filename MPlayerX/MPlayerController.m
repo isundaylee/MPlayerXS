@@ -315,9 +315,11 @@
 										 	  selector:@selector(getCurrentTime:)
 											  userInfo:nil
 											   repeats:YES] retain];
-		[[NSRunLoop currentRunLoop] addTimer:pollingTimer forMode:NSDefaultRunLoopMode];
-		[[NSRunLoop currentRunLoop] addTimer:pollingTimer forMode:NSModalPanelRunLoopMode];
-		[[NSRunLoop currentRunLoop] addTimer:pollingTimer forMode:NSEventTrackingRunLoopMode];
+
+		NSRunLoop *rl = [[NSRunLoop currentRunLoop];
+		[rl addTimer:pollingTimer forMode:NSDefaultRunLoopMode];
+		[rl addTimer:pollingTimer forMode:NSModalPanelRunLoopMode];
+		[rl addTimer:pollingTimer forMode:NSEventTrackingRunLoopMode];
 	} else {
 		// 如果没有成功打开媒体文件
 		SAFERELEASE(sharedBufferName);
