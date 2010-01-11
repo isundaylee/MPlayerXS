@@ -88,6 +88,8 @@
 	// 设定可以接受Drag Files
 	[self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType,nil]];
 	
+	[[self window] setContentMinSize:NSMakeSize(400, 400)];
+	
 	// 设定window可以接受MouseMoved Event
 	[[self window] setAcceptsMouseMovedEvents:YES];
 }
@@ -199,7 +201,7 @@
 		
 		rcWin = [[self window] frameRectForContentRect:rcWin];
 		
-		if ((rcWin.size.width > szMin.width) && (rcWin.size.height > szMin.height) &&
+		if (((rcWin.size.width >= szMin.width) || (rcWin.size.height >= szMin.height)) &&
 			(rcWin.size.width < rcLimit.size.width) && (rcWin.size.height < rcLimit.size.height)) {
 			[[self window] setFrame:rcWin display:YES];
 		}

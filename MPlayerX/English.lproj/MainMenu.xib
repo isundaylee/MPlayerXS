@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="540"/>
+			<integer value="371"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -619,13 +619,13 @@
 			<object class="NSWindowTemplate" id="972006081">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{382, 564}, {400, 240}}</string>
+				<string key="NSWindowRect">{{358, 526}, {400, 400}}</string>
 				<int key="NSWTFlags">1954021376</int>
 				<string key="NSWindowTitle">MPlayerX</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
-				<string key="NSWindowContentMinSize">{400, 240}</string>
+				<string key="NSWindowContentMinSize">{400, 400}</string>
 				<object class="NSView" key="NSWindowView" id="439893737">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
@@ -1068,16 +1068,16 @@
 									<string key="NSClassName">ControlUIView</string>
 								</object>
 							</object>
-							<string key="NSFrameSize">{400, 240}</string>
+							<string key="NSFrameSize">{400, 400}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<string key="NSClassName">RootLayerView</string>
 						</object>
 					</object>
-					<string key="NSFrameSize">{400, 240}</string>
+					<string key="NSFrameSize">{400, 400}</string>
 					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
-				<string key="NSMinSize">{400, 262}</string>
+				<string key="NSMinSize">{400, 422}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<string key="NSFrameAutosaveName"/>
 			</object>
@@ -3110,14 +3110,14 @@
 					<integer value="1"/>
 					<string>{74, 862}</string>
 					<string>{{6, 978}, {478, 20}}</string>
-					<string>{{486, 814}, {400, 240}}</string>
+					<string>{{358, 526}, {400, 400}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{486, 814}, {400, 240}}</string>
+					<string>{{358, 526}, {400, 400}}</string>
 					<boolean value="NO"/>
 					<string>{{33, 99}, {480, 360}}</string>
 					<boolean value="YES"/>
 					<string>{3.40282e+38, 3.40282e+38}</string>
-					<string>{400, 240}</string>
+					<string>{400, 400}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{1089, 933}, {168, 23}}</string>
