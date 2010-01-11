@@ -194,6 +194,17 @@
 	[mplayer setSubConvWorkDir:subConvWorkDirectory];
 	
 	[mplayer clearSubConvWorkDir];
+	
+	// 开启Timer防止睡眠
+	NSTimer *prevSlpTimer = [NSTimer timerWithTimeInterval:20 
+													target:self
+												  selector:@selector(preventSystemSleep)
+												  userInfo:nil
+												   repeats:YES];
+	NSRunLoop *rl = [NSRunLoop mainRunLoop];
+	[rl addTimer:prevSlpTimer forMode:NSDefaultRunLoopMode];
+	[rl addTimer:prevSlpTimer forMode:NSModalPanelRunLoopMode];
+	[rl addTimer:prevSlpTimer forMode:NSEventTrackingRunLoopMode];
 }
 
 -(void) dealloc
@@ -258,7 +269,6 @@
 {
 	if (mplayer.state == kMPCPlayingState) {
 		UpdateSystemActivity(UsrActivity);
-		[self performSelector:@selector(preventSystemSleep) withObject:nil afterDelay:20];
 	}
 }
 
@@ -373,7 +383,6 @@
 {
 	[window setTitle:[lastPlayedPathPre lastPathComponent]];
 	[controlUI playBackStarted];
-	[self preventSystemSleep];
 	
 	// 用文件名查找有没有之前的播放记录
 	NSNumber *stopTime = [bookmarks objectForKey:lastPlayedPathPre];
