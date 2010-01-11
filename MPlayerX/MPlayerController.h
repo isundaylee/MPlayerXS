@@ -23,6 +23,7 @@
 #import "ParameterManager.h"
 #import "MovieInfo.h"
 #import "LogAnalyzer.h"
+#import "SubConverter.h"
 
 // the protocol for displaying the video
 @protocol MPlayerDisplayDelegate
@@ -63,17 +64,13 @@
 	NSTimer *pollingTimer;
 }
 
-@property (readonly) int state;
-
-@property (retain, readwrite) NSDictionary *mpPathPair;
-@property (readonly) MovieInfo *movieInfo;
-@property (retain, readwrite) ParameterManager *pm;
-@property (readonly) LogAnalyzer *la;
-
-@property (assign, readwrite) id<MPlayerDisplayDelegate> dispDelegate;
-
--(void) setSubConvWorkDir:(NSString*)dir;
--(void) clearSubConvWorkDir;
+@property (readonly)			int state;
+@property (retain, readwrite)	NSDictionary *mpPathPair;
+@property (readonly)			MovieInfo *movieInfo;
+@property (retain, readwrite)	ParameterManager *pm;
+@property (readonly)			LogAnalyzer *la;
+@property (assign, readwrite)	id<MPlayerDisplayDelegate> dispDelegate;
+@property (readonly)			SubConverter *subConv;
 
 -(void) playMedia:(NSString*)moviePath;
 -(void) performStop;

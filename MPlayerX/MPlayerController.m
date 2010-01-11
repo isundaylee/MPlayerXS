@@ -21,7 +21,6 @@
 #import "MPlayerController.h"
 #import <sys/mman.h>
 #import "coredef_private.h"
-#import "SubConverter.h"
 
 #define kPollingTimeForTimePos	(1)
 
@@ -61,6 +60,7 @@
 @synthesize movieInfo;
 @synthesize mpPathPair;
 @synthesize la;
+@synthesize subConv;
 
 ///////////////////////////////////////////Init/Dealloc////////////////////////////////////////////////////////
 -(id) init
@@ -119,15 +119,6 @@
 	[super dealloc];
 }
 
--(void) setSubConvWorkDir:(NSString*)dir
-{
-	[subConv setWorkDirectory:dir];
-}
-
--(void) clearSubConvWorkDir
-{
-	[subConv clearWorkDirectory];
-}
 //////////////////////////////////////////////Hack to get communicate with mplayer/////////////////////////////////////////////
 -(BOOL) conformsToProtocol:(Protocol *)aProtocol
 {
@@ -257,21 +248,27 @@
 
 	// 如果想要自动获得字幕文件的codepage，需要调用这个函数
 	// 重置字幕文件和 编码
+	///< \warning 将这两个清空放在外面，但是这样的话，就无法强制设定字幕文件了
+	///< 可能需要别的变量
+	[pm setTextSubs:nil];
+	[pm setVobSub:nil];
+
 	if ([pm guessSubCP]) {
-		// 如果是要猜的话
-		[pm setTextSubs:nil];
+		// 如果是要猜的话，忽略原来的SubCP设置
 		[pm setSubCP:nil];
 		
-		NSDictionary *subEncDict = [pm getCPFromMoviePath:moviePath];
+		NSString *vobStr = nil;
+		NSDictionary *subEncDict = [pm getCPFromMoviePath:moviePath alsoFindVobSub:&vobStr];
+		
 		NSString *subStr;
 		NSArray *subsArray;
 		
 		switch ([subEncDict count]) {
 			case 0:
-				// 根本没有字幕文件
+				// 没有字幕文件
 				break;
 			case 1:
-				// 只有一个字幕文件
+AS_ONE_SUB:		// 一个字幕文件
 				subStr = [[subEncDict allValues] objectAtIndex:0];
 				if (![subStr isEqualToString:@""]) {
 					// 如果猜出来了
@@ -285,12 +282,10 @@
 				if (subsArray && ([subsArray count] > 0)) {
 					[pm setSubCP:@"UTF-8"];
 					[pm setTextSubs:subsArray];
+					[pm setVobSub:vobStr];
+
 				} else {
-					subStr = [[subEncDict allValues] objectAtIndex:0];
-					if (![subStr isEqualToString:@""]) {
-						// 如果猜出来了
-						[pm setSubCP:subStr];
-					}
+					goto AS_ONE_SUB;
 				}
 				break;
 		}
