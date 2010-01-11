@@ -191,9 +191,8 @@
 		}
 	}
 	
-	[mplayer setSubConvWorkDir:subConvWorkDirectory];
-	
-	[mplayer clearSubConvWorkDir];
+	[mplayer.subConv setWorkDirectory:subConvWorkDirectory];
+	[mplayer.subConv clearWorkDirectory];
 	
 	// 开启Timer防止睡眠
 	NSTimer *prevSlpTimer = [NSTimer timerWithTimeInterval:20 
@@ -282,6 +281,22 @@
 	return mplayer.state;
 }
 
+-(void) refreshParameters
+{
+	// 将播放开始时间重置
+	[mplayer.pm setStartTime:-1];
+	// 设定字幕大小
+	[mplayer.pm setSubScale:[[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySubScale]];
+	
+	[mplayer.pm setSubFontColor:
+	 [NSUnarchiver unarchiveObjectWithData:
+	  [[NSUserDefaults standardUserDefaults] objectForKey:kUDKeySubFontColor]]];
+	
+	[mplayer.pm setSubFontBorderColor:
+	 [NSUnarchiver unarchiveObjectWithData:
+	  [[NSUserDefaults standardUserDefaults] objectForKey:kUDKeySubFontBorderColor]]];	
+}
+
 -(BOOL) playMedia:(NSURL*)url
 {
 	BOOL ret = NO;
@@ -297,18 +312,7 @@
 				BOOL isDir = YES;
 				if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && (!isDir)) {
 					// 为了保险期间，每次播放开始的时候
-					// 将播放开始时间重置
-					[mplayer.pm setStartTime:-1];
-					// 设定字幕大小
-					[mplayer.pm setSubScale:[[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySubScale]];
-					
-					[mplayer.pm setSubFontColor:
-					 [NSUnarchiver unarchiveObjectWithData:
-					  [[NSUserDefaults standardUserDefaults] objectForKey:kUDKeySubFontColor]]];
-					
-					[mplayer.pm setSubFontBorderColor:
-					 [NSUnarchiver unarchiveObjectWithData:
-					  [[NSUserDefaults standardUserDefaults] objectForKey:kUDKeySubFontBorderColor]]];
+					[self refreshParameters];
 					
 					lastPlayedPathPre = [NSString stringWithString:path];
 					[mplayer playMedia:lastPlayedPathPre];
@@ -332,17 +336,7 @@
 			// 非本地文件
 			path = [[url standardizedURL] absoluteString];
 			
-			[mplayer.pm setStartTime:-1];
-			// 设定字幕大小
-			[mplayer.pm setSubScale:[[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySubScale]];
-			
-			[mplayer.pm setSubFontColor:
-			 [NSUnarchiver unarchiveObjectWithData:
-			  [[NSUserDefaults standardUserDefaults] objectForKey:kUDKeySubFontColor]]];
-			
-			[mplayer.pm setSubFontBorderColor:
-			 [NSUnarchiver unarchiveObjectWithData:
-			  [[NSUserDefaults standardUserDefaults] objectForKey:kUDKeySubFontBorderColor]]];
+			[self refreshParameters];
 			
 			lastPlayedPathPre = [NSString stringWithString:path];
 			[mplayer playMedia:lastPlayedPathPre];
@@ -382,6 +376,7 @@
 -(void) mplayerStarted:(NSNotification *)notification
 {
 	[window setTitle:[lastPlayedPathPre lastPathComponent]];
+	
 	[controlUI playBackStarted];
 	
 	// 用文件名查找有没有之前的播放记录
@@ -395,9 +390,10 @@
 
 -(void) mplayerStopped:(NSNotification *)notification
 {
-	[mplayer clearSubConvWorkDir];
+	[mplayer.subConv clearWorkDirectory];
 	
 	[window setTitle: @"MPlayerX"];
+	
 	[controlUI playBackStopped];
 	
 	if ([[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue]) {
