@@ -45,5 +45,7 @@
 - (IBAction)multiThreadChanged:(id)sender;
 - (IBAction)onTopModeChanged:(id)sender;
 - (IBAction)hintTimeModeChanged:(id)sender;
+- (IBAction)timeTextModeChanged:(id)sender;
+
 
 @end

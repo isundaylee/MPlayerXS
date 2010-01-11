@@ -113,6 +113,11 @@
 	[controlUI setHintTimePrsOnAbs:[[NSUserDefaults standardUserDefaults] boolForKey:kUDKeySwitchTimeHintPressOnAbusolute]];
 }
 
+- (IBAction)timeTextModeChanged:(id)sender
+{
+	[controlUI setTimeTextPrsOnRmn:[[NSUserDefaults standardUserDefaults] boolForKey:kUDKeySwitchTimeTextPressOnRemain]];
+}
+
 /////////////////////////////Toolbar Delegate/////////////////////
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
