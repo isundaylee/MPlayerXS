@@ -55,7 +55,7 @@
 	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 					   [NSNumber numberWithFloat:100], kUDKeyVolume,
 					   [NSNumber numberWithDouble:AUTOHIDETIMEINTERNAL], kUDKeyCtrlUIAutoHideTime,
-					   [NSNumber numberWithBool:YES], kUDKeySwitchTimeHintPressOnAbusolute,
+					   [NSNumber numberWithBool:NO], kUDKeySwitchTimeHintPressOnAbusolute,
 					   [NSNumber numberWithFloat:10], kUDKeyVolumeStep,
 					   [NSNumber numberWithBool:YES], kUDKeySwitchTimeTextPressOnRemain,
 					   nil]];
