@@ -294,7 +294,7 @@
 	
 	[mplayer.pm setSubFontBorderColor:
 	 [NSUnarchiver unarchiveObjectWithData:
-	  [[NSUserDefaults standardUserDefaults] objectForKey:kUDKeySubFontBorderColor]]];	
+	  [[NSUserDefaults standardUserDefaults] objectForKey:kUDKeySubFontBorderColor]]];
 }
 
 -(BOOL) playMedia:(NSURL*)url
@@ -431,6 +431,8 @@
 	// 这个时候的显示状态displaying是NO
 	// 因此，如果是全屏的话，会退出全屏，如果不是全屏的话，也不会进入全屏
 	[controlUI toggleFullScreen:nil];
+	// 并且重置 fillScreen状态
+	[controlUI toggleFillScreen:nil];
 }
 
 -(void) tryToPlayNext
@@ -449,7 +451,9 @@
 	// 如果不继续播放，或者没有下一个播放文件，那么退出全屏
 	// 这个时候的显示状态displaying是NO
 	// 因此，如果是全屏的话，会退出全屏，如果不是全屏的话，也不会进入全屏
-	[controlUI toggleFullScreen:nil];	
+	[controlUI toggleFullScreen:nil];
+	// 并且重置 fillScreen状态
+	[controlUI toggleFillScreen:nil];
 }
 
 ////////////////////////////////////////////////cooperative actions with UI//////////////////////////////////////////////////

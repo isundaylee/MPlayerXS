@@ -313,7 +313,8 @@
 		
 		[controlUI setFillScreenMode:((sz.height * (pf->aspect) >= sz.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
 							   state:([dispLayer fillScreen])?NSOnState:NSOffState];
-		// 这里不需要调用 [self setPlayerWindowLevel];
+		// 这里不需要调用
+		// [self setPlayerWindowLevel];
 	} else {
 		return NO;
 	}
@@ -377,12 +378,8 @@
 					  pixelFormat:pixelFormat
 						   aspect:aspect] == 1) {
 		displaying = YES;
-
-		// [dispLayer setFillScreen: NO];
 		
 		[self performSelectorOnMainThread:@selector(adjustWindowSizeAndAspectRatio) withObject:nil waitUntilDone:YES];
-
-		[controlUI displayStarted];
 
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyStartByFullScreen]) {
 			if (![self isInFullScreenMode]) {
@@ -400,19 +397,30 @@
 
 -(void) adjustWindowSizeAndAspectRatio
 {
+	NSWindow *win = [self window];
+	NSSize sz;
+	
 	if ([self isInFullScreenMode]) {
 		// 如果正在全屏，那么将设定窗口size的工作放到退出全屏的时候进行
 		shouldResize = YES;
+		
+		// 如果是全屏开始的，那么还需要设定ControlUI的FillScreen状态
+		// 全屏的时候，view的size和screen的size是一样的
+		sz = [self bounds].size;
+		const DisplayFormat *pf = [dispLayer getDisplayFormat];
+		[controlUI setFillScreenMode:((sz.height * (pf->aspect) >= sz.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
+							   state:([dispLayer fillScreen])?NSOnState:NSOffState];
 	} else {
 		// 如果没有在全屏
-		NSSize sz = [self calculateContentSize];
-		NSWindow *win = [self window];
+		sz = [self calculateContentSize];
 		
 		[win setContentSize:sz];
 		[win setContentAspectRatio:sz];
 	
 		[win makeKeyAndOrderFront:self];
-	}	
+	}
+	
+	[controlUI displayStarted];
 }
 
 -(void) draw:(void*)imageData from:(id)sender
