@@ -81,4 +81,6 @@ typedef struct
 
 -(NSDictionary*) getCPFromMoviePath:(NSString*)moviePath alsoFindVobSub:(NSString**)vobPath;
 
+-(void) reset;
+
 @end

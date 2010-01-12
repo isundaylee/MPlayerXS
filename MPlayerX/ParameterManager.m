@@ -149,6 +149,15 @@
 	
 }
 
+-(void) reset
+{
+	[vobSub release];
+	[textSubs release];
+	
+	vobSub = nil;
+	textSubs = nil;
+}
+
 -(NSArray *) arrayOfParametersWithName:(NSString*) name
 {
 	NSMutableArray *paramArray = [[NSMutableArray alloc] init];
