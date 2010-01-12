@@ -37,7 +37,8 @@
 
 -(void) dealloc
 {
-	[queue cancelAllOperations];
+	[self stop];
+
 	[queue release];	
 	[super dealloc];
 }
