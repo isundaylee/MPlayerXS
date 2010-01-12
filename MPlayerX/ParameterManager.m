@@ -109,6 +109,7 @@
 	
 	[subEncodeLangDict release];
 	[subLangDefaultSubFontDict release];
+	
 	[font release];
 	[ao release];
 	[vo release];
@@ -336,15 +337,20 @@
 				[dt reset];				
 			} else if ([[ext uppercaseString] isEqualToString:@"SUB"]) {
 				// 如果是vobsub并且设定要寻找vobsub
-				[*vobPath release];
-				*vobPath = [[subPath stringByDeletingPathExtension] retain];
+				if (vobPath) {
+					[*vobPath release];
+					*vobPath = [[subPath stringByDeletingPathExtension] retain];
+				}
 			}
 		}
 	}
 	[dt release];
 	[pool release];
 
-	[*vobPath autorelease];
+	if (vobPath) {
+		[*vobPath autorelease];
+	}
+
 	return [subEncDict autorelease];	
 }
 @end
