@@ -26,7 +26,9 @@
 #import "ArrowTextField.h"
 #import "ResizeIndicator.h"
 
-#define BACKGROUND_ALPHA		(0.9)
+#define CONTROLALPHA		(1)
+#define BACKGROUNDALPHA		(0.9)
+
 #define CONTROL_CORNER_RADIUS	(8)
 
 #define NUMOFVOLUMEIMAGES		(3)	//这个值是除了没有音量之后的image个数
@@ -111,11 +113,12 @@
 - (void)awakeFromNib
 {
 	// 自身的设定
-	[self setAlphaValue:BACKGROUND_ALPHA];
+	[self setAlphaValue:CONTROLALPHA];
 	
-	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:0.160 alpha:1], 0.0,
-																  [NSColor colorWithCalibratedWhite:0.078 alpha:1], 0.4,
-																  [NSColor colorWithCalibratedWhite:0.078 alpha:1], 1.0, nil];
+	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:0.180 alpha:BACKGROUNDALPHA], 0.0,
+																  [NSColor colorWithCalibratedWhite:0.080 alpha:BACKGROUNDALPHA], 0.4,
+																  [NSColor colorWithCalibratedWhite:0.080 alpha:BACKGROUNDALPHA], 1.0, 
+																  nil];
 
 	[self setKeyEquivalents];
 	[self loadButtonImages];
@@ -225,7 +228,7 @@
 {
 	if (shouldHide) {
 		// 这段代码是不能重进的，否则会不停的hidecursor
-		if ([self alphaValue] > (BACKGROUND_ALPHA-0.05)) {
+		if ([self alphaValue] > (CONTROLALPHA-0.05)) {
 			// 得到鼠标在这个view的坐标
 			NSPoint pos = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] 
 									fromView:nil];
@@ -252,7 +255,7 @@
 {
 	shouldHide = NO;
 
-	[self.animator setAlphaValue:BACKGROUND_ALPHA];
+	[self.animator setAlphaValue:CONTROLALPHA];
 
 	if ([dispView isInFullScreenMode]) {
 		// 全屏模式还要显示鼠标
@@ -336,7 +339,7 @@
 			[fillScreenButton setHidden: NO];
 			
 			// 如果自己已经被hide了，那么就把鼠标也hide
-			if ([self alphaValue] < (BACKGROUND_ALPHA-0.05)) {
+			if ([self alphaValue] < (CONTROLALPHA-0.05)) {
 				CGDisplayHideCursor(dispView.fullScrnDevID);
 			}
 			
@@ -351,7 +354,7 @@
 
 			[fillScreenButton setHidden: YES];
 			
-			if ([self alphaValue] > (BACKGROUND_ALPHA-0.05)) {
+			if ([self alphaValue] > (CONTROLALPHA-0.05)) {
 				// 如果controlUI没有隐藏，那么显示resizeindiccator
 				[rzIndicator.animator setAlphaValue:1];
 			}
