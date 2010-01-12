@@ -357,7 +357,9 @@
 
 -(IBAction) toggleFillScreen:(id)sender
 {
-	[fillScreenButton setState: ([dispView toggleFillScreen])?NSOnState:NSOffState];
+	if (sender || ([fillScreenButton state] == NSOnState)) {
+		[fillScreenButton setState: ([dispView toggleFillScreen])?NSOnState:NSOffState];
+	}
 }
 
 -(IBAction) toggleAccessaryControls:(id)sender
@@ -468,7 +470,7 @@
 	if (fillScrnBtnModeImages) {
 		[fillScreenButton setImage:[fillScrnBtnModeImages objectAtIndex:0]];
 		[fillScreenButton setAlternateImage:[fillScrnBtnModeImages objectAtIndex:1]];
-	}	
+	}
 	[fillScreenButton setState:state];
 }
 
