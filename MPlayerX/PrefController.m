@@ -67,7 +67,11 @@
 			
 			[self switchViews:tbi];
 		}
+		
 		[prefWin setLevel:NSFloatingWindowLevel];
+		
+		// 可以选择 透明度
+		[[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
 		
 		nibLoaded = YES;
 	}
