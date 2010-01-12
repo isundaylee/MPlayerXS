@@ -22,7 +22,7 @@
 
 @implementation LogAnalyzeOperation
 
--(id) initWithData:(NSData*)analyzeData whenFinishedTarget:(id) target selector:(SEL) selector;
+-(id) initWithData:(NSData*)analyzeData whenFinishedTarget:(id) target selector:(SEL) selector
 {
 	if (self = [super init]) {
 		if (analyzeData) {
@@ -90,7 +90,7 @@ const char* findNextReturnMark(const char *head, const char *end, const char **s
 		
 		while (dataHead < dataEnd) {
 			retMark = findNextReturnMark(dataHead, dataEnd, &splitMark);
-			
+
 			if (retMark == NULL) { retMark = dataEnd -1; }
 			
 			if (splitMark) {
