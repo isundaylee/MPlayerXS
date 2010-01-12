@@ -113,8 +113,8 @@
 	// 自身的设定
 	[self setAlphaValue:BACKGROUND_ALPHA];
 	
-	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:0.150 alpha:1], 0.0,
-																  [NSColor colorWithCalibratedWhite:0.078 alpha:1], 0.35,
+	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:0.160 alpha:1], 0.0,
+																  [NSColor colorWithCalibratedWhite:0.078 alpha:1], 0.4,
 																  [NSColor colorWithCalibratedWhite:0.078 alpha:1], 1.0, nil];
 
 	[self setKeyEquivalents];
