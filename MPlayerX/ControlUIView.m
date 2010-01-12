@@ -60,6 +60,7 @@
 					   [NSNumber numberWithBool:NO], kUDKeySwitchTimeHintPressOnAbusolute,
 					   [NSNumber numberWithFloat:10], kUDKeyVolumeStep,
 					   [NSNumber numberWithBool:YES], kUDKeySwitchTimeTextPressOnRemain,
+					   [NSNumber numberWithFloat:BACKGROUNDALPHA], kUDKeyCtrlUIBackGroundAlpha,
 					   nil]];
 }
 
@@ -115,9 +116,10 @@
 	// 自身的设定
 	[self setAlphaValue:CONTROLALPHA];
 	
-	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:0.180 alpha:BACKGROUNDALPHA], 0.0,
-																  [NSColor colorWithCalibratedWhite:0.080 alpha:BACKGROUNDALPHA], 0.4,
-																  [NSColor colorWithCalibratedWhite:0.080 alpha:BACKGROUNDALPHA], 1.0, 
+	float backAlpha = [ud floatForKey:kUDKeyCtrlUIBackGroundAlpha];
+	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:0.180 alpha:backAlpha], 0.0,
+																  [NSColor colorWithCalibratedWhite:0.080 alpha:backAlpha], 0.4,
+																  [NSColor colorWithCalibratedWhite:0.080 alpha:backAlpha], 1.0, 
 																  nil];
 
 	[self setKeyEquivalents];

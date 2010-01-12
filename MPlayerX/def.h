@@ -43,6 +43,7 @@
 #define kUDKeySwitchTimeTextPressOnRemain		(@"TimeTextPrsOnRemain")
 #define kUDKeySubFontColor			(@"SubFontColor")
 #define kUDKeySubFontBorderColor	(@"SubFontBorderColor")
+#define kUDKeyCtrlUIBackGroundAlpha	(@"CtrlUIBackGroundAlpha")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")
