@@ -152,6 +152,9 @@
 	// Timer是在主线程上创建的，所以要在主线程上销毁
 	SAFERELEASETIMER(pollingTimer);
 	[la stop];
+	// 在这里重置textSubs和vobSub，这样在下次播放之前，用户可以自己设置这两个元素
+	[pm reset];
+
 	[movieInfo resetWithParameterManager:pm];
 	SAFERELEASE(sharedBufferName);
 	
@@ -220,7 +223,6 @@
 	if (dispDelegate) {
 		[dispDelegate draw:imageData from:self];
 	}
-	//NSLog(@"render");
 }
 
 - (void) toggleFullscreen {/* This function should be realized at up-level */}
@@ -248,10 +250,6 @@
 
 	// 如果想要自动获得字幕文件的codepage，需要调用这个函数
 	// 重置字幕文件和 编码
-	///< \warning 将这两个清空放在外面，但是这样的话，就无法强制设定字幕文件了
-	///< 可能需要别的变量
-	[pm setTextSubs:nil];
-	[pm setVobSub:nil];
 
 	if ([pm guessSubCP]) {
 		// 如果是要猜的话，忽略原来的SubCP设置
@@ -282,8 +280,11 @@ AS_ONE_SUB:		// 一个字幕文件
 				if (subsArray && ([subsArray count] > 0)) {
 					[pm setSubCP:@"UTF-8"];
 					[pm setTextSubs:subsArray];
-					[pm setVobSub:vobStr];
-
+					if ([pm vobSub] == nil) {
+						// 如果用户没有自己设置vobsub的话，这个变量会在每次播放完之后设为nil
+						// 如果用户有自己的vobsub，那么就不设置他而用用户的vobsub
+						[pm setVobSub:vobStr];
+					}
 				} else {
 					goto AS_ONE_SUB;
 				}
@@ -318,6 +319,7 @@ AS_ONE_SUB:		// 一个字幕文件
 	} else {
 		// 如果没有成功打开媒体文件
 		SAFERELEASE(sharedBufferName);
+		[pm reset];
 	}
 }
 
@@ -330,7 +332,6 @@ AS_ONE_SUB:		// 一个字幕文件
 		// 即使是暂停的时候这样更新时间，会引发KVO事件，这样是为了保持界面更新
 		[movieInfo.playingInfo setCurrentTime:movieInfo.playingInfo.currentTime];
 	}
-
 }
 
 -(void) performStop
