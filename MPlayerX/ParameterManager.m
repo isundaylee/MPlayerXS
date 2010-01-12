@@ -135,19 +135,19 @@
 -(void) setSubFontColor:(NSColor*)col
 {
 	col = [col colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	ass.frontColor = (((unsigned char)(255 * [col redComponent]))  <<24) + 
-					 (((unsigned char)(255 * [col greenComponent]))<<16) + 
-					 (((unsigned char)(255 * [col blueComponent])) <<8)  +
-					  ((unsigned char)(255 * (1-[col alphaComponent])));
+	ass.frontColor = (((uint32)(255 * [col redComponent]))  <<24) + 
+					 (((uint32)(255 * [col greenComponent]))<<16) + 
+					 (((uint32)(255 * [col blueComponent])) <<8)  +
+					  ((uint32)(255 * (1-[col alphaComponent])));
 }
 
 -(void) setSubFontBorderColor:(NSColor*)col
 {
 	col = [col colorUsingColorSpaceName:NSCalibratedRGBColorSpace];	
-	ass.borderColor = (((unsigned char)(255 * [col redComponent]))  <<24) + 
-					  (((unsigned char)(255 * [col greenComponent]))<<16) + 
-					  (((unsigned char)(255 * [col blueComponent])) <<8) + 
-					   ((unsigned char)(255 * (1-[col alphaComponent])));
+	ass.borderColor = (((uint32)(255 * [col redComponent]))  <<24) + 
+					  (((uint32)(255 * [col greenComponent]))<<16) + 
+					  (((uint32)(255 * [col blueComponent])) <<8) + 
+					   ((uint32)(255 * (1-[col alphaComponent])));
 	
 }
 
