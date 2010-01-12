@@ -150,7 +150,7 @@
 				 context:NULL];
 	[mplayer addObserver:self
 			  forKeyPath:kObservedValueStringSubInfo
-				 options:NSKeyValueObservingOptionNew
+				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 
 	// 建立支持格式的Set
