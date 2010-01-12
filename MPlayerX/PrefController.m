@@ -124,6 +124,16 @@
 }
 
 /////////////////////////////Toolbar Delegate/////////////////////
+/*
+ * 如何添加新的Pref View
+ * 1. 在Pref.xib添加一个新的View，并将这个View设置为与ContentView的尺寸绑定
+ * 2. 在PrefController中添加新的Outlet来代表这个View
+ * 3. 根据新的View添加ToolbarItem的Indentifier和Name
+ * 4. prefViews的初始化中，添加新View的outlet到其中
+ * 5. toolbarAllowedItemIdentifiers中加入新Identifier
+ * 6. 在toobar: itemForItemIdentifier :willBeInsertedIntoToolbar中创建相应的Item
+ * (注意需要相应的图片资源等)
+ */
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
 	return [NSArray arrayWithObjects:PrefToolBarItemIdGeneral, PrefToolBarItemIdDisplay, nil];
