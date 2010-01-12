@@ -70,16 +70,18 @@
 -(void) resetWithParameterManager:(ParameterManager*)pm
 {	
 	currentChapter = 0;
-	[self setCurrentTime:[NSNumber numberWithFloat:0]];
 	currentAudio = 0;
 	currentSub = 0;
-	volume = pm.volume;
 	audioBalance = 0;
-	mute = NO;
-	[self setAudioDelay:[NSNumber numberWithFloat:0]];
-	[self setSubDelay:[NSNumber numberWithFloat:0]];
+	
+	volume = pm.volume;
 	subPos = pm.subPos;
 	[self setSubScale:[NSNumber numberWithFloat:[pm subScaleInternal]]];
+
+	mute = NO;
+	[self setCurrentTime:[NSNumber numberWithFloat:0]];
+	[self setAudioDelay:[NSNumber numberWithFloat:0]];
+	[self setSubDelay:[NSNumber numberWithFloat:0]];
 	[self setSpeed:[NSNumber numberWithFloat:1]];
 }
 @end

@@ -76,6 +76,9 @@
 
 -(void) dealloc
 {
+	[keyPathDict release];
+	[typeDict release];
+
 	[demuxer release];
 	[chapters release];
 	[length release];
@@ -84,6 +87,7 @@
 	[videoInfo release];
 	[audioInfo release];
 	[subInfo release];
+
 	[super dealloc];
 }
 
@@ -93,16 +97,12 @@
 	[metaData removeAllObjects];
 	[videoInfo removeAllObjects];
 	[audioInfo removeAllObjects];
-	
-	[subInfo release];
-	[demuxer release];
-	[chapters release];
-	
+
 	[self setSeekable:NO];
-	demuxer = nil;
-	chapters = nil;
+	[self setDemuxer:nil];
+	[self setChapters:nil];
 	[self setLength:nil];
-	subInfo = nil;
+	[self setSubInfo:nil];
 }
 
 // 这个是LogAnalyzer的delegate方法，
