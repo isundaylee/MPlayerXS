@@ -593,7 +593,7 @@
 {
 	[subListMenu removeAllItems];
 	
-	if (subs) {
+	if (subs && (subs != (id)[NSNull null])) {
 		unsigned int idx = 0;
 		// 将所有的字幕名字加到菜单中
 		for(NSString *str in subs) {
