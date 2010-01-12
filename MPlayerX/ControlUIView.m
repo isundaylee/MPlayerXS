@@ -26,11 +26,11 @@
 #import "ArrowTextField.h"
 #import "ResizeIndicator.h"
 
-#define BACKGROUND_ALPHA		(0.95)
+#define BACKGROUND_ALPHA		(0.9)
 #define CONTROL_CORNER_RADIUS	(8)
 
 #define NUMOFVOLUMEIMAGES		(3)	//这个值是除了没有音量之后的image个数
-#define AUTOHIDETIMEINTERNAL	(2)
+#define AUTOHIDETIMEINTERNAL	(1.5)
 
 #define LASTSTOPPEDTIMERATIO	(100)
 
