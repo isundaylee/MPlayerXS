@@ -24,6 +24,8 @@
 
 @interface PrefController : NSObject
 {
+	NSUserDefaults *ud;
+
 	BOOL nibLoaded;
 	NSArray *prefViews;
 	

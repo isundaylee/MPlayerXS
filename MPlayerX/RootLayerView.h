@@ -25,6 +25,8 @@
 
 @interface RootLayerView : NSView <MPlayerDisplayDelegate>
 {
+	NSUserDefaults *ud;
+
 	BOOL shouldResize;
 	DisplayLayer *dispLayer;
 	

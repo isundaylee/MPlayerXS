@@ -61,6 +61,15 @@
 					   nil]];
 }
 
+-(id) initWithFrame:(NSRect)frameRect
+{
+	if (self = [super initWithFrame:frameRect]) {
+		ud = [NSUserDefaults standardUserDefaults];
+		shouldHide = NO;
+	}
+	return self;
+}
+
 -(void) loadButtonImages
 {
 	// 初始化音量大小图标
@@ -112,7 +121,7 @@
 	[self loadButtonImages];
 
 	// 自动隐藏设定
-	autoHideTimeInterval = [[NSUserDefaults standardUserDefaults] doubleForKey:kUDKeyCtrlUIAutoHideTime];
+	autoHideTimeInterval = [ud doubleForKey:kUDKeyCtrlUIAutoHideTime];
 	shouldHide = NO;
 	autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:autoHideTimeInterval
 													 target:self
@@ -120,7 +129,7 @@
 												   userInfo:nil
 													repeats:YES];
 	// 从userdefault中获得default 音量值
-	[volumeSlider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:kUDKeyVolume]];
+	[volumeSlider setFloatValue:[ud floatForKey:kUDKeyVolume]];
 	[self setVolume:volumeSlider];
 
 	[menuVolInc setEnabled:YES];
@@ -129,7 +138,7 @@
 	[menuVolDec setEnabled:YES];
 	[menuVolDec setTag:-1];
 
-	volStep = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeyVolumeStep];
+	volStep = [ud floatForKey:kUDKeyVolumeStep];
 
 	// 初始化时间显示slider和text
 	timeFormatter = [[TimeFormatter alloc] init];
@@ -157,9 +166,9 @@
 	[[subDelayText cell] setFormatter:floatWrapFormatter];
 	[[audioDelayText cell] setFormatter:floatWrapFormatter];
 	
-	[speedText setStepValue:[[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySpeedStep]];
-	[subDelayText setStepValue:[[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySubDelayStepTime]];
-	[audioDelayText setStepValue:[[NSUserDefaults standardUserDefaults] floatForKey:kUDKeyAudioDelayStepTime]];
+	[speedText setStepValue:[ud floatForKey:kUDKeySpeedStep]];
+	[subDelayText setStepValue:[ud floatForKey:kUDKeySubDelayStepTime]];
+	[audioDelayText setStepValue:[ud floatForKey:kUDKeyAudioDelayStepTime]];
 
 	subListMenu = [[NSMenu alloc] initWithTitle:@"SubListMenu"];
 	[menuSwitchSub setSubmenu:subListMenu];
@@ -168,8 +177,8 @@
 	[menuSubScaleInc setTag:1];
 	[menuSubScaleDec setTag:-1];
 	
-	hintTimePrsOnAbs = [[NSUserDefaults standardUserDefaults] boolForKey:kUDKeySwitchTimeHintPressOnAbusolute];
-	timeTextPrsOnRmn = [[NSUserDefaults standardUserDefaults] boolForKey:kUDKeySwitchTimeTextPressOnRemain];
+	hintTimePrsOnAbs = [ud boolForKey:kUDKeySwitchTimeHintPressOnAbusolute];
+	timeTextPrsOnRmn = [ud boolForKey:kUDKeySwitchTimeTextPressOnRemain];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(windowHasResized:)
@@ -294,7 +303,7 @@
 		[volumeButton setImage: [volumeButtonImages objectAtIndex: now]];
 		
 		// 将音量作为UserDefaults存储
-		[[NSUserDefaults standardUserDefaults] setFloat:vol forKey:kUDKeyVolume];
+		[ud setFloat:vol forKey:kUDKeyVolume];
 	}
 }
 
@@ -400,7 +409,7 @@
 
 -(IBAction) changeSubScale:(id)sender
 {
-	[appController changeSubScaleBy:[sender tag] * [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySubScaleStepValue]];
+	[appController changeSubScaleBy:[sender tag] * [ud floatForKey:kUDKeySubScaleStepValue]];
 }
 
 -(IBAction) stepSubtitles:(id)sender
@@ -532,7 +541,7 @@
 	[menuPlayFromLastStoppedPlace setEnabled:NO];
 	[menuPlayFromLastStoppedPlace setTag:0];
 	
-	timeTextPrsOnRmn = [[NSUserDefaults standardUserDefaults] boolForKey:kUDKeySwitchTimeTextPressOnRemain];
+	timeTextPrsOnRmn = [ud boolForKey:kUDKeySwitchTimeTextPressOnRemain];
 }
 
 ////////////////////////////////////////////////KVO for time//////////////////////////////////////////////////

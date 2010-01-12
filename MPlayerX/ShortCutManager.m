@@ -40,13 +40,15 @@
 
 -(id) init
 {
-	if (self = [super init]) {		
-		speedStepIncre = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySpeedStep];
-		seekStepTimeLR = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySeekStepLR];
-		seekStepTimeUB = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySeekStepUB];
+	if (self = [super init]) {
+		ud = [NSUserDefaults standardUserDefaults];
+		
+		speedStepIncre = [ud floatForKey:kUDKeySpeedStep];
+		seekStepTimeLR = [ud floatForKey:kUDKeySeekStepLR];
+		seekStepTimeUB = [ud floatForKey:kUDKeySeekStepUB];
 		appleRemoteControl = [[AppleRemote alloc] initWithDelegate:self];
-		subDelayStepTime = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySubDelayStepTime];
-		audioDelayStepTime = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeyAudioDelayStepTime];
+		subDelayStepTime = [ud floatForKey:kUDKeySubDelayStepTime];
+		audioDelayStepTime = [ud floatForKey:kUDKeyAudioDelayStepTime];
 	}
 	return self;
 }

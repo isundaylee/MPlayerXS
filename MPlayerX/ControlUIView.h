@@ -26,6 +26,8 @@
 
 @interface ControlUIView : NSView
 {
+	NSUserDefaults *ud;
+
 	NSGradient *fillGradient;
 	
 	TimeFormatter *timeFormatter;

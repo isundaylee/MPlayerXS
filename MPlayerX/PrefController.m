@@ -45,6 +45,8 @@
 -(id) init
 {
 	if (self = [super init]) {
+		ud = [NSUserDefaults standardUserDefaults];
+
 		nibLoaded = NO;
 		prefViews = nil;
 	}
@@ -58,7 +60,7 @@
 
 		prefViews = [[NSArray alloc] initWithObjects:viewGeneral, viewDisplay, nil];
 		
-		NSToolbarItem *tbi = [[prefToolbar items] objectAtIndex:[[NSUserDefaults standardUserDefaults] integerForKey:kUDKeySelectedPrefView]];
+		NSToolbarItem *tbi = [[prefToolbar items] objectAtIndex:[ud integerForKey:kUDKeySelectedPrefView]];
 		
 		if (tbi) {
 			[prefToolbar setSelectedItemIdentifier:[tbi itemIdentifier]];
@@ -97,13 +99,13 @@
 
 		[prefWin setTitle:[sender label]];
 		
-		[[NSUserDefaults standardUserDefaults] setInteger:[sender tag] forKey:kUDKeySelectedPrefView];
+		[ud setInteger:[sender tag] forKey:kUDKeySelectedPrefView];
 	}
 }
 
 - (IBAction)multiThreadChanged:(id)sender
 {
-	[appController setMultiThreadMode:[[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyEnableMultiThread]];
+	[appController setMultiThreadMode:[ud boolForKey:kUDKeyEnableMultiThread]];
 }
 
 - (IBAction)onTopModeChanged:(id)sender
@@ -113,12 +115,12 @@
 
 - (IBAction)hintTimeModeChanged:(id)sender
 {
-	[controlUI setHintTimePrsOnAbs:[[NSUserDefaults standardUserDefaults] boolForKey:kUDKeySwitchTimeHintPressOnAbusolute]];
+	[controlUI setHintTimePrsOnAbs:[ud boolForKey:kUDKeySwitchTimeHintPressOnAbusolute]];
 }
 
 - (IBAction)timeTextModeChanged:(id)sender
 {
-	[controlUI setTimeTextPrsOnRmn:[[NSUserDefaults standardUserDefaults] boolForKey:kUDKeySwitchTimeTextPressOnRemain]];
+	[controlUI setTimeTextPrsOnRmn:[ud boolForKey:kUDKeySwitchTimeTextPressOnRemain]];
 }
 
 /////////////////////////////Toolbar Delegate/////////////////////

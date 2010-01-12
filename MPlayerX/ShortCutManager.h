@@ -25,6 +25,8 @@
 
 @interface ShortCutManager : NSObject
 {
+	NSUserDefaults *ud;
+	
 	AppleRemote *appleRemoteControl;
 	
 	float speedStepIncre;

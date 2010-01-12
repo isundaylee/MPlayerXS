@@ -25,6 +25,8 @@
 
 @interface AppController : NSObject <NSApplicationDelegate>
 {
+	NSUserDefaults *ud;
+
 	MPlayerController *mplayer;
 	NSString *lastPlayedPath;
 	NSString *lastPlayedPathPre;

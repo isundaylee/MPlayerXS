@@ -68,6 +68,8 @@
 -(id) init
 {
 	if (self = [super init]) {
+		ud = [NSUserDefaults standardUserDefaults];
+		
 		mplayer = [[MPlayerController alloc] init];
 		lastPlayedPath = nil;
 		lastPlayedPathPre = nil;
@@ -84,7 +86,7 @@
 	unsigned long length = sizeof(value);
 	
 	if ((sysctlbyname("hw.optional.x86_64", &value, &length, NULL, 0) == 0) && (value == 1))
-		return [[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyPrefer64bitMPlayer];
+		return [ud boolForKey:kUDKeyPrefer64bitMPlayer];
 	
 	return NO;
 }
@@ -98,10 +100,10 @@
 	NSBundle *mainBundle = [NSBundle mainBundle];
 	NSString *homeDirectory = NSHomeDirectory();
 	
-	[self setMultiThreadMode:[[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyEnableMultiThread]];
+	[self setMultiThreadMode:[ud boolForKey:kUDKeyEnableMultiThread]];
 	
 	// 得到字幕字体文件的路径
-	NSString *subFontPath = [[NSUserDefaults standardUserDefaults] stringForKey:kUDKeySubFontPath];
+	NSString *subFontPath = [ud stringForKey:kUDKeySubFontPath];
 	
 	if ([subFontPath isEqualToString:kMPCDefaultSubFontPath]) {
 		// 如果是默认的路径的话，需要添加一些路径头
@@ -286,15 +288,15 @@
 	// 将播放开始时间重置
 	[mplayer.pm setStartTime:-1];
 	// 设定字幕大小
-	[mplayer.pm setSubScale:[[NSUserDefaults standardUserDefaults] floatForKey:kUDKeySubScale]];
+	[mplayer.pm setSubScale:[ud floatForKey:kUDKeySubScale]];
 	
 	[mplayer.pm setSubFontColor:
 	 [NSUnarchiver unarchiveObjectWithData:
-	  [[NSUserDefaults standardUserDefaults] objectForKey:kUDKeySubFontColor]]];
+	  [ud objectForKey:kUDKeySubFontColor]]];
 	
 	[mplayer.pm setSubFontBorderColor:
 	 [NSUnarchiver unarchiveObjectWithData:
-	  [[NSUserDefaults standardUserDefaults] objectForKey:kUDKeySubFontBorderColor]]];
+	  [ud objectForKey:kUDKeySubFontBorderColor]]];
 }
 
 -(BOOL) playMedia:(NSURL*)url
@@ -407,7 +409,7 @@
 	}
 	// NSLog(@"StopPath:%@", lastPlayedPath);
 	
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyAutoPlayNext] && 
+	if ([ud boolForKey:kUDKeyAutoPlayNext] && 
 		(![[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue])
 	   ) {
 		//如果不是强制关闭的话
@@ -437,7 +439,7 @@
 
 -(void) tryToPlayNext
 {
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyAutoPlayNext] && 
+	if ([ud boolForKey:kUDKeyAutoPlayNext] && 
 		(mplayer.state == kMPCStoppedState)
 	   ) {
 		//如果不是本地文件，肯定返回nil
@@ -591,7 +593,7 @@
 
 -(IBAction) showHelp:(id) sender
 {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[[NSUserDefaults standardUserDefaults] stringForKey:kUDKeyHelpURL]]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[ud stringForKey:kUDKeyHelpURL]]];
 }
 /////////////////////////////////////Application Delegate//////////////////////////////////////
 -(BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename
@@ -611,7 +613,7 @@
 	[mplayer performStop];
 	lastPlayedPath = nil;
 
-	[[NSUserDefaults standardUserDefaults] synchronize];
+	[ud synchronize];
 
 	NSString *lastStoppedTimePath = [NSString stringWithFormat:@"%@/Library/Preferences/%@.bookmarks.plist", 
 															   NSHomeDirectory(), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
@@ -628,7 +630,7 @@
 ////////////////////////////////////////Window Delegate////////////////////////////////////////
 -(void) windowWillClose:(NSNotification *)notification
 {
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyQuitOnClose]) {
+	if ([ud boolForKey:kUDKeyQuitOnClose]) {
 		[NSApp terminate:self];
 	} else {
 		[mplayer performStop];

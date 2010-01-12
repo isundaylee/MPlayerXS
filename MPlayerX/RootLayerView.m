@@ -61,6 +61,7 @@
 		fullScreenOptions = [[NSDictionary alloc] initWithObjectsAndKeys:
 							 [NSNumber numberWithInt:NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions,
 							 nil];
+		ud = [NSUserDefaults standardUserDefaults];
 	}
 	return self;
 }
@@ -252,7 +253,7 @@
 																	  usingType:NSPNGFileType
 																	 properties:nil];
 			// 得到存储文件夹
-			NSString *savePath = [[NSUserDefaults standardUserDefaults] stringForKey:kUDKeySnapshotSavePath];
+			NSString *savePath = [ud stringForKey:kUDKeySnapshotSavePath];
 			
 			// 如果是默认路径，那么就更换为绝对地址
 			if ([savePath isEqualToString:kSnapshotSaveDefaultPath]) {
@@ -334,7 +335,7 @@
 -(void) setPlayerWindowLevel
 {
 	if (![self isInFullScreenMode]) {
-		int onTopMode = [[NSUserDefaults standardUserDefaults] integerForKey:kUDKeyOnTopMode];
+		int onTopMode = [ud integerForKey:kUDKeyOnTopMode];
 
 		if ((onTopMode == kOnTopModeAlways) || 
 			((onTopMode == kOnTopModePlaying) && (appController.playerState == kMPCPlayingState))
@@ -381,14 +382,12 @@
 		
 		[self performSelectorOnMainThread:@selector(adjustWindowSizeAndAspectRatio) withObject:nil waitUntilDone:YES];
 
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyStartByFullScreen]) {
-			if (![self isInFullScreenMode]) {
-				[self performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
-														windowNumber:0 context:nil
-														  characters:kSCMFullScrnKeyEquivalent
-										 charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
-														   isARepeat:NO keyCode:0]];
-			}
+		if ([ud boolForKey:kUDKeyStartByFullScreen] && (![self isInFullScreenMode])) {
+			[self performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
+													windowNumber:0 context:nil
+													  characters:kSCMFullScrnKeyEquivalent
+									 charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
+													   isARepeat:NO keyCode:0]];
 		}
 		return 1;
 	}
