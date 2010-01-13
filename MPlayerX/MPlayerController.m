@@ -249,46 +249,36 @@
 	}
 
 	// 如果想要自动获得字幕文件的codepage，需要调用这个函数
-	// 重置字幕文件和 编码
 
 	if ([pm guessSubCP]) {
-		// 如果是要猜的话，忽略原来的SubCP设置
-		[pm setSubCP:nil];
-		
+		// 为了支持将来的动态加载字幕，必须先设定字幕为UTF-8，即使没有字幕也要这么设定
+		[pm setSubCP:@"UTF-8"];
+
 		NSString *vobStr = nil;
 		NSDictionary *subEncDict = [pm getCPFromMoviePath:moviePath alsoFindVobSub:&vobStr];
 		
 		NSString *subStr;
 		NSArray *subsArray;
 		
-		switch ([subEncDict count]) {
-			case 0:
-				// 没有字幕文件
-				break;
-			case 1:
-AS_ONE_SUB:		// 一个字幕文件
+		if ([subEncDict count]) {
+			// 如果有字幕文件
+			subsArray = [subConv convertTextSubsAndEncodings:subEncDict];
+			
+			if (subsArray && ([subsArray count] > 0)) {
+				
+				[pm setTextSubs:subsArray];
+				if ([pm vobSub] == nil) {
+					// 如果用户没有自己设置vobsub的话，这个变量会在每次播放完之后设为nil
+					// 如果用户有自己的vobsub，那么就不设置他而用用户的vobsub
+					[pm setVobSub:vobStr];
+				}
+			} else {
 				subStr = [[subEncDict allValues] objectAtIndex:0];
 				if (![subStr isEqualToString:@""]) {
 					// 如果猜出来了
 					[pm setSubCP:subStr];
 				}
-				break;
-			default:
-				// 如果有多个字幕文件
-				subsArray = [subConv convertTextSubsAndEncodings:subEncDict];
-				
-				if (subsArray && ([subsArray count] > 0)) {
-					[pm setSubCP:@"UTF-8"];
-					[pm setTextSubs:subsArray];
-					if ([pm vobSub] == nil) {
-						// 如果用户没有自己设置vobsub的话，这个变量会在每次播放完之后设为nil
-						// 如果用户有自己的vobsub，那么就不设置他而用用户的vobsub
-						[pm setVobSub:vobStr];
-					}
-				} else {
-					goto AS_ONE_SUB;
-				}
-				break;
+			}
 		}
 	}
 
