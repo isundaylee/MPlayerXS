@@ -45,6 +45,7 @@
 #define kUDKeySubFontBorderColor	(@"SubFontBorderColor")
 #define kUDKeyCtrlUIBackGroundAlpha	(@"CtrlUIBackGroundAlpha")
 #define kUDKeyForceIndex			(@"ForceIndex")
+#define kUDKeySubFileNameRule		(@"SubFileNameRule")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")

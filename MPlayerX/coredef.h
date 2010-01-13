@@ -22,5 +22,9 @@
 #define kI386Key		(@"i386")
 #define kX86_64Key		(@"x86_64")
 
-
-
+typedef enum
+{
+	kSubFileNameRuleExactMatch = 0,
+	kSubFileNameRuleContain = 1,
+	kSubFileNameRuleAny = 2
+} SUBFILE_NAMERULE;

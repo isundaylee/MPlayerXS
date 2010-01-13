@@ -60,10 +60,3 @@
 #define kKVOPropertyKeyPathLength			(@"length")
 #define kKVOPropertyKeyPathSeekable			(@"seekable")
 #define kKVOPropertyKeyPathSubInfo			(@"subInfo")
-
-typedef enum
-{
-	kSubFileNameRuleExactMatch = 0,
-	kSubFileNameRuleContain = 1,
-	kSubFileNameRuleAny = 2
-} SUBFILE_NAMERULE;

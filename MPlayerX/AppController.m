@@ -60,6 +60,7 @@
 					   [NSArchiver archivedDataWithRootObject:[NSColor whiteColor]], kUDKeySubFontColor,
 					   [NSArchiver archivedDataWithRootObject:[NSColor blackColor]], kUDKeySubFontBorderColor,
 					   [NSNumber numberWithBool:NO], kUDKeyForceIndex,
+					   [NSNumber numberWithUnsignedInt:kSubFileNameRuleContain], kUDKeySubFileNameRule,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
@@ -299,6 +300,7 @@
 	  [ud objectForKey:kUDKeySubFontBorderColor]]];
 	
 	[mplayer.pm setForceIndex:[ud boolForKey:kUDKeyForceIndex]];
+	[mplayer.pm setSubNameRule:[ud integerForKey:kUDKeySubFileNameRule]];
 }
 
 -(BOOL) playMedia:(NSURL*)url
