@@ -68,7 +68,7 @@
 			[self switchViews:tbi];
 		}
 		
-		[prefWin setLevel:NSFloatingWindowLevel];
+		[prefWin setLevel:NSMainMenuWindowLevel];
 		
 		// 可以选择 透明度
 		[[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
