@@ -155,6 +155,8 @@
 		[paramArray addObject:@"-forceidx"];
 	}
 
+	[paramArray addObject:@"-nodouble"];
+	
 	[paramArray addObject:@"-osdlevel"];
 	[paramArray addObject: [NSString stringWithFormat: @"%d",osdLevel]];
 	
