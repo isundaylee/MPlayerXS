@@ -194,7 +194,6 @@
 	}
 	
 	[mplayer.subConv setWorkDirectory:subConvWorkDirectory];
-	[mplayer.subConv clearWorkDirectory];
 	
 	// 开启Timer防止睡眠
 	NSTimer *prevSlpTimer = [NSTimer timerWithTimeInterval:20 
