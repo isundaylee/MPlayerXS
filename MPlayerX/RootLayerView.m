@@ -142,7 +142,10 @@
 }
 -(void) mouseExited:(NSEvent *)theEvent
 {
-	[controlUI doHide];
+	if (![self isInFullScreenMode]) {
+		// 全屏模式下，不那么积极的
+		[controlUI doHide];
+	}
 }
 
 -(void) keyDown:(NSEvent *)theEvent
@@ -290,6 +293,8 @@
 
 -(BOOL) toggleFullScreen
 {
+	NSWindow *win = [self window];
+
 	// ！注意：这里的显示状态和mplayer的播放状态时不一样的，比如，mplayer在MP3的时候，播放状态为YES，显示状态为NO
 	if ([self isInFullScreenMode]) {
 		// 应该退出全屏
@@ -301,19 +306,17 @@
 		// 这里会设定window的size，但是如果是播放关闭的状态退出播放，得到的size就是当前content的size
 		if (shouldResize) {
 			shouldResize = NO;
-			[[self window] setContentSize:[self calculateContentSize]];
-		}
-		[[self window] makeFirstResponder:self];
-		
+			[win setContentSize:[self calculateContentSize]];
+		}		
 		// 必须要在退出全屏之后才能设定window level
 		[self setPlayerWindowLevel];
 	} else if (displaying) {
 		// 应该进入全屏
 		// 只有在显示图像的时候才能进入全屏
 		// 进入全屏前，将window强制设定为普通mode，否则之后程序切换就无法正常
-		[[self window] setLevel:NSNormalWindowLevel];
+		[win setLevel:NSNormalWindowLevel];
 		
-		NSScreen *chosenScreen = [[self window] screen];
+		NSScreen *chosenScreen = [win screen];
 		
 		[self enterFullScreenMode:chosenScreen withOptions:fullScreenOptions];
 		
