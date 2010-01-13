@@ -21,6 +21,10 @@
 #import "SubConverter.h"
 #import <UniversalDetector/UniversalDetector.h>
 
+@interface SubConverter (SubConverterInternal)
+-(NSString*) validatePath:(NSString*) path;
+@end
+
 @implementation SubConverter
 
 -(id) init
@@ -68,13 +72,18 @@
 	NSString *subPathOld, *enc, *subFileOld, *subPathNew;
 	BOOL isDir = NO;
 	
-	if (!([fm fileExistsAtPath:workDir isDirectory:&isDir] && isDir)) {
-		// 如果Sub工作文件夹不存在的话，那么就创建这个文件夹
+	if ([fm fileExistsAtPath:subDir isDirectory:&isDir] && (!isDir)) {
+		// 如果存在但不是文件夹的话
+		[fm removeItemAtPath:subDir error:NULL];
+	}
+	
+	if (!isDir) {
+		// 如果原来不存在这个文件夹或者存在的是文件的话，都需要重建文件夹
 		if (![fm createDirectoryAtPath:subDir withIntermediateDirectories:YES attributes:nil error:NULL]) {
 			return nil;
 		}
 	}
-
+	
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	for (subPathOld in subEncDict) {
@@ -188,7 +197,7 @@
 					break;
 			}
 			
-			subPath = [NSString stringWithFormat:@"%@/%@", directoryPath, path];
+			subPath = [directoryPath stringByAppendingPathComponent:path];
 
 			NSString *ext = [[path pathExtension] uppercaseString];
 			
