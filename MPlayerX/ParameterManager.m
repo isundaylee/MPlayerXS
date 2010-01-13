@@ -40,6 +40,7 @@
 
 #define kPMThreadsNumMax	(8)
 
+#define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 @implementation ParameterManager
 
 @synthesize prefer64bMPlayer;
@@ -153,11 +154,8 @@
 
 -(void) reset
 {
-	[vobSub release];
-	[textSubs release];
-	
-	vobSub = nil;
-	textSubs = nil;
+	SAFERELEASE(vobSub);
+	SAFERELEASE(textSubs);
 }
 
 -(NSArray *) arrayOfParametersWithName:(NSString*) name
