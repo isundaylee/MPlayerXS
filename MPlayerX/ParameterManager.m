@@ -24,10 +24,6 @@
 
 #define kPMDefaultFontPath			(@"/System/Library/Fonts/HelveticaNeue.ttc")
 
-#define kPMDefaultSubFontPathChs	(@"/System/Library/Fonts/华文黑体.ttf")
-#define kPMDefaultSubFontPathCht	(@"/System/Library/Fonts/儷黑 Pro.ttf")
-#define kPMDefaultSubFontPathJpn	(@"/Library/Fonts/Osaka.ttf")
-
 #define kPMDefaultAudioOutput		(@"coreaudio") 
 #define kPMNoAudio					(@"null")
 #define kPMDefaultVideoOutput		(@"corevideo") 
@@ -41,6 +37,7 @@
 #define kPMThreadsNumMax	(8)
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
+
 @implementation ParameterManager
 
 @synthesize prefer64bMPlayer;
@@ -62,17 +59,6 @@
 	if (self = [super init])
 	{
 		textSubFileExts = [[NSSet alloc] initWithObjects:@"utf", @"utf8", @"srt", @"ass", @"smi", @"rt", @"txt", @"ssa", nil];
-		subEncodeLangDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"CHS", @"GB18030",
-																		 @"CHS", @"GBK",
-																		 @"CHS", @"EUC-CN",
-							 											 @"CHT", @"BIG5",
-							 											 @"JPN", @"SHIFT_JIS",
-							 											 @"JPN", @"ISO-2022-JP",
-																		 nil];
-		subLangDefaultSubFontDict = [[NSDictionary alloc] initWithObjectsAndKeys:kPMDefaultSubFontPathChs, @"CHS",
-																				 kPMDefaultSubFontPathCht, @"CHT",
-																				 kPMDefaultSubFontPathJpn, @"JPN",
-																				 nil];
 		autoSync = 30;
 		frameDrop = YES;
 		osdLevel = 0;
@@ -107,9 +93,6 @@
 -(void) dealloc
 {
 	[textSubFileExts release];
-	
-	[subEncodeLangDict release];
-	[subLangDefaultSubFontDict release];
 	
 	[font release];
 	[ao release];
@@ -227,12 +210,6 @@
 	if (subFont && (![subFont isEqualToString:@""])) {
 		[paramArray addObject:@"-subfont"];
 		[paramArray addObject:subFont];
-	} else {
-		NSString *lang, *fontFB;
-		if ((lang = [subEncodeLangDict objectForKey:subCP]) && (fontFB = [subLangDefaultSubFontDict objectForKey:lang])) {
-			[paramArray addObject:@"-subfont"];
-			[paramArray addObject:fontFB];
-		}
 	}
 
 	if (subCP && (![subCP isEqualToString:@""])) {

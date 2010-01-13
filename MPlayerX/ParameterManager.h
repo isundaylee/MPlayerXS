@@ -32,8 +32,7 @@ typedef struct
 @interface ParameterManager : NSObject 
 {
 	NSSet *textSubFileExts;
-	NSDictionary *subEncodeLangDict;
-	NSDictionary *subLangDefaultSubFontDict;
+
 	unsigned char autoSync;
 	BOOL frameDrop;
 	unsigned char osdLevel;
