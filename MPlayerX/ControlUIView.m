@@ -226,28 +226,33 @@
 	}
 }
 
+-(void) doHide
+{
+	// 这段代码是不能重进的，否则会不停的hidecursor
+	if ([self alphaValue] > (CONTROLALPHA-0.05)) {
+		// 得到鼠标在这个view的坐标
+		NSPoint pos = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] 
+								fromView:nil];
+		// 如果不在这个View的话，那么就隐藏自己
+		if (!NSPointInRect(pos, self.bounds)) {
+			[self.animator setAlphaValue:0];
+			
+			// 如果是全屏模式也要隐藏鼠标
+			if ([dispView isInFullScreenMode]) {
+				CGDisplayHideCursor(dispView.fullScrnDevID);
+			} else {
+				// 不是全屏的话，隐藏resizeindicator
+				// 全屏的话不管
+				[rzIndicator.animator setAlphaValue:0];
+			}
+		}			
+	}	
+}
+
 -(void) tryToHide
 {
 	if (shouldHide) {
-		// 这段代码是不能重进的，否则会不停的hidecursor
-		if ([self alphaValue] > (CONTROLALPHA-0.05)) {
-			// 得到鼠标在这个view的坐标
-			NSPoint pos = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] 
-									fromView:nil];
-			// 如果不在这个View的话，那么就隐藏自己
-			if (!NSPointInRect(pos, self.bounds)) {
-				[self.animator setAlphaValue:0];
-				
-				// 如果是全屏模式也要隐藏鼠标
-				if ([dispView isInFullScreenMode]) {
-					CGDisplayHideCursor(dispView.fullScrnDevID);
-				} else {
-					// 不是全屏的话，隐藏resizeindicator
-					// 全屏的话不管
-					[rzIndicator.animator setAlphaValue:0];
-				}
-			}			
-		}
+		[self doHide];
 	} else {
 		shouldHide = YES;
 	}
