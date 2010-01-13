@@ -18,9 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "coredef_private.h"
 #import "ParameterManager.h"
-#import <UniversalDetector/UniversalDetector.h>
 
 #define kPMDefaultFontPath			(@"/System/Library/Fonts/HelveticaNeue.ttc")
 
@@ -30,16 +28,13 @@
 #define kPMNoVideo					(@"null") 
 #define kPMDefaultSubLang			(@"en,eng,ch,chs,cht,ja,jpn")
 
-#define kPMSubCPRuleExactMatchName	(0)
-#define kPMSubCPRuleContainName		(1)
-#define kPMSubCPRuleAnyName			(2)
-
 #define kPMThreadsNumMax	(8)
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
 @implementation ParameterManager
 
+@synthesize subNameRule;
 @synthesize prefer64bMPlayer;
 @synthesize guessSubCP;
 @synthesize startTime;
@@ -58,11 +53,10 @@
 {
 	if (self = [super init])
 	{
-		textSubFileExts = [[NSSet alloc] initWithObjects:@"utf", @"utf8", @"srt", @"ass", @"smi", @"rt", @"txt", @"ssa", nil];
 		autoSync = 30;
 		frameDrop = YES;
 		osdLevel = 0;
-		subFuzziness = kPMSubCPRuleContainName;
+		subNameRule = kSubFileNameRuleContain;
 		font = [[NSString alloc] initWithString:kPMDefaultFontPath]; // Everyone Should have this font
 		ao = [[NSString alloc] initWithString:kPMDefaultAudioOutput];
 		vo = [[NSString alloc] initWithString:kPMDefaultVideoOutput];
@@ -92,8 +86,6 @@
 
 -(void) dealloc
 {
-	[textSubFileExts release];
-	
 	[font release];
 	[ao release];
 	[vo release];
@@ -161,7 +153,7 @@
 	[paramArray addObject: [NSString stringWithFormat: @"%d",osdLevel]];
 	
 	[paramArray addObject:@"-sub-fuzziness"];
-	[paramArray addObject:[NSString stringWithFormat: @"%d",subFuzziness]];
+	[paramArray addObject:[NSString stringWithFormat: @"%d",subNameRule]];
 	
 	if (font) {
 		[paramArray addObject:@"-font"];
@@ -260,83 +252,4 @@
 	return [paramArray autorelease];
 }
 
--(NSDictionary*) getCPFromMoviePath:(NSString*)moviePath alsoFindVobSub:(NSString**)vobPath
-{
-	NSString *cpStr = nil;
-	NSString *subPath = nil;
-	NSMutableDictionary *subEncDict = [[NSMutableDictionary alloc] initWithCapacity:2];
-
-	if (vobPath) {
-		*vobPath = nil;
-	}
-
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	UniversalDetector *dt = [[UniversalDetector alloc] init];
-	
-	// 文件夹路径
-	NSString *directoryPath = [moviePath stringByDeletingLastPathComponent];
-	// 播放文件名称
-	NSString *movieName = [[moviePath lastPathComponent] stringByDeletingPathExtension];
-	
-	NSDirectoryEnumerator *directoryEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:directoryPath];
-	
-	// 遍历播放文件所在的目录
-	for (NSString *path in directoryEnumerator)
-	{
-		NSDictionary *fileAttr = [directoryEnumerator fileAttributes];
-		
-		if ([fileAttr objectForKey:NSFileType] == NSFileTypeDirectory) { //不遍历子目录
-			[directoryEnumerator skipDescendants];
-			
-		} else if ([[fileAttr objectForKey:NSFileType] isEqualToString: NSFileTypeRegular]) {
-			// 如果是普通文件
-			switch (subFuzziness) {
-				case kPMSubCPRuleExactMatchName:
-					if (![movieName isEqualToString:[path stringByDeletingPathExtension]]) continue; // exact match
-					break;
-				case kPMSubCPRuleAnyName:
-					break; // any sub file is OK
-				case kPMSubCPRuleContainName:
-					if ([path rangeOfString: movieName].location == NSNotFound) continue; // contain the movieName
-					break;
-				default:
-					break;
-			}
-			
-			subPath = [NSString stringWithFormat:@"%@/%@", directoryPath, path];
-
-			NSString *ext = [path pathExtension];
-			
-			if ([textSubFileExts containsObject: ext]) {
-				// 如果是文本字幕文件
-				[dt analyzeContentsOfFile: subPath];
-				
-				cpStr = [dt MIMECharset];
-				
-				if (cpStr) {
-					// 如果猜出来了，不管有多少的确认率
-					[subEncDict setObject:[cpStr uppercaseString] forKey:subPath];
-				} else {
-					// 如果没有猜出来，那么设为空
-					[subEncDict setObject:@"" forKey:subPath];
-				}
-				[dt reset];				
-			} else if ([[ext uppercaseString] isEqualToString:@"SUB"]) {
-				// 如果是vobsub并且设定要寻找vobsub
-				if (vobPath) {
-					[*vobPath release];
-					*vobPath = [[subPath stringByDeletingPathExtension] retain];
-				}
-			}
-		}
-	}
-	[dt release];
-	[pool release];
-
-	if (vobPath) {
-		[*vobPath autorelease];
-	}
-
-	return [subEncDict autorelease];	
-}
 @end

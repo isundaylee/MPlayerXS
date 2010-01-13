@@ -19,6 +19,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import "coredef_private.h"
 
 typedef struct
 {
@@ -31,12 +32,10 @@ typedef struct
 
 @interface ParameterManager : NSObject 
 {
-	NSSet *textSubFileExts;
-
 	unsigned char autoSync;
 	BOOL frameDrop;
 	unsigned char osdLevel;
-	unsigned char subFuzziness;
+	SUBFILE_NAMERULE subNameRule;
 	NSString *font;
 	NSString *ao;
 	NSString *vo;
@@ -58,6 +57,7 @@ typedef struct
 	NSString *vobSub;
 }
 
+@property (assign, readwrite) SUBFILE_NAMERULE subNameRule;
 @property (assign, readwrite) BOOL prefer64bMPlayer;
 @property (assign, readwrite) BOOL guessSubCP;
 @property (assign, readwrite) float startTime;
@@ -77,8 +77,6 @@ typedef struct
 -(void) setSubFontBorderColor:(NSColor*)col;
 
 -(NSArray *) arrayOfParametersWithName:(NSString*) name;
-
--(NSDictionary*) getCPFromMoviePath:(NSString*)moviePath alsoFindVobSub:(NSString**)vobPath;
 
 -(void) reset;
 

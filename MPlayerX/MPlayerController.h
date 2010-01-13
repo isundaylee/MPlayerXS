@@ -70,7 +70,8 @@
 @property (retain, readwrite)	ParameterManager *pm;
 @property (readonly)			LogAnalyzer *la;
 @property (assign, readwrite)	id<MPlayerDisplayDelegate> dispDelegate;
-@property (readonly)			SubConverter *subConv;
+
+-(void) setWorkDirectory:(NSString*) wd;
 
 -(void) playMedia:(NSString*)moviePath;
 -(void) performStop;

@@ -60,7 +60,6 @@
 @synthesize movieInfo;
 @synthesize mpPathPair;
 @synthesize la;
-@synthesize subConv;
 
 ///////////////////////////////////////////Init/Dealloc////////////////////////////////////////////////////////
 -(id) init
@@ -152,10 +151,12 @@
 	// Timer是在主线程上创建的，所以要在主线程上销毁
 	SAFERELEASETIMER(pollingTimer);
 	[la stop];
+	[subConv clearWorkDirectory];
+
 	// 在这里重置textSubs和vobSub，这样在下次播放之前，用户可以自己设置这两个元素
 	[pm reset];
-
 	[movieInfo resetWithParameterManager:pm];
+	
 	SAFERELEASE(sharedBufferName);
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayStoppedNotification 
@@ -248,20 +249,23 @@
 		sharedBufferName = nil;
 	}
 
+	// 播放开始之前清空subConv的工作文件夹
+	[subConv clearWorkDirectory];
+	
 	// 如果想要自动获得字幕文件的codepage，需要调用这个函数
-
 	if ([pm guessSubCP]) {
 		// 为了支持将来的动态加载字幕，必须先设定字幕为UTF-8，即使没有字幕也要这么设定
 		[pm setSubCP:@"UTF-8"];
 
 		NSString *vobStr = nil;
-		NSDictionary *subEncDict = [pm getCPFromMoviePath:moviePath alsoFindVobSub:&vobStr];
+		NSDictionary *subEncDict = [subConv getCPFromMoviePath:moviePath nameRule:pm.subNameRule alsoFindVobSub:&vobStr];
 		
 		NSString *subStr;
 		NSArray *subsArray;
 		
 		if ([subEncDict count]) {
 			// 如果有字幕文件
+			// 在这个函数被调用之前，最好clearWorkDir，否则得话，可能有文件名重名问题
 			subsArray = [subConv convertTextSubsAndEncodings:subEncDict];
 			
 			if (subsArray && ([subsArray count] > 0)) {
@@ -311,6 +315,11 @@
 		SAFERELEASE(sharedBufferName);
 		[pm reset];
 	}
+}
+
+-(void) setWorkDirectory:(NSString*) wd
+{
+	[subConv setWorkDirectory:wd];
 }
 
 -(void) getCurrentTime:(NSTimer*)theTimer

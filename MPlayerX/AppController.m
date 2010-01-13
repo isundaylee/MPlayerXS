@@ -183,7 +183,7 @@
 	
 	NSFileManager *fm = [NSFileManager defaultManager];
 	BOOL isDir = NO;
-	NSString *workDir = [homeDirectory stringByAppendingString:@"/Library/Application Support/MPlayerX"];
+	NSString *workDir = [homeDirectory stringByAppendingPathComponent:@"Library/Application Support/MPlayerX"];
 
 	if (!([fm fileExistsAtPath:workDir isDirectory:&isDir] && isDir)) {
 		// 如果没有这个文件夹
@@ -367,8 +367,8 @@
 	[mplayer.pm setThreads: threadNum];
 	
 	[mplayer setMpPathPair: [NSDictionary dictionaryWithObjectsAndKeys: 
-							 [resPath stringByAppendingString:[NSString stringWithFormat:@"/binaries/m32/%@", mplayerName]], kI386Key,
-							 [resPath stringByAppendingString:[NSString stringWithFormat:@"/binaries/x86_64/%@", mplayerName]], kX86_64Key,
+							 [resPath stringByAppendingPathComponent:[NSString stringWithFormat:@"binaries/m32/%@", mplayerName]], kI386Key,
+							 [resPath stringByAppendingPathComponent:[NSString stringWithFormat:@"binaries/x86_64/%@", mplayerName]], kX86_64Key,
 							 nil]];
 }
 

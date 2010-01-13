@@ -55,10 +55,15 @@
 #define kMPCSubInfosID		(@"MPXSUBNAMES")
 /////////////////////////////////////////////////////////////////////
 
-
-
 // KVO观测的属性的KeyPath
 #define kKVOPropertyKeyPathCurrentTime		(@"playingInfo.currentTime")
 #define kKVOPropertyKeyPathLength			(@"length")
 #define kKVOPropertyKeyPathSeekable			(@"seekable")
 #define kKVOPropertyKeyPathSubInfo			(@"subInfo")
+
+typedef enum
+{
+	kSubFileNameRuleExactMatch = 0,
+	kSubFileNameRuleContain = 1,
+	kSubFileNameRuleAny = 2
+} SUBFILE_NAMERULE;
