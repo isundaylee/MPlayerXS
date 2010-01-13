@@ -183,17 +183,16 @@
 	
 	NSFileManager *fm = [NSFileManager defaultManager];
 	BOOL isDir = NO;
-	NSString *subConvWorkDirectory = [homeDirectory stringByAppendingString:@"/Library/Application Support/MPlayerX"];
+	NSString *workDir = [homeDirectory stringByAppendingString:@"/Library/Application Support/MPlayerX"];
 
-	if (!([fm fileExistsAtPath:subConvWorkDirectory isDirectory:&isDir] && isDir)) {
+	if (!([fm fileExistsAtPath:workDir isDirectory:&isDir] && isDir)) {
 		// 如果没有这个文件夹
-		if (![fm createDirectoryAtPath:subConvWorkDirectory withIntermediateDirectories:YES attributes:nil error:NULL]) {
+		if (![fm createDirectoryAtPath:workDir withIntermediateDirectories:YES attributes:nil error:NULL]) {
 			// 如果文件夹创建失败
-			subConvWorkDirectory = nil;
+			workDir = nil;
 		}
 	}
-	
-	[mplayer.subConv setWorkDirectory:subConvWorkDirectory];
+	[mplayer setWorkDirectory:workDir];
 	
 	// 开启Timer防止睡眠
 	NSTimer *prevSlpTimer = [NSTimer timerWithTimeInterval:20 
@@ -390,9 +389,7 @@
 }
 
 -(void) mplayerStopped:(NSNotification *)notification
-{
-	[mplayer.subConv clearWorkDirectory];
-	
+{	
 	[window setTitle: @"MPlayerX"];
 	
 	[controlUI playBackStopped];
