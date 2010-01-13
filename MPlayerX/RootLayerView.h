@@ -27,6 +27,8 @@
 {
 	NSUserDefaults *ud;
 
+	NSTrackingArea *trackingArea;
+
 	BOOL shouldResize;
 	DisplayLayer *dispLayer;
 	

@@ -55,6 +55,11 @@
 {
 	if (self = [super initWithFrame:frameRect]) {
 		// 成功创建self
+		trackingArea = [[NSTrackingArea alloc] initWithRect:NSInsetRect(frameRect, 1, 1) 
+													options:NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved | NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingAssumeInside
+													  owner:self
+												   userInfo:nil];
+		[self addTrackingArea:trackingArea];
 		shouldResize = NO;
 		dispLayer = [[DisplayLayer alloc] init];
 		displaying = NO;
@@ -68,6 +73,7 @@
 
 -(void) dealloc
 {
+	[trackingArea release];
 	[fullScreenOptions release];
 	[dispLayer release];
 	
@@ -90,9 +96,6 @@
 	[self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType,nil]];
 	
 	[[self window] setContentMinSize:NSMakeSize(400, 400)];
-	
-	// 设定window可以接受MouseMoved Event
-	[[self window] setAcceptsMouseMovedEvents:YES];
 }
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)event 
@@ -131,6 +134,15 @@
 									  charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
 														isARepeat:NO keyCode:0]];
 	}
+}
+
+-(void) mouseEntered:(NSEvent *)theEvent
+{
+	[controlUI showUp];
+}
+-(void) mouseExited:(NSEvent *)theEvent
+{
+	[controlUI doHide];
 }
 
 -(void) keyDown:(NSEvent *)theEvent
