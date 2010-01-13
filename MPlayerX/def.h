@@ -44,6 +44,7 @@
 #define kUDKeySubFontColor			(@"SubFontColor")
 #define kUDKeySubFontBorderColor	(@"SubFontBorderColor")
 #define kUDKeyCtrlUIBackGroundAlpha	(@"CtrlUIBackGroundAlpha")
+#define kUDKeyForceIndex			(@"ForceIndex")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")

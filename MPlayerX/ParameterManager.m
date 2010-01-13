@@ -47,6 +47,7 @@
 @synthesize threads;
 @synthesize textSubs;
 @synthesize vobSub;
+@synthesize forceIndex;
 
 #pragma mark Init/Dealloc
 -(id) init
@@ -80,6 +81,7 @@
 		threads = 1;
 		textSubs = nil;
 		vobSub = nil;
+		forceIndex = NO;
 	}
 	return self;
 }
@@ -149,6 +151,10 @@
 		[paramArray addObject:@"-framedrop"];
 	}
 	
+	if (forceIndex) {
+		[paramArray addObject:@"-forceidx"];
+	}
+
 	[paramArray addObject:@"-osdlevel"];
 	[paramArray addObject: [NSString stringWithFormat: @"%d",osdLevel]];
 	

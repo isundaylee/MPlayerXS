@@ -55,6 +55,7 @@ typedef struct
 	unsigned int threads;
 	NSArray *textSubs;
 	NSString *vobSub;
+	BOOL forceIndex;
 }
 
 @property (assign, readwrite) SUBFILE_NAMERULE subNameRule;
@@ -70,6 +71,7 @@ typedef struct
 @property (assign, readwrite) unsigned int threads;
 @property (retain, readwrite) NSArray *textSubs;
 @property (retain, readwrite) NSString *vobSub;
+@property (assign, readwrite) BOOL forceIndex;
 
 // 这个接口是面向playingInfo
 -(float) subScaleInternal;
