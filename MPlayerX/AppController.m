@@ -59,7 +59,7 @@
 					   [NSNumber numberWithBool:NO], kUDKeyQuitOnClose,
 					   [NSArchiver archivedDataWithRootObject:[NSColor whiteColor]], kUDKeySubFontColor,
 					   [NSArchiver archivedDataWithRootObject:[NSColor blackColor]], kUDKeySubFontBorderColor,
-					   [NSNumber numberWithBool:YES], kUDKeyForceIndex,
+					   [NSNumber numberWithBool:NO], kUDKeyForceIndex,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
