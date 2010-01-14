@@ -126,9 +126,9 @@
 	[self loadButtonImages];
 
 	// 自动隐藏设定
-	autoHideTimeInterval = [ud doubleForKey:kUDKeyCtrlUIAutoHideTime] / 2;
+	autoHideTimeInterval = [ud doubleForKey:kUDKeyCtrlUIAutoHideTime];
 	shouldHide = NO;
-	autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:autoHideTimeInterval
+	autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:autoHideTimeInterval/2
 													 target:self
 												   selector:@selector(tryToHide)
 												   userInfo:nil
@@ -218,7 +218,7 @@
 		// 这个Timer没有retain，所以也不需要release
 		[autoHideTimer invalidate];
 		autoHideTimeInterval = ti;
-		autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:autoHideTimeInterval
+		autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:autoHideTimeInterval/2
 														 target:self
 													   selector:@selector(tryToHide)
 													   userInfo:nil
