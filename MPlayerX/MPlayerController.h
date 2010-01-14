@@ -1,5 +1,5 @@
 /*
- * MPlayerX - MPlayerController.h
+ * MPlayerX - CoreController.h
  *
  * Copyright (C) 2009 Zongyao QU
  * 
@@ -43,7 +43,7 @@
 
 @class SubConverter;
 
-@interface MPlayerController : NSObject <PlayerCoreDelegate>
+@interface CoreController : NSObject <PlayerCoreDelegate>
 {
 	int state;
 
@@ -115,7 +115,7 @@
 -(void) simulateKeyDown: (char) keyCode;
 @end
 
-@interface MPlayerController (PlayerCoreDelegate)
+@interface CoreController (PlayerCoreDelegate)
 -(void) playerTaskTerminated:(BOOL) byForce from:(id)sender;	/**< 通知播放任务结束 */
 -(BOOL) outputAvailable:(NSData*) outData from:(id)sender;		/**< 有输出 */
 -(BOOL) errorHappened:(NSData*) errData from:(id)sender;		/**< 有错误输出 */

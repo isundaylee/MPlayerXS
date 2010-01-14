@@ -21,7 +21,7 @@
 #import <Cocoa/Cocoa.h>
 #import "AppleRemote.h"
 
-@class AppController, ControlUIView, RootLayerView;
+@class PlayerController, ControlUIView, RootLayerView;
 
 @interface ShortCutManager : NSObject
 {
@@ -35,7 +35,7 @@
 	float subDelayStepTime;
 	float audioDelayStepTime;
 
-	IBOutlet AppController *appController;
+	IBOutlet PlayerController *playerController;
 	IBOutlet ControlUIView *controlUI;
 	IBOutlet RootLayerView *dispView;
 	IBOutlet NSMenu *mainMenu;

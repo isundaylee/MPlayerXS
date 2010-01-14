@@ -1,5 +1,5 @@
 /*
- * MPlayerX - MPlayerController.m
+ * MPlayerX - CoreController.m
  *
  * Copyright (C) 2009 Zongyao QU
  * 
@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "MPlayerController.h"
+#import "CoreController.h"
 #import <sys/mman.h>
 #import "coredef_private.h"
 
@@ -39,7 +39,7 @@
 @end
 
 /// 内部方法声明
-@interface MPlayerController (MPlayerOSXVOProto)
+@interface CoreController (MPlayerOSXVOProto)
 - (int) startWithWidth: (bycopy int)width withHeight: (bycopy int)height withBytes: (bycopy int)bytes withAspect: (bycopy int)aspect;
 - (void) stop;
 - (void) render;
@@ -47,12 +47,12 @@
 - (void) ontop;
 @end
 
-@interface MPlayerController (MPlayerControllerInternal)
+@interface CoreController (CoreControllerInternal)
 -(void) getCurrentTime:(NSTimer *)theTimer;
 -(void) playerTaskTerminatedOnMainThread:(NSDictionary*)info;
 @end
 
-@implementation MPlayerController
+@implementation CoreController
 
 @synthesize state;
 @synthesize dispDelegate;
@@ -136,7 +136,7 @@
 	// 而这里需要销毁的东西，会在主线程里读写，因此，销毁工作必须放在主线程里进行
 	// 要保证执行顺序，需要waitUntilDone为YES
 
-	// 在MplayerController的playerStopped的方法里面，会根据playing状态设定window level
+	// 在CoreController的playerStopped的方法里面，会根据playing状态设定window level
 	// 因此要先设定state再通知
 	[self performSelectorOnMainThread:@selector(playerTaskTerminatedOnMainThread:)
 						   withObject:[NSDictionary dictionaryWithObjectsAndKeys:

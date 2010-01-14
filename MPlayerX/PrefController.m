@@ -20,7 +20,7 @@
 
 #import "def.h"
 #import "PrefController.h"
-#import "AppController.h"
+#import "PlayerController.h"
 #import "RootLayerView.h"
 #import "ControlUIView.h"
 
@@ -109,7 +109,7 @@
 
 - (IBAction)multiThreadChanged:(id)sender
 {
-	[appController setMultiThreadMode:[ud boolForKey:kUDKeyEnableMultiThread]];
+	[playerController setMultiThreadMode:[ud boolForKey:kUDKeyEnableMultiThread]];
 }
 
 - (IBAction)onTopModeChanged:(id)sender

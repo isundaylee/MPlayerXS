@@ -120,7 +120,6 @@
 	return nil;
 }
 
-//////////////////////////////////////MPlayerControllerDelegate/////////////////////////////////////
 -(int) startWithWidth:(int) width height:(int) height pixelFormat:(OSType) pixelFormat aspect:(int)aspect
 {
 	[self freeLocalBuffer];

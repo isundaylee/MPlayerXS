@@ -23,7 +23,7 @@
 #import "RootLayerView.h"
 #import "DisplayLayer.h"
 #import "ControlUIView.h"
-#import "AppController.h"
+#import "PlayerController.h"
 #import "ShortCutManager.h"
 
 #define kOnTopModeNormal		(0)
@@ -87,7 +87,7 @@
 	[self setLayer:dispLayer];
 	
 	// 通知dispView接受mplayer的渲染通知
-	[appController setDelegateForMPlayer:self];
+	[playerController setDelegateForMPlayer:self];
 	
 	// 默认的全屏的DisplayID
 	fullScrnDevID = [[[[NSScreen mainScreen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
@@ -300,7 +300,7 @@
 			// 修改文件名中的：，因为：无法作为文件名存储
 			savePath = [NSString stringWithFormat:@"%@/%@_%@.png",
 						savePath, 
-						[[appController.lastPlayedPath lastPathComponent] stringByDeletingPathExtension],
+						[[playerController.lastPlayedPath lastPathComponent] stringByDeletingPathExtension],
 						[[NSDateFormatter localizedStringFromDate:[NSDate date]
 														dateStyle:NSDateFormatterMediumStyle
 														timeStyle:NSDateFormatterMediumStyle] 
@@ -375,7 +375,7 @@
 		int onTopMode = [ud integerForKey:kUDKeyOnTopMode];
 
 		if ((onTopMode == kOnTopModeAlways) || 
-			((onTopMode == kOnTopModePlaying) && (appController.playerState == kMPCPlayingState))
+			((onTopMode == kOnTopModePlaying) && (playerController.playerState == kMPCPlayingState))
 			) {
 			[[self window] setLevel: NSTornOffMenuWindowLevel];
 		} else {
@@ -403,7 +403,7 @@
 	
 	if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
 		if (sourceDragMask & NSDragOperationCopy) {
-			[appController playMedia:[NSURL fileURLWithPath:[[pboard propertyListForType:NSFilenamesPboardType] objectAtIndex:0] isDirectory:NO]];
+			[playerController playMedia:[NSURL fileURLWithPath:[[pboard propertyListForType:NSFilenamesPboardType] objectAtIndex:0] isDirectory:NO]];
 		}
 	}
 	return YES;

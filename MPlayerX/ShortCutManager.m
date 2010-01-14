@@ -20,7 +20,7 @@
 
 #import "def.h"
 #import "ShortCutManager.h"
-#import "AppController.h"
+#import "PlayerController.h"
 #import "ControlUIView.h"
 #import "RootLayerView.h"
 
@@ -92,13 +92,13 @@
 				switch (key)
 				{
 					case NSUpArrowFunctionKey:
-						[appController changeSpeedBy:speedStepIncre];
+						[playerController changeSpeedBy:speedStepIncre];
 						break;
 					case NSDownArrowFunctionKey:
-						[appController changeSpeedBy:-speedStepIncre];
+						[playerController changeSpeedBy:-speedStepIncre];
 						break;
 					case NSLeftArrowFunctionKey:
-						[appController setSpeed:1];
+						[playerController setSpeed:1];
 						break;
 					default:
 						ret = NO;
@@ -118,13 +118,13 @@
 				switch (key)
 				{
 					case NSUpArrowFunctionKey:
-						[appController changeAudioDelayBy:audioDelayStepTime];
+						[playerController changeAudioDelayBy:audioDelayStepTime];
 						break;
 					case NSDownArrowFunctionKey:
-						[appController changeAudioDelayBy:-audioDelayStepTime];
+						[playerController changeAudioDelayBy:-audioDelayStepTime];
 						break;
 					case NSLeftArrowFunctionKey:
-						[appController setAudioDelay:0];
+						[playerController setAudioDelay:0];
 						break;
 					default:
 						ret = NO;
@@ -136,13 +136,13 @@
 				switch (key)
 				{
 					case NSUpArrowFunctionKey:
-						[appController changeSubDelayBy:subDelayStepTime];
+						[playerController changeSubDelayBy:subDelayStepTime];
 						break;
 					case NSDownArrowFunctionKey:
-						[appController changeSubDelayBy:-subDelayStepTime];
+						[playerController changeSubDelayBy:-subDelayStepTime];
 						break;
 					case NSLeftArrowFunctionKey:
-						[appController setSubDelay:0];
+						[playerController setSubDelay:0];
 						break;
 					default:
 						ret = NO;
@@ -153,16 +153,16 @@
 				switch (key)
 				{
 					case NSRightArrowFunctionKey:
-						[appController changeTimeBy:seekStepTimeLR];
+						[playerController changeTimeBy:seekStepTimeLR];
 						break;
 					case NSLeftArrowFunctionKey:
-						[appController changeTimeBy:-seekStepTimeLR];
+						[playerController changeTimeBy:-seekStepTimeLR];
 						break;
 					case NSUpArrowFunctionKey:
-						[appController changeTimeBy:seekStepTimeUB];
+						[playerController changeTimeBy:seekStepTimeUB];
 						break;
 					case NSDownArrowFunctionKey:
-						[appController changeTimeBy:-seekStepTimeUB];
+						[playerController changeTimeBy:-seekStepTimeUB];
 						break;
 					default:
 						ret = NO;

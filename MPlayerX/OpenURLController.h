@@ -20,11 +20,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class AppController;
+@class PlayerController;
 
 @interface OpenURLController : NSObject
 {
-	IBOutlet AppController *appController;
+	IBOutlet PlayerController *playerController;
 	
 	IBOutlet NSPanel *openURLPanel;
 	IBOutlet NSComboBox *urlBox;

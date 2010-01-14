@@ -21,7 +21,7 @@
 #import "def.h"
 #import "ControlUIView.h"
 #import "RootLayerView.h"
-#import "AppController.h"
+#import "PlayerController.h"
 #import "FloatWrapFormatter.h"
 #import "ArrowTextField.h"
 #import "ResizeIndicator.h"
@@ -278,9 +278,9 @@
 ////////////////////////////////////////////////Actions//////////////////////////////////////////////////
 -(IBAction) togglePlayPause:(id)sender
 {
-	[appController togglePlayPause];
+	[playerController togglePlayPause];
 	
-	if (appController.playerState == kMPCStoppedState) {
+	if (playerController.playerState == kMPCStoppedState) {
 		// 如果失败的话，ControlUI回到停止状态
 		[self playBackStopped];
 	} else {
@@ -290,7 +290,7 @@
 
 -(IBAction) toggleMute:(id)sender
 {
-	BOOL mute = [appController toggleMute];
+	BOOL mute = [playerController toggleMute];
 
 	[volumeButton setState:(mute)?NSOnState:NSOffState];
 	[volumeSlider setEnabled:!mute];
@@ -304,7 +304,7 @@
 		// 这里必须要从sender拿到floatValue，而不能直接从volumeSlider拿
 		// 因为有可能是键盘快捷键，这个时候，ShortCutManager会发一个NSNumber作为sender过来
 		float vol = [sender floatValue];
-		vol = [appController setVolume:vol];
+		vol = [playerController setVolume:vol];
 		
 		[volumeSlider setFloatValue: vol];
 		
@@ -326,9 +326,9 @@
 {
 	// 这里并没有直接更新controlUI的代码
 	// 因为controlUI会KVO mplayer.movieInfo.playingInfo.currentTime
-	// appController的seekTo方法里会根据新设定的时间修改currentTime
+	// playerController的seekTo方法里会根据新设定的时间修改currentTime
 	// 因此这里不用直接更新界面
-	[appController seekTo:[timeSlider timeDest]];
+	[playerController seekTo:[timeSlider timeDest]];
 }
 
 -(IBAction) toggleFullScreen:(id)sender
@@ -404,22 +404,22 @@
 
 -(IBAction) changeSpeed:(id) sender
 {
-	[appController setSpeed:[sender floatValue]];
+	[playerController setSpeed:[sender floatValue]];
 }
 
 -(IBAction) changeAudioDelay:(id) sender
 {
-	[appController setAudioDelay:[sender floatValue]];	
+	[playerController setAudioDelay:[sender floatValue]];	
 }
 
 -(IBAction) changeSubDelay:(id)sender
 {
-	[appController setSubDelay:[sender floatValue]];
+	[playerController setSubDelay:[sender floatValue]];
 }
 
 -(IBAction) changeSubScale:(id)sender
 {
-	[appController changeSubScaleBy:[sender tag] * [ud floatForKey:kUDKeySubScaleStepValue]];
+	[playerController changeSubScaleBy:[sender tag] * [ud floatForKey:kUDKeySubScaleStepValue]];
 }
 
 -(IBAction) stepSubtitles:(id)sender
@@ -444,14 +444,14 @@
 		mItem = [subListMenu itemWithTag:-1];
 	}
 	
-	[appController setSubtitle:[mItem tag]];
+	[playerController setSubtitle:[mItem tag]];
 
 	[mItem setState:NSOnState];
 }
 
 -(IBAction) setSubWithID:(id)sender
 {
-	[appController setSubtitle:[sender tag]];
+	[playerController setSubtitle:[sender tag]];
 	
 	for (NSMenuItem* mItem in [subListMenu itemArray]) {
 		[mItem setState:NSOffState];
@@ -471,7 +471,7 @@
 /** \warning this is a temporary implementation */
 -(IBAction) stepAudios:(id)sender
 {
-	[appController setAudio:-1];
+	[playerController setAudio:-1];
 	// 这个可能是mplayer的bug，当轮转一圈从各个音轨到无声在回到音轨时，声音会变到最大，所以这里再设定一次音量
 	[self setVolume:volumeSlider];
 }
@@ -486,7 +486,7 @@
 	if (sender) {
 		if ([sender isMemberOfClass:[NSNumber class]]) {
 			// 如果是NSNumber的话，说明不是Target-Action发过来的
-			[appController changeSubPosBy:[sender floatValue]];
+			[playerController changeSubPosBy:[sender floatValue]];
 		}
 	}
 }
@@ -496,11 +496,11 @@
 	if (sender) {
 		if ([sender isMemberOfClass:[NSNumber class]]) {
 			// 如果是NSNumber的话，说明不是Target-Action发过来的
-			[appController changeAudioBalanceBy:[sender floatValue]];
+			[playerController changeAudioBalanceBy:[sender floatValue]];
 		} 
 	} else {
 		//nil说明是想复原
-		[appController setAudioBalance:0];
+		[playerController setAudioBalance:0];
 	}
 }
 

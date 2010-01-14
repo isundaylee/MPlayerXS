@@ -22,7 +22,7 @@
 #import "TimeFormatter.h"
 #import "TimeSlider.h"
 
-@class RootLayerView, AppController, FloatWrapFormatter, ArrowTextField, ResizeIndicator;
+@class RootLayerView, PlayerController, FloatWrapFormatter, ArrowTextField, ResizeIndicator;
 
 @interface ControlUIView : NSView
 {
@@ -46,7 +46,7 @@
 	BOOL hintTimePrsOnAbs;
 	BOOL timeTextPrsOnRmn;
 
-	IBOutlet AppController *appController;
+	IBOutlet PlayerController *playerController;
 	IBOutlet RootLayerView *dispView;
 	IBOutlet NSButton *fillScreenButton;
 	IBOutlet NSButton *fullScreenButton;

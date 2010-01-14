@@ -20,7 +20,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class AppController, RootLayerView, ControlUIView;
+@class PlayerController, RootLayerView, ControlUIView;
 
 @interface PrefController : NSObject
 {
@@ -34,7 +34,7 @@
 	IBOutlet NSView *viewGeneral;
 	IBOutlet NSView *viewDisplay;
 	
-    IBOutlet AppController *appController;
+    IBOutlet PlayerController *playerController;
     IBOutlet RootLayerView *dispView;
 	IBOutlet ControlUIView *controlUI;
 }

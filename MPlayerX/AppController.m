@@ -1,5 +1,5 @@
 /*
- * MPlayerX - AppController.m
+ * MPlayerX - PlayerController.m
  *
  * Copyright (C) 2009 Zongyao QU
  * 
@@ -19,7 +19,7 @@
  */
 
 #import "def.h"
-#import "AppController.h"
+#import "PlayerController.h"
 #import "ControlUIView.h"
 #import "PlayList.h"
 #import <sys/sysctl.h>
@@ -35,14 +35,14 @@
 
 #define kMPCDefaultSubFontPath				(@"wqy-microhei.ttc")
 
-@interface AppController (MPlayerControllerNotification)
+@interface PlayerController (CoreControllerNotification)
 -(void) mplayerStarted:(NSNotification *)notification;
 -(void) mplayerStopped:(NSNotification *)notification;
 -(void) preventSystemSleep;
 -(void) tryToPlayNext;
 @end
 
-@implementation AppController
+@implementation PlayerController
 
 @synthesize lastPlayedPath;
 
@@ -72,7 +72,7 @@
 	if (self = [super init]) {
 		ud = [NSUserDefaults standardUserDefaults];
 		
-		mplayer = [[MPlayerController alloc] init];
+		mplayer = [[CoreController alloc] init];
 		lastPlayedPath = nil;
 		lastPlayedPathPre = nil;
 		supportVideoFormats = nil;
@@ -95,7 +95,7 @@
 
 -(void) awakeFromNib
 {
-	// 初始化MPlayerController
+	// 初始化CoreController
 	NSBundle *mainBundle = [NSBundle mainBundle];
 	NSString *homeDirectory = NSHomeDirectory();
 	

@@ -1,5 +1,5 @@
 /*
- * MPlayerX - AppController.h
+ * MPlayerX - PlayerController.h
  *
  * Copyright (C) 2009 Zongyao QU
  * 
@@ -19,15 +19,15 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "MPlayerController.h"
+#import "CoreController.h"
 
 @class ControlUIView;
 
-@interface AppController : NSObject <NSApplicationDelegate>
+@interface PlayerController : NSObject <NSApplicationDelegate>
 {
 	NSUserDefaults *ud;
 
-	MPlayerController *mplayer;
+	CoreController *mplayer;
 	NSString *lastPlayedPath;
 	NSString *lastPlayedPathPre;
 	NSSet *supportVideoFormats;
