@@ -265,7 +265,6 @@
 		
 		if ([subEncDict count]) {
 			// 如果有字幕文件
-			// 在这个函数被调用之前，最好clearWorkDir，否则得话，可能有文件名重名问题
 			subsArray = [subConv convertTextSubsAndEncodings:subEncDict];
 			
 			if (subsArray && ([subsArray count] > 0)) {

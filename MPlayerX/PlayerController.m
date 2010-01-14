@@ -274,7 +274,7 @@
 	}
 }
 
--(void) setDelegateForMPlayer:(id<MPlayerDisplayDelegate>) delegate
+-(void) setDelegateForMPlayer:(id<CoreDisplayDelegate>) delegate
 {
 	[mplayer setDispDelegate:delegate];
 }

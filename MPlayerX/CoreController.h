@@ -26,7 +26,7 @@
 #import "SubConverter.h"
 
 // the protocol for displaying the video
-@protocol MPlayerDisplayDelegate
+@protocol CoreDisplayDelegate
 -(int) startWithWidth:(int) width height:(int) height pixelFormat:(OSType) pixelFormat aspect:(int) aspect from:(id)sender;
 -(void) draw:(void*)imageData from:(id)sender;
 -(void) stop:(id)sender;
@@ -59,7 +59,7 @@
 	NSString *sharedBufferName;
 	int shMemID;
 
-	id<MPlayerDisplayDelegate> dispDelegate;
+	id<CoreDisplayDelegate> dispDelegate;
 	
 	NSTimer *pollingTimer;
 }
@@ -69,7 +69,7 @@
 @property (readonly)			MovieInfo *movieInfo;
 @property (retain, readwrite)	ParameterManager *pm;
 @property (readonly)			LogAnalyzer *la;
-@property (assign, readwrite)	id<MPlayerDisplayDelegate> dispDelegate;
+@property (assign, readwrite)	id<CoreDisplayDelegate> dispDelegate;
 
 -(void) setWorkDirectory:(NSString*) wd;
 

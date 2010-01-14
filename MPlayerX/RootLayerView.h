@@ -23,7 +23,7 @@
 
 @class ControlUIView, PlayerController, ShortCutManager, DisplayLayer;
 
-@interface RootLayerView : NSView <MPlayerDisplayDelegate>
+@interface RootLayerView : NSView <CoreDisplayDelegate>
 {
 	NSUserDefaults *ud;
 

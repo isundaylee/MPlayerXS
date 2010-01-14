@@ -41,7 +41,7 @@
 
 @property (readonly) NSString *lastPlayedPath;
 
--(void) setDelegateForMPlayer:(id<MPlayerDisplayDelegate>) delegate;
+-(void) setDelegateForMPlayer:(id<CoreDisplayDelegate>) delegate;
 -(int) playerState;
 
 -(void) setMultiThreadMode:(BOOL) mt;
