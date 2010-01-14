@@ -504,8 +504,8 @@
 										<object class="NSTextFieldCell" key="NSCell" id="296402184">
 											<int key="NSCellFlags">67239424</int>
 											<int key="NSCellFlags2">272760832</int>
-											<string type="base64-UTF8" key="NSContents">UHJlc3Mg4oenIHRvIHNob3cgdGhlIG90aGVyIG9wdGlvbgphbmQgY2xpY2sgb24gdGhlIHRpbWUgdG8g
-dG9nZ2xlIGJldHdlZW4gZWxhcHNlZC9yZW1haW5pbmcgdGltZQ</string>
+											<string type="base64-UTF8" key="NSContents">UHJlc3MgRm4gdG8gc2hvdyB0aGUgb3RoZXIgb3B0aW9uCmFuZCBjbGljayBvbiB0aGUgdGltZSB0byB0
+b2dnbGUgYmV0d2VlbiBlbGFwc2VkL3JlbWFpbmluZyB0aW1lA</string>
 											<reference key="NSSupport" ref="26"/>
 											<reference key="NSControlView" ref="733436497"/>
 											<reference key="NSBackgroundColor" ref="592303529"/>
