@@ -133,4 +133,7 @@
 -(IBAction) stepAudios:(id)sender;
 
 -(IBAction) toggleTimeTextDispMode:(id)sender;
+-(IBAction) changeSubPosBy:(id)sender;
+-(IBAction) changeAudioBalanceBy:(id)sender;
+
 @end

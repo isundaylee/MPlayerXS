@@ -117,10 +117,10 @@
 	switch ([event modifierFlags] & (NSShiftKeyMask| NSControlKeyMask|NSAlternateKeyMask|NSCommandKeyMask)) {
 		case kSCMDragSubPosModifierFlagMask:
 			// 改变Sub Position
-			[appController changeSubPosBy:[event deltaY] / self.bounds.size.height];
+			[controlUI changeSubPosBy:[NSNumber numberWithFloat:([event deltaY] * 2) / self.bounds.size.height]];
 			break;
 		case kSCMDragAudioBalanceModifierFlagMask:
-			[appController changeAudioBalanceBy:([event deltaX] * 2) / self.bounds.size.width];
+			[controlUI changeAudioBalanceBy:[NSNumber numberWithFloat:([event deltaX] * 2) / self.bounds.size.width]];
 			break;
 		case 0:
 			if (![self isInFullScreenMode]) {
@@ -143,7 +143,7 @@
 	if ([theEvent clickCount] == 2) {
 		switch ([event modifierFlags] & (NSShiftKeyMask| NSControlKeyMask|NSAlternateKeyMask|NSCommandKeyMask)) { {
 			case kSCMDragAudioBalanceModifierFlagMask:
-				[appController setAudioBalance:0];
+				[controlUI changeAudioBalanceBy:nil];
 				break;
 			case 0:
 				[controlUI performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0

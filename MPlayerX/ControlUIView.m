@@ -481,6 +481,29 @@
 	timeTextPrsOnRmn = !timeTextPrsOnRmn;
 }
 
+-(IBAction) changeSubPosBy:(id)sender
+{
+	if (sender) {
+		if ([sender isMemberOfClass:[NSNumber class]]) {
+			// 如果是NSNumber的话，说明不是Target-Action发过来的
+			[appController changeSubPosBy:[sender floatValue]];
+		}
+	}
+}
+
+-(IBAction) changeAudioBalanceBy:(id)sender
+{
+	if (sender) {
+		if ([sender isMemberOfClass:[NSNumber class]]) {
+			// 如果是NSNumber的话，说明不是Target-Action发过来的
+			[appController changeAudioBalanceBy:[sender floatValue]];
+		} 
+	} else {
+		//nil说明是想复原
+		[appController setAudioBalance:0];
+	}
+}
+
 ////////////////////////////////////////////////FullscreenThings//////////////////////////////////////////////////
 -(void) setFillScreenMode:(NSString*)modeKey state:(NSInteger) state
 {
