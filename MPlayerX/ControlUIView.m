@@ -32,7 +32,7 @@
 #define CONTROL_CORNER_RADIUS	(8)
 
 #define NUMOFVOLUMEIMAGES		(3)	//这个值是除了没有音量之后的image个数
-#define AUTOHIDETIMEINTERNAL	(1.5)
+#define AUTOHIDETIMEINTERNAL	(3)
 
 #define LASTSTOPPEDTIMERATIO	(100)
 
@@ -126,7 +126,7 @@
 	[self loadButtonImages];
 
 	// 自动隐藏设定
-	autoHideTimeInterval = [ud doubleForKey:kUDKeyCtrlUIAutoHideTime];
+	autoHideTimeInterval = [ud doubleForKey:kUDKeyCtrlUIAutoHideTime] / 2;
 	shouldHide = NO;
 	autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:autoHideTimeInterval
 													 target:self
