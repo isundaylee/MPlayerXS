@@ -51,7 +51,7 @@
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")
 #define kUDKeyHelpURL				(@"HelpURL")
 
-#define kSCMSwitchTimeHintKeyModifierMask	(NSCommandKeyMask)
+#define kSCMSwitchTimeHintKeyModifierMask	(NSShiftKeyMask)
 
 #define kSCMVolumeUpKeyEquivalent		(@"=")
 #define kSCMVolumeDownKeyEquivalent		(@"-")

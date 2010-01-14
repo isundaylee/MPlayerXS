@@ -596,7 +596,7 @@
 	float time = [timePos floatValue];
 	
 	if (([timeSlider maxValue] > 0) && 
-		((([NSEvent modifierFlags]&NSCommandKeyMask)?YES:NO) == timeTextPrsOnRmn)) {
+		(((([NSEvent modifierFlags]&kSCMSwitchTimeHintKeyModifierMask) == kSCMSwitchTimeHintKeyModifierMask)?YES:NO) == timeTextPrsOnRmn)) {
 		// 如果有时间的长度，并且按键和设定相符合的时候，显示remain时间
 		[timeText setIntValue:time - [timeSlider maxValue] - 0.5];
 		
@@ -702,7 +702,7 @@
 	
 	float timeDisp = ((pt.x-frm.origin.x) * [timeSlider maxValue])/ frm.size.width;;
 
-	if ((([NSEvent modifierFlags] & kSCMSwitchTimeHintKeyModifierMask)?YES:NO) != hintTimePrsOnAbs) {
+	if (((([NSEvent modifierFlags]&kSCMSwitchTimeHintKeyModifierMask) == kSCMSwitchTimeHintKeyModifierMask)?YES:NO) != hintTimePrsOnAbs) {
 		// 如果没有按cmd，显示时间差
 		// 否则显示绝对时间
 		timeDisp -= [timeSlider floatValue];
