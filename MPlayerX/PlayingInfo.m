@@ -1,4 +1,4 @@
-﻿/*
+/*
  * MPlayerX - PlayingInfo.m
  *
  * Copyright (C) 2009 Zongyao QU
@@ -78,7 +78,7 @@
 	[self setVolume:pm.volume];
 	[self setSubPos:pm.subPos];
 	[self setSubScale:[NSNumber numberWithFloat:[pm subScaleInternal]]];
-
+	
 	[self setMute:NO];
 	[self setCurrentTime:[NSNumber numberWithFloat:0]];
 	[self setAudioDelay:[NSNumber numberWithFloat:0]];

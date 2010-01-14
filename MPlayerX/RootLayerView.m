@@ -141,7 +141,7 @@
 -(void) mouseUp:(NSEvent *)theEvent
 {
 	if ([theEvent clickCount] == 2) {
-		switch ([event modifierFlags] & (NSShiftKeyMask| NSControlKeyMask|NSAlternateKeyMask|NSCommandKeyMask)) { {
+		switch ([theEvent modifierFlags] & (NSShiftKeyMask| NSControlKeyMask|NSAlternateKeyMask|NSCommandKeyMask)) {
 			case kSCMDragAudioBalanceModifierFlagMask:
 				[controlUI changeAudioBalanceBy:nil];
 				break;
