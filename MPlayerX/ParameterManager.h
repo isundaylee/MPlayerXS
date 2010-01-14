@@ -47,7 +47,7 @@ typedef struct
 	BOOL guessSubCP;
 	float startTime;
 	float volume;
-	unsigned char subPos;
+	float subPos;
 	unsigned char subAlign;
 	float subScale;
 	NSString *subFont;
@@ -63,7 +63,7 @@ typedef struct
 @property (assign, readwrite) BOOL guessSubCP;
 @property (assign, readwrite) float startTime;
 @property (assign, readwrite) float volume;
-@property (assign, readwrite) unsigned char subPos;
+@property (assign, readwrite) float subPos;
 @property (assign, readwrite) unsigned char subAlign;
 @property (assign, readwrite) float subScale;
 @property (retain, readwrite) NSString *subFont;

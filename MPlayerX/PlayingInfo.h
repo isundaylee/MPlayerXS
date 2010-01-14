@@ -34,7 +34,7 @@
 	BOOL  mute;
 	NSNumber *audioDelay;
 	NSNumber *subDelay;
-	unsigned char subPos;
+	float subPos;
 	NSNumber *subScale;
 	NSNumber *speed;
 }
@@ -49,7 +49,7 @@
 @property(assign, readwrite) BOOL  mute;
 @property(retain, readwrite) NSNumber *audioDelay;
 @property(retain, readwrite) NSNumber *subDelay;
-@property(assign, readwrite) unsigned char subPos;
+@property(assign, readwrite) float subPos;
 @property(retain, readwrite) NSNumber * subScale;
 @property(retain, readwrite) NSNumber *speed;
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * MPlayerX - PlayingInfo.m
  *
  * Copyright (C) 2009 Zongyao QU
@@ -72,13 +72,14 @@
 	currentChapter = 0;
 	currentAudio = 0;
 	currentSub = 0;
-	audioBalance = 0;
+	// 将来可能都会用到KVO
+	[self setAudioBalance:0];
 	
-	volume = pm.volume;
-	subPos = pm.subPos;
+	[self setVolume:pm.volume];
+	[self setSubPos:pm.subPos];
 	[self setSubScale:[NSNumber numberWithFloat:[pm subScaleInternal]]];
 
-	mute = NO;
+	[self setMute:NO];
 	[self setCurrentTime:[NSNumber numberWithFloat:0]];
 	[self setAudioDelay:[NSNumber numberWithFloat:0]];
 	[self setSubDelay:[NSNumber numberWithFloat:0]];

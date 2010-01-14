@@ -78,17 +78,15 @@
 -(BOOL) processKeyDown:(NSEvent*) event
 {
 	unichar key;
-	NSUInteger mod;
 	BOOL ret = YES;
 	
 	// 这里处理的是没有keyequivalent的快捷键
 	if ([[event charactersIgnoringModifiers] length] == 0) {
 		ret = NO;
 	} else {
-		mod = ([event modifierFlags] & (NSShiftKeyMask| NSControlKeyMask|NSAlternateKeyMask|NSCommandKeyMask));
 		key = [[event charactersIgnoringModifiers] characterAtIndex:0];
 
-		switch (mod)
+		switch ([event modifierFlags] & (NSShiftKeyMask| NSControlKeyMask|NSAlternateKeyMask|NSCommandKeyMask))
 		{
 			case NSControlKeyMask:
 				switch (key)

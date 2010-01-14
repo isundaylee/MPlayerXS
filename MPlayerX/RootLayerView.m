@@ -113,26 +113,48 @@
 }
 
 - (void)mouseDragged:(NSEvent *)event
-{
-	if (![self isInFullScreenMode]) {
-		// 全屏的时候不能移动屏幕
-		NSPoint winOrg = [[self window] frame].origin;
-		
-		winOrg.x += [event deltaX];
-		winOrg.y -= [event deltaY];
-		
-		[[self window] setFrameOrigin:winOrg];
+{	
+	switch ([event modifierFlags] & (NSShiftKeyMask| NSControlKeyMask|NSAlternateKeyMask|NSCommandKeyMask)) {
+		case kSCMDragSubPosModifierFlagMask:
+			// 改变Sub Position
+			[appController changeSubPosBy:[event deltaY] / self.bounds.size.height];
+			break;
+		case kSCMDragAudioBalanceModifierFlagMask:
+			[appController changeAudioBalanceBy:([event deltaX] * 2) / self.bounds.size.width];
+			break;
+		case 0:
+			if (![self isInFullScreenMode]) {
+				// 全屏的时候不能移动屏幕
+				NSPoint winOrg = [[self window] frame].origin;
+				
+				winOrg.x += [event deltaX];
+				winOrg.y -= [event deltaY];
+				
+				[[self window] setFrameOrigin:winOrg];
+			}
+			break;
+		default:
+			break;
 	}
 }
 
 -(void) mouseUp:(NSEvent *)theEvent
 {
 	if ([theEvent clickCount] == 2) {
-		[controlUI performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
-													 windowNumber:0 context:nil
-													   characters:kSCMFullScrnKeyEquivalent
-									  charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
-														isARepeat:NO keyCode:0]];
+		switch ([event modifierFlags] & (NSShiftKeyMask| NSControlKeyMask|NSAlternateKeyMask|NSCommandKeyMask)) { {
+			case kSCMDragAudioBalanceModifierFlagMask:
+				[appController setAudioBalance:0];
+				break;
+			case 0:
+				[controlUI performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
+															 windowNumber:0 context:nil
+															   characters:kSCMFullScrnKeyEquivalent
+											  charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
+																isARepeat:NO keyCode:0]];
+				break;
+			default:
+				break;
+		}
 	}
 }
 

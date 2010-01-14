@@ -392,7 +392,7 @@
 -(void) setBalance: (float) bal
 {
 	bal = MIN(1, MAX(bal, -1));
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f\n", kMPCSetPropertyPreFix, kMPCAudioBalance, bal]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f\n", kMPCSetPropertyPreFixPauseKeep, kMPCAudioBalance, bal]]) {
 		[movieInfo.playingInfo setAudioBalance: bal];
 	}
 }

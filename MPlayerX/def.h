@@ -70,4 +70,7 @@
 #define kSCMSubScaleDecreaseKeyEquivalentModifierFlagMask	(NSCommandKeyMask)
 
 #define kSCMPlayFromLastStoppedKeyEquivalent					(@"c")
-#define kSCMPlayFromLastStoppedKeyEquivalentModifierFlagMask	(NSCommandKeyMask|NSShiftKeyMask)
+#define kSCMPlayFromLastStoppedKeyEquivalentModifierFlagMask	(NSShiftKeyMask)
+
+#define kSCMDragSubPosModifierFlagMask			(NSCommandKeyMask)
+#define kSCMDragAudioBalanceModifierFlagMask	(NSAlternateKeyMask)

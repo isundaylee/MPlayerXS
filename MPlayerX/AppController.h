@@ -59,12 +59,15 @@
 -(float) changeSubDelayBy:(float) delta;
 -(float) changeAudioDelayBy:(float) delta;
 -(float) changeSubScaleBy:(float) delta;
+-(float) changeSubPosBy:(float)delta;
+-(float) changeAudioBalanceBy:(float)delta;
 
 -(float) setSpeed:(float) spd;
 -(float) setSubDelay:(float) sd;
 -(float) setAudioDelay:(float) ad;
 -(void) setSubtitle:(int) subID;
 -(void) setAudio:(int) audioID;
+-(void) setAudioBalance:(float)bal;
 
 -(IBAction) openFile:(id) sender;
 -(IBAction) showHelp:(id) sender;

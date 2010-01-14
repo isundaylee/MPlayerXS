@@ -542,6 +542,22 @@
 	return [mplayer.movieInfo.playingInfo.subScale floatValue];
 }
 
+-(float) changeSubPosBy:(float)delta
+{
+	if (mplayer.state != kMPCStoppedState) {
+		[mplayer setSubPos: mplayer.movieInfo.playingInfo.subPos + delta*100];
+	}
+	return mplayer.movieInfo.playingInfo.subPos;
+}
+
+-(float) changeAudioBalanceBy:(float)delta
+{
+	if (mplayer.state != kMPCStoppedState) {
+		[mplayer setBalance:mplayer.movieInfo.playingInfo.audioBalance + delta];
+	}
+	return mplayer.movieInfo.playingInfo.audioBalance;
+}
+
 -(float) setSpeed:(float) spd
 {
 	if (mplayer.state != kMPCStoppedState) {
@@ -576,6 +592,10 @@
 	[mplayer setAudio:audioID];
 }
 
+-(void) setAudioBalance:(float)bal
+{
+	[mplayer setBalance:bal];
+}
 /////////////////////////////////////Actions//////////////////////////////////////
 -(IBAction) openFile:(id) sender
 {
