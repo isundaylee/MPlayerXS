@@ -484,7 +484,7 @@
 -(IBAction) changeSubPosBy:(id)sender
 {
 	if (sender) {
-		if ([sender isMemberOfClass:[NSNumber class]]) {
+		if ([sender isKindOfClass:[NSNumber class]]) {
 			// 如果是NSNumber的话，说明不是Target-Action发过来的
 			[playerController changeSubPosBy:[sender floatValue]];
 		}
@@ -494,7 +494,7 @@
 -(IBAction) changeAudioBalanceBy:(id)sender
 {
 	if (sender) {
-		if ([sender isMemberOfClass:[NSNumber class]]) {
+		if ([sender isKindOfClass:[NSNumber class]]) {
 			// 如果是NSNumber的话，说明不是Target-Action发过来的
 			[playerController changeAudioBalanceBy:[sender floatValue]];
 		} 
