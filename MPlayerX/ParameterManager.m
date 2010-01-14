@@ -196,7 +196,7 @@
 	[paramArray addObject:[NSString stringWithFormat: @"%.1f",GetRealVolume(volume)]];
 	
 	[paramArray addObject:@"-subpos"];
-	[paramArray addObject:[NSString stringWithFormat: @"%d",((int)subPos)]];
+	[paramArray addObject:[NSString stringWithFormat: @"%d",((unsigned int)subPos)]];
 	
 	[paramArray addObject:@"-subalign"];
 	[paramArray addObject:[NSString stringWithFormat: @"%d",subAlign]];

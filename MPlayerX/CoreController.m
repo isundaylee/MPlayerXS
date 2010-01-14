@@ -431,10 +431,10 @@
 	}
 }
 
--(void) setSubPos: (int) pos
+-(void) setSubPos: (float) pos
 {
 	pos = MIN(100, MAX(pos, 0));
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d\n", kMPCSetPropertyPreFixPauseKeep, kMPCSubPos, pos]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d\n", kMPCSetPropertyPreFixPauseKeep, kMPCSubPos, ((unsigned int)pos)]]) {
 		[movieInfo.playingInfo setSubPos:pos];
 	}
 }

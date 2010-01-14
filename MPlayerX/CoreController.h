@@ -107,7 +107,7 @@
 -(void) setSubDelay: (float) delay;
 
 /** 成功发送的话，playingInfo的subPos属性会被更新 */
--(void) setSubPos: (int) pos;
+-(void) setSubPos: (float) pos;
 
 /** 成功发送的话，playingInfo的subScale属性会被更新 */
 -(void) setSubScale: (float) scale;
