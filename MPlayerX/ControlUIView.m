@@ -69,6 +69,9 @@
 	if (self = [super initWithFrame:frameRect]) {
 		ud = [NSUserDefaults standardUserDefaults];
 		shouldHide = NO;
+		fillGradient = nil;
+		autoHideTimer = nil;
+		autoHideTimeInterval = 0;
 	}
 	return self;
 }
@@ -115,24 +118,15 @@
 {
 	// 自身的设定
 	[self setAlphaValue:CONTROLALPHA];
+	[self refreshBackgroundAlpha];
 	
-	float backAlpha = [ud floatForKey:kUDKeyCtrlUIBackGroundAlpha];
-	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:0.180 alpha:backAlpha], 0.0,
-																  [NSColor colorWithCalibratedWhite:0.080 alpha:backAlpha], 0.4,
-																  [NSColor colorWithCalibratedWhite:0.080 alpha:backAlpha], 1.0, 
-																  nil];
-
 	[self setKeyEquivalents];
 	[self loadButtonImages];
 
 	// 自动隐藏设定
-	autoHideTimeInterval = [ud doubleForKey:kUDKeyCtrlUIAutoHideTime];
 	shouldHide = NO;
-	autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:autoHideTimeInterval/2
-													 target:self
-												   selector:@selector(tryToHide)
-												   userInfo:nil
-													repeats:YES];
+	[self refreshAutoHideTimer];
+	
 	// 从userdefault中获得default 音量值
 	[volumeSlider setFloatValue:[ud floatForKey:kUDKeyVolume]];
 	[self setVolume:volumeSlider];
@@ -211,12 +205,25 @@
 	[super dealloc];
 }
 
-////////////////////////////////////////////////AutoHideThings//////////////////////////////////////////////////
--(void) setAutoHideTimeInterval:(NSTimeInterval) ti
+-(void) refreshBackgroundAlpha
 {
+	[fillGradient release];
+	float backAlpha = [ud floatForKey:kUDKeyCtrlUIBackGroundAlpha];
+	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:0.180 alpha:backAlpha], 0.0,
+																  [NSColor colorWithCalibratedWhite:0.080 alpha:backAlpha], 0.4,
+																  [NSColor colorWithCalibratedWhite:0.080 alpha:backAlpha], 1.0, 
+																  nil];	
+}
+////////////////////////////////////////////////AutoHideThings//////////////////////////////////////////////////
+-(void) refreshAutoHideTimer
+{
+	float ti = [ud doubleForKey:kUDKeyCtrlUIAutoHideTime];
+	
 	if ((ti != autoHideTimeInterval) && (ti > 0)) {
 		// 这个Timer没有retain，所以也不需要release
-		[autoHideTimer invalidate];
+		if (autoHideTimer) {
+			[autoHideTimer invalidate];
+		}
 		autoHideTimeInterval = ti;
 		autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:autoHideTimeInterval/2
 														 target:self

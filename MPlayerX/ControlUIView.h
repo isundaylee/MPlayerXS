@@ -117,6 +117,8 @@
 -(void) showUp;
 -(void) updateHintTime;
 -(void) doHide;
+-(void) refreshBackgroundAlpha;
+-(void) refreshAutoHideTimer;
 
 //////////////////////////////其他控件相关/////////////////////////////
 -(IBAction) toggleAccessaryControls:(id)sender;
