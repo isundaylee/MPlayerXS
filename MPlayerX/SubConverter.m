@@ -60,6 +60,11 @@
 	workDirectory = wd;
 }
 
+-(BOOL) validateSubFileName:(NSString*) subPath
+{
+	return [textSubFileExts containsObject:[[subPath pathExtension] uppercaseString]];
+}
+
 -(NSArray*) convertTextSubsAndEncodings:(NSDictionary*)subEncDict
 {
 	if (!workDirectory) {

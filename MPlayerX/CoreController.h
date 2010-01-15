@@ -112,6 +112,8 @@
 /** 成功发送的话，playingInfo的subScale属性会被更新 */
 -(void) setSubScale: (float) scale;
 
+-(void) loadSubFile: (NSString*) path;
+
 -(void) simulateKeyDown: (char) keyCode;
 @end
 

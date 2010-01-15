@@ -69,6 +69,8 @@
 -(void) setAudio:(int) audioID;
 -(void) setAudioBalance:(float)bal;
 
+-(void) loadSubFile:(NSString*)subPath;
+
 -(IBAction) openFile:(id) sender;
 -(IBAction) showHelp:(id) sender;
 

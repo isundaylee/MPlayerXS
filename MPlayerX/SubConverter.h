@@ -36,4 +36,6 @@
 
 -(void) clearWorkDirectory;
 
+-(BOOL) validateSubFileName:(NSString*) subPath;
+
 @end

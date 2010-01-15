@@ -600,6 +600,13 @@
 {
 	[mplayer setBalance:bal];
 }
+
+-(void) loadSubFile:(NSString*)subPath
+{
+	if (subPath && (mplayer.state != kMPCStoppedState)) {
+		[mplayer loadSubFile:subPath];
+	}
+}
 /////////////////////////////////////Actions//////////////////////////////////////
 -(IBAction) openFile:(id) sender
 {

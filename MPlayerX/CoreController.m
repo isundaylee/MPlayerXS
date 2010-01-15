@@ -448,6 +448,10 @@
 	}
 }
 
+-(void) loadSubFile: (NSString*) path
+{
+}
+
 -(void) simulateKeyDown: (char) keyCode
 {
 	[playerCore sendStringCommand: [NSString stringWithFormat:@"%@ %d\n", kMPCKeyEventCmd, keyCode]];
