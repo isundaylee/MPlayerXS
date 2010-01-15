@@ -28,8 +28,6 @@
 #define kPMNoVideo					(@"null") 
 #define kPMDefaultSubLang			(@"en,eng,ch,chs,cht,ja,jpn")
 
-#define kPMThreadsNumMax	(8)
-
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
 @implementation ParameterManager
@@ -102,11 +100,6 @@
 	[vobSub release];
 	
 	[super dealloc];
-}
-
--(void) setThreads:(unsigned int) th
-{
-	threads = MIN(kPMThreadsNumMax, th);
 }
 
 -(float) subScaleInternal
