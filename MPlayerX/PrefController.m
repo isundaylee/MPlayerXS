@@ -164,7 +164,7 @@
 		
 	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdDisplay]) {
 		[item setLabel:PrefTBILabelDisplay];
-		[item setImage:[NSImage imageNamed:@"toolbar_display"]];
+		[item setImage:[NSImage imageNamed:@"toolbar_video"]];
 		[item setTarget:self];
 		[item setAction:@selector(switchViews:)];
 		[item setAutovalidates:NO];
