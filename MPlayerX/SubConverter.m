@@ -73,8 +73,6 @@
 	
 	NSString *subDir = [workDirectory stringByAppendingPathComponent:@"Subs"];
 	NSFileManager *fm = [NSFileManager defaultManager];
-	NSMutableArray *newSubs = [[NSMutableArray alloc] initWithCapacity:2];
-	NSString *subPathOld, *enc, *subFileOld, *subPathNew;
 	BOOL isDir = NO;
 	
 	if ([fm fileExistsAtPath:subDir isDirectory:&isDir] && (!isDir)) {
@@ -88,6 +86,9 @@
 			return nil;
 		}
 	}
+
+	NSMutableArray *newSubs = [[NSMutableArray alloc] initWithCapacity:2];
+	NSString *subPathOld, *enc, *subFileOld, *subPathNew;
 	
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
