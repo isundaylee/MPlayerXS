@@ -41,7 +41,7 @@
 	 [NSDictionary dictionaryWithObjectsAndKeys:
 	  [NSNumber numberWithFloat:kOSDFontSizeMaxDefault], kUDKeyOSDFontSizeMax,
 	  [NSNumber numberWithFloat:kOSDFontSizeMinDefault], kUDKeyOSDFontSizeMin,
-	  [NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedRed:0.9 green:0.9 blue:0.0 alpha:0.9]], kUDKeyOSDFrontColor,
+	  [NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:1.0 alpha:0.9]], kUDKeyOSDFrontColor,
 	  [NSNumber numberWithFloat:kOSDAutoHideTimeInterval], kUDKeyOSDAutoHideTime,
 	  nil]];
 }
