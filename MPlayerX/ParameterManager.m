@@ -161,8 +161,6 @@
 
 	[paramArray addObject:@"-nodouble"];
 	
-	[paramArray addObject:@"-nofontconfig"];
-	
 	[paramArray addObject:@"-osdlevel"];
 	[paramArray addObject: [NSString stringWithFormat: @"%d",osdLevel]];
 	
@@ -264,6 +262,7 @@
 		if (ac3Pass) {
 			passStr = [passStr stringByAppendingString:@"hwac3,a52,"];
 		}
+		[paramArray addObject:passStr];
 	}
 
 	return [paramArray autorelease];
