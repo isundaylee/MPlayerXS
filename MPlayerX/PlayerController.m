@@ -62,8 +62,8 @@
 					   [NSArchiver archivedDataWithRootObject:[NSColor blackColor]], kUDKeySubFontBorderColor,
 					   [NSNumber numberWithBool:NO], kUDKeyForceIndex,
 					   [NSNumber numberWithUnsignedInt:kSubFileNameRuleContain], kUDKeySubFileNameRule,
-					   [NSNumber numberWithBool:YES], kUDKeyDTSPassThrough,
-					   [NSNumber numberWithBool:YES], kUDKeyAC3PassThrough,
+					   [NSNumber numberWithBool:NO], kUDKeyDTSPassThrough,
+					   [NSNumber numberWithBool:NO], kUDKeyAC3PassThrough,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
