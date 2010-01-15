@@ -55,6 +55,7 @@
 				<string>mkv</string>
 				<string>3gp</string>
 				<string>m4v</string>
+				<string>*</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>doc_video.icns</string>
