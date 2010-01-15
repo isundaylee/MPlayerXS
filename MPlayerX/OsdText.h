@@ -20,13 +20,23 @@
 
 #import <Cocoa/Cocoa.h>
 
+#define kOSDOwnerTime	(@"OSDOwnerTime")
+#define kOSDOwnerOther	(@"OSDOwnerOther")
+
 @interface OsdText : NSTextField
 {
+	NSUserDefaults *ud;
+
 	BOOL active;
 	BOOL shouldHide;
 	NSColor *frontColor;
 	NSShadow *shadow;
 	
+	NSString *owner;
+	
+	float fontSizeMax;
+	float fontSizeMin;
+
 	NSTimer *autoHideTimer;
 	NSTimeInterval autoHideTimeInterval;
 	
@@ -34,8 +44,9 @@
 }
 
 @property (assign, readwrite, getter=isActive) BOOL active;
+@property (readonly) NSString *owner;
 
 -(void) setAutoHideTimeInterval:(NSTimeInterval)ti;
--(void) setStringValue:(NSString *)aString updateTimer:(BOOL) ut;
+-(void) setStringValue:(NSString *)aString owner:(NSString*)ow updateTimer:(BOOL)ut;
 
 @end

@@ -18,24 +18,45 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "def.h"
 #import "OsdText.h"
 
 #define kOSDAutoHideTimeInterval	(5)
-#define kOSDFontSizeMin				(24)
-#define kOSDFontSizeMax				(60)
-#define kOSDFontSizeRatio			(50)
+
+#define kOSDFontSizeMinDefault		(24)
+#define kOSDFontSizeMaxDefault		(50)
+#define kOSDFontSizeLimitMin		(12)
+#define kOSDFontSizeLimitMax		(100)
+
+#define kOSDFontSizeRatio			(40)
 
 @implementation OsdText
 
 @synthesize active;
+@synthesize owner;
+
++(void) initialize
+{
+	[[NSUserDefaults standardUserDefaults] registerDefaults:
+	 [NSDictionary dictionaryWithObjectsAndKeys:
+	  [NSNumber numberWithFloat:kOSDFontSizeMaxDefault], kUDKeyOSDFontSizeMax,
+	  [NSNumber numberWithFloat:kOSDFontSizeMinDefault], kUDKeyOSDFontSizeMin,
+	  nil]];
+}
 
 -(id) initWithCoder:(NSCoder *)aDecoder
 {
 	if (self = [super initWithCoder:aDecoder]) {
+		ud = [NSUserDefaults standardUserDefaults];
+		
+		fontSizeMin = [ud floatForKey:kUDKeyOSDFontSizeMin];
+		fontSizeMax = [ud floatForKey:kUDKeyOSDFontSizeMax];
+		
 		active = NO;
 		autoHideTimeInterval = 0;
 		autoHideTimer = nil;
 		shouldHide = YES;
+		owner = nil;
 		
 		frontColor = [[NSColor whiteColor] retain];
 		
@@ -63,6 +84,7 @@
 
 -(void) dealloc
 {
+	[owner release];
 	[frontColor release];
 	[shadow release];
 	
@@ -109,30 +131,37 @@
 	}
 }
 
--(void) setStringValue:(NSString *)aString updateTimer:(BOOL) ut
+-(void) setStringValue:(NSString *)aString owner:(NSString*)ow updateTimer:(BOOL)ut
 {
 	if (active) {
-		if (!aString) {
-			// 如果是nil，那么就用本来就有的
-			aString = [self stringValue];
+		if (ut || ([self alphaValue] > 0 && [owner isEqualToString:ow])) {
+			if (!aString) {
+				// 如果是nil，那么就用本来就有的
+				aString = [self stringValue];
+			}
+			
+			NSSize sz = [dispView bounds].size;
+			
+			float fontSize = MIN(fontSizeMax, MAX(fontSizeMin, (sz.width + sz.height) / kOSDFontSizeRatio));
+			fontSize = MIN(kOSDFontSizeLimitMax, MAX(kOSDFontSizeLimitMin, fontSize));
+						   
+			NSFont *font = [NSFont systemFontOfSize:fontSize];
+			
+			NSDictionary *attrDict = [[NSDictionary alloc] initWithObjectsAndKeys:font, NSFontAttributeName,
+									  frontColor, NSForegroundColorAttributeName,
+									  shadow, NSShadowAttributeName, nil];
+			NSAttributedString *str = [[NSAttributedString alloc] initWithString:aString attributes:attrDict];
+			[self setObjectValue:str];
+			
+			[self setAlphaValue:1];
+			
+			[str release];
+			[attrDict release];			
 		}
-
-		NSSize sz = [dispView bounds].size;
-		
-		NSFont *font = [NSFont systemFontOfSize:MIN(kOSDFontSizeMax, MAX(kOSDFontSizeMin, (sz.width + sz.height) / kOSDFontSizeRatio))];
-		
-		NSDictionary *attrDict = [[NSDictionary alloc] initWithObjectsAndKeys:font, NSFontAttributeName,
-								  frontColor, NSForegroundColorAttributeName,
-								  shadow, NSShadowAttributeName, nil];
-		NSAttributedString *str = [[NSAttributedString alloc] initWithString:aString attributes:attrDict];
-		[self setObjectValue:str];
-		
-		[self setAlphaValue:1];
-		
-		[attrDict release];
-		[str release];
-
 		if (ut) {
+			[owner release];
+			owner = [ow retain];
+			
 			shouldHide = NO;
 		}
 	}
