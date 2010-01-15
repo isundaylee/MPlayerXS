@@ -153,16 +153,16 @@
 				switch (key)
 				{
 					case NSRightArrowFunctionKey:
-						[playerController changeTimeBy:seekStepTimeLR];
+						[controlUI changeTimeBy:seekStepTimeLR];
 						break;
 					case NSLeftArrowFunctionKey:
-						[playerController changeTimeBy:-seekStepTimeLR];
+						[controlUI changeTimeBy:-seekStepTimeLR];
 						break;
 					case NSUpArrowFunctionKey:
-						[playerController changeTimeBy:seekStepTimeUB];
+						[controlUI changeTimeBy:seekStepTimeUB];
 						break;
 					case NSDownArrowFunctionKey:
-						[playerController changeTimeBy:-seekStepTimeUB];
+						[controlUI changeTimeBy:-seekStepTimeUB];
 						break;
 					default:
 						ret = NO;
