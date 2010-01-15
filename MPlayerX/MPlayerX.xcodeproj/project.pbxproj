@@ -67,6 +67,7 @@
 		86A5E40C10C7D24D00D061C7 /* wqy-microhei.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E40B10C7D24D00D061C7 /* wqy-microhei.ttc */; };
 		86B99D0210C9418600AB28FB /* OpenURLController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B99D0110C9418600AB28FB /* OpenURLController.m */; };
 		86C5492510C5216600DC1511 /* PlayList.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C5492410C5216600DC1511 /* PlayList.m */; };
+		86CA9E9E110094FE00A3CDBC /* OsdText.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CA9E9D110094FE00A3CDBC /* OsdText.m */; };
 		86CAF23D10BA44DD00848B8E /* LogAnalyzeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF23A10BA44DD00848B8E /* LogAnalyzeOperation.m */; };
 		86CAF23E10BA44DD00848B8E /* LogAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF23C10BA44DD00848B8E /* LogAnalyzer.m */; };
 		86CAF24110BA44EA00848B8E /* MovieInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF24010BA44EA00848B8E /* MovieInfo.m */; };
@@ -197,6 +198,8 @@
 		86B99D0110C9418600AB28FB /* OpenURLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenURLController.m; sourceTree = "<group>"; };
 		86C5492310C5216600DC1511 /* PlayList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayList.h; sourceTree = "<group>"; };
 		86C5492410C5216600DC1511 /* PlayList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayList.m; sourceTree = "<group>"; };
+		86CA9E9C110094FE00A3CDBC /* OsdText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OsdText.h; sourceTree = "<group>"; };
+		86CA9E9D110094FE00A3CDBC /* OsdText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OsdText.m; sourceTree = "<group>"; };
 		86CAF23510BA44A300848B8E /* def.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = def.h; sourceTree = "<group>"; };
 		86CAF23610BA44D100848B8E /* AudioInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioInfo.h; sourceTree = "<group>"; };
 		86CAF23710BA44D100848B8E /* AudioInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioInfo.m; sourceTree = "<group>"; };
@@ -353,6 +356,8 @@
 				8608652B10BA55CE00459392 /* DisplayLayer.m */,
 				8608681D10BAA02700459392 /* fast_memcpy.h */,
 				8608676A10BA9DA700459392 /* fast_memcpy.c */,
+				86CA9E9C110094FE00A3CDBC /* OsdText.h */,
+				86CA9E9D110094FE00A3CDBC /* OsdText.m */,
 			);
 			name = Display;
 			sourceTree = "<group>";
@@ -637,6 +642,7 @@
 				8661414210FA2B7E007F36DA /* SubConverter.m in Sources */,
 				86E34BBF10FF42A40004C4E7 /* CoreController.m in Sources */,
 				86E34BC210FF42B10004C4E7 /* PlayerController.m in Sources */,
+				86CA9E9E110094FE00A3CDBC /* OsdText.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
