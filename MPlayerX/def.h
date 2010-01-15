@@ -51,6 +51,8 @@
 #define kUDKeyShowOSD				(@"ShowOSD")
 #define kUDKeyOSDFontSizeMax		(@"OSDFontSizeMax")
 #define kUDKeyOSDFontSizeMin		(@"OSDFontSizeMin")
+#define kUDKeyOSDFrontColor			(@"OSDFrontColor")
+#define kUDKeyOSDAutoHideTime		(@"OSDAutoHideTime")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")
