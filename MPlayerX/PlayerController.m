@@ -35,6 +35,8 @@
 
 #define kMPCDefaultSubFontPath				(@"wqy-microhei.ttc")
 
+#define kThreadsNumMax	(8)
+
 @interface PlayerController (CoreControllerNotification)
 -(void) mplayerStarted:(NSNotification *)notification;
 -(void) mplayerStopped:(NSNotification *)notification;
@@ -58,12 +60,13 @@
 					   [NSNumber numberWithFloat:4], kUDKeySubScale,
 					   [NSNumber numberWithFloat:0.1], kUDKeySubScaleStepValue,
 					   [NSNumber numberWithBool:NO], kUDKeyQuitOnClose,
-					   [NSArchiver archivedDataWithRootObject:[NSColor whiteColor]], kUDKeySubFontColor,
-					   [NSArchiver archivedDataWithRootObject:[NSColor blackColor]], kUDKeySubFontBorderColor,
+					   [NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:1.0 alpha:1.00]], kUDKeySubFontColor,
+					   [NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:0.0 alpha:0.85]], kUDKeySubFontBorderColor,
 					   [NSNumber numberWithBool:NO], kUDKeyForceIndex,
 					   [NSNumber numberWithUnsignedInt:kSubFileNameRuleContain], kUDKeySubFileNameRule,
 					   [NSNumber numberWithBool:NO], kUDKeyDTSPassThrough,
 					   [NSNumber numberWithBool:NO], kUDKeyAC3PassThrough,
+					   [NSNumber numberWithUnsignedInt:1], kUDKeyThreadNum,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
@@ -372,12 +375,14 @@
 	
 	if (mt) {
 		// 使用多线程
-		threadNum = MAX(2,[[NSProcessInfo processInfo] processorCount]);
-		mplayerName = @"mplayer-mt";		
+		threadNum = MIN(kThreadsNumMax, MAX(2,[ud integerForKey:kUDKeyThreadNum]));
+		mplayerName = @"mplayer-mt";
 	} else {
-		threadNum = 1;
+		threadNum = MIN(kThreadsNumMax, [ud integerForKey:kUDKeyThreadNum]);
 		mplayerName = @"mplayer";
 	}
+
+	[ud setInteger:threadNum forKey:kUDKeyThreadNum];
 	
 	[mplayer.pm setThreads: threadNum];
 	
