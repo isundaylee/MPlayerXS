@@ -34,6 +34,8 @@
 
 #define kMPCPlayStartedNotification		(@"kMPCPlayStartedNotification")
 #define kMPCPlayStoppedNotification		(@"kMPCPlayStoppedNotification")
+#define kMPCPlayWillStopNotification	(@"kMPCPlayWillStopNotification")
+
 #define kMPCPlayStoppedByForceKey		(@"kMPCPlayStoppedByForceKey")
 #define kMPCPlayStoppedTimeKey			(@"kMPCPlayStoppedTimeKey")
 

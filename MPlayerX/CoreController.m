@@ -50,6 +50,7 @@
 @interface CoreController (CoreControllerInternal)
 -(void) getCurrentTime:(NSTimer *)theTimer;
 -(void) playerTaskTerminatedOnMainThread:(NSDictionary*)info;
+-(void) playerTaskWillTerminateOnMainThread:(NSDictionary*)info;
 @end
 
 @implementation CoreController
@@ -130,6 +131,10 @@
 //////////////////////////////////////////////comunication with playerCore/////////////////////////////////////////////////////
 -(void) playerTaskTerminated: (BOOL) byForce from:(id)sender
 {
+	[self performSelectorOnMainThread:@selector(playerTaskWillTerminateOnMainThread:)
+						   withObject:nil
+						waitUntilDone:YES];
+
 	state = kMPCStoppedState;
 
 	// 这个Delegate方法，可能发生在主线程（当调用playerCore的terminate方法），也可能发生在Player线程（播放过程结束）
@@ -144,6 +149,13 @@
 									   [[[movieInfo.playingInfo currentTime] retain] autorelease], kMPCPlayStoppedTimeKey, nil]
 						waitUntilDone:YES];
 	NSLog(@"term:%d", byForce);
+}
+
+-(void) playerTaskWillTerminateOnMainThread:(NSDictionary*)info
+{
+	[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayWillStopNotification
+														object:self
+													  userInfo:nil];
 }
 
 -(void) playerTaskTerminatedOnMainThread:(NSDictionary*)info
