@@ -25,6 +25,7 @@
 #import "FloatWrapFormatter.h"
 #import "ArrowTextField.h"
 #import "ResizeIndicator.h"
+#import "OsdText.h"
 
 #define CONTROLALPHA		(1)
 #define BACKGROUNDALPHA		(0.9)
@@ -61,6 +62,7 @@
 					   [NSNumber numberWithFloat:10], kUDKeyVolumeStep,
 					   [NSNumber numberWithBool:YES], kUDKeySwitchTimeTextPressOnRemain,
 					   [NSNumber numberWithFloat:BACKGROUNDALPHA], kUDKeyCtrlUIBackGroundAlpha,
+					   [NSNumber numberWithBool:YES], kUDKeyShowOSD,
 					   nil]];
 }
 
@@ -183,6 +185,8 @@
 											 selector:@selector(windowHasResized:)
 												 name:NSWindowDidResizeNotification
 											   object:[self window]];
+	
+	[osd setActive:NO];
 }
 
 -(void) dealloc
@@ -300,6 +304,23 @@
 	} else {
 		[dispView setPlayerWindowLevel];
 	}
+	if ([osd isActive]) {
+		NSString *osdStr;
+		switch (playerController.playerState) {
+			case kMPCStoppedState:
+				osdStr = @"Stopped";
+				break;
+			case kMPCPausedState:
+				osdStr = @"Paused";
+				break;
+			default:
+				osdStr = @"";
+				break;
+		}
+		[osd setStringValue:osdStr
+					  owner:kOSDOwnerOther
+				updateTimer:YES];
+	}
 }
 
 -(IBAction) toggleMute:(id)sender
@@ -310,6 +331,12 @@
 	[volumeSlider setEnabled:!mute];
 	[menuVolInc setEnabled:!mute];
 	[menuVolDec setEnabled:!mute];
+	
+	if ([osd isActive]) {
+		[osd setStringValue:(mute)?(@"Mute ON"):(@"Mute OFF")
+					  owner:kOSDOwnerOther
+				updateTimer:YES];
+	}
 }
 
 -(IBAction) setVolume:(id)sender
@@ -328,6 +355,12 @@
 		
 		// 将音量作为UserDefaults存储
 		[ud setFloat:vol forKey:kUDKeyVolume];
+		
+		if ([osd isActive]) {
+			[osd setStringValue:[NSString stringWithFormat:@"Volume: %.1f", vol]
+						  owner:kOSDOwnerOther
+					updateTimer:YES];
+		}
 	}
 }
 
@@ -342,7 +375,32 @@
 	// 因为controlUI会KVO mplayer.movieInfo.playingInfo.currentTime
 	// playerController的seekTo方法里会根据新设定的时间修改currentTime
 	// 因此这里不用直接更新界面
-	[playerController seekTo:[timeSlider timeDest]];
+	float time = [playerController seekTo:[timeSlider timeDest]];
+	
+	if ([osd isActive] && (time > 0)) {
+		NSString *osdStr = [timeFormatter stringForObjectValue:[NSNumber numberWithFloat:time]];
+		double length = [timeSlider maxValue];
+		
+		if (length > 0) {
+			osdStr = [osdStr stringByAppendingFormat:@" / %@", [timeFormatter stringForObjectValue:[NSNumber numberWithDouble:length]]];
+		}
+		[osd setStringValue:osdStr owner:kOSDOwnerTime updateTimer:YES];
+	}
+}
+
+-(void) changeTimeBy:(float) delta
+{
+	float time = [playerController changeTimeBy:delta];
+
+	if ([osd isActive] && (time > 0)) {
+		NSString *osdStr = [timeFormatter stringForObjectValue:[NSNumber numberWithFloat:time]];
+		double length = [timeSlider maxValue];
+		
+		if (length > 0) {
+			osdStr = [osdStr stringByAppendingFormat:@" / %@", [timeFormatter stringForObjectValue:[NSNumber numberWithDouble:length]]];
+		}
+		[osd setStringValue:osdStr owner:kOSDOwnerTime updateTimer:YES];
+	}
 }
 
 -(IBAction) toggleFullScreen:(id)sender
@@ -385,7 +443,12 @@
 		[fullScreenButton setState: NSOffState];
 		[fillScreenButton setHidden: YES];
 	}
+
 	[hintTime.animator setAlphaValue:0];
+	
+	if ([osd isActive]) {
+		[osd setStringValue:nil owner:osd.owner updateTimer:NO];
+	}
 }
 
 -(IBAction) toggleFillScreen:(id)sender
@@ -445,7 +508,6 @@
 	for (mItem in [subListMenu itemArray]) {
 		if ([mItem state] == NSOnState) {
 			selectedTag = [mItem tag];
-			[mItem setState:NSOffState];
 			break;
 		}
 	}
@@ -458,9 +520,7 @@
 		mItem = [subListMenu itemWithTag:-1];
 	}
 	
-	[playerController setSubtitle:[mItem tag]];
-
-	[mItem setState:NSOnState];
+	[self setSubWithID:mItem];
 }
 
 -(IBAction) setSubWithID:(id)sender
@@ -471,6 +531,12 @@
 		[mItem setState:NSOffState];
 	}
 	[sender setState:NSOnState];
+
+	if ([osd isActive]) {
+		[osd setStringValue:[NSString stringWithFormat:@"Sub: %@", [sender title]]
+					  owner:kOSDOwnerOther
+				updateTimer:YES];
+	}
 }
 
 -(IBAction) playFromLastStopped:(id)sender
@@ -511,7 +577,7 @@
 		if ([sender isKindOfClass:[NSNumber class]]) {
 			// 如果是NSNumber的话，说明不是Target-Action发过来的
 			[playerController changeAudioBalanceBy:[sender floatValue]];
-		} 
+		}
 	} else {
 		//nil说明是想复原
 		[playerController setAudioBalance:0];
@@ -557,6 +623,13 @@
 	[audioDelayText setEnabled:YES];
 	
 	[menuSwitchAudio setEnabled:YES];
+
+	[osd setActive:[ud boolForKey:kUDKeyShowOSD]];
+}
+
+-(void) playBackWillStop
+{
+	[osd setActive:NO];
 }
 
 /** 这个API会在两个时间点被调用，
@@ -608,8 +681,9 @@
 -(void) gotCurentTime:(NSNumber*) timePos
 {
 	float time = [timePos floatValue];
+	double length = [timeSlider maxValue];
 	
-	if (([timeSlider maxValue] > 0) && 
+	if ((length > 0) && 
 		(((([NSEvent modifierFlags]&kSCMSwitchTimeHintKeyModifierMask) == kSCMSwitchTimeHintKeyModifierMask)?YES:NO) == timeTextPrsOnRmn)) {
 		// 如果有时间的长度，并且按键和设定相符合的时候，显示remain时间
 		[timeText setIntValue:time - [timeSlider maxValue] - 0.5];
@@ -625,6 +699,15 @@
 	if ([timeSlider isEnabled]) {
 		[self calculateHintTime];
 	}
+	
+	if ([osd isActive] && ([timePos floatValue] > 0)) {
+		NSString *osdStr = [timeFormatter stringForObjectValue:timePos];
+		
+		if (length > 0) {
+			osdStr = [osdStr stringByAppendingFormat:@" / %@", [timeFormatter stringForObjectValue:[NSNumber numberWithDouble:length]]];
+		}
+		[osd setStringValue:osdStr owner:kOSDOwnerTime updateTimer:NO];		
+	}
 }
 
 -(void) gotSeekableState:(NSNumber*) seekable
@@ -635,16 +718,31 @@
 -(void) gotSpeed:(NSNumber*) speed
 {
 	[speedText setFloatValue:[speed floatValue]];
+	if ([osd isActive]) {
+		[osd setStringValue:[NSString stringWithFormat:@"Speed: %.1fX", [speed floatValue]] 
+					  owner:kOSDOwnerOther
+				updateTimer:YES];
+	}
 }
 
 -(void) gotSubDelay:(NSNumber*) sd
 {
 	[subDelayText setFloatValue:[sd floatValue]];
+	if ([osd isActive]) {
+		[osd setStringValue:[NSString stringWithFormat:@"Sub Delay: %.1f s", [sd floatValue]]
+					  owner:kOSDOwnerOther
+				updateTimer:YES];
+	}
 }
 
 -(void) gotAudioDelay:(NSNumber*) ad
 {
 	[audioDelayText setFloatValue:[ad floatValue]];
+	if ([osd isActive]) {
+		[osd setStringValue:[NSString stringWithFormat:@"Audio Delay: %.1f s", [ad floatValue]]
+					  owner:kOSDOwnerOther
+				updateTimer:YES];
+	}
 }
 
 -(void) gotSubInfo:(NSArray*) subs
@@ -774,5 +872,8 @@
 	
 	frm.origin.y = MIN(frm.origin.y, contBounds.size.height-frm.size.height);
 	[self setFrame:frm];
+	
+	// 这里是为了让字体大小符合窗口大小
+	[osd setStringValue:nil owner:osd.owner updateTimer:NO];
 }
 @end

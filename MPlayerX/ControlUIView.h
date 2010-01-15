@@ -22,7 +22,7 @@
 #import "TimeFormatter.h"
 #import "TimeSlider.h"
 
-@class RootLayerView, PlayerController, FloatWrapFormatter, ArrowTextField, ResizeIndicator;
+@class RootLayerView, PlayerController, FloatWrapFormatter, ArrowTextField, ResizeIndicator, OsdText;
 
 @interface ControlUIView : NSView
 {
@@ -65,6 +65,7 @@
 	IBOutlet ArrowTextField *audioDelayText;
 	
 	IBOutlet ResizeIndicator *rzIndicator;
+	IBOutlet OsdText *osd;
 	
 	IBOutlet NSMenuItem *menuSnapshot;
 	IBOutlet NSMenuItem *menuSwitchSub;
@@ -87,6 +88,7 @@
 -(IBAction) changeVolumeBy:(id)sender;
 
 -(IBAction) seekTo:(id) sender;
+-(void) changeTimeBy:(float) delta;
 
 -(IBAction) toggleFullScreen:(id)sender;
 -(IBAction) toggleFillScreen:(id)sender;
@@ -102,6 +104,7 @@
 ////////////////////////////////播放相关////////////////////////////////
 -(void) playBackStarted;
 -(void) playBackStopped;
+-(void) playBackWillStop;
 
 ////////////////////////////////KVO相关////////////////////////////////
 -(void) gotMediaLength:(NSNumber*) length;
