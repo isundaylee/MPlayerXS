@@ -37,9 +37,10 @@
 		8609C25D10C693D500B102CE /* RemoteControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8609C25910C693D500B102CE /* RemoteControl.m */; };
 		8609C28110C6944A00B102CE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8609C28010C6944A00B102CE /* IOKit.framework */; };
 		861097F110F1C9A50085B3DF /* MPlayerX.icns in Resources */ = {isa = PBXBuildFile; fileRef = 861097F010F1C9A50085B3DF /* MPlayerX.icns */; };
+		8610F44B1100F329006A1447 /* toolbar_video.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8610F44A1100F329006A1447 /* toolbar_video.icns */; };
+		8610F4681100F539006A1447 /* toolbar_audio.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8610F4671100F539006A1447 /* toolbar_audio.icns */; };
 		8617287D10CFAB32003A0CE2 /* ArrowTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 8617287C10CFAB32003A0CE2 /* ArrowTextField.m */; };
 		8624A94710F8561400029251 /* Pref.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8624A94610F8561400029251 /* Pref.xib */; };
-		8624AA8510F86D6300029251 /* toolbar_display.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8624AA8410F86D6300029251 /* toolbar_display.icns */; };
 		8629205510C03B8F0077B63E /* mute.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8629205010C03B8F0077B63E /* mute.pdf */; };
 		8629205610C03B8F0077B63E /* vol_high.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8629205110C03B8F0077B63E /* vol_high.pdf */; };
 		8629205710C03B8F0077B63E /* vol_low.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8629205210C03B8F0077B63E /* vol_low.pdf */; };
@@ -157,10 +158,11 @@
 		861097EE10F1C98C0085B3DF /* MPlayerX-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MPlayerX-Info.plist"; sourceTree = SOURCE_ROOT; };
 		861097F010F1C9A50085B3DF /* MPlayerX.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = MPlayerX.icns; sourceTree = SOURCE_ROOT; };
 		861097F210F1C9E70085B3DF /* MPlayerX_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPlayerX_Prefix.pch; sourceTree = SOURCE_ROOT; };
+		8610F44A1100F329006A1447 /* toolbar_video.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = toolbar_video.icns; sourceTree = "<group>"; };
+		8610F4671100F539006A1447 /* toolbar_audio.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = toolbar_audio.icns; sourceTree = "<group>"; };
 		8617287B10CFAB32003A0CE2 /* ArrowTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrowTextField.h; sourceTree = "<group>"; };
 		8617287C10CFAB32003A0CE2 /* ArrowTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrowTextField.m; sourceTree = "<group>"; };
 		8624A94410F8560400029251 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Pref.xib; sourceTree = "<group>"; };
-		8624AA8410F86D6300029251 /* toolbar_display.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = toolbar_display.icns; sourceTree = "<group>"; };
 		8629205010C03B8F0077B63E /* mute.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = mute.pdf; sourceTree = "<group>"; };
 		8629205110C03B8F0077B63E /* vol_high.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = vol_high.pdf; sourceTree = "<group>"; };
 		8629205210C03B8F0077B63E /* vol_low.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = vol_low.pdf; sourceTree = "<group>"; };
@@ -390,7 +392,8 @@
 		8629272810C155300077B63E /* buttons */ = {
 			isa = PBXGroup;
 			children = (
-				8624AA8410F86D6300029251 /* toolbar_display.icns */,
+				8610F4671100F539006A1447 /* toolbar_audio.icns */,
+				8610F44A1100F329006A1447 /* toolbar_video.icns */,
 				863B5A7910F2175C001111F6 /* enterfullscreen.pdf */,
 				863B5A7A10F2175C001111F6 /* exitfillscreen_lr.pdf */,
 				863B5A7B10F2175C001111F6 /* exitfillscreen_ub.pdf */,
@@ -586,7 +589,8 @@
 				863B5A8410F2175C001111F6 /* fillscreen_ub.pdf in Resources */,
 				86D10C1C10F4A40D000B573F /* resizeindicator.png in Resources */,
 				8624A94710F8561400029251 /* Pref.xib in Resources */,
-				8624AA8510F86D6300029251 /* toolbar_display.icns in Resources */,
+				8610F44B1100F329006A1447 /* toolbar_video.icns in Resources */,
+				8610F4681100F539006A1447 /* toolbar_audio.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
