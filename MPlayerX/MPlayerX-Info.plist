@@ -10,21 +10,13 @@
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>aac</string>
-				<string>AAC</string>
 				<string>mp3</string>
-				<string>MP3</string>
 				<string>wav</string>
-				<string>WAV</string>
 				<string>pcm</string>
-				<string>PCM</string>
 				<string>ogg</string>
-				<string>OGG</string>
 				<string>mka</string>
-				<string>MKA</string>
 				<string>m4a</string>
-				<string>M4A</string>
 				<string>wma</string>
-				<string>WMA</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>doc_audio.icns</string>
@@ -41,51 +33,28 @@
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>avi</string>
-				<string>AVI</string>
 				<string>mp4</string>
-				<string>MP4</string>
 				<string>mpg</string>
-				<string>MPG</string>
 				<string>mp2</string>
-				<string>MP2</string>
 				<string>mpg2</string>
-				<string>MPG2</string>
 				<string>mpeg</string>
-				<string>MPEG</string>
 				<string>mpg4</string>
-				<string>MPG4</string>
 				<string>asf</string>
-				<string>ASF</string>
 				<string>wmv</string>
-				<string>WMV</string>
 				<string>qt</string>
-				<string>QT</string>
 				<string>mov</string>
-				<string>MOV</string>
 				<string>flv</string>
-				<string>FLV</string>
 				<string>fli</string>
-				<string>FLI</string>
 				<string>vcd</string>
-				<string>VCD</string>
 				<string>rm</string>
-				<string>RM</string>
 				<string>rmvb</string>
-				<string>RMVB</string>
 				<string>vob</string>
-				<string>VOB</string>
 				<string>ogm</string>
-				<string>OGM</string>
 				<string>divx</string>
-				<string>DIVX</string>
 				<string>vfw</string>
-				<string>VFW</string>
 				<string>mkv</string>
-				<string>MKV</string>
 				<string>3gp</string>
-				<string>3GP</string>
 				<string>m4v</string>
-				<string>M4V</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>doc_video.icns</string>
