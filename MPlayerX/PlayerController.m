@@ -313,8 +313,8 @@
 			// 如果是本地文件
 			path = [url path];
 			// 进行格式验证
-			if ((supportVideoFormats && [supportVideoFormats containsObject:[path pathExtension]]) ||
-				(supportAudioFormats && [supportAudioFormats containsObject:[path pathExtension]])) {
+			if (([supportVideoFormats containsObject:[[path pathExtension] uppercaseString]]) ||
+				([supportAudioFormats containsObject:[[path pathExtension] uppercaseString]])) {
 				BOOL isDir = YES;
 				if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && (!isDir)) {
 					// 为了保险期间，每次播放开始的时候
