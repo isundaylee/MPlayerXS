@@ -20,8 +20,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define kOSDOwnerTime	(@"OSDOwnerTime")
-#define kOSDOwnerOther	(@"OSDOwnerOther")
+typedef enum
+{
+	kOSDOwnerTime = 1,
+	kOSDOwnerOther = 2
+} OSDOWNER;
 
 @interface OsdText : NSTextField
 {
@@ -32,7 +35,7 @@
 	NSColor *frontColor;
 	NSShadow *shadow;
 	
-	NSString *owner;
+	OSDOWNER owner;
 	
 	float fontSizeMax;
 	float fontSizeMin;
@@ -44,9 +47,9 @@
 }
 
 @property (assign, readwrite, getter=isActive) BOOL active;
-@property (readonly) NSString *owner;
+@property (readonly) OSDOWNER owner;
 
 -(void) setAutoHideTimeInterval:(NSTimeInterval)ti;
--(void) setStringValue:(NSString *)aString owner:(NSString*)ow updateTimer:(BOOL)ut;
+-(void) setStringValue:(NSString *)aString owner:(OSDOWNER)ow updateTimer:(BOOL)ut;
 
 @end

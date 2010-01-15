@@ -41,6 +41,8 @@
 	 [NSDictionary dictionaryWithObjectsAndKeys:
 	  [NSNumber numberWithFloat:kOSDFontSizeMaxDefault], kUDKeyOSDFontSizeMax,
 	  [NSNumber numberWithFloat:kOSDFontSizeMinDefault], kUDKeyOSDFontSizeMin,
+	  [NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedRed:0.9 green:0.9 blue:0.0 alpha:0.9]], kUDKeyOSDFrontColor,
+	  [NSNumber numberWithFloat:kOSDAutoHideTimeInterval], kUDKeyOSDAutoHideTime,
 	  nil]];
 }
 
@@ -56,10 +58,10 @@
 		autoHideTimeInterval = 0;
 		autoHideTimer = nil;
 		shouldHide = YES;
-		owner = nil;
+		owner = kOSDOwnerOther;
 		
-		frontColor = [[NSColor whiteColor] retain];
-		
+		frontColor = [[NSUnarchiver unarchiveObjectWithData:[ud objectForKey:kUDKeyOSDFrontColor]] retain];
+
 		shadow = [[NSShadow alloc] init];
 		[shadow setShadowOffset:NSMakeSize(0, 0)];
 		[shadow setShadowColor:[NSColor blackColor]];
@@ -77,14 +79,13 @@
 	[self setDrawsBackground:NO];
 	[self setBezeled:NO];
 	
-	[self setAutoHideTimeInterval:kOSDAutoHideTimeInterval];
+	[self setAutoHideTimeInterval:[ud floatForKey:kUDKeyOSDAutoHideTime]];
 	
 	dispView = [self superview];
 }
 
 -(void) dealloc
 {
-	[owner release];
 	[frontColor release];
 	[shadow release];
 	
@@ -131,10 +132,10 @@
 	}
 }
 
--(void) setStringValue:(NSString *)aString owner:(NSString*)ow updateTimer:(BOOL)ut
+-(void) setStringValue:(NSString *)aString owner:(OSDOWNER)ow updateTimer:(BOOL)ut
 {
 	if (active) {
-		if (ut || ([self alphaValue] > 0 && [owner isEqualToString:ow])) {
+		if (ut || ([self alphaValue] > 0 && (ow == owner))) {
 			if (!aString) {
 				// 如果是nil，那么就用本来就有的
 				aString = [self stringValue];
@@ -159,9 +160,7 @@
 			[attrDict release];			
 		}
 		if (ut) {
-			[owner release];
-			owner = [ow retain];
-			
+			owner = ow;
 			shouldHide = NO;
 		}
 	}
