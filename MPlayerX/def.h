@@ -48,6 +48,9 @@
 #define kUDKeySubFileNameRule		(@"SubFileNameRule")
 #define kUDKeyDTSPassThrough		(@"DTSPassThrough")
 #define kUDKeyAC3PassThrough		(@"AC3PassThrough")
+#define kUDKeyShowOSD				(@"ShowOSD")
+#define kUDKeyOSDFontSizeMax		(@"OSDFontSizeMax")
+#define kUDKeyOSDFontSizeMin		(@"OSDFontSizeMin")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")
