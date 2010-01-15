@@ -1,4 +1,4 @@
-﻿/*
+/*
  * MPlayerX - OsdText.m
  *
  * Copyright (C) 2009 Zongyao QU
@@ -20,27 +20,29 @@
 
 #import "OsdText.h"
 
-#define kOSDAutoHideTimeInterval	(2)
-#define kOSDFontSizeMin				(12)
-#define kOSDFontSizeMax				(48)
+#define kOSDAutoHideTimeInterval	(5)
+#define kOSDFontSizeMin				(24)
+#define kOSDFontSizeMax				(60)
 #define kOSDFontSizeRatio			(50)
 
 @implementation OsdText
 
--(id) init
+@synthesize active;
+
+-(id) initWithCoder:(NSCoder *)aDecoder
 {
-	if (self = [super init]) {
+	if (self = [super initWithCoder:aDecoder]) {
 		active = NO;
 		autoHideTimeInterval = 0;
 		autoHideTimer = nil;
 		shouldHide = YES;
 		
 		frontColor = [[NSColor whiteColor] retain];
-
+		
 		shadow = [[NSShadow alloc] init];
 		[shadow setShadowOffset:NSMakeSize(0, 0)];
 		[shadow setShadowColor:[NSColor blackColor]];
-		[shadow setShadowBlurRadius:4];
+		[shadow setShadowBlurRadius:8];		
 	}
 	return self;
 }
@@ -53,10 +55,10 @@
 	[self setAllowsEditingTextAttributes:YES];
 	[self setDrawsBackground:NO];
 	[self setBezeled:NO];
-
+	
 	[self setAutoHideTimeInterval:kOSDAutoHideTimeInterval];
 	
-	dispView = [self superView];
+	dispView = [self superview];
 }
 
 -(void) dealloc
@@ -85,6 +87,7 @@
 		autoHideTimer = nil;
 	}
 	if (ti > 0) {
+		autoHideTimeInterval = ti;
 		autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:autoHideTimeInterval/2
 														 target:self
 													   selector:@selector(tryToHide)
@@ -106,26 +109,32 @@
 	}
 }
 
--(void) setStringValue:(NSString *)aString
+-(void) setStringValue:(NSString *)aString updateTimer:(BOOL) ut
 {
-	if (active && aString) {
-	
-		NSSize sz = [dispView bounds].size;
+	if (active) {
+		if (!aString) {
+			// 如果是nil，那么就用本来就有的
+			aString = [self stringValue];
+		}
 
+		NSSize sz = [dispView bounds].size;
+		
 		NSFont *font = [NSFont systemFontOfSize:MIN(kOSDFontSizeMax, MAX(kOSDFontSizeMin, (sz.width + sz.height) / kOSDFontSizeRatio))];
 		
 		NSDictionary *attrDict = [[NSDictionary alloc] initWithObjectsAndKeys:font, NSFontAttributeName,
-																			  frontColor, NSForegroundColorAttributeName,
-																			  shadow, NSShadowAttributeName, nil];
+								  frontColor, NSForegroundColorAttributeName,
+								  shadow, NSShadowAttributeName, nil];
 		NSAttributedString *str = [[NSAttributedString alloc] initWithString:aString attributes:attrDict];
-		[self setAttributedString:str];
+		[self setObjectValue:str];
 		
 		[self setAlphaValue:1];
 		
 		[attrDict release];
 		[str release];
-		
-		shouldHide = NO;
+
+		if (ut) {
+			shouldHide = NO;
+		}
 	}
 }
 @end

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * MPlayerX - OsdText.h
  *
  * Copyright (C) 2009 Zongyao QU
@@ -26,7 +26,7 @@
 	BOOL shouldHide;
 	NSColor *frontColor;
 	NSShadow *shadow;
-
+	
 	NSTimer *autoHideTimer;
 	NSTimeInterval autoHideTimeInterval;
 	
@@ -36,5 +36,6 @@
 @property (assign, readwrite, getter=isActive) BOOL active;
 
 -(void) setAutoHideTimeInterval:(NSTimeInterval)ti;
+-(void) setStringValue:(NSString *)aString updateTimer:(BOOL) ut;
 
 @end
