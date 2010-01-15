@@ -61,8 +61,8 @@
 					   [NSArchiver archivedDataWithRootObject:[NSColor blackColor]], kUDKeySubFontBorderColor,
 					   [NSNumber numberWithBool:NO], kUDKeyForceIndex,
 					   [NSNumber numberWithUnsignedInt:kSubFileNameRuleContain], kUDKeySubFileNameRule,
-					   [NSNumber numberWithBool:NO], kUDKeyDTSPassThrough,
-					   [NSNumber numberWithBool:NO], kUDKeyAC3PassThrough,
+					   [NSNumber numberWithBool:YES], kUDKeyDTSPassThrough,
+					   [NSNumber numberWithBool:YES], kUDKeyAC3PassThrough,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
@@ -317,8 +317,8 @@
 			// 如果是本地文件
 			path = [url path];
 			// 进行格式验证
-			if (([supportVideoFormats containsObject:[[path pathExtension] uppercaseString]]) ||
-				([supportAudioFormats containsObject:[[path pathExtension] uppercaseString]])) {
+			if (([supportVideoFormats containsObject:[[path pathExtension] lowercaseString]]) ||
+				([supportAudioFormats containsObject:[[path pathExtension] lowercaseString]])) {
 				BOOL isDir = YES;
 				if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && (!isDir)) {
 					// 为了保险期间，每次播放开始的时候
