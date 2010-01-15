@@ -334,6 +334,10 @@
 		}		
 		// 必须要在退出全屏之后才能设定window level
 		[self setPlayerWindowLevel];
+		// 全屏的时候直接关闭会崩溃
+		if (playerController.playerState != kMPCStoppedState) {
+			[win makeFirstResponder:self];
+		}
 	} else if (displaying) {
 		// 应该进入全屏
 		// 只有在显示图像的时候才能进入全屏
