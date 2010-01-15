@@ -157,6 +157,8 @@
 
 	[paramArray addObject:@"-nodouble"];
 	
+	[paramArray addObject:@"-nofontconfig"];
+	
 	[paramArray addObject:@"-osdlevel"];
 	[paramArray addObject: [NSString stringWithFormat: @"%d",osdLevel]];
 	
