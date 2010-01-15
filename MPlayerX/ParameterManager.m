@@ -48,6 +48,8 @@
 @synthesize textSubs;
 @synthesize vobSub;
 @synthesize forceIndex;
+@synthesize dtsPass;
+@synthesize ac3Pass;
 
 #pragma mark Init/Dealloc
 -(id) init
@@ -82,6 +84,8 @@
 		textSubs = nil;
 		vobSub = nil;
 		forceIndex = NO;
+		dtsPass = YES;
+		ac3Pass = YES;
 	}
 	return self;
 }
@@ -242,21 +246,24 @@
 	
 	if (textSubs && [textSubs count]) {
 		[paramArray addObject:@"-noautosub"];
-		[paramArray addObject:@"-sub"];
-		
-		NSString *str = [textSubs objectAtIndex:0];
-		
-		NSUInteger i;
-		NSUInteger cnt = [textSubs count];
-		for (i = 1; i < cnt; i++) {
-			str = [str stringByAppendingFormat:@",%@", [textSubs objectAtIndex:i]];
-		}
-		[paramArray addObject:str];
+		[paramArray addObject:@"-sub"];	
+		[paramArray addObject:[textSubs componentsJoinedByString:@","]];
 	}
 	
 	if (vobSub && (![vobSub isEqualToString:@""])) {
 		[paramArray addObject:@"-vobsub"];
 		[paramArray addObject:vobSub];
+	}
+
+	if (dtsPass || ac3Pass) {
+		[paramArray addObject:@"-ac"];
+		NSString *passStr = @"";
+		if (dtsPass) {
+			passStr = [passStr stringByAppendingString:@"hwdts,"];
+		}
+		if (ac3Pass) {
+			passStr = [passStr stringByAppendingString:@"hwac3,a52,"];
+		}
 	}
 
 	return [paramArray autorelease];

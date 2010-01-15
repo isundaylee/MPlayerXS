@@ -46,6 +46,8 @@
 #define kUDKeyCtrlUIBackGroundAlpha	(@"CtrlUIBackGroundAlpha")
 #define kUDKeyForceIndex			(@"ForceIndex")
 #define kUDKeySubFileNameRule		(@"SubFileNameRule")
+#define kUDKeyDTSPassThrough		(@"DTSPassThrough")
+#define kUDKeyAC3PassThrough		(@"AC3PassThrough")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")

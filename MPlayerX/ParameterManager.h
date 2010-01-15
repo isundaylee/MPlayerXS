@@ -56,6 +56,8 @@ typedef struct
 	NSArray *textSubs;
 	NSString *vobSub;
 	BOOL forceIndex;
+	BOOL dtsPass;
+	BOOL ac3Pass;
 }
 
 @property (assign, readwrite) SUBFILE_NAMERULE subNameRule;
@@ -72,6 +74,8 @@ typedef struct
 @property (retain, readwrite) NSArray *textSubs;
 @property (retain, readwrite) NSString *vobSub;
 @property (assign, readwrite) BOOL forceIndex;
+@property (assign, readwrite) BOOL dtsPass;
+@property (assign, readwrite) BOOL ac3Pass;
 
 // 这个接口是面向playingInfo
 -(float) subScaleInternal;
