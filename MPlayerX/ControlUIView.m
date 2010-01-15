@@ -187,8 +187,10 @@
 
 -(void) dealloc
 {
-	[autoHideTimer invalidate];
-	
+	if (autoHideTimer) {
+		[autoHideTimer invalidate];
+	}
+
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[fillScreenButtonAllImages release];
@@ -223,6 +225,7 @@
 		// 这个Timer没有retain，所以也不需要release
 		if (autoHideTimer) {
 			[autoHideTimer invalidate];
+			autoHideTimer = nil;
 		}
 		autoHideTimeInterval = ti;
 		autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:autoHideTimeInterval/2
@@ -230,6 +233,10 @@
 													   selector:@selector(tryToHide)
 													   userInfo:nil
 														repeats:YES];
+		NSRunLoop *rl = [NSRunLoop currentRunLoop];
+		[rl addTimer:autoHideTimer forMode:NSDefaultRunLoopMode];
+		[rl addTimer:autoHideTimer forMode:NSModalPanelRunLoopMode];
+		[rl addTimer:autoHideTimer forMode:NSEventTrackingRunLoopMode];
 	}
 }
 
