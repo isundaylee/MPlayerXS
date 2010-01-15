@@ -38,6 +38,7 @@
 @interface PlayerController (CoreControllerNotification)
 -(void) mplayerStarted:(NSNotification *)notification;
 -(void) mplayerStopped:(NSNotification *)notification;
+-(void) mplayerWillStop:(NSNotification *)notification;
 -(void) preventSystemSleep;
 -(void) tryToPlayNext;
 @end
@@ -129,6 +130,10 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(mplayerStopped:)
 												 name:kMPCPlayStoppedNotification
+											   object:mplayer];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(mplayerWillStop:)
+												 name:kMPCPlayWillStopNotification
 											   object:mplayer];
 	// 设置监听KVO
 	[mplayer addObserver:self
@@ -396,6 +401,11 @@
 		// 有的话，通知controlUI
 		[controlUI gotLastStoppedPlace:[stopTime floatValue]];
 	}
+}
+
+-(void) mplayerWillStop:(NSNotification *)notification
+{
+	[controlUI playBackWillStop];
 }
 
 -(void) mplayerStopped:(NSNotification *)notification
