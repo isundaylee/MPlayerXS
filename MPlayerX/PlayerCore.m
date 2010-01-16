@@ -28,10 +28,13 @@
 -(void) readOutput:(NSNotification *)notification;
 -(void) readError:(NSNotification *)notification;
 -(void) pollingOutputAndError;
--(void) playMediaPlayerThread:(NSArray*) args;
+-(void) playMediaPlayerThread:(NSDictionary*) args;
 -(void) releaseTimerAndRemoveObserverOnPlayerThread;
 @end
 
+#define kPlayerCoreMediaPathKey		(@"kPlayerCoreMediaPathKey")
+#define kPlayerCoreExecPathKey		(@"kPlayerCoreExecPathKey")
+#define kPlayerCoreParamsKey		(@"kPlayerCoreParamsKey")
 
 @implementation PlayerCore
 
@@ -106,20 +109,23 @@
 		
 		playThread = [[NSThread alloc] initWithTarget:self 
 											 selector:@selector(playMediaPlayerThread:)
-											   object:[NSArray arrayWithObjects:moviePath, execPath, params,nil]];
+											   object:[NSDictionary dictionaryWithObjectsAndKeys:
+													   moviePath, kPlayerCoreMediaPathKey,
+													   execPath, kPlayerCoreExecPathKey,
+													   params, kPlayerCoreParamsKey,nil]];
 		[playThread start];
 		return YES;
 	}
 	return NO;
 }
 
-- (void) playMediaPlayerThread:(NSArray*) args
+- (void) playMediaPlayerThread:(NSDictionary*) args
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	NSString *moviePath = [args objectAtIndex:0];
-	NSString *execPath = [args objectAtIndex:1];
-	NSArray *params = [args objectAtIndex:2];
+	NSString *moviePath = [args objectForKey:kPlayerCoreMediaPathKey];
+	NSString *execPath = [args objectForKey:kPlayerCoreExecPathKey];
+	NSArray *params = [args objectForKey:kPlayerCoreParamsKey];
 	
 	NSRunLoop *runloop = [NSRunLoop currentRunLoop];
 	
