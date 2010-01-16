@@ -37,12 +37,15 @@
 
 #define kThreadsNumMax	(8)
 
+#define SAFERELEASE(x)		{if(x) {[x release];x = nil;}}
+
 @interface PlayerController (CoreControllerNotification)
 -(void) mplayerStarted:(NSNotification *)notification;
 -(void) mplayerStopped:(NSNotification *)notification;
 -(void) mplayerWillStop:(NSNotification *)notification;
 -(void) preventSystemSleep;
 -(void) tryToPlayNext;
+-(void) playMedia:(NSURL*)url;
 @end
 
 @implementation PlayerController
@@ -233,6 +236,7 @@
 	[mplayer removeObserver:self forKeyPath:kObservedValueStringSubInfo];
 	
 	[mplayer release];
+	[lastPlayedPath release];
 	[supportVideoFormats release];
 	[supportAudioFormats release];
 	
@@ -315,55 +319,78 @@
 	[mplayer.pm setAc3Pass:[ud boolForKey:kUDKeyAC3PassThrough]];
 }
 
--(BOOL) playMedia:(NSURL*)url
+-(void) loadFiles:(NSArray*)files fromLocal:(BOOL)local
 {
-	BOOL ret = NO;
-	if (url != nil) {
+	if (files) {
 		NSString *path;
+		BOOL isDir = YES;
+		NSFileManager *fm = [NSFileManager defaultManager];
+
+		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		
-		if ([url isFileURL]) {
-			// 如果是本地文件
-			path = [url path];
-			// 进行格式验证
-			if (([supportVideoFormats containsObject:[[path pathExtension] lowercaseString]]) ||
-				([supportAudioFormats containsObject:[[path pathExtension] lowercaseString]])) {
-				BOOL isDir = YES;
-				if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && (!isDir)) {
-					// 为了保险期间，每次播放开始的时候
-					[self refreshParameters];
-					
-					lastPlayedPathPre = [NSString stringWithString:path];
-					[mplayer playMedia:lastPlayedPathPre];
-					// 通过的话就播放
-					lastPlayedPath = lastPlayedPathPre;
-					lastPlayedPathPre = nil;
-					
-					ret = YES;
-				}
-			} else {
-				// 否则提示
-				if ([window isVisible]) {
-					NSBeginAlertSheet(NSLocalizedString(@"Error", nil), NSLocalizedString(@"OK", nil), nil, nil, window, nil, nil, nil, nil, NSLocalizedString(@"The File is unsupported by MPlayerX.", nil));
+		for (id file in files) {
+			// 如果是字符串的话先转到URL
+
+			if ([file isKindOfClass:[NSString class]]) {
+				if (local) {
+					file = [NSURL fileURLWithPath:file isDirectory:NO];
 				} else {
-					id alertPanel = NSGetAlertPanel(NSLocalizedString(@"Error", nil), NSLocalizedString(@"The File is unsupported by MPlayerX.", nil), NSLocalizedString(@"OK", nil), nil, nil);
-					[NSApp runModalForWindow:alertPanel];
-					NSReleaseAlertPanel(alertPanel);
+					file = [NSURL URLWithString:file];
 				}
 			}
-		} else {
-			// 非本地文件
-			path = [[url standardizedURL] absoluteString];
 			
-			[self refreshParameters];
-			
-			lastPlayedPathPre = [NSString stringWithString:path];
-			[mplayer playMedia:lastPlayedPathPre];
-			lastPlayedPath = lastPlayedPathPre;
-			lastPlayedPathPre = nil;
-			ret = YES;
+			if (file && [file isKindOfClass:[NSURL class]]) {
+				if ([file isFileURL]) {
+					// 如果是本地文件
+					path = [file path];
+					isDir = YES;
+					
+					if ([fm fileExistsAtPath:path isDirectory:&isDir] && (!isDir)) {
+						// 如果文件存在
+						if (([supportVideoFormats containsObject:[[path pathExtension] lowercaseString]] ||
+							 [supportAudioFormats containsObject:[[path pathExtension] lowercaseString]])) {
+							// 如果是支持的格式
+							[self playMedia:file];
+							break;
+							
+						} else if ([mplayer.subConv validateSubFileName:path]) {
+							// load the sub
+							[self loadSubFile:path];
+						} else {
+							// 否则提示
+							if ([window isVisible]) {
+								NSBeginAlertSheet(NSLocalizedString(@"Error", nil), NSLocalizedString(@"OK", nil), nil, nil, 
+												  window, nil, nil, nil, nil, NSLocalizedString(@"The file is not supported by MPlayerX.", nil));
+							} else {
+								id alertPanel = NSGetAlertPanel(NSLocalizedString(@"Error", nil), NSLocalizedString(@"The file is not supported by MPlayerX.", nil), 
+																NSLocalizedString(@"OK", nil), nil, nil);
+								[NSApp runModalForWindow:alertPanel];
+								NSReleaseAlertPanel(alertPanel);
+							}
+						}
+					}
+				} else {
+					// 如果是非本地文件
+					[self playMedia:file];
+					break;
+				}				
+			}
 		}
+		[pool release];
 	}
-	return ret;
+}
+
+-(void) playMedia:(NSURL*)url
+{
+	[self refreshParameters];
+	
+	lastPlayedPathPre = url;
+	
+	[mplayer playMedia:([url isFileURL])?([url path]):([[url absoluteURL] absoluteString])];
+
+	SAFERELEASE(lastPlayedPath);
+	lastPlayedPath = [lastPlayedPathPre retain];
+	lastPlayedPathPre = nil;	
 }
 
 -(void) setMultiThreadMode:(BOOL) mt
@@ -430,13 +457,12 @@
 	}
 	// NSLog(@"StopPath:%@", lastPlayedPath);
 	
-	if ([ud boolForKey:kUDKeyAutoPlayNext] && 
-		(![[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue])
-	   ) {
+	if ([ud boolForKey:kUDKeyAutoPlayNext] && [lastPlayedPath isFileURL] &&
+		(![[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue])) {
 		//如果不是强制关闭的话
 		//如果不是本地文件，肯定返回nil
-		NSString *nextPath = [PlayList AutoSearchNextMoviePathFrom:lastPlayedPath];
-		if (nextPath != nil) { 
+		NSString *nextPath = [PlayList AutoSearchNextMoviePathFrom:[lastPlayedPath path]];
+		if (nextPath != nil) {
 			// 如果没有下一个文件，那么就不要浪费一个Timer了
 			
 			// 这个时间的设定是一个trick，如果直接调用会造成线程锁死，因为再delegate方法里面设定了waituntildone为Yes
@@ -460,13 +486,11 @@
 
 -(void) tryToPlayNext
 {
-	if ([ud boolForKey:kUDKeyAutoPlayNext] && 
-		(mplayer.state == kMPCStoppedState)
-	   ) {
+	if ([ud boolForKey:kUDKeyAutoPlayNext] && (mplayer.state == kMPCStoppedState) && [lastPlayedPath isFileURL]) {
 		//如果不是本地文件，肯定返回nil
-		NSString *nextPath = [PlayList AutoSearchNextMoviePathFrom:lastPlayedPath];
+		NSString *nextPath = [PlayList AutoSearchNextMoviePathFrom:[lastPlayedPath path]];
 		if (nextPath != nil) {
-			[self playMedia:[NSURL fileURLWithPath:nextPath isDirectory:NO]];
+			[self loadFiles:[NSArray arrayWithObject:nextPath] fromLocal:YES];
 			// 如果能够播放，并且有东西放，就直接结束
 			return;
 		}
@@ -490,7 +514,7 @@
 		// 想播放
 		if (lastPlayedPath) {
 			// 有可以播放的文件
-			[self playMedia:[NSURL fileURLWithPath:lastPlayedPath isDirectory:NO]];
+			[self playMedia:lastPlayedPath];
 		}
 	}
 }
@@ -635,7 +659,7 @@
 	[openPanel setTitle:NSLocalizedString(@"Open Media Files", nil)];
 	
 	if ([openPanel runModal] == NSFileHandlingPanelOKButton) {
-		[self playMedia:[[openPanel URLs] objectAtIndex:0]];
+		[self loadFiles:[openPanel URLs] fromLocal:YES];
 	}
 }
 
@@ -646,20 +670,20 @@
 /////////////////////////////////////Application Delegate//////////////////////////////////////
 -(BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
-	[self playMedia:[NSURL fileURLWithPath:filename isDirectory:NO]];
+	[self loadFiles:[NSArray arrayWithObject:filename] fromLocal:YES];
 	return YES;
 }
 
 -(void) application:(NSApplication *)theApplication openFiles:(NSArray *)filenames
 {
-	[self playMedia:[NSURL fileURLWithPath:[filenames objectAtIndex:0] isDirectory:NO]];
+	[self loadFiles:filenames fromLocal:YES];
 	[theApplication replyToOpenOrPrint:NSApplicationDelegateReplySuccess];
 }
 
 -(NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication *)sender
 {
 	[mplayer performStop];
-	lastPlayedPath = nil;
+	SAFERELEASE(lastPlayedPath);
 
 	[ud synchronize];
 
@@ -683,7 +707,7 @@
 	} else {
 		[mplayer performStop];
 		// 窗口一旦关闭，清理lastPlayPath，则即使再次打开窗口也不会播放以前的文件
-		lastPlayedPath = nil;		
+		SAFERELEASE(lastPlayedPath);		
 	}
 }
 

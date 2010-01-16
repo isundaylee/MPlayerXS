@@ -419,7 +419,7 @@
 	
 	if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
 		if (sourceDragMask & NSDragOperationCopy) {
-			[playerController playMedia:[NSURL fileURLWithPath:[[pboard propertyListForType:NSFilenamesPboardType] objectAtIndex:0] isDirectory:NO]];
+			[playerController loadFiles:[pboard propertyListForType:NSFilenamesPboardType] fromLocal:YES];
 		}
 	}
 	return YES;

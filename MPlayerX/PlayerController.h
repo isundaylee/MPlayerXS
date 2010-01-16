@@ -28,8 +28,8 @@
 	NSUserDefaults *ud;
 
 	CoreController *mplayer;
-	NSString *lastPlayedPath;
-	NSString *lastPlayedPathPre;
+	NSURL *lastPlayedPath;
+	NSURL *lastPlayedPathPre;
 	NSSet *supportVideoFormats;
 	NSSet *supportAudioFormats;
 	NSMutableDictionary *bookmarks;
@@ -39,14 +39,14 @@
 	IBOutlet NSTextField *aboutText;
 }
 
-@property (readonly) NSString *lastPlayedPath;
+@property (readonly) NSURL *lastPlayedPath;
 
 -(void) setDelegateForMPlayer:(id<CoreDisplayDelegate>) delegate;
 -(int) playerState;
 
 -(void) setMultiThreadMode:(BOOL) mt;
 
--(BOOL) playMedia:(NSURL*)url;
+-(void) loadFiles:(NSArray*)files fromLocal:(BOOL)local;
 
 -(void) togglePlayPause;	/** 返回PlayPause是否成功 */
 -(BOOL) toggleMute;			/** 返回现在的mute状态 */

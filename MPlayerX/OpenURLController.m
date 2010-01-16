@@ -43,7 +43,7 @@
 		}
 		// 现在mplayer的在线播放的功能不是很稳定，经常freeze，因此先禁用这个功能
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyDebugEnableOpenURL]) {
-			[playerController playMedia:[NSURL URLWithString:urlString]];
+			[playerController loadFiles:[NSArray arrayWithObject:urlString] fromLocal:NO];
 		}
 	}
 }
