@@ -30,7 +30,7 @@
 -(id) init
 {
 	if (self = [super init]) {
-		textSubFileExts = [[NSSet alloc] initWithObjects:@"UTF", @"UTF8", @"SRT", @"ASS", @"SMI", @"TXT", @"SSA", nil];
+		textSubFileExts = [[NSSet alloc] initWithObjects:@"utf", @"utf8", @"srt", @"ass", @"smi", @"txt", @"ssa", nil];
 		workDirectory = nil;
 	}
 	return self;
@@ -62,7 +62,7 @@
 
 -(BOOL) validateSubFileName:(NSString*) subPath
 {
-	return [textSubFileExts containsObject:[[subPath pathExtension] uppercaseString]];
+	return [textSubFileExts containsObject:[[subPath pathExtension] lowercaseString]];
 }
 
 -(NSArray*) convertTextSubsAndEncodings:(NSDictionary*)subEncDict
@@ -138,6 +138,7 @@
 
 -(NSString*) validatePath:(NSString*) path
 {
+	// 此函数是为了解决文件名重名问题，为将来动态加载字幕做准备
 	if (path) {
 		NSFileManager *fm = [NSFileManager defaultManager];
 		BOOL isDir = YES;
@@ -205,7 +206,7 @@
 			
 			subPath = [directoryPath stringByAppendingPathComponent:path];
 
-			NSString *ext = [[path pathExtension] uppercaseString];
+			NSString *ext = [[path pathExtension] lowercaseString];
 			
 			if ([textSubFileExts containsObject: ext]) {
 				// 如果是文本字幕文件
@@ -221,7 +222,7 @@
 					[subEncDict setObject:@"" forKey:subPath];
 				}
 				[dt reset];				
-			} else if (vobPath && [ext isEqualToString:@"SUB"]) {
+			} else if (vobPath && [ext isEqualToString:@"sub"]) {
 				// 如果是vobsub并且设定要寻找vobsub
 				[*vobPath release];
 				*vobPath = [[subPath stringByDeletingPathExtension] retain];
