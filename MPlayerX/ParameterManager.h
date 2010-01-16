@@ -41,6 +41,7 @@ typedef struct
 	NSString *vo;
 	NSString *subPreferedLanguage;
 	ASS_SETTINGS ass;
+	unsigned int cache;
 	
 	// accessable variables
 	BOOL prefer64bMPlayer;

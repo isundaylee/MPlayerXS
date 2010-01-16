@@ -68,6 +68,8 @@
 		ass.fontScale = 1.5;
 		ass.borderColor = 0x0000000F; //RRGGBBAA
 		ass.forceStyle = [NSString stringWithString:@"BorderStyle=1,Outline=1"];
+		
+		cache = 1000;
 
 		prefer64bMPlayer = YES;
 		guessSubCP = YES;
@@ -153,6 +155,11 @@
 	}
 
 	[paramArray addObject:@"-nodouble"];
+	
+	if (cache > 0) {
+		[paramArray addObject:@"-cache"];
+		[paramArray addObject:[NSString stringWithFormat:@"%d", cache]];
+	}
 	
 	[paramArray addObject:@"-osdlevel"];
 	[paramArray addObject: [NSString stringWithFormat: @"%d",osdLevel]];
