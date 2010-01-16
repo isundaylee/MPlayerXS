@@ -400,7 +400,6 @@
 		}
 	}
 }
-
 ///////////////////////////////////for dragging/////////////////////////////////////////
 - (NSDragOperation) draggingEntered:(id <NSDraggingInfo>)sender
 {
@@ -487,6 +486,7 @@
 	// 这个时候必须保证在推出全屏之后设为NO，因为切换全屏会参照现在displaying状态，NO的时候不动作
 	displaying = NO;
 	[controlUI displayStopped];
+	[window setContentResizeIncrements:NSMakeSize(1.0, 1.0)];
 }
 
 @end
