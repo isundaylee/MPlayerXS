@@ -64,7 +64,7 @@
 		frontColor = [[NSUnarchiver unarchiveObjectWithData:[ud objectForKey:kUDKeyOSDFrontColor]] retain];
 
 		shadow = [[NSShadow alloc] init];
-		[shadow setShadowOffset:NSMakeSize(0, 0)];
+		[shadow setShadowOffset:NSMakeSize(1.0, -1.0)];
 		[shadow setShadowColor:[NSColor blackColor]];
 		[shadow setShadowBlurRadius:8];		
 	}
