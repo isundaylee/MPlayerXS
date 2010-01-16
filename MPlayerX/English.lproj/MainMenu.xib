@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="535"/>
+			<integer value="371"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2044,6 +2044,14 @@
 					</object>
 					<int key="connectionID">888</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">playerWindow</string>
+						<reference key="source" ref="924801219"/>
+						<reference key="destination" ref="972006081"/>
+					</object>
+					<int key="connectionID">889</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -3418,7 +3426,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">888</int>
+			<int key="maxID">889</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3672,18 +3680,24 @@
 							<string>controlUI</string>
 							<string>dispView</string>
 							<string>playerController</string>
+							<string>playerWindow</string>
 							<string>prefToolbar</string>
 							<string>prefWin</string>
-							<string>viewDisplay</string>
+							<string>viewAudio</string>
 							<string>viewGeneral</string>
+							<string>viewSub</string>
+							<string>viewVideo</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>ControlUIView</string>
 							<string>RootLayerView</string>
 							<string>PlayerController</string>
+							<string>NSWindow</string>
 							<string>NSToolbar</string>
 							<string>NSWindow</string>
+							<string>NSView</string>
+							<string>NSView</string>
 							<string>NSView</string>
 							<string>NSView</string>
 						</object>
