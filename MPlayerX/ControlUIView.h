@@ -122,6 +122,7 @@
 -(void) doHide;
 -(void) refreshBackgroundAlpha;
 -(void) refreshAutoHideTimer;
+-(void) refreshOSDSetting;
 
 //////////////////////////////其他控件相关/////////////////////////////
 -(IBAction) toggleAccessaryControls:(id)sender;

@@ -218,8 +218,23 @@
 	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:0.180 alpha:backAlpha], 0.0,
 																  [NSColor colorWithCalibratedWhite:0.080 alpha:backAlpha], 0.4,
 																  [NSColor colorWithCalibratedWhite:0.080 alpha:backAlpha], 1.0, 
-																  nil];	
+																  nil];
+	[self setNeedsDisplay:YES];
 }
+
+-(void) refreshOSDSetting
+{
+	BOOL new = [ud boolForKey:kUDKeyShowOSD]; 
+	if (new) {
+		[osd setAutoHideTimeInterval:[ud doubleForKey:kUDKeyOSDAutoHideTime]];
+		[osd setFrontColor:[NSUnarchiver unarchiveObjectWithData:[ud objectForKey:kUDKeyOSDFrontColor]]];
+		new &= [osd isActive];
+		[osd setActive:YES];
+		[osd setStringValue:@"OSD setting changed" owner:kOSDOwnerOther updateTimer:YES];
+	}
+	[osd setActive: new];
+}
+
 ////////////////////////////////////////////////AutoHideThings//////////////////////////////////////////////////
 -(void) refreshAutoHideTimer
 {
