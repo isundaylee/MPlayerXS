@@ -86,12 +86,12 @@
 
 -(void) dealloc
 {
-	[frontColor release];
-	[shadow release];
-	
 	if (autoHideTimer) {
 		[autoHideTimer invalidate];
 	}
+	[frontColor release];
+	[shadow release];
+
 	[super dealloc];
 }
 
@@ -111,11 +111,11 @@
 	}
 	if (ti > 0) {
 		autoHideTimeInterval = ti;
-		autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:autoHideTimeInterval/2
-														 target:self
-													   selector:@selector(tryToHide)
-													   userInfo:nil
-														repeats:YES];
+		autoHideTimer = [NSTimer timerWithTimeInterval:autoHideTimeInterval/2
+												target:self
+											  selector:@selector(tryToHide)
+											  userInfo:nil
+											   repeats:YES];
 		NSRunLoop *rl = [NSRunLoop currentRunLoop];
 		[rl addTimer:autoHideTimer forMode:NSDefaultRunLoopMode];
 		[rl addTimer:autoHideTimer forMode:NSModalPanelRunLoopMode];
@@ -136,8 +136,10 @@
 {
 	if (active) {
 		if (ut || ([self alphaValue] > 0 && (ow == owner))) {
+			// 如果是更新timer，那么意味着onwer要更换
+			// 如果不更新，那么在self没有隐藏，并且owner一直的情况下更新
 			if (!aString) {
-				// 如果是nil，那么就用本来就有的
+				// 如果是nil，那么就用现在的值
 				aString = [self stringValue];
 			}
 			
@@ -145,10 +147,11 @@
 			
 			float fontSize = MIN(fontSizeMax, MAX(fontSizeMin, (sz.width + sz.height) / kOSDFontSizeRatio));
 			fontSize = MIN(kOSDFontSizeLimitMax, MAX(kOSDFontSizeLimitMin, fontSize));
-						   
+
 			NSFont *font = [NSFont systemFontOfSize:fontSize];
 			
-			NSDictionary *attrDict = [[NSDictionary alloc] initWithObjectsAndKeys:font, NSFontAttributeName,
+			NSDictionary *attrDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+									  font, NSFontAttributeName,
 									  frontColor, NSForegroundColorAttributeName,
 									  shadow, NSShadowAttributeName, nil];
 			NSAttributedString *str = [[NSAttributedString alloc] initWithString:aString attributes:attrDict];
@@ -160,6 +163,7 @@
 			[attrDict release];			
 		}
 		if (ut) {
+			// 如果更新Timer的话，那么更新owner
 			owner = ow;
 			shouldHide = NO;
 		}
