@@ -232,11 +232,11 @@
 			autoHideTimer = nil;
 		}
 		autoHideTimeInterval = ti;
-		autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:autoHideTimeInterval/2
-														 target:self
-													   selector:@selector(tryToHide)
-													   userInfo:nil
-														repeats:YES];
+		autoHideTimer = [NSTimer timerWithTimeInterval:autoHideTimeInterval/2
+												target:self
+											  selector:@selector(tryToHide)
+											  userInfo:nil
+											   repeats:YES];
 		NSRunLoop *rl = [NSRunLoop currentRunLoop];
 		[rl addTimer:autoHideTimer forMode:NSDefaultRunLoopMode];
 		[rl addTimer:autoHideTimer forMode:NSModalPanelRunLoopMode];
@@ -874,6 +874,8 @@
 	[self setFrame:frm];
 	
 	// 这里是为了让字体大小符合窗口大小
-	[osd setStringValue:nil owner:osd.owner updateTimer:NO];
+	if ([osd isActive]) {
+		[osd setStringValue:nil owner:osd.owner updateTimer:NO];		
+	}
 }
 @end
