@@ -25,10 +25,15 @@
 #import "ControlUIView.h"
 
 #define PrefToolBarItemIdGeneral	(@"TBIGeneral")
-#define PrefToolBarItemIdDisplay	(@"TBIDisplay")
+#define PrefToolBarItemIdVideo		(@"TBIVideo")
+#define PrefToolBarItemIdAudio		(@"TBIAudio")
+#define PrefToolBarItemIdSubtitle	(@"TBISubtitle")
+
 
 #define PrefTBILabelGeneral			(@"General")
-#define PrefTBILabelDisplay			(@"Display")
+#define PrefTBILabelVideo			(@"Video")
+#define PrefTBILabelAudio			(@"Audio")
+#define PrefTBILabelSubtitle		(@"Subtitle")
 
 @implementation PrefController
 
@@ -58,7 +63,7 @@
 	if (!nibLoaded) {
 		[NSBundle loadNibNamed:@"Pref" owner:self];
 
-		prefViews = [[NSArray alloc] initWithObjects:viewGeneral, viewDisplay, nil];
+		prefViews = [[NSArray alloc] initWithObjects:viewGeneral, viewVideo, viewAudio, viewSub, nil];
 		
 		NSToolbarItem *tbi = [[prefToolbar items] objectAtIndex:[ud integerForKey:kUDKeySelectedPrefView]];
 		
@@ -127,6 +132,26 @@
 	[controlUI setTimeTextPrsOnRmn:[ud boolForKey:kUDKeySwitchTimeTextPressOnRemain]];
 }
 
+-(IBAction) controlUIAppearanceChanged:(id)sender
+{
+	if (![playerWindow isVisible]) {
+		[playerWindow orderFront:nil];
+	}
+	[controlUI refreshAutoHideTimer];
+	[controlUI refreshBackgroundAlpha];
+	[controlUI showUp];
+}
+
+-(IBAction) osdSetChanged:(id)sender
+{
+	if ([ud boolForKey:kUDKeyShowOSD]) {
+		if (![playerWindow isVisible]) {
+			[playerWindow orderFront:nil];
+		}
+	}
+	[controlUI refreshOSDSetting];
+}
+
 /////////////////////////////Toolbar Delegate/////////////////////
 /*
  * 如何添加新的Pref View
@@ -140,7 +165,7 @@
  */
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
-	return [NSArray arrayWithObjects:PrefToolBarItemIdGeneral, PrefToolBarItemIdDisplay, nil];
+	return [NSArray arrayWithObjects:PrefToolBarItemIdGeneral, PrefToolBarItemIdVideo, PrefToolBarItemIdAudio, PrefToolBarItemIdSubtitle, nil];
 }
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
@@ -162,14 +187,28 @@
 		[item setAutovalidates:NO];
 		[item setTag:0];
 		
-	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdDisplay]) {
-		[item setLabel:PrefTBILabelDisplay];
+	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdVideo]) {
+		[item setLabel:PrefTBILabelVideo];
 		[item setImage:[NSImage imageNamed:@"toolbar_video"]];
 		[item setTarget:self];
 		[item setAction:@selector(switchViews:)];
 		[item setAutovalidates:NO];
 		[item setTag:1];
 		
+	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdAudio]) {
+		[item setLabel:PrefTBILabelAudio];
+		[item setImage:[NSImage imageNamed:@"toolbar_audio"]];
+		[item setTarget:self];
+		[item setAction:@selector(switchViews:)];
+		[item setAutovalidates:NO];
+		[item setTag:2];		
+	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdSubtitle]) {
+		[item setLabel:PrefTBILabelSubtitle];
+		[item setImage:[NSImage imageNamed:NSImageNameFontPanel]];
+		[item setTarget:self];
+		[item setAction:@selector(switchViews:)];
+		[item setAutovalidates:NO];
+		[item setTag:3];
 	} else {
 		[item release];
 		return nil;

@@ -30,9 +30,13 @@
 	NSArray *prefViews;
 	
 	IBOutlet NSWindow *prefWin;
+	IBOutlet NSWindow *playerWindow;
 	IBOutlet NSToolbar *prefToolbar;
+	
 	IBOutlet NSView *viewGeneral;
-	IBOutlet NSView *viewDisplay;
+	IBOutlet NSView *viewVideo;
+	IBOutlet NSView *viewAudio;
+	IBOutlet NSView *viewSub;
 	
     IBOutlet PlayerController *playerController;
     IBOutlet RootLayerView *dispView;
@@ -44,10 +48,11 @@
 -(IBAction) showUI:(id)sender;
 -(IBAction) switchViews:(id)sender;
 
-- (IBAction)multiThreadChanged:(id)sender;
-- (IBAction)onTopModeChanged:(id)sender;
-- (IBAction)hintTimeModeChanged:(id)sender;
-- (IBAction)timeTextModeChanged:(id)sender;
-
+-(IBAction) multiThreadChanged:(id)sender;
+-(IBAction) onTopModeChanged:(id)sender;
+-(IBAction) hintTimeModeChanged:(id)sender;
+-(IBAction) timeTextModeChanged:(id)sender;
+-(IBAction) controlUIAppearanceChanged:(id)sender;
+-(IBAction) osdSetChanged:(id)sender;
 
 @end
