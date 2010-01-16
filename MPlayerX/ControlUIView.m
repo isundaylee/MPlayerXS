@@ -272,7 +272,11 @@
 			
 			// 如果是全屏模式也要隐藏鼠标
 			if ([dispView isInFullScreenMode]) {
-				CGDisplayHideCursor(dispView.fullScrnDevID);
+				// 这里的[self window]不是成员的那个window，而是全屏后self的新window
+				if ([[self window] isKeyWindow]) {
+					// 如果不是key window的话，就不隐藏鼠标
+					CGDisplayHideCursor(dispView.fullScrnDevID);
+				}
 			} else {
 				// 不是全屏的话，隐藏resizeindicator
 				// 全屏的话不管
