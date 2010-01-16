@@ -84,8 +84,8 @@
 		textSubs = nil;
 		vobSub = nil;
 		forceIndex = NO;
-		dtsPass = YES;
-		ac3Pass = YES;
+		dtsPass = NO;
+		ac3Pass = NO;
 	}
 	return self;
 }
