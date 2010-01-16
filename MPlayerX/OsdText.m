@@ -34,6 +34,7 @@
 
 @synthesize active;
 @synthesize owner;
+@synthesize frontColor;
 
 +(void) initialize
 {
@@ -93,14 +94,6 @@
 	[shadow release];
 
 	[super dealloc];
-}
-
--(void) setActive:(BOOL) act
-{
-	active = act;
-	if (!active) {
-		[self setAlphaValue:0];
-	}
 }
 
 -(void) setAutoHideTimeInterval:(NSTimeInterval)ti

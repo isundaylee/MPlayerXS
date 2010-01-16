@@ -48,6 +48,7 @@ typedef enum
 
 @property (assign, readwrite, getter=isActive) BOOL active;
 @property (readonly) OSDOWNER owner;
+@property (retain, readwrite) NSColor *frontColor;
 
 -(void) setAutoHideTimeInterval:(NSTimeInterval)ti;
 -(void) setStringValue:(NSString *)aString owner:(OSDOWNER)ow updateTimer:(BOOL)ut;
