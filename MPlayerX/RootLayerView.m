@@ -342,11 +342,10 @@
 			[window setContentSize:sz];
 			[window setContentAspectRatio:sz];			
 		}
+
+		[window makeKeyAndOrderFront:self];
+		[window makeFirstResponder:self];
 		
-		// 全屏的时候直接关闭会崩溃
-		if (playerController.playerState != kMPCStoppedState) {
-			[window makeFirstResponder:self];
-		}
 		// 必须要在退出全屏之后才能设定window level
 		[self setPlayerWindowLevel];
 	} else if (displaying) {
@@ -368,6 +367,7 @@
 		
 		[controlUI setFillScreenMode:((sz.height * (pf->aspect) >= sz.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
 							   state:([dispLayer fillScreen])?NSOnState:NSOffState];
+		[window orderOut:self];
 		// 这里不需要调用
 		// [self setPlayerWindowLevel];
 	} else {
