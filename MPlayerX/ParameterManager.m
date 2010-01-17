@@ -48,6 +48,7 @@
 @synthesize forceIndex;
 @synthesize dtsPass;
 @synthesize ac3Pass;
+@synthesize fastDecoding;
 
 #pragma mark Init/Dealloc
 -(id) init
@@ -86,6 +87,7 @@
 		forceIndex = NO;
 		dtsPass = NO;
 		ac3Pass = NO;
+		fastDecoding = NO;
 	}
 	return self;
 }
@@ -220,11 +222,13 @@
 		[paramArray addObject:@"-subcp"];
 		[paramArray addObject:subCP];
 	}
-	
-	if (threads >= 2) {
-		[paramArray addObject:@"-lavdopts"];
-		[paramArray addObject:[NSString stringWithFormat: @"threads=%d", threads]];
+		
+	[paramArray addObject:@"-lavdopts"];
+	NSString *str = [NSString stringWithFormat: @"threads=%d", threads];
+	if (fastDecoding) {
+		str = [str stringByAppendingString:@":fast:skiploopfilter=all"];
 	}
+	[paramArray addObject:str];
 
 	if (ass.enabled) {
 		[paramArray addObject:@"-ass"];
