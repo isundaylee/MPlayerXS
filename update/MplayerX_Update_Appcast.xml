@@ -6,15 +6,23 @@
       <description>MplayerX</description>
       <language>en</language>      
          <item>
-            <title>Version 0.9.4</title>
+            <title>Version 0.9.6</title>
 			<description><![CDATA[
-				<h2>MPlayerX X.X.X</h2>
-				2010/XX/XX
+				<h2>MPlayerX 0.9.6</h2>
+				2010/01/17
 				<ul>
-					<li>UI tweaks</li>
-					<li>when cursor moved onto the time slider, a time hint will display according to the current cusor position</li>
-					<li>Feature Delete: when pause, key → will not function "frame step" anymore, since frameStep doesn't support backward, it will cause confusion</li>
-					<li>If one Movie is finished at FullScreen, and AutoPlayNext is ON, and there really is a next Movie could be played. the Fullscreen status will continue, rather than exit</li>
+					<li>Core: mplayer up to r30236, ffmpeg-mt up to 5eb0c64</li>
+					<li>Func: Switch Audio(not perfect but should work, since I have no multitrack file to test)</li>
+					<li>Func: double click to toggle FullScreen</li>
+					<li>Func: FullScreen will keep on when to auto play next</li>
+					<li>Func: rewrote sub encode detect algorithm, now work with multiple sub files with different encoding method</li>
+					<li>UI: OSD Display</li>
+					<li>UI: Preferences Window rewrote, many hidden settings disclosed</li>
+					<li>UI: Click the time on the control, or hold the Fn key will switch between elapse/remain</li>
+					<li>UI: when cursor hover on time slider, a time hint will display relative or absolute time</li>
+					<li>UI: many refinements</li>
+					<li>Delete: when pause, key → does not function "frame step" anymore, since frameStep doesn't support backward, it will cause confusion</li>
+					<li>bugs fix</li>
 				</ul>
 				<h2>MPlayerX 0.9.4</h2>
 				2010/01/05
@@ -39,12 +47,12 @@
 					<li>add change subtitle size while playing</li>
 				</ul>
             ]]></description>
-            <pubDate>Tue, 05 Jan 2010 21:59:54 +0900</pubDate>
+            <pubDate>Sun, 17 Jan 2010 16:40:53 +0900</pubDate>
             <enclosure url="http://mplayerx.googlecode.com/svn/releases/MPlayerX.zip"
-					   sparkle:version="0.9.4"
-					   length="21147327"
+					   sparkle:version="0.9.6"
+					   length="21099687"
 					   type="application/octet-stream"
-					   sparkle:dsaSignature="MC4CFQDDYq+zKnOrNWZe3bF+GNSxVXZFOAIVAMX3U+77ovsrp8FIA5YEPWzujEnm" />
+					   sparkle:dsaSignature="MC4CFQCfIMBjk9MBlxyfNAEkgDrS+Y0XQgIVAJE9BiR9h7H5GDiyBoSpwp2Yv29+" />
          </item>
    </channel>
 </rss>
