@@ -54,6 +54,7 @@
 #define kUDKeyOSDFrontColor			(@"OSDFrontColor")
 #define kUDKeyOSDAutoHideTime		(@"OSDAutoHideTime")
 #define kUDKeyThreadNum				(@"NumberOfThreads")
+#define kUDKeyFastDecoding			(@"FastDecoding")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")
