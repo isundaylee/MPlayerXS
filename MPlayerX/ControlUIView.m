@@ -226,13 +226,19 @@
 {
 	BOOL new = [ud boolForKey:kUDKeyShowOSD]; 
 	if (new) {
+		// 如果是显示OSD的话，那么就得到新值
 		[osd setAutoHideTimeInterval:[ud doubleForKey:kUDKeyOSDAutoHideTime]];
 		[osd setFrontColor:[NSUnarchiver unarchiveObjectWithData:[ud objectForKey:kUDKeyOSDFrontColor]]];
-		new &= [osd isActive];
+		// 并且强制显示OSD，但是这个和目前OSD的状态不一定一样
 		[osd setActive:YES];
 		[osd setStringValue:@"OSD setting changed" owner:kOSDOwnerOther updateTimer:YES];
 	}
-	[osd setActive: new];
+	if ([playerController playerState] != kMPCStoppedState) {
+		// 如果正在播放，那么就设定显示
+		// 如果不在播放，osd的active状态会被设置为强制OFF，所以不能设定
+		// 在开始播放的时候，会再一次设定active状态
+		[osd setActive:new];
+	}
 }
 
 ////////////////////////////////////////////////AutoHideThings//////////////////////////////////////////////////
