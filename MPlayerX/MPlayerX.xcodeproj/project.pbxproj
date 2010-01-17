@@ -551,6 +551,7 @@
 			projectDirPath = "";
 			projectRoots = (
 				..,
+				../../content,
 				../../releases,
 			);
 			targets = (
