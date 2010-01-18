@@ -453,6 +453,13 @@
 	if ([[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue]) {
 		// 如果是强制停止
 		// 用文件名做key，记录这个文件的播放时间
+		
+		// only for test
+		NSLog(@"path:%@", [lastPlayedPath path]);
+		NSLog(@"absoluteURL:%@", [lastPlayedPath absoluteURL]);
+		NSLog(@"absoluteString:%@", [lastPlayedPath absoluteString]);
+		NSLog(@"absoluteURLString:%@", [[lastPlayedPath absoluteURL] absoluteString]);
+		
 		[bookmarks setObject:[[notification userInfo] objectForKey:kMPCPlayStoppedTimeKey] forKey:lastPlayedPath];
 	} else {
 		// 自然关闭
