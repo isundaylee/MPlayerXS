@@ -22,7 +22,7 @@
 
 NSUInteger findLastDigitPartIndex(NSString *name)
 {
-	NSUInteger idx = [name length] - 1;
+	NSInteger idx = [name length] - 1;
 	unichar ch;
 	
 	while (idx >= 0) {
