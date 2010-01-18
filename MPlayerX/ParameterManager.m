@@ -49,6 +49,7 @@
 @synthesize dtsPass;
 @synthesize ac3Pass;
 @synthesize fastDecoding;
+@synthesize useEmbeddedFonts;
 
 #pragma mark Init/Dealloc
 -(id) init
@@ -88,6 +89,7 @@
 		dtsPass = NO;
 		ac3Pass = NO;
 		fastDecoding = NO;
+		useEmbeddedFonts = NO;
 	}
 	return self;
 }
@@ -138,7 +140,9 @@
 
 -(NSArray *) arrayOfParametersWithName:(NSString*) name
 {
-	NSMutableArray *paramArray = [[NSMutableArray alloc] init];
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	NSMutableArray *paramArray = [[NSMutableArray alloc] initWithCapacity:80];
 	
 	[paramArray addObject:@"-msglevel"];
 	[paramArray addObject:@"all=-1:global=4:cplayer=4:identify=4"];
@@ -222,6 +226,10 @@
 		[paramArray addObject:@"-subcp"];
 		[paramArray addObject:subCP];
 	}
+	
+	if (useEmbeddedFonts) {
+		[paramArray addObject:@"-embeddedfonts"];
+	}
 		
 	[paramArray addObject:@"-lavdopts"];
 	NSString *str = [NSString stringWithFormat: @"threads=%d", threads];
@@ -269,6 +277,8 @@
 		[paramArray addObject:passStr];
 	}
 
+	[pool release];
+	
 	return [paramArray autorelease];
 }
 

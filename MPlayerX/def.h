@@ -55,6 +55,7 @@
 #define kUDKeyOSDAutoHideTime		(@"OSDAutoHideTime")
 #define kUDKeyThreadNum				(@"NumberOfThreads")
 #define kUDKeyFastDecoding			(@"FastDecoding")
+#define kUDKeyUseEmbeddedFonts		(@"UseEmbeddedFonts")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")

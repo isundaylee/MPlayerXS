@@ -71,6 +71,7 @@
 					   [NSNumber numberWithBool:NO], kUDKeyAC3PassThrough,
 					   [NSNumber numberWithUnsignedInt:1], kUDKeyThreadNum,
 					   [NSNumber numberWithBool:NO], kUDKeyFastDecoding,
+					   [NSNumber numberWithBool:NO], kUDKeyUseEmbeddedFonts,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
@@ -319,6 +320,7 @@
 	[mplayer.pm setDtsPass:[ud boolForKey:kUDKeyDTSPassThrough]];
 	[mplayer.pm setAc3Pass:[ud boolForKey:kUDKeyAC3PassThrough]];
 	[mplayer.pm setFastDecoding:[ud boolForKey:kUDKeyFastDecoding]];
+	[mplayer.pm setUseEmbeddedFonts:[ud boolForKey:kUDKeyUseEmbeddedFonts]];
 }
 
 -(void) loadFiles:(NSArray*)files fromLocal:(BOOL)local
