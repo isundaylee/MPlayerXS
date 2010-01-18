@@ -72,6 +72,7 @@
 					   [NSNumber numberWithUnsignedInt:1], kUDKeyThreadNum,
 					   [NSNumber numberWithBool:NO], kUDKeyFastDecoding,
 					   [NSNumber numberWithBool:NO], kUDKeyUseEmbeddedFonts,
+					   [NSNumber numberWithUnsignedInt:1000], kUDKeyCacheSize,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
@@ -328,6 +329,7 @@
 	[mplayer.pm setAc3Pass:[ud boolForKey:kUDKeyAC3PassThrough]];
 	[mplayer.pm setFastDecoding:[ud boolForKey:kUDKeyFastDecoding]];
 	[mplayer.pm setUseEmbeddedFonts:[ud boolForKey:kUDKeyUseEmbeddedFonts]];
+	[mplayer.pm setCache:[ud integerForKey:kUDKeyCacheSize]];
 }
 
 -(void) loadFiles:(NSArray*)files fromLocal:(BOOL)local
@@ -393,12 +395,22 @@
 
 -(void) playMedia:(NSURL*)url
 {
+	NSString *path;
+	
 	[self refreshParameters];
 	
 	// 这里必须要retain，否则如果用lastPlayedPath作为参数传入的话会有问题
 	lastPlayedPathPre = [[url absoluteURL] retain];
 	
-	[mplayer playMedia:([url isFileURL])?([url path]):([url absoluteString])];
+	if ([url isFileURL]) {
+		path = [url path];
+		// 本地文件不做缓冲
+		[mplayer.pm setCache:0];
+	} else {
+		path = [url absoluteString];
+	}
+
+	[mplayer playMedia:path];
 
 	SAFERELEASE(lastPlayedPath);
 	lastPlayedPath = lastPlayedPathPre;

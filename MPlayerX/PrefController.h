@@ -54,5 +54,6 @@
 -(IBAction) timeTextModeChanged:(id)sender;
 -(IBAction) controlUIAppearanceChanged:(id)sender;
 -(IBAction) osdSetChanged:(id)sender;
+-(IBAction) checkCacheFormat:(id)sender;
 
 @end

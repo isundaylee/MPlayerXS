@@ -152,6 +152,15 @@
 	[controlUI refreshOSDSetting];
 }
 
+-(IBAction) checkCacheFormat:(id)sender
+{
+	float cache = [ud floatForKey:kUDKeyCacheSize];
+	
+	if (cache < 0) { cache = 0; }
+
+	[ud setInteger:((unsigned int)cache) forKey:kUDKeyCacheSize];
+}
+
 /////////////////////////////Toolbar Delegate/////////////////////
 /*
  * 如何添加新的Pref View
