@@ -50,6 +50,7 @@
 @synthesize ac3Pass;
 @synthesize fastDecoding;
 @synthesize useEmbeddedFonts;
+@synthesize cache;
 
 #pragma mark Init/Dealloc
 -(id) init
@@ -70,8 +71,6 @@
 		ass.fontScale = 1.5;
 		ass.borderColor = 0x0000000F; //RRGGBBAA
 		ass.forceStyle = [NSString stringWithString:@"BorderStyle=1,Outline=1"];
-		
-		cache = 1000;
 
 		prefer64bMPlayer = YES;
 		guessSubCP = YES;
@@ -90,6 +89,7 @@
 		ac3Pass = NO;
 		fastDecoding = NO;
 		useEmbeddedFonts = NO;
+		cache = 1000;
 	}
 	return self;
 }

@@ -41,7 +41,6 @@ typedef struct
 	NSString *vo;
 	NSString *subPreferedLanguage;
 	ASS_SETTINGS ass;
-	unsigned int cache;
 	
 	// accessable variables
 	BOOL prefer64bMPlayer;
@@ -61,6 +60,7 @@ typedef struct
 	BOOL ac3Pass;
 	BOOL fastDecoding;
 	BOOL useEmbeddedFonts;
+	unsigned int cache;
 }
 
 @property (assign, readwrite) SUBFILE_NAMERULE subNameRule;
@@ -81,6 +81,7 @@ typedef struct
 @property (assign, readwrite) BOOL ac3Pass;
 @property (assign, readwrite) BOOL fastDecoding;
 @property (assign, readwrite) BOOL useEmbeddedFonts;
+@property (assign, readwrite) unsigned int cache;
 
 // 这个接口是面向playingInfo
 -(float) subScaleInternal;
