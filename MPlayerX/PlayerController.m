@@ -201,7 +201,11 @@
 	
 	NSFileManager *fm = [NSFileManager defaultManager];
 	BOOL isDir = NO;
-	NSString *workDir = [homeDirectory stringByAppendingPathComponent:@"Library/Application Support/MPlayerX"];
+	NSString *workDir = [[[fm URLForDirectory:NSApplicationSupportDirectory
+									 inDomain:NSUserDomainMask
+							appropriateForURL:NULL
+									   create:YES
+										error:NULL] path] stringByAppendingPathComponent:@"MPlayerX"];
 
 	if (!([fm fileExistsAtPath:workDir isDirectory:&isDir] && isDir)) {
 		// 如果没有这个文件夹
