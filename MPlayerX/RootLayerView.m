@@ -309,11 +309,12 @@
 			if ([savePath isEqualToString:kSnapshotSaveDefaultPath]) {
 				savePath = [savePath stringByExpandingTildeInPath];
 			}
+			NSString *mediaPath = ([playerController.lastPlayedPath isFileURL])?([playerController.lastPlayedPath path]):([playerController.lastPlayedPath absoluteString]);
 			// 创建文件名
 			// 修改文件名中的：，因为：无法作为文件名存储
 			savePath = [NSString stringWithFormat:@"%@/%@_%@.png",
 						savePath, 
-						[[playerController.lastPlayedPath lastPathComponent] stringByDeletingPathExtension],
+						[[mediaPath lastPathComponent] stringByDeletingPathExtension],
 						[[NSDateFormatter localizedStringFromDate:[NSDate date]
 														dateStyle:NSDateFormatterMediumStyle
 														timeStyle:NSDateFormatterMediumStyle] 

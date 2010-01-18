@@ -388,13 +388,14 @@
 {
 	[self refreshParameters];
 	
-	lastPlayedPathPre = url;
+	// 这里必须要retain，否则如果用lastPlayedPath作为参数传入的话会有问题
+	lastPlayedPathPre = [[url absoluteURL] retain];
 	
-	[mplayer playMedia:([url isFileURL])?([url path]):([[url absoluteURL] absoluteString])];
+	[mplayer playMedia:([url isFileURL])?([url path]):([url absoluteString])];
 
 	SAFERELEASE(lastPlayedPath);
-	lastPlayedPath = [lastPlayedPathPre retain];
-	lastPlayedPathPre = nil;	
+	lastPlayedPath = lastPlayedPathPre;
+	lastPlayedPathPre = nil;
 }
 
 -(void) setMultiThreadMode:(BOOL) mt
@@ -426,13 +427,19 @@
 ///////////////////////////////////////MPlayer Notifications/////////////////////////////////////////////
 -(void) mplayerStarted:(NSNotification *)notification
 {
-	[window setTitle:[lastPlayedPathPre lastPathComponent]];
+	NSString *absStr = [lastPlayedPathPre absoluteString];
+	
+	if ([lastPlayedPathPre isFileURL]) {
+		[window setTitle:[[lastPlayedPathPre path] lastPathComponent]];
+	} else {
+		[window setTitle:[absStr lastPathComponent]];
+	}
 	
 	[controlUI playBackStarted];
 	
 	// 用文件名查找有没有之前的播放记录
-	NSNumber *stopTime = [bookmarks objectForKey:lastPlayedPathPre];
-	// NSLog(@"Pre:%@", lastPlayedPathPre);
+	NSNumber *stopTime = [bookmarks objectForKey:absStr];
+
 	if (stopTime) {
 		// 有的话，通知controlUI
 		[controlUI gotLastStoppedPlace:[stopTime floatValue]];
@@ -453,20 +460,12 @@
 	if ([[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue]) {
 		// 如果是强制停止
 		// 用文件名做key，记录这个文件的播放时间
-		
-		// only for test
-		NSLog(@"path:%@", [lastPlayedPath path]);
-		NSLog(@"absoluteURL:%@", [lastPlayedPath absoluteURL]);
-		NSLog(@"absoluteString:%@", [lastPlayedPath absoluteString]);
-		NSLog(@"absoluteURLString:%@", [[lastPlayedPath absoluteURL] absoluteString]);
-		
-		[bookmarks setObject:[[notification userInfo] objectForKey:kMPCPlayStoppedTimeKey] forKey:lastPlayedPath];
+		[bookmarks setObject:[[notification userInfo] objectForKey:kMPCPlayStoppedTimeKey] forKey:[lastPlayedPath absoluteString]];
 	} else {
 		// 自然关闭
 		// 删除这个文件key的播放时间
-		[bookmarks removeObjectForKey:lastPlayedPath];
+		[bookmarks removeObjectForKey:[lastPlayedPath absoluteString]];
 	}
-	// NSLog(@"StopPath:%@", lastPlayedPath);
 	
 	if ([ud boolForKey:kUDKeyAutoPlayNext] && [lastPlayedPath isFileURL] &&
 		(![[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue])) {
