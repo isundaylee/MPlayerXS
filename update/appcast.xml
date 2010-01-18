@@ -6,8 +6,13 @@
       <description>MplayerX</description>
       <language>en</language>      
          <item>
-            <title>Version 0.9.6</title>
+            <title>Version 0.9.6.1</title>
 			<description><![CDATA[
+				<h2>MPlayerX 0.9.6.1</h2>
+				2010/01/18
+				<ul>
+					<li>fix:last played place will be forgotten once app exits</li>
+				</ul>
 				<h2>MPlayerX 0.9.6</h2>
 				2010/01/17
 				<ul>
@@ -47,12 +52,12 @@
 					<li>add change subtitle size while playing</li>
 				</ul>
             ]]></description>
-            <pubDate>Sun, 17 Jan 2010 16:40:53 +0900</pubDate>
+            <pubDate>Mon, 18 Jan 2010 20:53:14 +0900</pubDate>
             <enclosure url="http://mplayerx.googlecode.com/svn/releases/MPlayerX.zip"
-					   sparkle:version="0.9.6"
-					   length="21099687"
+					   sparkle:version="0.9.6.1"
+					   length="21100514"
 					   type="application/octet-stream"
-					   sparkle:dsaSignature="MC4CFQCfIMBjk9MBlxyfNAEkgDrS+Y0XQgIVAJE9BiR9h7H5GDiyBoSpwp2Yv29+" />
+					   sparkle:dsaSignature="MC4CFQCBUL2E25hVFAwZuta+i5pSRphiWgIVAJNXWl1Gc5PJWycS9wySWIVO9bk2" />
          </item>
    </channel>
 </rss>
