@@ -207,10 +207,13 @@
 									   create:YES
 										error:NULL] path] stringByAppendingPathComponent:@"MPlayerX"];
 
-	if (!([fm fileExistsAtPath:workDir isDirectory:&isDir] && isDir)) {
-		// 如果没有这个文件夹
+	if ([fm fileExistsAtPath:workDir isDirectory:&isDir] && (!isDir)) {
+		// 如果存在但不是文件夹的话
+		[fm removeItemAtPath:workDir error:NULL];
+	}
+	if (!isDir) {
+		// 如果原来不存在这个文件夹或者存在的是文件的话，都需要重建文件夹
 		if (![fm createDirectoryAtPath:workDir withIntermediateDirectories:YES attributes:nil error:NULL]) {
-			// 如果文件夹创建失败
 			workDir = nil;
 		}
 	}
