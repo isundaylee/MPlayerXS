@@ -103,6 +103,10 @@
 			subPathNew = [subDir stringByAppendingPathComponent:[subPathOld lastPathComponent]];
 
 			if (ce != kCFStringEncodingInvalidId) {
+				// CP949据说总会fallback到EUC_KR，这里把它回到CP949(kCFStringEncodingDOSKorean)
+				if ((ce == kCFStringEncodingMacKorean) || (ce == kCFStringEncodingEUC_KR)) {
+					ce = kCFStringEncodingDOSKorean;
+				}
 				// 如果合法就转码
 				NSStringEncoding ne = CFStringConvertEncodingToNSStringEncoding(ce);
 				
