@@ -308,30 +308,6 @@
 	return mplayer.state;
 }
 
--(void) refreshParameters
-{
-	// 将播放开始时间重置
-	[mplayer.pm setStartTime:-1];
-	// 设定字幕大小
-	[mplayer.pm setSubScale:[ud floatForKey:kUDKeySubScale]];
-	
-	[mplayer.pm setSubFontColor:
-	 [NSUnarchiver unarchiveObjectWithData:
-	  [ud objectForKey:kUDKeySubFontColor]]];
-	
-	[mplayer.pm setSubFontBorderColor:
-	 [NSUnarchiver unarchiveObjectWithData:
-	  [ud objectForKey:kUDKeySubFontBorderColor]]];
-	
-	[mplayer.pm setForceIndex:[ud boolForKey:kUDKeyForceIndex]];
-	[mplayer.pm setSubNameRule:[ud integerForKey:kUDKeySubFileNameRule]];
-	[mplayer.pm setDtsPass:[ud boolForKey:kUDKeyDTSPassThrough]];
-	[mplayer.pm setAc3Pass:[ud boolForKey:kUDKeyAC3PassThrough]];
-	[mplayer.pm setFastDecoding:[ud boolForKey:kUDKeyFastDecoding]];
-	[mplayer.pm setUseEmbeddedFonts:[ud boolForKey:kUDKeyUseEmbeddedFonts]];
-	[mplayer.pm setCache:[ud integerForKey:kUDKeyCacheSize]];
-}
-
 -(void) loadFiles:(NSArray*)files fromLocal:(BOOL)local
 {
 	if (files) {
@@ -397,7 +373,21 @@
 {
 	NSString *path;
 	
-	[self refreshParameters];
+	// 将播放开始时间重置
+	[mplayer.pm setStartTime:-1];
+	// 设定字幕大小
+	[mplayer.pm setSubScale:[ud floatForKey:kUDKeySubScale]];
+	
+	[mplayer.pm setSubFontColor: [NSUnarchiver unarchiveObjectWithData: [ud objectForKey:kUDKeySubFontColor]]];
+	
+	[mplayer.pm setSubFontBorderColor: [NSUnarchiver unarchiveObjectWithData: [ud objectForKey:kUDKeySubFontBorderColor]]];
+	
+	[mplayer.pm setForceIndex:[ud boolForKey:kUDKeyForceIndex]];
+	[mplayer.pm setSubNameRule:[ud integerForKey:kUDKeySubFileNameRule]];
+	[mplayer.pm setDtsPass:[ud boolForKey:kUDKeyDTSPassThrough]];
+	[mplayer.pm setAc3Pass:[ud boolForKey:kUDKeyAC3PassThrough]];
+	[mplayer.pm setFastDecoding:[ud boolForKey:kUDKeyFastDecoding]];
+	[mplayer.pm setUseEmbeddedFonts:[ud boolForKey:kUDKeyUseEmbeddedFonts]];
 	
 	// 这里必须要retain，否则如果用lastPlayedPath作为参数传入的话会有问题
 	lastPlayedPathPre = [[url absoluteURL] retain];
@@ -408,6 +398,7 @@
 		[mplayer.pm setCache:0];
 	} else {
 		path = [url absoluteString];
+		[mplayer.pm setCache:[ud integerForKey:kUDKeyCacheSize]];
 	}
 
 	[mplayer playMedia:path];
