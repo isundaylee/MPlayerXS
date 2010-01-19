@@ -30,10 +30,10 @@
 #define PrefToolBarItemIdSubtitle	(@"TBISubtitle")
 
 
-#define PrefTBILabelGeneral			(@"General")
-#define PrefTBILabelVideo			(@"Video")
-#define PrefTBILabelAudio			(@"Audio")
-#define PrefTBILabelSubtitle		(@"Subtitle")
+#define PrefTBILabelGeneral			(NSLocalizedString(@"General", @"PrefToolBarLabel"))
+#define PrefTBILabelVideo			(NSLocalizedString(@"Video", @"PrefToolBarLabel"))
+#define PrefTBILabelAudio			(NSLocalizedString(@"Audio", @"PrefToolBarLabel"))
+#define PrefTBILabelSubtitle		(NSLocalizedString(@"Subtitle", @"PrefToolBarLabel"))
 
 @implementation PrefController
 

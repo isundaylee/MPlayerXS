@@ -61,7 +61,7 @@
 		// 隐藏窗口
 		[openURLPanel orderOut:self];
 	} else {
-		NSBeginAlertSheet(NSLocalizedString(@"Error", nil), NSLocalizedString(@"OK", nil), nil, nil, openURLPanel, nil, nil, nil, nil, NSLocalizedString(@"The URL is unsupported by MPlayerX.", nil));
+		NSBeginAlertSheet(NSLocalizedString(@"Error", nil), NSLocalizedString(@"OK", nil), nil, nil, openURLPanel, nil, nil, nil, nil, NSLocalizedString(@"The URL is not supported by MPlayerX.", nil));
 	}
 }
 

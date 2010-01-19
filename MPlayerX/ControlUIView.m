@@ -231,7 +231,7 @@
 		[osd setFrontColor:[NSUnarchiver unarchiveObjectWithData:[ud objectForKey:kUDKeyOSDFrontColor]]];
 		// 并且强制显示OSD，但是这个和目前OSD的状态不一定一样
 		[osd setActive:YES];
-		[osd setStringValue:@"OSD setting changed" owner:kOSDOwnerOther updateTimer:YES];
+		[osd setStringValue:NSLocalizedString(@"OSD setting changed", @"OSD hint") owner:kOSDOwnerOther updateTimer:YES];
 	}
 	if ([playerController playerState] != kMPCStoppedState) {
 		// 如果正在播放，那么就设定显示
@@ -333,13 +333,13 @@
 		NSString *osdStr;
 		switch (playerController.playerState) {
 			case kMPCStoppedState:
-				osdStr = @"Stopped";
+				osdStr = NSLocalizedString(@"Stopped", @"OSD hint");
 				break;
 			case kMPCPausedState:
-				osdStr = @"Paused";
+				osdStr = NSLocalizedString(@"Paused", @"OSD hint");
 				break;
 			default:
-				osdStr = @"";
+				osdStr = NSLocalizedString(@"", @"OSD hint");
 				break;
 		}
 		[osd setStringValue:osdStr
@@ -358,7 +358,7 @@
 	[menuVolDec setEnabled:!mute];
 	
 	if ([osd isActive]) {
-		[osd setStringValue:(mute)?(@"Mute ON"):(@"Mute OFF")
+		[osd setStringValue:(mute)?(NSLocalizedString(@"Mute ON", @"OSD hint")):(NSLocalizedString(@"Mute OFF", @"OSD hint"))
 					  owner:kOSDOwnerOther
 				updateTimer:YES];
 	}
@@ -382,7 +382,7 @@
 		[ud setFloat:vol forKey:kUDKeyVolume];
 		
 		if ([osd isActive]) {
-			[osd setStringValue:[NSString stringWithFormat:@"Volume: %.1f", vol]
+			[osd setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Volume: %.1f", @"OSD hint"), vol]
 						  owner:kOSDOwnerOther
 					updateTimer:YES];
 		}
@@ -558,7 +558,7 @@
 	[sender setState:NSOnState];
 
 	if ([osd isActive]) {
-		[osd setStringValue:[NSString stringWithFormat:@"Sub: %@", [sender title]]
+		[osd setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Sub: %@", @"OSD hint"), [sender title]]
 					  owner:kOSDOwnerOther
 				updateTimer:YES];
 	}
@@ -744,7 +744,7 @@
 {
 	[speedText setFloatValue:[speed floatValue]];
 	if ([osd isActive]) {
-		[osd setStringValue:[NSString stringWithFormat:@"Speed: %.1fX", [speed floatValue]] 
+		[osd setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Speed: %.1fX", @"OSD hint"), [speed floatValue]] 
 					  owner:kOSDOwnerOther
 				updateTimer:YES];
 	}
@@ -754,7 +754,7 @@
 {
 	[subDelayText setFloatValue:[sd floatValue]];
 	if ([osd isActive]) {
-		[osd setStringValue:[NSString stringWithFormat:@"Sub Delay: %.1f s", [sd floatValue]]
+		[osd setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Sub Delay: %.1f s", @"OSD hint"), [sd floatValue]]
 					  owner:kOSDOwnerOther
 				updateTimer:YES];
 	}
@@ -764,7 +764,7 @@
 {
 	[audioDelayText setFloatValue:[ad floatValue]];
 	if ([osd isActive]) {
-		[osd setStringValue:[NSString stringWithFormat:@"Audio Delay: %.1f s", [ad floatValue]]
+		[osd setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Audio Delay: %.1f s", @"OSD hint"), [ad floatValue]]
 					  owner:kOSDOwnerOther
 				updateTimer:YES];
 	}
