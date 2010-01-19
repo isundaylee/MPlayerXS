@@ -73,6 +73,7 @@
 					   [NSNumber numberWithBool:NO], kUDKeyFastDecoding,
 					   [NSNumber numberWithBool:NO], kUDKeyUseEmbeddedFonts,
 					   [NSNumber numberWithUnsignedInt:1000], kUDKeyCacheSize,
+					   [NSNumber numberWithBool:NO], kUDKeyCloseWindowWhenStopped,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
@@ -461,6 +462,19 @@
 	[controlUI playBackWillStop];
 }
 
+-(void) resetUI
+{
+	// 如果不继续播放，或者没有下一个播放文件，那么退出全屏
+	// 这个时候的显示状态displaying是NO
+	// 因此，如果是全屏的话，会退出全屏，如果不是全屏的话，也不会进入全屏
+	[controlUI toggleFullScreen:nil];
+	// 并且重置 fillScreen状态
+	[controlUI toggleFillScreen:nil];
+	if ([ud boolForKey:kUDKeyCloseWindowWhenStopped] && [window isVisible]) {
+		[window orderOut:self];
+	}
+}
+
 -(void) mplayerStopped:(NSNotification *)notification
 {	
 	[window setTitle: @"MPlayerX"];
@@ -495,13 +509,7 @@
 			return;
 		}
 	}
-
-	// 如果不继续播放，或者没有下一个播放文件，那么退出全屏
-	// 这个时候的显示状态displaying是NO
-	// 因此，如果是全屏的话，会退出全屏，如果不是全屏的话，也不会进入全屏
-	[controlUI toggleFullScreen:nil];
-	// 并且重置 fillScreen状态
-	[controlUI toggleFillScreen:nil];
+	[self resetUI];
 }
 
 -(void) tryToPlayNext
@@ -515,12 +523,7 @@
 			return;
 		}
 	}
-	// 如果不继续播放，或者没有下一个播放文件，那么退出全屏
-	// 这个时候的显示状态displaying是NO
-	// 因此，如果是全屏的话，会退出全屏，如果不是全屏的话，也不会进入全屏
-	[controlUI toggleFullScreen:nil];
-	// 并且重置 fillScreen状态
-	[controlUI toggleFillScreen:nil];
+	[self resetUI];
 }
 
 ////////////////////////////////////////////////cooperative actions with UI//////////////////////////////////////////////////

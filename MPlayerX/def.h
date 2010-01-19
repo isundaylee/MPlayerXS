@@ -61,6 +61,7 @@
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")
 #define kUDKeyHelpURL				(@"HelpURL")
+#define kUDKeyCloseWindowWhenStopped	(@"CloseOnStopped")
 
 #define kSCMSwitchTimeHintKeyModifierMask	(NSFunctionKeyMask)
 
