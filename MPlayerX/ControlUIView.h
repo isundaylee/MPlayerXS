@@ -20,7 +20,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import "TimeFormatter.h"
-#import "TimeSlider.h"
 
 @class RootLayerView, PlayerController, FloatWrapFormatter, ArrowTextField, ResizeIndicator, OsdText;
 
@@ -54,7 +53,7 @@
 	IBOutlet NSButton *volumeButton;
 	IBOutlet NSSlider *volumeSlider;
 	IBOutlet NSTextField *timeText;
-	IBOutlet TimeSlider *timeSlider;
+	IBOutlet NSSlider *timeSlider;
 	IBOutlet NSTextField *hintTime;
 	
 	IBOutlet NSView *accessaryContainer;

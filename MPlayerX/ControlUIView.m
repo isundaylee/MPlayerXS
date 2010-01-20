@@ -146,8 +146,8 @@
 	[[timeText cell] setFormatter:timeFormatter];
 	[timeText setStringValue:@""];
 	[timeSlider setEnabled:NO];
-	[timeSlider setMaxValue:-1];
-	[timeSlider setMinValue:-2];
+	[timeSlider setMaxValue:0];
+	[timeSlider setMinValue:-1];
 
 	[hintTime setAlphaValue:0];
 	[[hintTime cell] setFormatter:timeFormatter];
@@ -400,7 +400,9 @@
 	// 因为controlUI会KVO mplayer.movieInfo.playingInfo.currentTime
 	// playerController的seekTo方法里会根据新设定的时间修改currentTime
 	// 因此这里不用直接更新界面
-	float time = [playerController seekTo:[timeSlider timeDest]];
+	float time = [playerController seekTo:[sender floatValue]];
+	
+	[self updateHintTime];
 	
 	if ([osd isActive] && (time > 0)) {
 		NSString *osdStr = [timeFormatter stringForObjectValue:[NSNumber numberWithFloat:time]];
@@ -569,7 +571,7 @@
 	float tm = [sender tag];
 	tm = MAX(0, (tm / LASTSTOPPEDTIMERATIO) - 5); // 给大家一个5秒钟的回忆时间
 	
-	[timeSlider setTimeDest:tm];
+	[timeSlider setFloatValue:tm];
 	[self seekTo:timeSlider];
 }
 
@@ -667,7 +669,7 @@
 	[playPauseButton setState:PauseState];
 
 	[timeText setStringValue:@""];
-	[timeSlider setFloatValue:0];
+	[timeSlider setFloatValue:-1];
 	
 	// 由于mplayer无法静音开始，因此每次都要回到非静音状态
 	[volumeButton setState:NSOffState];
@@ -697,8 +699,8 @@
 		[timeSlider setMinValue:0];
 	} else {
 		[timeSlider setEnabled:NO];
-		[timeSlider setMaxValue:-1];
-		[timeSlider setMinValue:-2];
+		[timeSlider setMaxValue:0];
+		[timeSlider setMinValue:-1];
 		[hintTime.animator setAlphaValue:0];
 	}
 }
@@ -707,7 +709,7 @@
 {
 	float time = [timePos floatValue];
 	double length = [timeSlider maxValue];
-	
+
 	if ((length > 0) && 
 		(((([NSEvent modifierFlags]&kSCMSwitchTimeHintKeyModifierMask) == kSCMSwitchTimeHintKeyModifierMask)?YES:NO) == timeTextPrsOnRmn)) {
 		// 如果有时间的长度，并且按键和设定相符合的时候，显示remain时间
