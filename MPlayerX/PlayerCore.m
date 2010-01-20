@@ -29,12 +29,14 @@
 -(void) readError:(NSNotification *)notification;
 -(void) pollingOutputAndError;
 -(void) playMediaPlayerThread:(NSDictionary*) args;
--(void) releaseTimerAndRemoveObserverOnPlayerThread;
+-(void) terminateOnPlayerThread;
 @end
 
 #define kPlayerCoreMediaPathKey		(@"kPlayerCoreMediaPathKey")
 #define kPlayerCoreExecPathKey		(@"kPlayerCoreExecPathKey")
 #define kPlayerCoreParamsKey		(@"kPlayerCoreParamsKey")
+
+#define kPlayerCoreTermNormal		(0)
 
 @implementation PlayerCore
 
@@ -54,50 +56,31 @@
 
 -(void) dealloc
 {
+	// terminate函数里面会调用delegate的函数，可能会产生逻辑错误
+	delegate = nil;
+
 	[self terminate];
 	[super dealloc];
 }
 
 #pragma mark Function
--(void) releaseTimerAndRemoveObserverOnPlayerThread
+-(void) terminateOnPlayerThread
 {
-	// 在工作线程上建立的Timer，因此必须在工作线程上销毁
-	if (pollingTimer) {
-		[pollingTimer invalidate];
-		[pollingTimer release];
-		pollingTimer = nil;
-	}
-	// 这里的消息监听是建立在工作线程上的，因此必须在工作线程上销毁
-	// 有可能会多次运行，但是没有关系
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	if (task && [task isRunning]) {
+		[task terminate];
+		[task waitUntilExit];
+	}	
 }
 
 - (void) terminate
 {
-	if (task) { // 如果task没有被销毁
-		if (playThread) {
-			[self performSelector:@selector(releaseTimerAndRemoveObserverOnPlayerThread)
-						 onThread:playThread
-					   withObject:nil
-					waitUntilDone:YES];
-
-			[playThread cancel];
-			[playThread release];
-			playThread = nil;
-		}
-
-		if ([task isRunning]) {
-			[task terminate];
-			[task waitUntilExit];
-			[task release];
-			task = nil;
-			
-			if (delegate) {
-				[delegate playerTaskTerminated:YES from:self];
-			}
-		} else {
-			[task release];
-			task = nil;
+	if (playThread) {
+		[self performSelector:@selector(terminateOnPlayerThread)
+					 onThread:playThread
+				   withObject:nil
+				waitUntilDone:YES];
+		if (delegate) {
+			[delegate playerCore:self hasTerminated:YES];
 		}
 	}
 }
@@ -208,7 +191,7 @@
 	
 	if (task && [task isRunning] && ([data length] != 0)) {
 		if (delegate) {
-			[delegate outputAvailable:data from:self];
+			[delegate playerCore:self outputAvailable:data];
 		}
 	}
 }
@@ -219,7 +202,7 @@
 	
 	if (task && [task isRunning] && ([data length] != 0)) {
 		if (delegate) {
-			[delegate errorHappened:data from:self];
+			[delegate playerCore:self errorHappened:data];
 		}
 	}
 }
@@ -227,16 +210,29 @@
 // 这个代码发生在Player线程
 - (void) taskHasTerminated
 {
-	// 这里不能销毁PlayerThread主体，因为这段代码本身就是在PlayerThread中运行的。
-	// 而这里并没有销毁task，所以在下一次playMedia或者dealloc的时候，会因为terminate task而释放PlayerThread
-	[self performSelector:@selector(releaseTimerAndRemoveObserverOnPlayerThread) onThread:playThread withObject:nil waitUntilDone:YES];
-
-	// 这里应该不能加别的清理工作，这个方法是在 副线程上激发的
-	// 而在terminate方法里面也包括了清理副线程的代码，可能会引发crash
-	// [self terminate];
-	if (delegate) {
-		[delegate playerTaskTerminated:NO from:self];
+	int termState;
+	@synchronized(playThread) {
+		// 得到返回状态，0是正常退出
+		termState = [task terminationStatus];
+		
+		// 在工作线程上建立的Timer，因此必须在工作线程上销毁
+		[pollingTimer invalidate];
+		[pollingTimer release];
+		pollingTimer = nil;
+		
+		// 这里的消息监听是建立在工作线程上的，因此必须在工作线程上销毁
+		// 有可能会多次运行，但是没有关系
+		[[NSNotificationCenter defaultCenter] removeObserver:self];
+		
+		[task release];
+		task = nil;
+		
+		[playThread cancel];
+		[playThread release];
+		playThread = nil;		
+	}
+	if (delegate && (termState == kPlayerCoreTermNormal)) {
+		[delegate playerCore:self hasTerminated:NO];
 	}
 }
-
 @end

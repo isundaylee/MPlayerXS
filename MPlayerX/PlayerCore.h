@@ -22,9 +22,9 @@
 
 // 如果需要与Task通信通过该接口
 @protocol PlayerCoreDelegate
-- (void) playerTaskTerminated:(BOOL) byForce from:(id)sender;	/**< 通知播放任务结束 */
-- (BOOL) outputAvailable:(NSData*) outData from:(id)sender;		/**< 有输出 */
-- (BOOL) errorHappened:(NSData*) errData from:(id)sender;		/**< 有错误输出 */
+- (void) playerCore:(id)player hasTerminated:(BOOL) byForce;		/**< 通知播放任务结束 */
+- (void) playerCore:(id)player outputAvailable:(NSData*)outData;	/**< 有输出 */
+- (void) playerCore:(id)player errorHappened:(NSData*) errData;		/**< 有错误输出 */
 @end
 
 @interface PlayerCore : NSObject
