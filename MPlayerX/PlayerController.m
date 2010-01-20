@@ -44,7 +44,6 @@
 -(void) mplayerStopped:(NSNotification *)notification;
 -(void) mplayerWillStop:(NSNotification *)notification;
 -(void) preventSystemSleep;
--(void) tryToPlayNext;
 -(void) playMedia:(NSURL*)url;
 @end
 
@@ -73,7 +72,7 @@
 					   [NSNumber numberWithBool:NO], kUDKeyFastDecoding,
 					   [NSNumber numberWithBool:NO], kUDKeyUseEmbeddedFonts,
 					   [NSNumber numberWithUnsignedInt:1000], kUDKeyCacheSize,
-					   [NSNumber numberWithBool:NO], kUDKeyCloseWindowWhenStopped,
+					   [NSNumber numberWithBool:YES], kUDKeyCloseWindowWhenStopped,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
@@ -477,11 +476,13 @@
 
 -(void) mplayerStopped:(NSNotification *)notification
 {	
+	BOOL stoppedByForce = [[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue];
+	
 	[window setTitle: @"MPlayerX"];
 	
 	[controlUI playBackStopped];
 	
-	if ([[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue]) {
+	if (stoppedByForce) {
 		// 如果是强制停止
 		// 用文件名做key，记录这个文件的播放时间
 		[bookmarks setObject:[[notification userInfo] objectForKey:kMPCPlayStoppedTimeKey] forKey:[lastPlayedPath absoluteString]];
@@ -491,8 +492,7 @@
 		[bookmarks removeObjectForKey:[lastPlayedPath absoluteString]];
 	}
 	
-	if ([ud boolForKey:kUDKeyAutoPlayNext] && [lastPlayedPath isFileURL] &&
-		(![[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue])) {
+	if ([ud boolForKey:kUDKeyAutoPlayNext] && [lastPlayedPath isFileURL] && (!stoppedByForce)) {
 		//如果不是强制关闭的话
 		//如果不是本地文件，肯定返回nil
 		NSString *nextPath = [PlayList AutoSearchNextMoviePathFrom:[lastPlayedPath path]];
@@ -502,24 +502,7 @@
 			// 这个时间的设定是一个trick，如果直接调用会造成线程锁死，因为再delegate方法里面设定了waituntildone为Yes
 			// 因此用了Timer，但是在这个时间期间用户选择别的文件播放或者mplayer还没有回到正常的等待状态
 			// 那么就应该放弃下一个文件
-			[self performSelector:@selector(tryToPlayNext) 
-					   withObject:nil 
-					   afterDelay:0.5
-						  inModes:[NSArray arrayWithObjects:NSDefaultRunLoopMode, NSModalPanelRunLoopMode,NSEventTrackingRunLoopMode,nil]];
-			return;
-		}
-	}
-	[self resetUI];
-}
-
--(void) tryToPlayNext
-{
-	if ([ud boolForKey:kUDKeyAutoPlayNext] && (mplayer.state == kMPCStoppedState) && [lastPlayedPath isFileURL]) {
-		//如果不是本地文件，肯定返回nil
-		NSString *nextPath = [PlayList AutoSearchNextMoviePathFrom:[lastPlayedPath path]];
-		if (nextPath != nil) {
 			[self loadFiles:[NSArray arrayWithObject:nextPath] fromLocal:YES];
-			// 如果能够播放，并且有东西放，就直接结束
 			return;
 		}
 	}
