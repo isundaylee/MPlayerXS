@@ -78,7 +78,7 @@
 		
 		CVReturn error;
 		CVOpenGLTextureRef texture;
-		
+				
 		error = CVPixelBufferCreateWithBytes(NULL, fmt.width, fmt.height, fmt.pixelFormat, 
 											 bufRaw, fmt.width * ((fmt.pixelFormat == kYUVSPixelFormat)?2:4), 
 											 NULL, NULL, NULL, &bufRef);
@@ -167,26 +167,6 @@
 	return YES;
 }
 
-- (CGLPixelFormatObj)copyCGLPixelFormatForDisplayMask:(uint32_t)mask
-{
-	GLint npix;
-	CGLPixelFormatObj pf;
-	
-	CGLPixelFormatAttribute attr[] = {
-		kCGLPFADoubleBuffer,
-		kCGLPFANoRecovery,
-		kCGLPFAColorSize, 32,
-		kCGLPFAAccelerated,
-		0};
-	CGLChoosePixelFormat(attr, &pf, &npix);
-	return pf;
-}
-
-- (void)releaseCGLPixelFormat:(CGLPixelFormatObj)pf
-{
-	[super releaseCGLPixelFormat:pf];
-}
-
 - (CGLContextObj)copyCGLContextForPixelFormat:(CGLPixelFormatObj)pf
 {	
 	GLint i = 1;
@@ -199,7 +179,7 @@
 	
 	// 打开多线程支持
 	CGLEnable(_context, kCGLCEMPEngine);
-	
+		
 	[self buildOpenGLEnvironment];
 
 	return _context;
