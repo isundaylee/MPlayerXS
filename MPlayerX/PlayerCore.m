@@ -221,9 +221,8 @@
 // 这个代码发生在Player线程
 - (void) taskHasTerminated
 {
-	int termState;
 	// 得到返回状态，0是正常退出
-	termState = [task terminationStatus];
+	int termState = [task terminationStatus];
 	
 	// 在工作线程上建立的Timer，因此必须在工作线程上销毁
 	[pollingTimer invalidate];
