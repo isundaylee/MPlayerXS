@@ -254,8 +254,11 @@
 		[paramArray addObject:[NSString stringWithFormat: @"%@", ass.forceStyle]];
 	}
 	
-	if (textSubs && [textSubs count]) {
+	if (guessSubCP) {
 		[paramArray addObject:@"-noautosub"];
+	}
+
+	if (textSubs && [textSubs count]) {
 		[paramArray addObject:@"-sub"];	
 		[paramArray addObject:[textSubs componentsJoinedByString:@","]];
 	}
