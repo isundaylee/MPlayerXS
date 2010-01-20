@@ -66,20 +66,31 @@
 #pragma mark Function
 -(void) terminateOnPlayerThread
 {
-	if (task && [task isRunning]) {
-		[task terminate];
-		[task waitUntilExit];
+	if (task) {
+		if ([task isRunning]) {
+			[task terminate];
+			[task waitUntilExit];
+		}
+		[task release];
+		task = nil;
 	}	
 }
 
 - (void) terminate
 {
 	if (playThread) {
+		BOOL taskAlive = (task && [task isRunning]);
+		
 		[self performSelector:@selector(terminateOnPlayerThread)
 					 onThread:playThread
 				   withObject:nil
 				waitUntilDone:YES];
-		if (delegate) {
+		
+		[playThread cancel];
+		[playThread release];
+		playThread = nil;
+		
+		if (delegate && taskAlive) {
 			[delegate playerCore:self hasTerminated:YES];
 		}
 	}
@@ -211,26 +222,18 @@
 - (void) taskHasTerminated
 {
 	int termState;
-	@synchronized(playThread) {
-		// 得到返回状态，0是正常退出
-		termState = [task terminationStatus];
-		
-		// 在工作线程上建立的Timer，因此必须在工作线程上销毁
-		[pollingTimer invalidate];
-		[pollingTimer release];
-		pollingTimer = nil;
-		
-		// 这里的消息监听是建立在工作线程上的，因此必须在工作线程上销毁
-		// 有可能会多次运行，但是没有关系
-		[[NSNotificationCenter defaultCenter] removeObserver:self];
-		
-		[task release];
-		task = nil;
-		
-		[playThread cancel];
-		[playThread release];
-		playThread = nil;		
-	}
+	// 得到返回状态，0是正常退出
+	termState = [task terminationStatus];
+	
+	// 在工作线程上建立的Timer，因此必须在工作线程上销毁
+	[pollingTimer invalidate];
+	[pollingTimer release];
+	pollingTimer = nil;
+	
+	// 这里的消息监听是建立在工作线程上的，因此必须在工作线程上销毁
+	// 有可能会多次运行，但是没有关系
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+
 	if (delegate && (termState == kPlayerCoreTermNormal)) {
 		[delegate playerCore:self hasTerminated:NO];
 	}
