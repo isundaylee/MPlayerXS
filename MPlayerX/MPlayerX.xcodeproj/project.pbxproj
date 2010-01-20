@@ -47,7 +47,6 @@
 		8629205810C03B8F0077B63E /* vol_mid.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8629205310C03B8F0077B63E /* vol_mid.pdf */; };
 		8629205910C03B8F0077B63E /* vol_no.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8629205410C03B8F0077B63E /* vol_no.pdf */; };
 		862923C610C0FE130077B63E /* TimeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 862923C510C0FE130077B63E /* TimeFormatter.m */; };
-		8629245C10C10CC00077B63E /* TimeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8629245B10C10CC00077B63E /* TimeSlider.m */; };
 		8629270010C1507E0077B63E /* TimeSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 862926FE10C1507E0077B63E /* TimeSliderCell.m */; };
 		862F149610C29B0A00F5E970 /* ShortCutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 862F149510C29B0A00F5E970 /* ShortCutManager.m */; };
 		86328DF910EF50C4003C5EE8 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 86328DF810EF50C4003C5EE8 /* dsa_pub.pem */; };
@@ -170,8 +169,6 @@
 		8629205410C03B8F0077B63E /* vol_no.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = vol_no.pdf; sourceTree = "<group>"; };
 		862923C410C0FE130077B63E /* TimeFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeFormatter.h; sourceTree = "<group>"; };
 		862923C510C0FE130077B63E /* TimeFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeFormatter.m; sourceTree = "<group>"; };
-		8629245A10C10CC00077B63E /* TimeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeSlider.h; sourceTree = "<group>"; };
-		8629245B10C10CC00077B63E /* TimeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeSlider.m; sourceTree = "<group>"; };
 		862926FE10C1507E0077B63E /* TimeSliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeSliderCell.m; sourceTree = "<group>"; };
 		862926FF10C1507E0077B63E /* TimeSliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeSliderCell.h; sourceTree = "<group>"; };
 		86294E0F10F1D72800268749 /* appcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = appcast.xml; path = ../update/appcast.xml; sourceTree = SOURCE_ROOT; };
@@ -488,8 +485,6 @@
 			children = (
 				86F4DAD910BC329F007AE56A /* ControlUIView.h */,
 				86F4DADA10BC329F007AE56A /* ControlUIView.m */,
-				8629245A10C10CC00077B63E /* TimeSlider.h */,
-				8629245B10C10CC00077B63E /* TimeSlider.m */,
 				8617287B10CFAB32003A0CE2 /* ArrowTextField.h */,
 				8617287C10CFAB32003A0CE2 /* ArrowTextField.m */,
 				862923C410C0FE130077B63E /* TimeFormatter.h */,
@@ -630,7 +625,6 @@
 				8608676B10BA9DA700459392 /* fast_memcpy.c in Sources */,
 				86F4DADB10BC329F007AE56A /* ControlUIView.m in Sources */,
 				862923C610C0FE130077B63E /* TimeFormatter.m in Sources */,
-				8629245C10C10CC00077B63E /* TimeSlider.m in Sources */,
 				8629270010C1507E0077B63E /* TimeSliderCell.m in Sources */,
 				862F149610C29B0A00F5E970 /* ShortCutManager.m in Sources */,
 				86C5492510C5216600DC1511 /* PlayList.m in Sources */,
