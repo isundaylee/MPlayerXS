@@ -49,8 +49,7 @@
 
 @interface CoreController (CoreControllerInternal)
 -(void) getCurrentTime:(NSTimer *)theTimer;
--(void) playerTaskTerminatedOnMainThread:(NSDictionary*)info;
--(void) playerTaskWillTerminateOnMainThread:(NSDictionary*)info;
+-(void) playerCoreTerminatedOnMainThread:(NSDictionary*)info;
 @end
 
 @implementation CoreController
@@ -130,37 +129,24 @@
 }
 
 //////////////////////////////////////////////comunication with playerCore/////////////////////////////////////////////////////
--(void) playerTaskTerminated: (BOOL) byForce from:(id)sender
+-(void) playerCore:(id)player hasTerminated:(BOOL) byForce
 {
-	[self performSelectorOnMainThread:@selector(playerTaskWillTerminateOnMainThread:)
-						   withObject:nil
-						waitUntilDone:YES];
-
-	state = kMPCStoppedState;
-
-	// 这个Delegate方法，可能发生在主线程（当调用playerCore的terminate方法），也可能发生在Player线程（播放过程结束）
-	// 而这里需要销毁的东西，会在主线程里读写，因此，销毁工作必须放在主线程里进行
-	// 要保证执行顺序，需要waitUntilDone为YES
-
-	// 在CoreController的playerStopped的方法里面，会根据playing状态设定window level
-	// 因此要先设定state再通知
-	[self performSelectorOnMainThread:@selector(playerTaskTerminatedOnMainThread:)
+	// 如果强制停止那么就运行在主线程上，如果是自然停止就运行在工作线程上
+	[self performSelectorOnMainThread:@selector(playerCoreTerminatedOnMainThread:)
 						   withObject:[NSDictionary dictionaryWithObjectsAndKeys:
 									   [NSNumber numberWithBool:byForce], kMPCPlayStoppedByForceKey,
-									   [[[movieInfo.playingInfo currentTime] retain] autorelease], kMPCPlayStoppedTimeKey, nil]
+									   [movieInfo.playingInfo currentTime], kMPCPlayStoppedTimeKey, nil]
 						waitUntilDone:YES];
 	NSLog(@"term:%d", byForce);
 }
 
--(void) playerTaskWillTerminateOnMainThread:(NSDictionary*)info
+-(void) playerCoreTerminatedOnMainThread:(NSDictionary*)info
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayWillStopNotification
 														object:self
 													  userInfo:nil];
-}
+	state = kMPCStoppedState;
 
--(void) playerTaskTerminatedOnMainThread:(NSDictionary*)info
-{
 	// Timer是在主线程上创建的，所以要在主线程上销毁
 	SAFERELEASETIMER(pollingTimer);
 	[la stop];
@@ -177,19 +163,17 @@
 													  userInfo:info];	
 }
 
-- (BOOL) outputAvailable: (NSData*) outData from:(id)sender
+- (void) playerCore:(id)player outputAvailable:(NSData*)outData
 {
 	[la analyzeData:outData];
-	return NO;
 }
 
-- (BOOL) errorHappened: (NSData*) errData from:(id)sender
+- (void) playerCore:(id)player errorHappened:(NSData*) errData
 {
 	NSString *log = [[NSString alloc] initWithData:errData encoding:NSUTF8StringEncoding];
 	
 	NSLog(@"ERR:%@", log);
 	[log release];
-	return NO;	
 }
 
 //////////////////////////////////////////////protocol for render/////////////////////////////////////////////////////
