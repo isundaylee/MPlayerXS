@@ -61,7 +61,8 @@
 		frameDrop = YES;
 		osdLevel = 0;
 		subNameRule = kSubFileNameRuleContain;
-		font = [[NSString alloc] initWithString:kPMDefaultFontPath]; // Everyone Should have this font
+		// 默认禁用-font
+		font = nil; // [[NSString alloc] initWithString:kPMDefaultFontPath]; // Everyone Should have this font
 		ao = [[NSString alloc] initWithString:kPMDefaultAudioOutput];
 		vo = [[NSString alloc] initWithString:kPMDefaultVideoOutput];
 		subPreferedLanguage = [[NSString alloc] initWithString:kPMDefaultSubLang];
