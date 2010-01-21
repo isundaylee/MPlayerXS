@@ -135,9 +135,6 @@
 
 -(IBAction) controlUIAppearanceChanged:(id)sender
 {
-	if ((![playerWindow isVisible]) && ([playerController playerState] == kMPCStoppedState)) {
-		[playerWindow orderFront:nil];
-	}
 	[controlUI refreshAutoHideTimer];
 	[controlUI refreshBackgroundAlpha];
 	[controlUI showUp];
@@ -145,11 +142,6 @@
 
 -(IBAction) osdSetChanged:(id)sender
 {
-	if ([ud boolForKey:kUDKeyShowOSD]) {
-		if ((![playerWindow isVisible]) && ([playerController playerState] == kMPCStoppedState)) {
-			[playerWindow orderFront:nil];
-		}
-	}
 	[controlUI refreshOSDSetting];
 }
 
