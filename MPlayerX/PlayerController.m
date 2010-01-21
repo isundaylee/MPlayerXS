@@ -356,6 +356,15 @@
 								NSReleaseAlertPanel(alertPanel);
 							}
 						}
+					} else {
+						// 文件不存在
+						if ([window isVisible]) {
+							NSBeginAlertSheet(kMPXStringError, kMPXStringOK, nil, nil, window, nil, nil, nil, nil, kMPXStringFileNotExist);
+						} else {
+							id alertPanel = NSGetAlertPanel(kMPXStringError, kMPXStringFileNotExist, kMPXStringOK, nil, nil);
+							[NSApp runModalForWindow:alertPanel];
+							NSReleaseAlertPanel(alertPanel);
+						}
 					}
 				} else {
 					// 如果是非本地文件
@@ -370,41 +379,45 @@
 
 -(void) playMedia:(NSURL*)url
 {
-	NSString *path;
-	
-	// 将播放开始时间重置
-	[mplayer.pm setStartTime:-1];
-	// 设定字幕大小
-	[mplayer.pm setSubScale:[ud floatForKey:kUDKeySubScale]];
-	
-	[mplayer.pm setSubFontColor: [NSUnarchiver unarchiveObjectWithData: [ud objectForKey:kUDKeySubFontColor]]];
-	
-	[mplayer.pm setSubFontBorderColor: [NSUnarchiver unarchiveObjectWithData: [ud objectForKey:kUDKeySubFontBorderColor]]];
-	
-	[mplayer.pm setForceIndex:[ud boolForKey:kUDKeyForceIndex]];
-	[mplayer.pm setSubNameRule:[ud integerForKey:kUDKeySubFileNameRule]];
-	[mplayer.pm setDtsPass:[ud boolForKey:kUDKeyDTSPassThrough]];
-	[mplayer.pm setAc3Pass:[ud boolForKey:kUDKeyAC3PassThrough]];
-	[mplayer.pm setFastDecoding:[ud boolForKey:kUDKeyFastDecoding]];
-	[mplayer.pm setUseEmbeddedFonts:[ud boolForKey:kUDKeyUseEmbeddedFonts]];
-	
-	// 这里必须要retain，否则如果用lastPlayedPath作为参数传入的话会有问题
-	lastPlayedPathPre = [[url absoluteURL] retain];
-	
-	if ([url isFileURL]) {
-		path = [url path];
-		// 本地文件不做缓冲
-		[mplayer.pm setCache:0];
-	} else {
-		path = [url absoluteString];
-		[mplayer.pm setCache:[ud integerForKey:kUDKeyCacheSize]];
+	if (url) {
+		NSString *path;	
+		// 将播放开始时间重置
+		[mplayer.pm setStartTime:-1];
+		// 设定字幕大小
+		[mplayer.pm setSubScale:[ud floatForKey:kUDKeySubScale]];
+		
+		[mplayer.pm setSubFontColor: [NSUnarchiver unarchiveObjectWithData: [ud objectForKey:kUDKeySubFontColor]]];
+		
+		[mplayer.pm setSubFontBorderColor: [NSUnarchiver unarchiveObjectWithData: [ud objectForKey:kUDKeySubFontBorderColor]]];
+		
+		[mplayer.pm setForceIndex:[ud boolForKey:kUDKeyForceIndex]];
+		[mplayer.pm setSubNameRule:[ud integerForKey:kUDKeySubFileNameRule]];
+		[mplayer.pm setDtsPass:[ud boolForKey:kUDKeyDTSPassThrough]];
+		[mplayer.pm setAc3Pass:[ud boolForKey:kUDKeyAC3PassThrough]];
+		[mplayer.pm setFastDecoding:[ud boolForKey:kUDKeyFastDecoding]];
+		[mplayer.pm setUseEmbeddedFonts:[ud boolForKey:kUDKeyUseEmbeddedFonts]];
+		
+		// 这里必须要retain，否则如果用lastPlayedPath作为参数传入的话会有问题
+		lastPlayedPathPre = [[url absoluteURL] retain];
+		
+		if ([url isFileURL]) {
+			path = [url path];
+			// 本地文件不做缓冲
+			[mplayer.pm setCache:0];
+			// 将文件加入Recent Menu里，只能加入本地文件
+			[[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:url];
+
+		} else {
+			path = [url absoluteString];
+			[mplayer.pm setCache:[ud integerForKey:kUDKeyCacheSize]];
+		}
+
+		[mplayer playMedia:path];
+
+		SAFERELEASE(lastPlayedPath);
+		lastPlayedPath = lastPlayedPathPre;
+		lastPlayedPathPre = nil;
 	}
-
-	[mplayer playMedia:path];
-
-	SAFERELEASE(lastPlayedPath);
-	lastPlayedPath = lastPlayedPathPre;
-	lastPlayedPathPre = nil;
 }
 
 -(void) setMultiThreadMode:(BOOL) mt
