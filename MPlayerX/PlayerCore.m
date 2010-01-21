@@ -80,12 +80,16 @@
 {
 	if (playThread) {
 		BOOL taskAlive = (task && [task isRunning]);
-		
-		[self performSelector:@selector(terminateOnPlayerThread)
-					 onThread:playThread
-				   withObject:nil
-				waitUntilDone:YES];
-		
+		if (taskAlive) {
+			[self performSelector:@selector(terminateOnPlayerThread)
+						 onThread:playThread
+					   withObject:nil
+					waitUntilDone:YES];			
+		} else if (task) {
+			[task release];
+			task = nil;
+		}
+
 		[playThread cancel];
 		[playThread release];
 		playThread = nil;
@@ -223,7 +227,7 @@
 {
 	// 得到返回状态，0是正常退出
 	int termState = [task terminationStatus];
-	
+
 	// 在工作线程上建立的Timer，因此必须在工作线程上销毁
 	[pollingTimer invalidate];
 	[pollingTimer release];
