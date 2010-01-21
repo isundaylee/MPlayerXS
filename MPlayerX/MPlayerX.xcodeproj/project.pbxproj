@@ -184,6 +184,7 @@
 		863B5A7D10F2175C001111F6 /* fillscreen_lr.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = fillscreen_lr.pdf; sourceTree = "<group>"; };
 		863B5A7E10F2175C001111F6 /* fillscreen_ub.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = fillscreen_ub.pdf; sourceTree = "<group>"; };
 		863F1A4010EF4CD40089C695 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = ../Sparkle.framework/Sparkle.framework; sourceTree = SOURCE_ROOT; };
+		86450B871108840700E79645 /* LocalizedStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalizedStrings.h; sourceTree = "<group>"; };
 		8654807D10CBB231009438A4 /* FloatWrapFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatWrapFormatter.h; sourceTree = "<group>"; };
 		8654807E10CBB231009438A4 /* FloatWrapFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloatWrapFormatter.m; sourceTree = "<group>"; };
 		865AB3FB10EC82A300065E2F /* PrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefController.h; sourceTree = "<group>"; };
@@ -254,6 +255,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				86450B871108840700E79645 /* LocalizedStrings.h */,
 				86CAF23510BA44A300848B8E /* def.h */,
 				86C5492310C5216600DC1511 /* PlayList.h */,
 				86C5492410C5216600DC1511 /* PlayList.m */,
