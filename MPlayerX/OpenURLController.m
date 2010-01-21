@@ -39,8 +39,8 @@
 		NSString *urlString = [urlBox stringValue];
 		
 		if (![[urlBox objectValues] containsObject:urlString]) {
-			// 将这个URL添加到list中
-			[urlBox addItemWithObjectValue:urlString];
+			// 将这个URL添加到list中，添加到第一位
+			[urlBox insertItemWithObjectValue:urlString atIndex:0];
 		}
 		// 现在mplayer的在线播放的功能不是很稳定，经常freeze，因此先禁用这个功能
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyDebugEnableOpenURL]) {
