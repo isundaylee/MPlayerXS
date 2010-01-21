@@ -179,12 +179,12 @@
 	
 	// 打开多线程支持
 	CGLEnable(_context, kCGLCEMPEngine);
-
+/*
 	glDisable( GL_BLEND );
     glDisable( GL_DEPTH_TEST );
     glDepthMask( GL_FALSE );
     glDisable( GL_CULL_FACE) ;
-	
+*/	
 	[self buildOpenGLEnvironment];
 
 	return _context;
