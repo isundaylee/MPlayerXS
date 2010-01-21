@@ -19,6 +19,7 @@
  */
 
 #import "def.h"
+#import "LocalizedStrings.h"
 #import "PlayerController.h"
 #import "ControlUIView.h"
 #import "PlayList.h"
@@ -348,11 +349,9 @@
 						} else {
 							// 否则提示
 							if ([window isVisible]) {
-								NSBeginAlertSheet(NSLocalizedString(@"Error", nil), NSLocalizedString(@"OK", nil), nil, nil, 
-												  window, nil, nil, nil, nil, NSLocalizedString(@"The file is not supported by MPlayerX.", nil));
+								NSBeginAlertSheet(kMPXStringError, kMPXStringOK, nil, nil, window, nil, nil, nil, nil, kMPXStringFileNotSupported);
 							} else {
-								id alertPanel = NSGetAlertPanel(NSLocalizedString(@"Error", nil), NSLocalizedString(@"The file is not supported by MPlayerX.", nil), 
-																NSLocalizedString(@"OK", nil), nil, nil);
+								id alertPanel = NSGetAlertPanel(kMPXStringError, kMPXStringFileNotSupported, kMPXStringOK, nil, nil);
 								[NSApp runModalForWindow:alertPanel];
 								NSReleaseAlertPanel(alertPanel);
 							}
@@ -657,7 +656,7 @@
 	// 现在还不支持播放列表，因此禁用多选择
 	[openPanel setAllowsMultipleSelection:NO];
 	[openPanel setCanCreateDirectories:NO];
-	[openPanel setTitle:NSLocalizedString(@"Open Media Files", nil)];
+	[openPanel setTitle:kMPXStringOpenMediaFiles];
 	
 	if ([openPanel runModal] == NSFileHandlingPanelOKButton) {
 		[self loadFiles:[openPanel URLs] fromLocal:YES];

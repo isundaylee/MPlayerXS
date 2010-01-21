@@ -19,6 +19,7 @@
  */
 
 #import "def.h"
+#import "LocalizedStrings.h"
 #import "ControlUIView.h"
 #import "RootLayerView.h"
 #import "PlayerController.h"
@@ -231,7 +232,7 @@
 		[osd setFrontColor:[NSUnarchiver unarchiveObjectWithData:[ud objectForKey:kUDKeyOSDFrontColor]]];
 		// 并且强制显示OSD，但是这个和目前OSD的状态不一定一样
 		[osd setActive:YES];
-		[osd setStringValue:NSLocalizedString(@"OSD setting changed", @"OSD hint") owner:kOSDOwnerOther updateTimer:YES];
+		[osd setStringValue:kMPXStringOSDSettingChanged owner:kOSDOwnerOther updateTimer:YES];
 	}
 	if ([playerController playerState] != kMPCStoppedState) {
 		// 如果正在播放，那么就设定显示
@@ -333,13 +334,13 @@
 		NSString *osdStr;
 		switch (playerController.playerState) {
 			case kMPCStoppedState:
-				osdStr = NSLocalizedString(@"Stopped", @"OSD hint");
+				osdStr = kMPXStringOSDPlaybackStopped;
 				break;
 			case kMPCPausedState:
-				osdStr = NSLocalizedString(@"Paused", @"OSD hint");
+				osdStr = kMPXStringOSDPlaybackPaused;
 				break;
 			default:
-				osdStr = NSLocalizedString(@"", @"OSD hint");
+				osdStr = kMPXStringOSDNull;
 				break;
 		}
 		[osd setStringValue:osdStr
@@ -358,7 +359,7 @@
 	[menuVolDec setEnabled:!mute];
 	
 	if ([osd isActive]) {
-		[osd setStringValue:(mute)?(NSLocalizedString(@"Mute ON", @"OSD hint")):(NSLocalizedString(@"Mute OFF", @"OSD hint"))
+		[osd setStringValue:(mute)?(kMPXStringOSDMuteON):(kMPXStringOSDMuteOFF)
 					  owner:kOSDOwnerOther
 				updateTimer:YES];
 	}
@@ -382,7 +383,7 @@
 		[ud setFloat:vol forKey:kUDKeyVolume];
 		
 		if ([osd isActive]) {
-			[osd setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Volume: %.1f", @"OSD hint"), vol]
+			[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDVolumeHint, vol]
 						  owner:kOSDOwnerOther
 					updateTimer:YES];
 		}
@@ -560,7 +561,7 @@
 	[sender setState:NSOnState];
 
 	if ([osd isActive]) {
-		[osd setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Sub: %@", @"OSD hint"), [sender title]]
+		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDSubtitleHint, [sender title]]
 					  owner:kOSDOwnerOther
 				updateTimer:YES];
 	}
@@ -746,7 +747,7 @@
 {
 	[speedText setFloatValue:[speed floatValue]];
 	if ([osd isActive]) {
-		[osd setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Speed: %.1fX", @"OSD hint"), [speed floatValue]] 
+		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDSpeedHint, [speed floatValue]] 
 					  owner:kOSDOwnerOther
 				updateTimer:YES];
 	}
@@ -756,7 +757,7 @@
 {
 	[subDelayText setFloatValue:[sd floatValue]];
 	if ([osd isActive]) {
-		[osd setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Sub Delay: %.1f s", @"OSD hint"), [sd floatValue]]
+		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDSubDelayHint, [sd floatValue]]
 					  owner:kOSDOwnerOther
 				updateTimer:YES];
 	}
@@ -766,7 +767,7 @@
 {
 	[audioDelayText setFloatValue:[ad floatValue]];
 	if ([osd isActive]) {
-		[osd setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Audio Delay: %.1f s", @"OSD hint"), [ad floatValue]]
+		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDAudioDelayHint, [ad floatValue]]
 					  owner:kOSDOwnerOther
 				updateTimer:YES];
 	}
@@ -802,7 +803,7 @@
 		[mItem setEnabled:YES];
 		[mItem setTarget:self];
 		[mItem setAction:@selector(setSubWithID:)];
-		[mItem setTitle:NSLocalizedString(@"Disable", nil)];
+		[mItem setTitle:kMPXStringDisable];
 		[mItem setTag:-1];
 		[mItem setState:NSOffState];
 		[subListMenu addItem:mItem];

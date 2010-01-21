@@ -19,6 +19,7 @@
  */
 
 #import "def.h"
+#import "LocalizedStrings.h"
 #import "OpenURLController.h"
 #import "PlayerController.h"
 
@@ -61,7 +62,7 @@
 		// 隐藏窗口
 		[openURLPanel orderOut:self];
 	} else {
-		NSBeginAlertSheet(NSLocalizedString(@"Error", nil), NSLocalizedString(@"OK", nil), nil, nil, openURLPanel, nil, nil, nil, nil, NSLocalizedString(@"The URL is not supported by MPlayerX.", nil));
+		NSBeginAlertSheet(kMPXStringError, kMPXStringOK, nil, nil, openURLPanel, nil, nil, nil, nil, kMPXStringURLNotSupported);
 	}
 }
 

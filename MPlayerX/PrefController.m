@@ -19,6 +19,7 @@
  */
 
 #import "def.h"
+#import	"LocalizedStrings.h"
 #import "PrefController.h"
 #import "PlayerController.h"
 #import "RootLayerView.h"
@@ -30,10 +31,10 @@
 #define PrefToolBarItemIdSubtitle	(@"TBISubtitle")
 
 
-#define PrefTBILabelGeneral			(NSLocalizedString(@"General", @"PrefToolBarLabel"))
-#define PrefTBILabelVideo			(NSLocalizedString(@"Video", @"PrefToolBarLabel"))
-#define PrefTBILabelAudio			(NSLocalizedString(@"Audio", @"PrefToolBarLabel"))
-#define PrefTBILabelSubtitle		(NSLocalizedString(@"Subtitle", @"PrefToolBarLabel"))
+#define PrefTBILabelGeneral			(kMPXStringTBILabelGeneral)
+#define PrefTBILabelVideo			(kMPXStringTBILabelVideo)
+#define PrefTBILabelAudio			(kMPXStringTBILabelAudio)
+#define PrefTBILabelSubtitle		(kMPXStringTBILabelSubtitle)
 
 @implementation PrefController
 
