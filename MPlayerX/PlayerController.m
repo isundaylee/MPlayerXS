@@ -343,7 +343,7 @@
 							[self playMedia:file];
 							break;
 							
-						} else if ([mplayer.subConv validateSubFileName:path]) {
+						} else if ([mplayer.subConv isTextSubFile:path]) {
 							// load the sub
 							[self loadSubFile:path];
 						} else {
