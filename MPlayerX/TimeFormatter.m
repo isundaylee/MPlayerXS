@@ -54,7 +54,7 @@
 
 - (BOOL)getObjectValue:(out id *)obj forString:(NSString *)string errorDescription:(out NSString **)error
 {
-	if (![string isEqualToString:@""]) {
+	if (![string isEqualToString:@""] && obj) {
 		*obj = [NSNumber numberWithFloat:[string floatValue]];
 		return YES;		
 	}
