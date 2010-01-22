@@ -21,10 +21,6 @@
 #import "SubConverter.h"
 #import <UniversalDetector/UniversalDetector.h>
 
-@interface SubConverter (SubConverterInternal)
--(NSString*) validatePath:(NSString*) path;
-@end
-
 @implementation SubConverter
 
 -(id) init
@@ -60,7 +56,7 @@
 	workDirectory = wd;
 }
 
--(BOOL) validateSubFileName:(NSString*) subPath
+-(BOOL) isTextSubFile:(NSString*) subPath
 {
 	return [textSubFileExts containsObject:[[subPath pathExtension] lowercaseString]];
 }
@@ -87,8 +83,9 @@
 		}
 	}
 
-	NSMutableArray *newSubs = [[NSMutableArray alloc] initWithCapacity:2];
-	NSString *subPathOld, *enc, *subFileOld, *subPathNew;
+	NSMutableArray *newSubs = [[NSMutableArray alloc] initWithCapacity:4];
+	NSString *subPathOld, *enc, *subFileOld, *subPathNew, *ext, *prefix;
+	NSUInteger idx;
 	
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
@@ -101,7 +98,18 @@
 			CFStringEncoding ce = CFStringConvertIANACharSetNameToEncoding((CFStringRef)enc);
 
 			subPathNew = [subDir stringByAppendingPathComponent:[subPathOld lastPathComponent]];
-
+			
+			// 因为有可能会有重名的情况，所以这里要找到合适的文件名
+			isDir = YES;
+			idx = 0;
+			ext = [subPathNew pathExtension];
+			prefix = [subPathNew stringByDeletingPathExtension];
+			
+			while([fm fileExistsAtPath:subPathNew isDirectory:&isDir] && (!isDir)) {
+				// 如果该文件存在那么就寻找下一个不存在的文件名
+				subPathNew = [prefix stringByAppendingFormat:@".mpx%d.%@", idx++, ext];
+			}
+			
 			if (ce != kCFStringEncodingInvalidId) {
 				// CP949据说总会fallback到EUC_KR，这里把它回到CP949(kCFStringEncodingDOSKorean)
 				if ((ce == kCFStringEncodingMacKorean) || (ce == kCFStringEncodingEUC_KR)) {
@@ -115,7 +123,6 @@
 				if (subFileOld) {
 					// 成功读出文件
 					// 因为UCD也有猜错的时候，这个时候就直接拷贝文件了
-					subPathNew = [self validatePath:subPathNew];
 					if ([subFileOld writeToFile:subPathNew atomically:NO encoding:NSUTF8StringEncoding error:NULL]) {
 						// 如果成功写入
 						// 如果没有些成功，那就试着直接拷贝
@@ -127,7 +134,6 @@
 			isDir = YES;
 			if ([fm fileExistsAtPath:subPathOld isDirectory:&isDir] && (!isDir)) {
 				// 文件确实存在
-				subPathNew = [self validatePath:subPathNew];
 				if ([fm copyItemAtPath:subPathOld toPath:subPathNew error:NULL]) {
 					// 拷贝成功的话
 					[newSubs addObject:subPathNew];
@@ -138,30 +144,6 @@
 	[pool release];
 	
 	return [newSubs autorelease];
-}
-
--(NSString*) validatePath:(NSString*) path
-{
-	// 此函数是为了解决文件名重名问题，为将来动态加载字幕做准备
-	if (path) {
-		NSFileManager *fm = [NSFileManager defaultManager];
-		BOOL isDir = YES;
-		NSUInteger idx = 0;
-		
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		
-		NSString *ext = [path pathExtension];
-		NSString *prefix = [path stringByDeletingPathExtension];
-		
-		while([fm fileExistsAtPath:path isDirectory:&isDir] && (!isDir)) {
-			// 如果该文件存在那么就寻找下一个不存在的文件名
-			path = [prefix stringByAppendingFormat:@".%d.%@", idx++, ext];
-		}
-		[path retain];
-		[pool release];
-		[path autorelease];
-	}
-	return path;
 }
 
 -(NSDictionary*) getCPFromMoviePath:(NSString*)moviePath nameRule:(SUBFILE_NAMERULE)nameRule alsoFindVobSub:(NSString**)vobPath
@@ -229,7 +211,7 @@
 			} else if (vobPath && [ext isEqualToString:@"sub"]) {
 				// 如果是vobsub并且设定要寻找vobsub
 				[*vobPath release];
-				*vobPath = [[subPath stringByDeletingPathExtension] retain];
+				*vobPath = [subPath retain];
 			}
 		}
 	}

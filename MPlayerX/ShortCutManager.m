@@ -55,8 +55,6 @@
 
 -(void) awakeFromNib
 {
-
-
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(applicationWillBecomeActive:)
 												 name:NSApplicationWillBecomeActiveNotification
