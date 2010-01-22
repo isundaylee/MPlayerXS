@@ -22,24 +22,24 @@
 
 // 如果需要与Task通信通过该接口
 @protocol PlayerCoreDelegate
-- (void) playerCore:(id)player hasTerminated:(BOOL) byForce;		/**< 通知播放任务结束 */
-- (void) playerCore:(id)player outputAvailable:(NSData*)outData;	/**< 有输出 */
-- (void) playerCore:(id)player errorHappened:(NSData*) errData;		/**< 有错误输出 */
+-(void) playerCore:(id)player hasTerminated:(BOOL) byForce;		/**< 通知播放任务结束 */
+-(void) playerCore:(id)player outputAvailable:(NSData*)outData;	/**< 有输出 */
+-(void) playerCore:(id)player errorHappened:(NSData*) errData;		/**< 有错误输出 */
 @end
 
 @interface PlayerCore : NSObject
 {
 	id<PlayerCoreDelegate> delegate;
 
-	NSTask *task;	
+	NSTask *task;
 	NSTimer *pollingTimer;
-	NSThread *playThread;
+	NSArray *runningModes;
 }
 
 @property (assign, readwrite) id<PlayerCoreDelegate> delegate;
 
-- (void) terminate;
-- (BOOL) playMedia: (NSString *) moviePath withExec: (NSString *) execPath withParams: (NSArray *) params;
-- (BOOL) sendStringCommand: (NSString*) cmd;
+-(void) terminate;
+-(BOOL) playMedia:(NSString*)moviePath withExec:(NSString*)execPath withParams:(NSArray*)params;
+-(BOOL) sendStringCommand:(NSString*)cmd;
 
 @end

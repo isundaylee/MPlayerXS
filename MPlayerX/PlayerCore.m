@@ -22,20 +22,6 @@
 /** 默认的stdout，stderr的polling时间间隔*/
 #define POLLING_TIME	(0.5)
 
-// 内部category
-@interface PlayerCore (PlayerCoreInternal)
--(void) taskHasTerminated;
--(void) readOutput:(NSNotification *)notification;
--(void) readError:(NSNotification *)notification;
--(void) pollingOutputAndError;
--(void) playMediaPlayerThread:(NSDictionary*) args;
--(void) terminateOnPlayerThread;
-@end
-
-#define kPlayerCoreMediaPathKey		(@"kPlayerCoreMediaPathKey")
-#define kPlayerCoreExecPathKey		(@"kPlayerCoreExecPathKey")
-#define kPlayerCoreParamsKey		(@"kPlayerCoreParamsKey")
-
 #define kPlayerCoreTermNormal		(0)
 
 @implementation PlayerCore
@@ -49,7 +35,7 @@
 		delegate = nil;
 		task = nil;
 		pollingTimer = nil;
-		playThread = nil;
+		runningModes = [[NSArray alloc] initWithObjects:NSDefaultRunLoopMode, NSModalPanelRunLoopMode, NSEventTrackingRunLoopMode, nil];
 	}
 	return self;
 }
@@ -60,134 +46,97 @@
 	delegate = nil;
 
 	[self terminate];
+	[runningModes release];
+	
 	[super dealloc];
 }
 
 #pragma mark Function
--(void) terminateOnPlayerThread
-{
-	if (task) {
-		if ([task isRunning]) {
-			[task terminate];
-			[task waitUntilExit];
-		}
-		[task release];
-		task = nil;
-	}	
-}
-
 - (void) terminate
 {
-	if (playThread) {
-		BOOL taskAlive = (task && [task isRunning]);
-		if (taskAlive) {
-			[self performSelector:@selector(terminateOnPlayerThread)
-						 onThread:playThread
-					   withObject:nil
-					waitUntilDone:YES];			
-		} else if (task) {
-			[task release];
-			task = nil;
-		}
-
-		[playThread cancel];
-		[playThread release];
-		playThread = nil;
+	if (task) {
+		// 为了防止函数多次运行
+		NSTask *backup = task;
+		task = nil;
 		
-		if (delegate && taskAlive) {
-			[delegate playerCore:self hasTerminated:YES];
+		if ([backup isRunning]) {
+			[backup terminate];
+			[backup waitUntilExit];
 		}
+		[backup release];
 	}
 }
 
 - (BOOL) playMedia: (NSString *) moviePath withExec: (NSString *) execPath withParams: (NSArray *) params
 {
 	if (moviePath && execPath) {
+	
 		[self terminate];
 		
-		playThread = [[NSThread alloc] initWithTarget:self 
-											 selector:@selector(playMediaPlayerThread:)
-											   object:[NSDictionary dictionaryWithObjectsAndKeys:
-													   moviePath, kPlayerCoreMediaPathKey,
-													   execPath, kPlayerCoreExecPathKey,
-													   params, kPlayerCoreParamsKey,nil]];
-		[playThread start];
+		// 建立task
+		task = [[NSTask alloc] init];
+		// 关联输入输出
+		[task setStandardInput:[NSPipe pipe]];
+		[task setStandardOutput:[NSPipe pipe]];
+		[task setStandardError: [NSPipe pipe]];
+		// 指定运行exec的地址
+		[task setLaunchPath: execPath];
+		// 创建argv
+		if (params) {
+			[task setArguments: [params arrayByAddingObject:moviePath]];
+		} else {
+			[task setArguments: [NSArray arrayWithObject:moviePath]];
+		}
+		
+		// 设置环境参数
+		NSMutableDictionary *env = [[[NSProcessInfo processInfo] environment] mutableCopy];
+		[env setObject:@"1" forKey:@"DYLD_BIND_AT_LAUNCH"]; //delete the message for DYLD
+		[env setObject:@"xterm" forKey:@"TERM"]; // delete the message from mplayer about the "unknown" terminal
+		[task setEnvironment:env];
+		[env autorelease];
+		
+		[task setCurrentDirectoryPath:[execPath stringByDeletingLastPathComponent]];
+		
+		// 建立监听机制
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(readOutput:)
+													 name:NSFileHandleReadCompletionNotification
+												   object:[[task standardOutput] fileHandleForReading]];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(readError:)
+													 name:NSFileHandleReadCompletionNotification
+												   object:[[task standardError] fileHandleForReading]];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(taskHasTerminated:)
+													 name:NSTaskDidTerminateNotification
+												   object:task];
+		
+		pollingTimer = [[NSTimer timerWithTimeInterval:POLLING_TIME	
+												target:self
+											  selector:@selector(pollingOutputAndError)
+											  userInfo:nil
+											   repeats:YES] retain];
+
+		NSRunLoop *rl = [NSRunLoop currentRunLoop];
+		[rl addTimer:pollingTimer forMode:NSDefaultRunLoopMode];
+		[rl addTimer:pollingTimer forMode:NSModalPanelRunLoopMode];
+		[rl addTimer:pollingTimer forMode:NSEventTrackingRunLoopMode];
+
+		// 运行task
+		[task launch];
 		return YES;
 	}
 	return NO;
 }
 
-- (void) playMediaPlayerThread:(NSDictionary*) args
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	NSString *moviePath = [args objectForKey:kPlayerCoreMediaPathKey];
-	NSString *execPath = [args objectForKey:kPlayerCoreExecPathKey];
-	NSArray *params = [args objectForKey:kPlayerCoreParamsKey];
-	
-	NSRunLoop *runloop = [NSRunLoop currentRunLoop];
-	
-	NSMutableDictionary *env;
-	
-	// 建立task
-	task = [[NSTask alloc] init];
-	// 关联输入输出
-	[task setStandardInput:[NSPipe pipe]];
-	[task setStandardOutput:[NSPipe pipe]];
-	[task setStandardError: [NSPipe pipe]];
-	// 指定运行exec的地址
-	[task setLaunchPath: execPath];
-	// 创建argv
-	if (params) {
-		[task setArguments: [params arrayByAddingObject:moviePath]];
-	} else {
-		[task setArguments: [NSArray arrayWithObject:moviePath]];
-	}
-	
-	// 设置环境参数
-	env = [[[NSProcessInfo processInfo] environment] mutableCopy];
-	[env setObject:@"1" forKey:@"DYLD_BIND_AT_LAUNCH"]; //delete the message for DYLD
-	[env setObject:@"xterm" forKey:@"TERM"]; // delete the message from mplayer about the "unknown" terminal
-	[task setEnvironment:env];
-	[env autorelease];
-	
-	[task setCurrentDirectoryPath:[execPath stringByDeletingLastPathComponent]];
-	
-	// 建立监听机制
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(readOutput:)
-												 name:NSFileHandleReadCompletionNotification
-											   object:[[task standardOutput] fileHandleForReading]];
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(readError:)
-												 name:NSFileHandleReadCompletionNotification
-											   object:[[task standardError] fileHandleForReading]];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(taskHasTerminated)
-												 name:NSTaskDidTerminateNotification
-											   object:task];
-	
-	pollingTimer = [[NSTimer scheduledTimerWithTimeInterval:POLLING_TIME
-													 target:self
-												   selector:@selector(pollingOutputAndError)
-												   userInfo:nil
-													repeats:YES] retain];
-	// 运行task
-	[task launch];
-	[runloop run];
-	
-	[pool release];
-}
-
 -(void) pollingOutputAndError
 {
 	if (task && [task isRunning]) {
-		[[[task standardOutput] fileHandleForReading] readInBackgroundAndNotify];
-		[[[task  standardError] fileHandleForReading] readInBackgroundAndNotify];
+		[[[task standardOutput] fileHandleForReading] readInBackgroundAndNotifyForModes:runningModes];
+		[[[task  standardError] fileHandleForReading] readInBackgroundAndNotifyForModes:runningModes];
 	}
 }
-
 
 - (BOOL) sendStringCommand: (NSString *) cmd
 {
@@ -202,10 +151,10 @@
 #pragma mark Internal 
 - (void) readOutput:(NSNotification *)notification
 {
-	NSData *data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
-	
-	if (task && [task isRunning] && ([data length] != 0)) {
-		if (delegate) {
+	if (task && [task isRunning]) {
+		NSData *data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+		
+		if (([data length] != 0) && delegate) {
 			[delegate playerCore:self outputAvailable:data];
 		}
 	}
@@ -213,32 +162,28 @@
 
 - (void) readError:(NSNotification *)notification
 {
-	NSData *data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
-	
-	if (task && [task isRunning] && ([data length] != 0)) {
-		if (delegate) {
+	if (task && [task isRunning]) {
+		NSData *data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+
+		if (([data length] != 0) && delegate) {
 			[delegate playerCore:self errorHappened:data];
 		}
 	}
 }
 
-// 这个代码发生在Player线程
-- (void) taskHasTerminated
+- (void) taskHasTerminated:(NSNotification *)notification
 {
-	// 得到返回状态，0是正常退出
-	int termState = [task terminationStatus];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	// 在工作线程上建立的Timer，因此必须在工作线程上销毁
 	[pollingTimer invalidate];
 	[pollingTimer release];
 	pollingTimer = nil;
 	
-	// 这里的消息监听是建立在工作线程上的，因此必须在工作线程上销毁
-	// 有可能会多次运行，但是没有关系
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	if (delegate && (termState == kPlayerCoreTermNormal)) {
-		[delegate playerCore:self hasTerminated:NO];
+	// 得到返回状态，0是正常退出
+	// 这个时候task变量有可能变成nil
+	if (delegate) {
+		[delegate playerCore:self hasTerminated:([[notification object] terminationStatus] != kPlayerCoreTermNormal)];
 	}
 }
 @end

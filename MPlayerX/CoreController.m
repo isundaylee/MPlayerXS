@@ -49,7 +49,6 @@
 
 @interface CoreController (CoreControllerInternal)
 -(void) getCurrentTime:(NSTimer *)theTimer;
--(void) playerCoreTerminatedOnMainThread:(NSDictionary*)info;
 @end
 
 @implementation CoreController
@@ -131,17 +130,6 @@
 //////////////////////////////////////////////comunication with playerCore/////////////////////////////////////////////////////
 -(void) playerCore:(id)player hasTerminated:(BOOL) byForce
 {
-	// 如果强制停止那么就运行在主线程上，如果是自然停止就运行在工作线程上
-	[self performSelectorOnMainThread:@selector(playerCoreTerminatedOnMainThread:)
-						   withObject:[NSDictionary dictionaryWithObjectsAndKeys:
-									   [NSNumber numberWithBool:byForce], kMPCPlayStoppedByForceKey,
-									   [movieInfo.playingInfo currentTime], kMPCPlayStoppedTimeKey, nil]
-						waitUntilDone:YES];
-	NSLog(@"term:%d", byForce);
-}
-
--(void) playerCoreTerminatedOnMainThread:(NSDictionary*)info
-{
 	[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayWillStopNotification
 														object:self
 													  userInfo:nil];
@@ -160,7 +148,10 @@
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayStoppedNotification 
 														object:self
-													  userInfo:info];	
+													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+																[NSNumber numberWithBool:byForce], kMPCPlayStoppedByForceKey,
+																[movieInfo.playingInfo currentTime], kMPCPlayStoppedTimeKey, nil]];
+	NSLog(@"term:%d", byForce);
 }
 
 - (void) playerCore:(id)player outputAvailable:(NSData*)outData
