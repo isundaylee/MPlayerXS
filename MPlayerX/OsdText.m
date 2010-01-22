@@ -81,8 +81,6 @@
 	[self setBezeled:NO];
 	
 	[self setAutoHideTimeInterval:[ud floatForKey:kUDKeyOSDAutoHideTime]];
-	
-	dispView = [self superview];
 }
 
 -(void) dealloc
@@ -136,7 +134,7 @@
 				aString = [self stringValue];
 			}
 			
-			NSSize sz = [dispView bounds].size;
+			NSSize sz = [[self superview] bounds].size;
 			
 			float fontSize = MIN(fontSizeMax, MAX(fontSizeMin, (sz.width + sz.height) / kOSDFontSizeRatio));
 			fontSize = MIN(kOSDFontSizeLimitMax, MAX(kOSDFontSizeLimitMin, fontSize));

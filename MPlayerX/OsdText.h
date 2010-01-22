@@ -42,8 +42,6 @@ typedef enum
 
 	NSTimer *autoHideTimer;
 	NSTimeInterval autoHideTimeInterval;
-	
-	NSView *dispView;
 }
 
 @property (assign, readwrite, getter=isActive) BOOL active;
