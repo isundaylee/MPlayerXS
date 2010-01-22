@@ -94,8 +94,9 @@
 {
 	if (dict) {
 		if ([dict objectForKey:kI386Key] && [dict objectForKey:kX86_64Key]) {
+			[dict retain];
 			[mpPathPair release];
-			mpPathPair = [dict retain];
+			mpPathPair = dict;
 		}		
 	}
 	else {
@@ -130,18 +131,23 @@
 //////////////////////////////////////////////comunication with playerCore/////////////////////////////////////////////////////
 -(void) playerCore:(id)player hasTerminated:(BOOL) byForce
 {
+	NSNumber *curTime = [NSNumber numberWithFloat:[[movieInfo.playingInfo currentTime] floatValue]];
+	
 	[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayWillStopNotification
 														object:self
 													  userInfo:nil];
 	state = kMPCStoppedState;
 
-	// Timer是在主线程上创建的，所以要在主线程上销毁
 	SAFERELEASETIMER(pollingTimer);
 	[la stop];
 	[subConv clearWorkDirectory];
 
 	// 在这里重置textSubs和vobSub，这样在下次播放之前，用户可以自己设置这两个元素
+	// !!! 但是要注意，如果是在播放过程中直接调用playMedia函数进行下一个播放的时候
+	// !!! 由于playMedia函数会先停止播放，这样会导致sub被清空，在手动选择sub的情况下这里会出现无法手动加载的情况
+	// !!! 解决方法是，在CoreController正确先调用performStop在playMedia
 	[pm reset];
+	
 	[movieInfo resetWithParameterManager:pm];
 	
 	SAFERELEASE(sharedBufferName);
@@ -150,7 +156,7 @@
 														object:self
 													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 																[NSNumber numberWithBool:byForce], kMPCPlayStoppedByForceKey,
-																[movieInfo.playingInfo currentTime], kMPCPlayStoppedTimeKey, nil]];
+																curTime, kMPCPlayStoppedTimeKey, nil]];
 	NSLog(@"term:%d", byForce);
 }
 
@@ -204,7 +210,6 @@
 		SAFEUNMAP(imageData, imageSize);
 		SAFECLOSESHM(shMemID);
 	}
-	// NSLog(@"stop");
 }
 
 - (void) render
@@ -220,7 +225,6 @@
 //////////////////////////////////////////////playing thing/////////////////////////////////////////////////////
 -(void) playMedia: (NSString*) moviePath
 {
-	// 如果pm的guessSubCP为YES的话，那么应该主动调用pm的getsubcp的方法，并将这个值带到subCP中
 	static unsigned int cnt = 1;
 
 	// 如果正在放映，那么现强制停止
