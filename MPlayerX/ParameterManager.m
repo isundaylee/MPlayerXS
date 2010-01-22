@@ -266,7 +266,7 @@
 	
 	if (vobSub && (![vobSub isEqualToString:@""])) {
 		[paramArray addObject:@"-vobsub"];
-		[paramArray addObject:vobSub];
+		[paramArray addObject:[vobSub stringByDeletingPathExtension]];
 	}
 
 	if (dtsPass || ac3Pass) {
