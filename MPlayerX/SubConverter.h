@@ -21,10 +21,14 @@
 #import <Cocoa/Cocoa.h>
 #import "coredef_private.h"
 
+@class UniversalDetector;
+
 @interface SubConverter : NSObject
 {
 	NSSet *textSubFileExts;
 	NSString *workDirectory;
+	
+	UniversalDetector *detector;
 }
 
 -(void) setWorkDirectory:(NSString *)wd;

@@ -28,6 +28,8 @@
 	if (self = [super init]) {
 		textSubFileExts = [[NSSet alloc] initWithObjects:@"utf", @"utf8", @"srt", @"ass", @"smi", @"txt", @"ssa", nil];
 		workDirectory = nil;
+		detector = [[UniversalDetector alloc] init];
+		[detector reset];
 	}
 	return self;
 }
@@ -36,6 +38,7 @@
 {
 	[textSubFileExts release];
 	[workDirectory release];
+	[detector release];
 	
 	[super dealloc];
 }
@@ -68,11 +71,9 @@
 	
 	if (path && [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && (!isDir)) {
 
-		UniversalDetector *dt = [[UniversalDetector alloc] init];
-
-		[dt analyzeContentsOfFile:path];
-		cpStr = [[dt MIMECharset] retain];
-		[dt release];
+		[detector analyzeContentsOfFile:path];
+		cpStr = [[detector MIMECharset] retain];
+		[detector reset];
 	}
 	return [cpStr autorelease];
 }
@@ -173,7 +174,6 @@
 	}
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	UniversalDetector *dt = [[UniversalDetector alloc] init];
 	
 	// 文件夹路径
 	NSString *directoryPath = [moviePath stringByDeletingLastPathComponent];
@@ -212,9 +212,9 @@
 			
 			if ([textSubFileExts containsObject: ext]) {
 				// 如果是文本字幕文件
-				[dt analyzeContentsOfFile: subPath];
+				[detector analyzeContentsOfFile: subPath];
 				
-				cpStr = [dt MIMECharset];
+				cpStr = [detector MIMECharset];
 				
 				if (cpStr) {
 					// 如果猜出来了，不管有多少的确认率
@@ -223,7 +223,7 @@
 					// 如果没有猜出来，那么设为空
 					[subEncDict setObject:@"" forKey:subPath];
 				}
-				[dt reset];				
+				[detector reset];				
 			} else if (vobPath && [ext isEqualToString:@"sub"]) {
 				// 如果是vobsub并且设定要寻找vobsub
 				[*vobPath release];
@@ -231,7 +231,6 @@
 			}
 		}
 	}
-	[dt release];
 	[pool release];
 
 	if (vobPath && (*vobPath)) {
