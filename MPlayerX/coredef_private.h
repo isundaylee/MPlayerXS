@@ -54,6 +54,8 @@
 #define kMPCLengthID		(@"LENGTH")
 #define kMPCSeekableID		(@"SEEKABLE")
 #define kMPCSubInfosID		(@"MPXSUBNAMES")
+#define kMPCSubInfoAppendID	(@"MPXSUBFILEADD")
+
 /////////////////////////////////////////////////////////////////////
 
 // KVO观测的属性的KeyPath
