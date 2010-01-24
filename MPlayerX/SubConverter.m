@@ -61,6 +61,22 @@
 	return [textSubFileExts containsObject:[[subPath pathExtension] lowercaseString]];
 }
 
+-(NSString*) getCPOfTextSubtitle:(NSString*)path
+{
+	BOOL isDir = YES;
+	NSString *cpStr = nil;	
+	
+	if (path && [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && (!isDir)) {
+
+		UniversalDetector *dt = [[UniversalDetector alloc] init];
+
+		[dt analyzeContentsOfFile:path];
+		cpStr = [[dt MIMECharset] retain];
+		[dt release];
+	}
+	return [cpStr autorelease];
+}
+
 -(NSArray*) convertTextSubsAndEncodings:(NSDictionary*)subEncDict
 {
 	if (!workDirectory) {
