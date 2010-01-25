@@ -65,6 +65,7 @@
 		displaying = NO;
 		fullScreenOptions = [[NSDictionary alloc] initWithObjectsAndKeys:
 							 [NSNumber numberWithInt:NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions,
+							 [NSNumber numberWithBool:NO], NSFullScreenModeAllScreens,
 							 nil];
 		ud = [NSUserDefaults standardUserDefaults];
 	}
