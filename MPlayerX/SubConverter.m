@@ -124,7 +124,7 @@
 			
 			while([fm fileExistsAtPath:subPathNew isDirectory:&isDir] && (!isDir)) {
 				// 如果该文件存在那么就寻找下一个不存在的文件名
-				subPathNew = [prefix stringByAppendingFormat:@".mpx%d.%@", idx++, ext];
+				subPathNew = [prefix stringByAppendingFormat:@".mpx.%d.%@", idx++, ext];
 			}
 			
 			if (ce != kCFStringEncodingInvalidId) {
