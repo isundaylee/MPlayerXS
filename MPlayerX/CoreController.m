@@ -130,9 +130,7 @@
 
 //////////////////////////////////////////////comunication with playerCore/////////////////////////////////////////////////////
 -(void) playerCore:(id)player hasTerminated:(BOOL) byForce
-{
-	NSNumber *curTime = [NSNumber numberWithFloat:[[movieInfo.playingInfo currentTime] floatValue]];
-	
+{	
 	[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayWillStopNotification
 														object:self
 													  userInfo:nil];
@@ -148,7 +146,8 @@
 	// !!! 解决方法是，在CoreController正确先调用performStop在playMedia
 	[pm reset];
 	
-	[movieInfo resetWithParameterManager:pm];
+	// 只重置与播放无关的东西
+	[movieInfo resetWithParameterManager:nil];
 	
 	SAFERELEASE(sharedBufferName);
 	
@@ -156,7 +155,7 @@
 														object:self
 													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 																[NSNumber numberWithBool:byForce], kMPCPlayStoppedByForceKey,
-																curTime, kMPCPlayStoppedTimeKey, nil]];
+																[movieInfo.playingInfo currentTime], kMPCPlayStoppedTimeKey, nil]];
 	NSLog(@"term:%d", byForce);
 }
 
@@ -277,8 +276,8 @@
 		}
 	}
 
-	// 重置影片信息，同步PlayingInfo
-	[movieInfo resetWithParameterManager:pm];
+	// 只重置与播放有关的
+	[movieInfo.playingInfo resetWithParameterManager:pm];
 	
 	NSLog(@"%@", [pm arrayOfParametersWithName:sharedBufferName]);
 	
@@ -442,6 +441,15 @@
 
 -(void) loadSubFile: (NSString*) path
 {
+	NSString *cpStr = [subConv getCPOfTextSubtitle:path];
+	if (cpStr) {
+		// 找到了编码方式
+		NSArray *newPaths = [subConv convertTextSubsAndEncodings:[NSDictionary dictionaryWithObjectsAndKeys:cpStr, path, nil]];
+		if (newPaths && [newPaths count]) {
+			// NSLog(@"%@", [NSString stringWithFormat:@"%@ \"%@\"", kMPCSubLoad, [newPaths objectAtIndex:0]]);
+			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ \"%@\"", kMPCSubLoad, [newPaths objectAtIndex:0]]];
+		}
+	}
 }
 
 -(void) simulateKeyDown: (char) keyCode
