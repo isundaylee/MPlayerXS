@@ -30,7 +30,6 @@
 	NSArray *prefViews;
 	
 	IBOutlet NSWindow *prefWin;
-	IBOutlet NSWindow *playerWindow;
 	IBOutlet NSToolbar *prefToolbar;
 	
 	IBOutlet NSView *viewGeneral;
