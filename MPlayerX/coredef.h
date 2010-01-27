@@ -28,3 +28,5 @@ typedef enum
 	kSubFileNameRuleContain = 1,
 	kSubFileNameRuleAny = 2
 } SUBFILE_NAMERULE;
+
+#define kPlayerWindowCornerRadius	(6.0)
