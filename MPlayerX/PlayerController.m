@@ -285,7 +285,12 @@
 			
 		} else if ([keyPath isEqualToString:kObservedValueStringSubInfo]) {
 			// 得到 字幕信息
-			[controlUI gotSubInfo:[change objectForKey:NSKeyValueChangeNewKey]];
+			int changeKind = [[change objectForKey:NSKeyValueChangeKindKey] intValue];
+			if (changeKind == NSKeyValueChangeInsertion) {
+				[controlUI gotNewSubs:[change objectForKey:NSKeyValueChangeNewKey]];
+			} else if (changeKind == NSKeyValueChangeSetting) {
+				[controlUI gotSubInfo:[change objectForKey:NSKeyValueChangeNewKey]];
+			}
 		}
 		return;
 	}
