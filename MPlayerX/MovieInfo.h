@@ -40,8 +40,8 @@
 	
 	NSMutableArray *videoInfo;
 	NSMutableArray *audioInfo;
-	NSArray *subInfo;
-
+	NSMutableArray *subInfo;
+	
 	//////////////////////////
 	NSDictionary *keyPathDict;
 	NSDictionary *typeDict;
@@ -58,7 +58,7 @@
 
 @property (retain, readwrite) NSMutableArray *videoInfo;
 @property (retain, readwrite) NSMutableArray *audioInfo;
-@property (retain, readwrite) NSArray *subInfo;
+@property (retain, readwrite) NSMutableArray *subInfo;
 
 -(void) resetWithParameterManager:(ParameterManager*)pm;
 @end

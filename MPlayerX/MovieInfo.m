@@ -27,9 +27,10 @@
 @end
 
 
-#define kMITypeFloat	(1)
-#define kMITypeBool		(2)
-#define kMITypeSubArray	(3)
+#define kMITypeFloat		(1)
+#define kMITypeBool			(2)
+#define kMITypeSubArray		(3)
+#define kMITypeSubAppend	(4)
 
 @implementation MovieInfo
 
@@ -54,11 +55,13 @@
 																   kKVOPropertyKeyPathLength, kMPCLengthID,
 																   kKVOPropertyKeyPathSeekable, kMPCSeekableID,
 																   kKVOPropertyKeyPathSubInfo, kMPCSubInfosID,
+																   kKVOPropertyKeyPathSubInfo, kMPCSubInfoAppendID,
 																   nil];
 		typeDict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:kMITypeFloat], kMPCTimePos, 
 																[NSNumber numberWithInt:kMITypeFloat], kMPCLengthID,
 																[NSNumber numberWithInt:kMITypeBool], kMPCSeekableID,
 																[NSNumber numberWithInt:kMITypeSubArray], kMPCSubInfosID,
+																[NSNumber numberWithInt:kMITypeSubAppend], kMPCSubInfoAppendID,
 																nil];
 		demuxer = nil;
 		chapters = nil;
@@ -69,7 +72,7 @@
 		metaData = [[NSMutableDictionary alloc] init];
 		videoInfo = [[NSMutableArray alloc] init];
 		audioInfo = [[NSMutableArray alloc] init];
-		subInfo = nil;
+		subInfo = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
@@ -93,7 +96,9 @@
 
 -(void) resetWithParameterManager:(ParameterManager*)pm
 {
-	[playingInfo resetWithParameterManager:pm];
+	if (pm) {
+		[playingInfo resetWithParameterManager:pm];
+	}
 	[metaData removeAllObjects];
 	[videoInfo removeAllObjects];
 	[audioInfo removeAllObjects];
@@ -102,7 +107,10 @@
 	[self setDemuxer:nil];
 	[self setChapters:nil];
 	[self setLength:nil];
-	[self setSubInfo:nil];
+	
+	[self willChangeValueForKey:@"subInfo"];
+	[subInfo removeAllObjects];
+	[self didChangeValueForKey:@"subInfo"];
 }
 
 // 这个是LogAnalyzer的delegate方法，
@@ -112,7 +120,8 @@
 {
 	for (NSString *key in dict) {
 		NSString *keyPath = [keyPathDict objectForKey:key];
-
+		id obj;
+		
 		if (keyPath) {
 			//如果log里面能找到相应的key path
 			switch ([[typeDict objectForKey:key] intValue]) {
@@ -123,7 +132,17 @@
 					[self setValue:[NSNumber numberWithBool:[[dict objectForKey:key] boolValue]] forKeyPath:keyPath];
 					break;
 				case kMITypeSubArray:
-					[self setValue:[[dict objectForKey:key] componentsSeparatedByString:@":"] forKeyPath:keyPath];
+					// 这里如果直接使用KVO的话，产生的时Insert的change，效率太低
+					// 因此手动发生KVO
+					[self willChangeValueForKey:@"subInfo"];
+					[subInfo setArray:[[dict objectForKey:key] componentsSeparatedByString:@":"]];
+					[self didChangeValueForKey:@"subInfo"];					
+					break;
+				case kMITypeSubAppend:
+					// 会发生insert的KVO change
+					obj = [[dict objectForKey:key] componentsSeparatedByString:@":"];
+					// NSLog(@"%@", obj);
+					[[self mutableArrayValueForKey:keyPath] addObject: [[obj objectAtIndex:0] lastPathComponent]];
 					break;
 
 				default:
