@@ -24,12 +24,12 @@
 
 -(id) initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
-	if (self = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO]) {
-        // Start with no transparency for all drawing into the window
-        [self setAlphaValue:1.0];
+	if (self = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:bufferingType defer:flag]) {
         // Turn off opacity so that the parts of the window that are not drawn into are transparent.
+		[self setMovableByWindowBackground:YES];
         [self setOpaque:NO];
 		[self setBackgroundColor:[NSColor clearColor]];
+		[self setHasShadow:YES];
     }
     return self;
 }
@@ -39,6 +39,9 @@
  Override this method so that controls in this window will be enabled.
  */
 - (BOOL)canBecomeKeyWindow
+{ return YES; }
+
+- (BOOL)canBecomeMainWindow
 { return YES; }
 
 
