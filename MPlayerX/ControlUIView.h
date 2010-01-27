@@ -114,6 +114,7 @@
 -(void) gotAudioDelay:(NSNumber*) ad;
 -(void) gotSubInfo:(NSArray*) subs;
 -(void) gotLastStoppedPlace:(float) tm;
+-(void) gotNewSubs:(NSArray*) newSubs;
 
 //////////////////////////////自动隐藏相关/////////////////////////////
 -(void) showUp;

@@ -44,6 +44,7 @@
 @interface ControlUIView (ControlUIViewInternal)
 - (void) windowHasResized:(NSNotification *)notification;
 -(void) calculateHintTime;
+-(void) resetSubMenu;
 @end
 
 
@@ -75,6 +76,9 @@
 		fillGradient = nil;
 		autoHideTimer = nil;
 		autoHideTimeInterval = 0;
+		timeFormatter = [[TimeFormatter alloc] init];
+		floatWrapFormatter = [[FloatWrapFormatter alloc] init];
+		subListMenu = [[NSMenu alloc] initWithTitle:@"SubListMenu"];
 	}
 	return self;
 }
@@ -143,7 +147,7 @@
 	volStep = [ud floatForKey:kUDKeyVolumeStep];
 
 	// 初始化时间显示slider和text
-	timeFormatter = [[TimeFormatter alloc] init];
+	
 	[[timeText cell] setFormatter:timeFormatter];
 	[timeText setStringValue:@""];
 	[timeSlider setEnabled:NO];
@@ -163,7 +167,6 @@
 	[fillScreenButton setAlternateImage:[fillScrnBtnModeImages objectAtIndex:1]];
 	[fillScreenButton setState: NSOffState];
 	
-	floatWrapFormatter = [[FloatWrapFormatter alloc] init];
 	[[speedText cell] setFormatter:floatWrapFormatter];
 	[[subDelayText cell] setFormatter:floatWrapFormatter];
 	[[audioDelayText cell] setFormatter:floatWrapFormatter];
@@ -172,9 +175,9 @@
 	[subDelayText setStepValue:[ud floatForKey:kUDKeySubDelayStepTime]];
 	[audioDelayText setStepValue:[ud floatForKey:kUDKeyAudioDelayStepTime]];
 
-	subListMenu = [[NSMenu alloc] initWithTitle:@"SubListMenu"];
 	[menuSwitchSub setSubmenu:subListMenu];
 	[subListMenu setAutoenablesItems:NO];
+	[self resetSubMenu];
 	
 	[menuSubScaleInc setTag:1];
 	[menuSubScaleDec setTag:-1];
@@ -553,17 +556,19 @@
 
 -(IBAction) setSubWithID:(id)sender
 {
-	[playerController setSubtitle:[sender tag]];
-	
-	for (NSMenuItem* mItem in [subListMenu itemArray]) {
-		[mItem setState:NSOffState];
-	}
-	[sender setState:NSOnState];
-
-	if ([osd isActive]) {
-		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDSubtitleHint, [sender title]]
-					  owner:kOSDOwnerOther
-				updateTimer:YES];
+	if (sender) {
+		[playerController setSubtitle:[sender tag]];
+		
+		for (NSMenuItem* mItem in [subListMenu itemArray]) {
+			[mItem setState:NSOffState];
+		}
+		[sender setState:NSOnState];
+		
+		if ([osd isActive]) {
+			[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDSubtitleHint, [sender title]]
+						  owner:kOSDOwnerOther
+					updateTimer:YES];
+		}		
 	}
 }
 
@@ -711,7 +716,6 @@
 	float time = [timePos floatValue];
 	double length = [timeSlider maxValue];
 
-	unsigned i = [NSEvent modifierFlags];
 	if ((length > 0) && 
 		((([NSEvent modifierFlags] == kSCMSwitchTimeHintKeyModifierMask)?YES:NO) == timeTextPrsOnRmn)) {
 		// 如果有时间的长度，并且按键和设定相符合的时候，显示remain时间
@@ -774,11 +778,60 @@
 	}
 }
 
--(void) gotSubInfo:(NSArray*) subs
+-(void) resetSubMenu
 {
 	[subListMenu removeAllItems];
 	
-	if (subs && (subs != (id)[NSNull null])) {
+	// 添加分割线
+	NSMenuItem *mItem = [NSMenuItem separatorItem];
+	[mItem setEnabled:NO];
+	[mItem setTag:-2];
+	[mItem setState:NSOffState];
+	[subListMenu addItem:mItem];
+	
+	// 添加 隐藏字幕的菜单选项
+	mItem = [[NSMenuItem alloc] init];
+	[mItem setEnabled:YES];
+	[mItem setTarget:self];
+	[mItem setAction:@selector(setSubWithID:)];
+	[mItem setTitle:kMPXStringDisable];
+	[mItem setTag:-1];
+	[mItem setState:NSOffState];
+	[subListMenu addItem:mItem];
+	[mItem autorelease];	
+}
+
+-(void) gotNewSubs:(NSArray*) newSubs
+{
+	if (newSubs && (newSubs != (id)[NSNull null]) && [newSubs count]) {
+		NSInteger idx = [subListMenu numberOfItems]-2;
+		NSMenuItem *mItem = nil;
+		
+		for(NSString *str in newSubs) {
+			mItem = [[NSMenuItem alloc] init];
+			[mItem setEnabled:YES];
+			[mItem setTarget:self];
+			[mItem setAction:@selector(setSubWithID:)];
+			[mItem setTitle:str];
+			[mItem setTag:idx];
+			[mItem setState:NSOffState];
+			[subListMenu insertItem:mItem atIndex:idx++];
+			[mItem autorelease];
+		}
+		
+		[self setSubWithID:mItem];
+		
+		[menuSwitchSub setEnabled:YES];
+		[menuSubScaleInc setEnabled:YES];
+		[menuSubScaleDec setEnabled:YES];		
+	}
+}
+
+-(void) gotSubInfo:(NSArray*) subs
+{
+	[self resetSubMenu];
+
+	if (subs && (subs != (id)[NSNull null]) && [subs count]) {
 		unsigned int idx = 0;
 		// 将所有的字幕名字加到菜单中
 		for(NSString *str in subs) {
@@ -787,28 +840,12 @@
 			[mItem setTarget:self];
 			[mItem setAction:@selector(setSubWithID:)];
 			[mItem setTitle:str];
-			[mItem setTag:idx++];
+			[mItem setTag:idx];
 			[mItem setState:NSOffState];
-			[subListMenu addItem:mItem];
+			[subListMenu insertItem:mItem atIndex:idx];
 			[mItem autorelease];
+			idx++;
 		}
-		// 添加分割线
-		NSMenuItem *mItem = [NSMenuItem separatorItem];
-		[mItem setEnabled:NO];
-		[mItem setTag:-2];
-		[mItem setState:NSOffState];
-		[subListMenu addItem:mItem];
-		
-		// 添加 隐藏字幕的菜单选项
-		mItem = [[NSMenuItem alloc] init];
-		[mItem setEnabled:YES];
-		[mItem setTarget:self];
-		[mItem setAction:@selector(setSubWithID:)];
-		[mItem setTitle:kMPXStringDisable];
-		[mItem setTag:-1];
-		[mItem setState:NSOffState];
-		[subListMenu addItem:mItem];
-		[mItem autorelease];
 		
 		// 选中第一项
 		[[subListMenu itemAtIndex:0] setState:NSOnState];
