@@ -29,12 +29,13 @@
 #define PrefToolBarItemIdVideo		(@"TBIVideo")
 #define PrefToolBarItemIdAudio		(@"TBIAudio")
 #define PrefToolBarItemIdSubtitle	(@"TBISubtitle")
-
+#define PrefToolbarItemIdNetwork	(@"TBINetwork")
 
 #define PrefTBILabelGeneral			(kMPXStringTBILabelGeneral)
 #define PrefTBILabelVideo			(kMPXStringTBILabelVideo)
 #define PrefTBILabelAudio			(kMPXStringTBILabelAudio)
 #define PrefTBILabelSubtitle		(kMPXStringTBILabelSubtitle)
+#define PrefTBILabelNetwork			(kMPXStringTBILabelNetwork)
 
 @implementation PrefController
 
@@ -64,7 +65,7 @@
 	if (!nibLoaded) {
 		[NSBundle loadNibNamed:@"Pref" owner:self];
 
-		prefViews = [[NSArray alloc] initWithObjects:viewGeneral, viewVideo, viewAudio, viewSub, nil];
+		prefViews = [[NSArray alloc] initWithObjects:viewGeneral, viewVideo, viewAudio, viewSub, viewNetwork, nil];
 		
 		NSToolbarItem *tbi = [[prefToolbar items] objectAtIndex:[ud integerForKey:kUDKeySelectedPrefView]];
 		
@@ -167,7 +168,8 @@
  */
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
-	return [NSArray arrayWithObjects:PrefToolBarItemIdGeneral, PrefToolBarItemIdVideo, PrefToolBarItemIdAudio, PrefToolBarItemIdSubtitle, nil];
+	return [NSArray arrayWithObjects:PrefToolBarItemIdGeneral, PrefToolBarItemIdVideo, PrefToolBarItemIdAudio,
+									PrefToolBarItemIdSubtitle, PrefToolbarItemIdNetwork, nil];
 }
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
@@ -180,6 +182,7 @@
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
 {
 	NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
+	NSInteger tag = 0;
 	
 	if ([itemIdentifier isEqualToString:PrefToolBarItemIdGeneral]) {
 		[item setLabel:PrefTBILabelGeneral];
@@ -187,7 +190,7 @@
 		[item setTarget:self];
 		[item setAction:@selector(switchViews:)];
 		[item setAutovalidates:NO];
-		[item setTag:0];
+		[item setTag:tag++];
 		
 	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdVideo]) {
 		[item setLabel:PrefTBILabelVideo];
@@ -195,7 +198,7 @@
 		[item setTarget:self];
 		[item setAction:@selector(switchViews:)];
 		[item setAutovalidates:NO];
-		[item setTag:1];
+		[item setTag:tag++];
 		
 	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdAudio]) {
 		[item setLabel:PrefTBILabelAudio];
@@ -203,14 +206,21 @@
 		[item setTarget:self];
 		[item setAction:@selector(switchViews:)];
 		[item setAutovalidates:NO];
-		[item setTag:2];		
+		[item setTag:tag++];		
 	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdSubtitle]) {
 		[item setLabel:PrefTBILabelSubtitle];
 		[item setImage:[NSImage imageNamed:NSImageNameFontPanel]];
 		[item setTarget:self];
 		[item setAction:@selector(switchViews:)];
 		[item setAutovalidates:NO];
-		[item setTag:3];
+		[item setTag:tag++];
+	} else if ([itemIdentifier isEqualToString:PrefToolbarItemIdNetwork]) {
+		[item setLabel:PrefTBILabelNetwork];
+		// !!!! [item setImage:[NSImage imageNamed:NSImageNameFontPanel]];
+		[item setTarget:self];
+		[item setAction:@selector(switchViews:)];
+		[item setAutovalidates:NO];
+		[item setTag:tag++];
 	} else {
 		[item release];
 		return nil;

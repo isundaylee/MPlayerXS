@@ -51,6 +51,7 @@
 @synthesize fastDecoding;
 @synthesize useEmbeddedFonts;
 @synthesize cache;
+@synthesize preferIPV6;
 
 #pragma mark Init/Dealloc
 -(id) init
@@ -91,6 +92,7 @@
 		fastDecoding = NO;
 		useEmbeddedFonts = NO;
 		cache = 1000;
+		preferIPV6 = NO;
 	}
 	return self;
 }
@@ -166,6 +168,12 @@
 	if (cache > 0) {
 		[paramArray addObject:@"-cache"];
 		[paramArray addObject:[NSString stringWithFormat:@"%d", cache]];
+	}
+	
+	if (preferIPV6) {
+		[paramArray addObject:@"-prefer-ipv6"];
+	} else {
+		[paramArray addObject:@"-prefer-ipv4"];
 	}
 	
 	[paramArray addObject:@"-osdlevel"];

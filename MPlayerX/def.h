@@ -57,6 +57,7 @@
 #define kUDKeyFastDecoding			(@"FastDecoding")
 #define kUDKeyUseEmbeddedFonts		(@"UseEmbeddedFonts")
 #define kUDKeyCacheSize				(@"CacheSize")
+#define kUDKeyPreferIPV6			(@"PreferIPV6")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")

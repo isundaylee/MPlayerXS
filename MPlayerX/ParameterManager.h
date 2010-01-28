@@ -61,6 +61,7 @@ typedef struct
 	BOOL fastDecoding;
 	BOOL useEmbeddedFonts;
 	unsigned int cache;
+	BOOL preferIPV6;
 }
 
 @property (assign, readwrite) SUBFILE_NAMERULE subNameRule;
@@ -82,6 +83,7 @@ typedef struct
 @property (assign, readwrite) BOOL fastDecoding;
 @property (assign, readwrite) BOOL useEmbeddedFonts;
 @property (assign, readwrite) unsigned int cache;
+@property (assign, readwrite) BOOL preferIPV6;
 
 // 这个接口是面向playingInfo
 -(float) subScaleInternal;

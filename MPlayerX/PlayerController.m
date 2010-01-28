@@ -74,6 +74,7 @@
 					   [NSNumber numberWithBool:NO], kUDKeyUseEmbeddedFonts,
 					   [NSNumber numberWithUnsignedInt:1000], kUDKeyCacheSize,
 					   [NSNumber numberWithBool:YES], kUDKeyCloseWindowWhenStopped,
+					   [NSNumber numberWithBool:YES], kUDKeyPreferIPV6,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
@@ -415,6 +416,7 @@
 		} else {
 			path = [url absoluteString];
 			[mplayer.pm setCache:[ud integerForKey:kUDKeyCacheSize]];
+			[mplayer.pm setPreferIPV6:[ud boolForKey:kUDKeyPreferIPV6]];
 		}
 
 		[mplayer playMedia:path];

@@ -29,6 +29,7 @@
 #define kMPXStringTBILabelVideo			(NSLocalizedString(@"Video", @"PrefToolBarLabel"))
 #define kMPXStringTBILabelAudio			(NSLocalizedString(@"Audio", @"PrefToolBarLabel"))
 #define kMPXStringTBILabelSubtitle		(NSLocalizedString(@"Subtitle", @"PrefToolBarLabel"))
+#define kMPXStringTBILabelNetwork		(NSLocalizedString(@"Network", @"PrefToolBarLabel"))
 
 #define kMPXStringDisable				(NSLocalizedString(@"Disable", nil))
 
