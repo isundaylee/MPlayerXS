@@ -191,6 +191,12 @@
 											   object:[self window]];
 	
 	[osd setActive:NO];
+	
+	// osd和ControlUI是同样的，保证osd在self下面
+	[osd retain];
+	[osd removeFromSuperviewWithoutNeedingDisplay];
+	[[self superview] addSubview:osd positioned:NSWindowBelow relativeTo:self];
+	[osd release];
 }
 
 -(void) dealloc
