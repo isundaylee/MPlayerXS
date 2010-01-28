@@ -23,7 +23,6 @@
 
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
-		8603368611104BBE005097CA /* PlayerWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 8603368511104BBE005097CA /* PlayerWindow.m */; };
 		86034C3210D13DBF001CB180 /* fold.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 86034C3010D13DBF001CB180 /* fold.pdf */; };
 		86034C3310D13DBF001CB180 /* unfold.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 86034C3110D13DBF001CB180 /* unfold.pdf */; };
 		8608652E10BA55CE00459392 /* DisplayLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8608652B10BA55CE00459392 /* DisplayLayer.m */; };
@@ -133,8 +132,6 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		8603368411104BBE005097CA /* PlayerWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerWindow.h; sourceTree = "<group>"; };
-		8603368511104BBE005097CA /* PlayerWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerWindow.m; sourceTree = "<group>"; };
 		86034C3010D13DBF001CB180 /* fold.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = fold.pdf; sourceTree = "<group>"; };
 		86034C3110D13DBF001CB180 /* unfold.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = unfold.pdf; sourceTree = "<group>"; };
 		8608645C10BA533400459392 /* binaries */ = {isa = PBXFileReference; lastKnownFileType = folder; name = binaries; path = ../binaries; sourceTree = SOURCE_ROOT; };
@@ -354,8 +351,6 @@
 		8608652910BA557700459392 /* Display */ = {
 			isa = PBXGroup;
 			children = (
-				8603368411104BBE005097CA /* PlayerWindow.h */,
-				8603368511104BBE005097CA /* PlayerWindow.m */,
 				8608652C10BA55CE00459392 /* RootLayerView.h */,
 				8608652D10BA55CE00459392 /* RootLayerView.m */,
 				8608652A10BA55CE00459392 /* DisplayLayer.h */,
@@ -645,7 +640,6 @@
 				86E34BBF10FF42A40004C4E7 /* CoreController.m in Sources */,
 				86E34BC210FF42B10004C4E7 /* PlayerController.m in Sources */,
 				86CA9E9E110094FE00A3CDBC /* OsdText.m in Sources */,
-				8603368611104BBE005097CA /* PlayerWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
