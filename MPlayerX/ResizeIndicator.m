@@ -39,7 +39,7 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-	[im drawAtPoint:NSMakePoint([self bounds].size.width - imRect.size.width, 0) fromRect:imRect operation:NSCompositeCopy fraction:1];
+	[im drawAtPoint:NSMakePoint([self bounds].size.width - imRect.size.width, 0) fromRect:imRect operation:NSCompositeSourceOver fraction:1];
 }
 
 @end
