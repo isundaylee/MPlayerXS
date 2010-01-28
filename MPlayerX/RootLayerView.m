@@ -51,11 +51,10 @@
 }
 
 #pragma mark Init/Dealloc
-- (id) initWithFrame:(NSRect)frameRect
+-(id) initWithCoder:(NSCoder *)aDecoder
 {
-	if (self = [super initWithFrame:frameRect]) {
-		// 成功创建self
-		trackingArea = [[NSTrackingArea alloc] initWithRect:NSInsetRect(frameRect, 1, 1) 
+	if (self = [super initWithCoder:aDecoder]) {
+		trackingArea = [[NSTrackingArea alloc] initWithRect:NSInsetRect([self frame], 1, 1) 
 													options:NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved | NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingAssumeInside
 													  owner:self
 												   userInfo:nil];
@@ -67,7 +66,7 @@
 							 [NSNumber numberWithInt:NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions,
 							 [NSNumber numberWithBool:NO], NSFullScreenModeAllScreens,
 							 nil];
-		ud = [NSUserDefaults standardUserDefaults];
+		ud = [NSUserDefaults standardUserDefaults];		
 	}
 	return self;
 }
@@ -91,12 +90,12 @@
 	[playerController setDelegateForMPlayer:self];
 	
 	// 默认的全屏的DisplayID
-	fullScrnDevID = [[[[NSScreen mainScreen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
+	fullScrnDevID = [[[[playerWindow screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 	
 	// 设定可以接受Drag Files
 	[self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType,nil]];
 	
-	[window setContentMinSize:NSMakeSize(400, 400)];
+	[playerWindow setContentMinSize:NSMakeSize(400, 400)];
 }
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)event 
@@ -128,12 +127,12 @@
 		case 0:
 			if (![self isInFullScreenMode]) {
 				// 全屏的时候不能移动屏幕
-				NSPoint winOrg = [window frame].origin;
+				NSPoint winOrg = [playerWindow frame].origin;
 				
 				winOrg.x += [event deltaX];
 				winOrg.y -= [event deltaY];
 				
-				[window setFrameOrigin:winOrg];
+				[playerWindow setFrameOrigin:winOrg];
 			}
 			break;
 		default:
@@ -184,80 +183,61 @@
 {
 	const DisplayFormat *pf = [dispLayer getDisplayFormat];
 	
-	// 如果现在是没有显示的状态，那么返回当前的content size
-	if (pf->width == 0) {
-		return [[window contentView] bounds].size;
+	NSSize screenContentSize = [playerWindow contentRectForFrameRect:[[playerWindow screen] visibleFrame]].size;
+	NSSize minSize = [playerWindow contentMinSize];
+	
+	if ((refSize.width < 0) || (refSize.height < 0)) {
+		// 非法尺寸
+		if (pf->width < 1) {
+			// 没有在播放
+			refSize = [[playerWindow contentView] bounds].size;
+		} else {
+			// 在播放就用影片尺寸
+			refSize.height = pf->height;
+			refSize.width = refSize.height * pf->aspect;
+		}
 	}
 	
-	// 在播放中，有合法的尺寸
-	NSSize sz;
-	if ((refSize.width > 0) && (refSize.height > 0)) {
-		// 如果refSize有效的话，那么就根据现在的Size算出合适的Size
-		if ((refSize.width * pf->height) > (refSize.height * pf->width)) {
+	refSize.width  = MAX(minSize.width, MIN(screenContentSize.width, refSize.width));
+	refSize.height = MAX(minSize.height, MIN(screenContentSize.height, refSize.height));
+	
+	if (pf->width > 0) {
+		if (refSize.width > (refSize.height * pf->aspect)) {
 			// 现在的movie是竖图
-			sz = NSMakeSize(refSize.height*pf->aspect, refSize.height);
+			refSize.width = refSize.height*pf->aspect;
 		} else {
-			sz = NSMakeSize(refSize.width, refSize.width/pf->aspect);
-		}
-
-	} else {
-		// 否则根据media的size算出合适的size
-		sz = NSMakeSize(pf->width, ((CGFloat)(pf->width))/(pf->aspect));
-	}
-
-	NSSize sizeMin = [window contentMinSize];
-	
-	if ((sz.height < sizeMin.height) && (sz.width < sizeMin.width)) {
-		// 现在的窗口最小原则是，不能全都小于最小值，有一个是可以的
-		if ((sizeMin.width * sz.height) < (sizeMin.height * sz.width)) {
-			// 横图
-			sz.height = sizeMin.width * sz.height / sz.width;
-			sz.width = sizeMin.width;
-		} else {
-			// 竖图
-			sz.width = sizeMin.height * sz.width / sz.height;
-			sz.height = sizeMin.height;
+			refSize.height = refSize.width/pf->aspect;
 		}
 	}
-	return sz;
+	return refSize;
 }
 
 -(void) magnifyWithEvent:(NSEvent *)event
 {
 	if (![self isInFullScreenMode]) {
 		// 得到能够放大的最大frame
-		NSRect rcLimit = [[window screen] visibleFrame];
+		NSRect rcLimit = [[playerWindow screen] visibleFrame];
 		// 得到现在的content的size，要保持比例
-		NSSize sz = [[window contentView] bounds].size;
-		// 得到window的最小size
-		NSSize szMin = [window minSize];
+		NSSize sz = [[playerWindow contentView] bounds].size;
 		
-		NSRect rcWin = [window frame];
-		// 得到图像的比例
-		// displayingがTRUEになったら、width, heightがOになるわけが無い
-		const DisplayFormat* fmt = [dispLayer getDisplayFormat];
+		NSRect rcWin = [playerWindow frame];
 		
 		// 得到需要缩放的content的size
 		rcWin.size.height = sz.height * ([event magnification] +1.0);
+		rcWin.size.width = sz.width * ([event magnification] +1.0);
 		
-		if (fmt->width == 0) {
-			// 如果不是在播放状态，那么就根据当前的比例进行缩放
-			rcWin.size.width = sz.width * ([event magnification] +1.0);
-		} else {
-			// 如果正在播放，那么根据影片的比例进行缩放
-			rcWin.size.width = rcWin.size.height * fmt->aspect;
-		}
-
+		rcWin.size = [self calculateContentSize:rcWin.size];
+		
 		// 保持中心不变反算出窗口的
 		rcWin.origin.x -= ((rcWin.size.width - sz.width)/2);
 		rcWin.origin.y -= ((rcWin.size.height-sz.height)/2);
 		
-		rcWin = [window frameRectForContentRect:rcWin];
+		rcWin = [playerWindow frameRectForContentRect:rcWin];
 		
-		if (((rcWin.size.width >= szMin.width) || (rcWin.size.height >= szMin.height)) &&
-			(rcWin.size.width < rcLimit.size.width) && (rcWin.size.height < rcLimit.size.height)) {
-			[window setFrame:rcWin display:YES];
+		if ((rcWin.origin.y + rcWin.size.height) > (rcLimit.origin.y + rcLimit.size.height)) {
+			rcWin.origin.y = rcLimit.origin.y + rcLimit.size.height - rcWin.size.height;
 		}
+		[playerWindow setFrame:rcWin display:YES];
 	}
 }
 
@@ -340,13 +320,13 @@
 		// 在退出全屏之前，这个view并不属于window，设定contentsize不起作用
 		if (shouldResize) {
 			shouldResize = NO;
-			NSSize sz = [self calculateContentSize:[[window contentView] bounds].size];
-			[window setContentSize:sz];
-			[window setContentAspectRatio:sz];			
+			NSSize sz = [self calculateContentSize:[[playerWindow contentView] bounds].size];
+			[playerWindow setContentSize:sz];
+			[playerWindow setContentAspectRatio:sz];			
 		}
 
-		[window makeKeyAndOrderFront:self];
-		[window makeFirstResponder:self];
+		[playerWindow makeKeyAndOrderFront:self];
+		[playerWindow makeFirstResponder:self];
 		
 		// 必须要在退出全屏之后才能设定window level
 		[self setPlayerWindowLevel];
@@ -354,9 +334,9 @@
 		// 应该进入全屏
 		// 只有在显示图像的时候才能进入全屏
 		// 进入全屏前，将window强制设定为普通mode，否则之后程序切换就无法正常
-		[window setLevel:NSNormalWindowLevel];
+		[playerWindow setLevel:NSNormalWindowLevel];
 		
-		NSScreen *chosenScreen = [window screen];
+		NSScreen *chosenScreen = [playerWindow screen];
 		
 		[self enterFullScreenMode:chosenScreen withOptions:fullScreenOptions];
 		
@@ -369,7 +349,7 @@
 		
 		[controlUI setFillScreenMode:((sz.height * (pf->aspect) >= sz.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
 							   state:([dispLayer fillScreen])?NSOnState:NSOffState];
-		[window orderOut:self];
+		[playerWindow orderOut:self];
 		// 这里不需要调用
 		// [self setPlayerWindowLevel];
 	} else {
@@ -396,9 +376,9 @@
 		if ((onTopMode == kOnTopModeAlways) || 
 			((onTopMode == kOnTopModePlaying) && (playerController.playerState == kMPCPlayingState))
 			) {
-			[window setLevel: NSTornOffMenuWindowLevel];
+			[playerWindow setLevel: NSTornOffMenuWindowLevel];
 		} else {
-			[window setLevel: NSNormalWindowLevel];
+			[playerWindow setLevel: NSNormalWindowLevel];
 		}
 	}
 }
@@ -467,10 +447,10 @@
 		// 如果没有在全屏
 		sz = [self calculateContentSize:NSMakeSize(-1, -1)];
 		
-		[window setContentSize:sz];
-		[window setContentAspectRatio:sz];
+		[playerWindow setContentSize:sz];
+		[playerWindow setContentAspectRatio:sz];
 	
-		[window makeKeyAndOrderFront:self];
+		[playerWindow makeKeyAndOrderFront:self];
 	}
 	
 	[controlUI displayStarted];
@@ -488,7 +468,7 @@
 	// 这个时候必须保证在推出全屏之后设为NO，因为切换全屏会参照现在displaying状态，NO的时候不动作
 	displaying = NO;
 	[controlUI displayStopped];
-	[window setContentResizeIncrements:NSMakeSize(1.0, 1.0)];
+	[playerWindow setContentResizeIncrements:NSMakeSize(1.0, 1.0)];
 }
 
 @end
