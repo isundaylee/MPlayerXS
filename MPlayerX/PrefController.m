@@ -182,7 +182,6 @@
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
 {
 	NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
-	NSInteger tag = 0;
 	
 	if ([itemIdentifier isEqualToString:PrefToolBarItemIdGeneral]) {
 		[item setLabel:PrefTBILabelGeneral];
@@ -190,7 +189,7 @@
 		[item setTarget:self];
 		[item setAction:@selector(switchViews:)];
 		[item setAutovalidates:NO];
-		[item setTag:tag++];
+		[item setTag:0];
 		
 	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdVideo]) {
 		[item setLabel:PrefTBILabelVideo];
@@ -198,7 +197,7 @@
 		[item setTarget:self];
 		[item setAction:@selector(switchViews:)];
 		[item setAutovalidates:NO];
-		[item setTag:tag++];
+		[item setTag:1];
 		
 	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdAudio]) {
 		[item setLabel:PrefTBILabelAudio];
@@ -206,21 +205,24 @@
 		[item setTarget:self];
 		[item setAction:@selector(switchViews:)];
 		[item setAutovalidates:NO];
-		[item setTag:tag++];		
+		[item setTag:2];
+		
 	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdSubtitle]) {
 		[item setLabel:PrefTBILabelSubtitle];
 		[item setImage:[NSImage imageNamed:NSImageNameFontPanel]];
 		[item setTarget:self];
 		[item setAction:@selector(switchViews:)];
 		[item setAutovalidates:NO];
-		[item setTag:tag++];
+		[item setTag:3];
+		
 	} else if ([itemIdentifier isEqualToString:PrefToolbarItemIdNetwork]) {
 		[item setLabel:PrefTBILabelNetwork];
-		// !!!! [item setImage:[NSImage imageNamed:NSImageNameFontPanel]];
+		[item setImage:[NSImage imageNamed:NSImageNameNetwork]];
 		[item setTarget:self];
 		[item setAction:@selector(switchViews:)];
 		[item setAutovalidates:NO];
-		[item setTag:tag++];
+		[item setTag:4];
+		
 	} else {
 		[item release];
 		return nil;
