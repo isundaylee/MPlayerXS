@@ -36,6 +36,7 @@
 @synthesize	subPos;
 @synthesize	subScale;
 @synthesize speed;
+@synthesize cachingPercent;
 
 -(id) init
 {
@@ -52,6 +53,7 @@
 		subPos = 100;
 		subScale = [[NSNumber alloc] initWithFloat:4];
 		speed = [[NSNumber alloc] initWithFloat:1.0];
+		cachingPercent = [[NSNumber alloc] initWithFloat:0];
 	}
 	return self;
 }
@@ -63,6 +65,7 @@
 	[subDelay release];
 	[speed release];
 	[subScale release];
+	[cachingPercent release];
 	
 	[super dealloc];
 }
@@ -84,5 +87,6 @@
 	[self setAudioDelay:[NSNumber numberWithFloat:0]];
 	[self setSubDelay:[NSNumber numberWithFloat:0]];
 	[self setSpeed:[NSNumber numberWithFloat:1]];
+	[self setCachingPercent:[NSNumber numberWithFloat:0]];
 }
 @end

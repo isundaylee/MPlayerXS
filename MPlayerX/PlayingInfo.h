@@ -37,6 +37,7 @@
 	float subPos;
 	NSNumber *subScale;
 	NSNumber *speed;
+	NSNumber *cachingPercent;
 }
 
 @property(assign, readwrite) unsigned char	currentChapter;
@@ -52,6 +53,7 @@
 @property(assign, readwrite) float subPos;
 @property(retain, readwrite) NSNumber * subScale;
 @property(retain, readwrite) NSNumber *speed;
+@property(retain, readwrite) NSNumber *cachingPercent;
 
 -(void) resetWithParameterManager:(ParameterManager*)pm;
 
