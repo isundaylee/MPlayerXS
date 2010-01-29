@@ -32,7 +32,6 @@
 	id<PlayerCoreDelegate> delegate;
 
 	NSTask *task;
-	NSTimer *pollingTimer;
 	NSArray *runningModes;
 }
 

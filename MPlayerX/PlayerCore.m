@@ -19,9 +19,6 @@
  */
 #import "PlayerCore.h"
 
-/** 默认的stdout，stderr的polling时间间隔*/
-#define POLLING_TIME	(0.5)
-
 #define kPlayerCoreTermNormal		(0)
 
 @implementation PlayerCore
@@ -34,7 +31,6 @@
 	if (self = [super init]) {
 		delegate = nil;
 		task = nil;
-		pollingTimer = nil;
 		runningModes = [[NSArray alloc] initWithObjects:NSDefaultRunLoopMode, NSModalPanelRunLoopMode, NSEventTrackingRunLoopMode, nil];
 	}
 	return self;
@@ -112,30 +108,14 @@
 													 name:NSTaskDidTerminateNotification
 												   object:task];
 		
-		pollingTimer = [[NSTimer timerWithTimeInterval:POLLING_TIME	
-												target:self
-											  selector:@selector(pollingOutputAndError)
-											  userInfo:nil
-											   repeats:YES] retain];
-
-		NSRunLoop *rl = [NSRunLoop currentRunLoop];
-		[rl addTimer:pollingTimer forMode:NSDefaultRunLoopMode];
-		[rl addTimer:pollingTimer forMode:NSModalPanelRunLoopMode];
-		[rl addTimer:pollingTimer forMode:NSEventTrackingRunLoopMode];
+		[[[task standardOutput] fileHandleForReading] readInBackgroundAndNotifyForModes:runningModes];
+		[[[task  standardError] fileHandleForReading] readInBackgroundAndNotifyForModes:runningModes];
 
 		// 运行task
 		[task launch];
 		return YES;
 	}
 	return NO;
-}
-
--(void) pollingOutputAndError
-{
-	if (task && [task isRunning]) {
-		[[[task standardOutput] fileHandleForReading] readInBackgroundAndNotifyForModes:runningModes];
-		[[[task  standardError] fileHandleForReading] readInBackgroundAndNotifyForModes:runningModes];
-	}
 }
 
 - (BOOL) sendStringCommand: (NSString *) cmd
@@ -157,6 +137,7 @@
 		if (([data length] != 0) && delegate) {
 			[delegate playerCore:self outputAvailable:data];
 		}
+		[[[task standardOutput] fileHandleForReading] readInBackgroundAndNotifyForModes:runningModes];
 	}
 }
 
@@ -168,6 +149,7 @@
 		if (([data length] != 0) && delegate) {
 			[delegate playerCore:self errorHappened:data];
 		}
+		[[[task  standardError] fileHandleForReading] readInBackgroundAndNotifyForModes:runningModes];
 	}
 }
 
@@ -175,11 +157,6 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-	// 在工作线程上建立的Timer，因此必须在工作线程上销毁
-	[pollingTimer invalidate];
-	[pollingTimer release];
-	pollingTimer = nil;
-	
 	// 得到返回状态，0是正常退出
 	// 这个时候task变量有可能变成nil
 	if (delegate) {
