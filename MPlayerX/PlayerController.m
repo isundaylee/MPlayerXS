@@ -75,6 +75,7 @@
 					   [NSNumber numberWithUnsignedInt:1000], kUDKeyCacheSize,
 					   [NSNumber numberWithBool:YES], kUDKeyCloseWindowWhenStopped,
 					   [NSNumber numberWithBool:YES], kUDKeyPreferIPV6,
+					   [NSNumber numberWithBool:YES], kUDKeyCachingLocal,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
@@ -402,19 +403,21 @@
 		[mplayer.pm setAc3Pass:[ud boolForKey:kUDKeyAC3PassThrough]];
 		[mplayer.pm setFastDecoding:[ud boolForKey:kUDKeyFastDecoding]];
 		[mplayer.pm setUseEmbeddedFonts:[ud boolForKey:kUDKeyUseEmbeddedFonts]];
-		
+
 		// 这里必须要retain，否则如果用lastPlayedPath作为参数传入的话会有问题
 		lastPlayedPathPre = [[url absoluteURL] retain];
 		
 		if ([url isFileURL]) {
 			path = [url path];
-			// 本地文件不做缓冲
-			[mplayer.pm setCache:0];
+
+			[mplayer.pm setCache:([ud boolForKey:kUDKeyCachingLocal])?([ud integerForKey:kUDKeyCacheSize]):(0)];
+			
 			// 将文件加入Recent Menu里，只能加入本地文件
 			[[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:url];
 
 		} else {
 			path = [url absoluteString];
+			
 			[mplayer.pm setCache:[ud integerForKey:kUDKeyCacheSize]];
 			[mplayer.pm setPreferIPV6:[ud boolForKey:kUDKeyPreferIPV6]];
 		}
