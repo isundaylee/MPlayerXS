@@ -51,10 +51,11 @@
 #define kMPCSubLoad				(@"sub_load")
 
 // 有ID结尾的是 只用来做属性字符串的
-#define kMPCLengthID		(@"LENGTH")
-#define kMPCSeekableID		(@"SEEKABLE")
-#define kMPCSubInfosID		(@"MPXSUBNAMES")
-#define kMPCSubInfoAppendID	(@"MPXSUBFILEADD")
+#define kMPCLengthID			(@"LENGTH")
+#define kMPCSeekableID			(@"SEEKABLE")
+#define kMPCSubInfosID			(@"MPXSUBNAMES")
+#define kMPCSubInfoAppendID		(@"MPXSUBFILEADD")
+#define kMPCCachingPercentID	(@"CACHING")
 
 /////////////////////////////////////////////////////////////////////
 
@@ -63,3 +64,4 @@
 #define kKVOPropertyKeyPathLength			(@"length")
 #define kKVOPropertyKeyPathSeekable			(@"seekable")
 #define kKVOPropertyKeyPathSubInfo			(@"subInfo")
+#define kKVOPropertyKeyPathCachingPercent	(@"playingInfo.cachingPercent")

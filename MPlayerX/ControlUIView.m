@@ -872,6 +872,20 @@
 	[menuPlayFromLastStoppedPlace setEnabled: YES];
 }
 
+-(void) gotCachingPercent:(NSNumber*) caching
+{
+	NSWindow *win = [self window];
+	
+	if ([osd isActive]) {
+		if (![win isVisible]) {
+			[win makeKeyAndOrderFront:self];
+		}
+		
+		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDCachingPercent, [caching floatValue]]
+					  owner:kOSDOwnerOther
+				updateTimer:YES];
+	}
+}
 ////////////////////////////////////////////////draw myself//////////////////////////////////////////////////
 - (void)drawRect:(NSRect)dirtyRect
 {

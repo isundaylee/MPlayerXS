@@ -56,12 +56,14 @@
 																   kKVOPropertyKeyPathSeekable, kMPCSeekableID,
 																   kKVOPropertyKeyPathSubInfo, kMPCSubInfosID,
 																   kKVOPropertyKeyPathSubInfo, kMPCSubInfoAppendID,
+																   kKVOPropertyKeyPathCachingPercent, kMPCCachingPercentID,
 																   nil];
 		typeDict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:kMITypeFloat], kMPCTimePos, 
 																[NSNumber numberWithInt:kMITypeFloat], kMPCLengthID,
 																[NSNumber numberWithInt:kMITypeBool], kMPCSeekableID,
 																[NSNumber numberWithInt:kMITypeSubArray], kMPCSubInfosID,
 																[NSNumber numberWithInt:kMITypeSubAppend], kMPCSubInfoAppendID,
+																[NSNumber numberWithInt:kMITypeFloat], kMPCCachingPercentID,
 																nil];
 		demuxer = nil;
 		chapters = nil;

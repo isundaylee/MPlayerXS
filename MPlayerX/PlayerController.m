@@ -33,6 +33,7 @@
 #define kObservedValueStringSubDelay		(@"movieInfo.playingInfo.subDelay")
 #define kObservedValueStringAudioDelay		(@"movieInfo.playingInfo.audioDelay")
 #define kObservedValueStringSubInfo			(@"movieInfo.subInfo")
+#define kObservedValueStringCachingPercent	(@"movieInfo.playingInfo.cachingPercent")
 
 #define kMPCDefaultSubFontPath				(@"wqy-microhei.ttc")
 
@@ -176,6 +177,11 @@
 			  forKeyPath:kObservedValueStringSubInfo
 				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
+	[mplayer addObserver:self
+			  forKeyPath:kObservedValueStringCachingPercent
+				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+				 context:NULL];
+
 
 	// 建立支持格式的Set
 	for( NSDictionary *dict in [mainBundle objectForInfoDictionaryKey:@"CFBundleDocumentTypes"]) {
@@ -247,6 +253,7 @@
 	[mplayer removeObserver:self forKeyPath:kObservedValueStringSubDelay];
 	[mplayer removeObserver:self forKeyPath:kObservedValueStringAudioDelay];
 	[mplayer removeObserver:self forKeyPath:kObservedValueStringSubInfo];
+	[mplayer removeObserver:self forKeyPath:kObservedValueStringCachingPercent];
 	
 	[mplayer release];
 	[lastPlayedPath release];
@@ -284,6 +291,10 @@
 		} else if ([keyPath isEqualToString:kObservedValueStringSeekable]) {
 			// 得到 能否跳跃
 			[controlUI gotSeekableState:[change objectForKey:NSKeyValueChangeNewKey]];
+			
+		} else if ([keyPath isEqualToString:kObservedValueStringCachingPercent]) {
+			// 得到目前的caching percent
+			[controlUI gotCachingPercent:[change objectForKey:NSKeyValueChangeNewKey]];
 			
 		} else if ([keyPath isEqualToString:kObservedValueStringSubInfo]) {
 			// 得到 字幕信息
