@@ -25,13 +25,7 @@
 -(id) initWithData:(NSData*)analyzeData whenFinishedTarget:(id) target selector:(SEL) selector
 {
 	if (self = [super init]) {
-		if (analyzeData) {
-			log = [analyzeData retain];
-			result = [[NSMutableDictionary alloc] initWithCapacity:1];
-			
-		} else {
-			log = nil;
-		}
+		log = [analyzeData retain];
 		tgt = target;
 		sel = selector;
 	}
@@ -41,7 +35,7 @@
 -(void) dealloc
 {
 	[log release];
-	[result release];
+
 	[super dealloc];
 }
 
@@ -77,7 +71,7 @@ const char* findNextReturnMark(const char *head, const char *end, const char **s
 
 - (void) main
 {
-	if (log) {
+	if (log && tgt && sel) {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		
 		const char *dataHead = [log bytes];
@@ -88,7 +82,7 @@ const char* findNextReturnMark(const char *head, const char *end, const char **s
 		NSString *var;
 		NSString *val;
 		
-		while (dataHead < dataEnd) {
+		while ((dataHead < dataEnd) && ([self isCancelled] == NO)) {
 			retMark = findNextReturnMark(dataHead, dataEnd, &splitMark);
 
 			if (retMark == NULL) { retMark = dataEnd -1; }
@@ -103,19 +97,15 @@ const char* findNextReturnMark(const char *head, const char *end, const char **s
 					var = [[NSString alloc] initWithBytes:validStart length:(splitMark-validStart) encoding:NSUTF8StringEncoding];
 					
 					if (val && var) {
-						[result setObject:val forKey:var];
+						[tgt performSelectorOnMainThread:sel
+											  withObject:[NSDictionary dictionaryWithObject:val forKey:var]
+										   waitUntilDone:NO];
 					}
 					[val release];
 					[var release];
 				}
-			} else {
-				
 			}
 			dataHead = retMark +1;		
-		}
-		if (([self isCancelled] == NO) && tgt && ([result count])) {
-			// NSLog(@"%@",result);
-			[tgt performSelector:sel withObject:result];
 		}
 		[pool release];
 	}

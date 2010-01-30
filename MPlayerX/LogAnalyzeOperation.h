@@ -24,7 +24,6 @@
 @interface LogAnalyzeOperation : NSOperation
 {
 	NSData *log;
-	NSMutableDictionary *result;
 
 	id tgt;
 	SEL sel;
