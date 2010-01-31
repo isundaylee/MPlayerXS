@@ -498,17 +498,19 @@
 -(IBAction) toggleAccessaryControls:(id)sender
 {
 	NSRect rcSelf = [self frame];
+	CGFloat delta = accessaryContainer.frame.size.height -10;
+	
 	if ([toggleAcceButton state] == NSOnState) {
-		rcSelf.size.height += accessaryContainer.frame.size.height;
-		rcSelf.origin.y -= MIN(rcSelf.origin.y, accessaryContainer.frame.size.height);
+		rcSelf.size.height += delta;
+		rcSelf.origin.y -= MIN(rcSelf.origin.y, delta);
 		
 		[self.animator setFrame:rcSelf];
 		[accessaryContainer.animator setHidden: NO];
 		
 	} else {
 		[accessaryContainer.animator setHidden: YES];
-		rcSelf.size.height -= accessaryContainer.frame.size.height;
-		rcSelf.origin.y += accessaryContainer.frame.size.height;
+		rcSelf.size.height -= delta;
+		rcSelf.origin.y += delta;
 		
 		[self.animator setFrame:rcSelf];
 	}
@@ -922,7 +924,7 @@
 		CGFloat wd = [hintTime bounds].size.width;
 		pt.x -= (wd/2);
 		pt.x = MIN(pt.x, [self bounds].size.width - wd);
-		pt.y = frm.origin.y + frm.size.height - 1;
+		pt.y = frm.origin.y + frm.size.height - 4;
 		
 		[hintTime setFrameOrigin:pt];
 		
