@@ -254,18 +254,17 @@
 		NSString *subStr;
 		NSArray *subsArray;
 		
+		if ([pm vobSub] == nil) {
+			// 如果用户没有自己设置vobsub的话，这个变量会在每次播放完之后设为nil
+			// 如果用户有自己的vobsub，那么就不设置他而用用户的vobsub
+			[pm setVobSub:vobStr];
+		}
 		if ([subEncDict count]) {
 			// 如果有字幕文件
 			subsArray = [subConv convertTextSubsAndEncodings:subEncDict];
 			
 			if (subsArray && ([subsArray count] > 0)) {
-				
 				[pm setTextSubs:subsArray];
-				if ([pm vobSub] == nil) {
-					// 如果用户没有自己设置vobsub的话，这个变量会在每次播放完之后设为nil
-					// 如果用户有自己的vobsub，那么就不设置他而用用户的vobsub
-					[pm setVobSub:vobStr];
-				}
 			} else {
 				subStr = [[subEncDict allValues] objectAtIndex:0];
 				if (![subStr isEqualToString:@""]) {
