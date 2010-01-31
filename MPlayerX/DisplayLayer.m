@@ -47,9 +47,10 @@
 		fmt.height = 0;
 		fmt.imageSize = 0;
 		fmt.pixelFormat = 0;
-		fmt.aspect = 0;
+		fmt.aspect = kDisplayAscpectRatioInvalid;
 		
 		fillScreen = NO;
+		externalAspectRatio = kDisplayAscpectRatioInvalid;
 	}
 	return self;
 }
@@ -67,7 +68,11 @@
 	SAFERELEASEOPENGLBUFFER(bufRef);
 	
 	SAFEFREE(bufRaw);
+
 	memset(&fmt, 0, sizeof(fmt));
+	fmt.aspect = kDisplayAscpectRatioInvalid;
+	// TODO 这里需不需要重置需要考虑
+	externalAspectRatio = kDisplayAscpectRatioInvalid;
 }
 
 -(BOOL) buildOpenGLEnvironment
@@ -107,17 +112,32 @@
 	return NO;
 }
 
--(const DisplayFormat*) getDisplayFormat
-{
-	return (&fmt);
-}
-
 -(CIImage*) snapshot
 {
 	if (bufRef) {
 		return [CIImage imageWithCVImageBuffer:bufRef];
 	}
 	return nil;
+}
+
+-(NSSize) displaySize
+{
+	return NSMakeSize(fmt.width, fmt.height);
+}
+
+-(CGFloat) aspectRatio
+{
+	if (externalAspectRatio > 0) {
+		return externalAspectRatio;
+	} else if (fmt.aspect > 0) {
+		return fmt.aspect;
+	}
+	return kDisplayAscpectRatioInvalid;
+}
+
+-(void) setExternalAspectRatio:(CGFloat)ar
+{
+	externalAspectRatio = (ar>0)?(ar):(kDisplayAscpectRatioInvalid);
 }
 
 -(int) startWithWidth:(int) width height:(int) height pixelFormat:(OSType) pixelFormat aspect:(int)aspect

@@ -181,32 +181,33 @@
 
 -(NSSize) calculateContentSize:(NSSize)refSize
 {
-	const DisplayFormat *pf = [dispLayer getDisplayFormat];
+	NSSize dispSize = [dispLayer displaySize];
+	CGFloat aspectRatio = [dispLayer aspectRatio];
 	
 	NSSize screenContentSize = [playerWindow contentRectForFrameRect:[[playerWindow screen] visibleFrame]].size;
 	NSSize minSize = [playerWindow contentMinSize];
 	
 	if ((refSize.width < 0) || (refSize.height < 0)) {
 		// 非法尺寸
-		if (pf->width < 1) {
+		if (aspectRatio <= 0) {
 			// 没有在播放
 			refSize = [[playerWindow contentView] bounds].size;
 		} else {
 			// 在播放就用影片尺寸
-			refSize.height = pf->height;
-			refSize.width = refSize.height * pf->aspect;
+			refSize.height = dispSize.height;
+			refSize.width = refSize.height * aspectRatio;
 		}
 	}
 	
 	refSize.width  = MAX(minSize.width, MIN(screenContentSize.width, refSize.width));
 	refSize.height = MAX(minSize.height, MIN(screenContentSize.height, refSize.height));
 	
-	if (pf->width > 0) {
-		if (refSize.width > (refSize.height * pf->aspect)) {
+	if (aspectRatio > 0) {
+		if (refSize.width > (refSize.height * aspectRatio)) {
 			// 现在的movie是竖图
-			refSize.width = refSize.height*pf->aspect;
+			refSize.width = refSize.height*aspectRatio;
 		} else {
-			refSize.height = refSize.width/pf->aspect;
+			refSize.height = refSize.width/aspectRatio;
 		}
 	}
 	return refSize;
@@ -345,9 +346,10 @@
 		// 得到screen的分辨率，并和播放中的图像进行比较
 		// 知道是横图还是竖图
 		NSSize sz = [chosenScreen frame].size;
-		const DisplayFormat *pf = [dispLayer getDisplayFormat];
+
+		CGFloat aspectRatio = [dispLayer aspectRatio];
 		
-		[controlUI setFillScreenMode:((sz.height * (pf->aspect) >= sz.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
+		[controlUI setFillScreenMode:(((sz.height * aspectRatio) >= sz.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
 							   state:([dispLayer fillScreen])?NSOnState:NSOffState];
 		[playerWindow orderOut:self];
 		// 这里不需要调用
@@ -440,8 +442,9 @@
 		// 如果是全屏开始的，那么还需要设定ControlUI的FillScreen状态
 		// 全屏的时候，view的size和screen的size是一样的
 		sz = [self bounds].size;
-		const DisplayFormat *pf = [dispLayer getDisplayFormat];
-		[controlUI setFillScreenMode:((sz.height * (pf->aspect) >= sz.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
+		
+		CGFloat aspectRatio = [dispLayer aspectRatio];
+		[controlUI setFillScreenMode:(((sz.height * aspectRatio) >= sz.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
 							   state:([dispLayer fillScreen])?NSOnState:NSOffState];
 	} else {
 		// 如果没有在全屏

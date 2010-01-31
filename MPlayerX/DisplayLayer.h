@@ -22,6 +22,9 @@
 #import <Quartz/Quartz.h>
 #import <OpenGL/gl.h> 
 
+// 这个值必须小于0，内部实际上会用0做比较
+#define kDisplayAscpectRatioInvalid		(-1)
+
 typedef struct {
 	size_t width;
 	size_t height;
@@ -31,7 +34,7 @@ typedef struct {
 }DisplayFormat;
 
 @interface DisplayLayer : CAOpenGLLayer
-{	
+{
 	void *bufRaw;
 	CVOpenGLBufferRef bufRef;
 	CVOpenGLTextureCacheRef cache;
@@ -39,11 +42,14 @@ typedef struct {
 	CGLContextObj _context;
 	DisplayFormat fmt;
 	BOOL fillScreen;
+	CGFloat externalAspectRatio;
 }
 
 @property (readwrite, assign) BOOL fillScreen;
 
--(const DisplayFormat*) getDisplayFormat;
+-(NSSize) displaySize;
+-(CGFloat) aspectRatio;
+-(void) setExternalAspectRatio:(CGFloat)ar;
 
 -(int) startWithWidth:(int)width height:(int)height pixelFormat:(OSType)pixelFormat aspect:(int)aspect;
 -(void) draw:(void*)imageData;
