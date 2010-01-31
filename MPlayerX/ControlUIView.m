@@ -877,13 +877,14 @@
 -(void) gotCachingPercent:(NSNumber*) caching
 {
 	NSWindow *win = [self window];
+	float percent = [caching floatValue];
 	
-	if ([osd isActive]) {
+	if ([osd isActive] && (percent > 0.01)) {
 		if (![win isVisible]) {
 			[win makeKeyAndOrderFront:self];
 		}
 		
-		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDCachingPercent, [caching floatValue]*100]
+		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDCachingPercent, percent*100]
 					  owner:kOSDOwnerOther
 				updateTimer:YES];
 	}
