@@ -881,7 +881,7 @@
 			[win makeKeyAndOrderFront:self];
 		}
 		
-		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDCachingPercent, [caching floatValue]]
+		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDCachingPercent, [caching floatValue]*100]
 					  owner:kOSDOwnerOther
 				updateTimer:YES];
 	}
