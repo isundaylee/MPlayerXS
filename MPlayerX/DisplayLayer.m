@@ -244,29 +244,30 @@
 			CGFloat x, y;
 			CGSize sz = [self bounds].size;
 			CGFloat dAspect = (sz.width)/(sz.height);
-
+			CGFloat sAspect = [self aspectRatio];
+			
 			glEnable(CVOpenGLTextureGetTarget(tex));
 			glBindTexture(CVOpenGLTextureGetTarget(tex), CVOpenGLTextureGetName(tex));
 			
 			glBegin(GL_QUADS);
 
-			if (fmt.aspect > dAspect) {
+			if (sAspect > dAspect) {
 				if (fillScreen) {
-					x = fmt.aspect/dAspect;
+					x = sAspect/dAspect;
 					y = 1;
 				}
 				else {
 					x = 1;
-					y = dAspect/fmt.aspect;
+					y = dAspect/sAspect;
 				}
 			}
 			else {
 				if (fillScreen) {
 					x = 1;
-					y = dAspect/fmt.aspect;
+					y = dAspect/sAspect;
 				}
 				else {
-					x = fmt.aspect/dAspect;
+					x = sAspect/dAspect;
 					y = 1;
 				}
 			}
@@ -282,7 +283,6 @@
 			CVOpenGLTextureRelease(tex);			
 		}
 	}
-	
 	glFlush();
 	CGLUnlockContext(glContext);
 }
