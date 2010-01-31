@@ -51,7 +51,7 @@
 
 -(void) analyzeData:(NSData*) data
 {
-	if (([data length] != 0) && delegate) {
+	if (data && ([data length] != 0) && delegate) {
 		// 如果没有delegate，那么什么都不做
 		// 因此这个类必须要有delegate才能正常工作
 		LogAnalyzeOperation *op = [[LogAnalyzeOperation alloc] initWithData:data 
