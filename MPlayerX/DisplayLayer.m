@@ -51,6 +51,19 @@
 		
 		fillScreen = NO;
 		externalAspectRatio = kDisplayAscpectRatioInvalid;
+		
+		[self setMasksToBounds:YES];
+		[self setAutoresizingMask:kCALayerWidthSizable|kCALayerHeightSizable];
+
+		CALayer *maskLayer = [CALayer layer];
+		
+		[maskLayer setDelegate:self];
+		CGColorRef col = CGColorCreateGenericGray(0.0, 1.0);
+		[maskLayer setBackgroundColor:col];
+		CGColorRelease(col);
+		[maskLayer setAutoresizingMask:kCALayerWidthSizable|kCALayerHeightSizable];
+
+		[self setMask:maskLayer];
 	}
 	return self;
 }
@@ -58,8 +71,24 @@
 - (void)dealloc
 {
 	[self freeLocalBuffer];
-
+	
 	[super dealloc];
+}
+
+-(void) setupWithSuperLayer:(CALayer*)root
+{
+	[self setBounds:[root bounds]];
+	[self setPosition:CGPointMake(root.bounds.size.width/2, root.bounds.size.height/2)];
+	
+	CALayer *maskLayer = [self mask];
+
+	[maskLayer setBounds:[root bounds]];
+	[maskLayer setPosition:CGPointMake(root.bounds.size.width/2, root.bounds.size.height/2)];	
+}
+
+-(id<CAAction>) actionForLayer:(CALayer *)layer forKey:(NSString *)event
+{
+	return ((id<CAAction>)[NSNull null]);
 }
 
 -(void) freeLocalBuffer
@@ -272,6 +301,7 @@
 				}
 			}
 			
+			
 			glTexCoord2f(		 0,			 0);	glVertex2f(-x,	 y);
 			glTexCoord2f(		 0, fmt.height);	glVertex2f(-x,	-y);
 			glTexCoord2f(fmt.width, fmt.height);	glVertex2f( x,	-y);
@@ -280,7 +310,9 @@
 			glEnd();
 			
 			glDisable(CVOpenGLTextureGetTarget(tex));
-			CVOpenGLTextureRelease(tex);			
+			CVOpenGLTextureRelease(tex);
+
+			[[self mask] setBounds:CGRectMake(0.0, 0.0, sz.width*x, sz.height*y)];
 		}
 	}
 	glFlush();

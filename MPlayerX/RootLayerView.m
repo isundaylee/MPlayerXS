@@ -25,6 +25,7 @@
 #import "ControlUIView.h"
 #import "PlayerController.h"
 #import "ShortCutManager.h"
+#import "OsdText.h"
 
 #define kOnTopModeNormal		(0)
 #define kOnTopModeAlways		(1)
@@ -82,10 +83,28 @@
 
 -(void) awakeFromNib
 {
+	[osd retain];
+	[osd removeFromSuperviewWithoutNeedingDisplay];
+	[self addSubview:osd positioned:NSWindowBelow relativeTo:controlUI];
+	[osd release];
+
 	// 设定LayerHost，现在只Host一个Layer
 	[self setWantsLayer:YES];
-	[self setLayer:dispLayer];
 	
+	CALayer *root = [self layer];
+	
+	[root setDelegate:self];
+
+	CGColorRef col =  CGColorCreateGenericGray(1.0, 1.0);
+	[root setBackgroundColor:col];
+	CGColorRelease(col);
+	
+	[root setAutoresizingMask:kCALayerWidthSizable|kCALayerHeightSizable];
+
+	[root insertSublayer:dispLayer atIndex:0];
+
+	[dispLayer setupWithSuperLayer:root];
+
 	// 通知dispView接受mplayer的渲染通知
 	[playerController setDelegateForMPlayer:self];
 	
@@ -96,6 +115,11 @@
 	[self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType,nil]];
 	
 	[playerWindow setContentMinSize:NSMakeSize(400, 400)];
+}
+
+-(id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event
+{
+	return ((id<CAAction>)[NSNull null]);
 }
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)event 

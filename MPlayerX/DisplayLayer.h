@@ -51,6 +51,8 @@ typedef struct {
 -(CGFloat) aspectRatio;
 -(void) setExternalAspectRatio:(CGFloat)ar;
 
+-(void) setupWithSuperLayer:(CALayer*)root;
+ 
 -(int) startWithWidth:(int)width height:(int)height pixelFormat:(OSType)pixelFormat aspect:(int)aspect;
 -(void) draw:(void*)imageData;
 -(void) stop;
