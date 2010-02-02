@@ -88,3 +88,8 @@
 
 #define kSCMDragSubPosModifierFlagMask			(NSCommandKeyMask)
 #define kSCMDragAudioBalanceModifierFlagMask	(NSAlternateKeyMask)
+
+#define kSCMToggleLockAspectRatioKeyEquivalent		(@"r")
+
+#define kSCMResetLockAspectRatioKeyEquivalent		(@"r")
+#define kSCMResetLockAspectRatioKeyEquivalentModifierFlagMask		(NSShiftKeyMask)

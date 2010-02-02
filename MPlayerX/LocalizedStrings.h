@@ -46,3 +46,6 @@
 #define kMPXStringOSDAudioDelayHint		(NSLocalizedString(@"Audio Delay: %.1f s", @"OSD hint"))
 #define kMPXStringOSDCachingPercent		(NSLocalizedString(@"Caching: %4.2f%%", @"OSD hint"))
 
+#define kMPXStringMenuUnlockAspectRatio		(NSLocalizedString(@"Unlock AspectRatio", @"menu"))
+#define kMPXStringMenuLockAspectRatio		(NSLocalizedString(@"Lock AspectRatio", @"menu"))
+
