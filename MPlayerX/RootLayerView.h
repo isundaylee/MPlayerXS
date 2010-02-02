@@ -36,6 +36,8 @@
 	NSDictionary *fullScreenOptions;
 	CGDirectDisplayID fullScrnDevID;
 	
+	BOOL lockAspectRatio;
+	
 	// 在切换全屏的时候，view的window会发生变化，因此这里用一个成员变量锁定window
 	IBOutlet NSWindow *playerWindow;
 	IBOutlet ControlUIView *controlUI;
@@ -45,7 +47,9 @@
 }
 
 @property (readonly) CGDirectDisplayID fullScrnDevID;
+@property (assign, readwrite) BOOL lockAspectRatio;
 
+-(void) resetAspectRatio;
 -(void) setPlayerWindowLevel;
 
 -(BOOL) toggleFullScreen;

@@ -40,6 +40,7 @@
 @implementation RootLayerView
 
 @synthesize fullScrnDevID;
+@synthesize lockAspectRatio;
 
 +(void) initialize
 {
@@ -67,13 +68,16 @@
 							 [NSNumber numberWithInt:NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions,
 							 [NSNumber numberWithBool:NO], NSFullScreenModeAllScreens,
 							 nil];
-		ud = [NSUserDefaults standardUserDefaults];		
+		ud = [NSUserDefaults standardUserDefaults];	
+		lockAspectRatio = YES;
 	}
 	return self;
 }
 
 -(void) dealloc
 {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[self removeTrackingArea:trackingArea];
 	[trackingArea release];
 	[fullScreenOptions release];
@@ -125,6 +129,12 @@
 	// 设定窗口的size
 	[playerWindow setContentMinSize:NSMakeSize(400, 400)];
 	[playerWindow setContentSize:NSMakeSize(400, 300)];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(windowHasResized:)
+												 name:NSWindowDidResizeNotification
+											   object:playerWindow];
+
 }
 
 -(id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event
@@ -212,6 +222,40 @@
 	if (![shortCutManager processKeyDown:theEvent]) {
 		// 如果shortcut manager不处理这个evetn的话，那么就按照默认的流程
 		[super keyDown:theEvent];
+	}
+}
+
+-(void) setLockAspectRatio:(BOOL) lock
+{
+	if (lock != lockAspectRatio) {
+		lockAspectRatio = lock;
+		
+		if (lockAspectRatio) {
+			// 如果锁定 aspect ratio的话，那么就按照现在的window的
+			NSSize sz = [self bounds].size;
+			
+			[playerWindow setContentAspectRatio:sz];
+			[dispLayer setExternalAspectRatio:(sz.width/sz.height)];
+		} else {
+			[playerWindow setContentResizeIncrements:NSMakeSize(1.0, 1.0)];
+		}
+	}
+}
+
+-(void) resetAspectRatio
+{
+	// 如果是全屏，playerWindow是否还拥有rootLayerView不知道
+	// 但是全屏的时候并不会立即调整窗口的大小，而是会等推出全屏的时候再调整
+	// 如果不是全屏，那么根据现在的size得到最合适的size
+	[self adjustWindowSizeAndAspectRatio:[NSValue valueWithSize:[[playerWindow contentView] bounds].size]];
+}
+
+-(void) windowHasResized:(NSNotification *)notification
+{
+	if (!lockAspectRatio) {
+		// 如果没有锁住aspect ratio
+		NSSize sz = [self bounds].size;
+		[dispLayer setExternalAspectRatio:(sz.width/sz.height)];
 	}
 }
 
@@ -372,9 +416,14 @@
 	} else if (displaying) {
 		// 应该进入全屏
 		// 只有在显示图像的时候才能进入全屏
+		
 		// 进入全屏前，将window强制设定为普通mode，否则之后程序切换就无法正常
 		[playerWindow setLevel:NSNormalWindowLevel];
 		
+		// 强制Lock Aspect Ratio
+		[self setLockAspectRatio:YES];
+
+		// 得到window目前所在的screen
 		NSScreen *chosenScreen = [playerWindow screen];
 		
 		[self enterFullScreenMode:chosenScreen withOptions:fullScreenOptions];
@@ -452,9 +501,11 @@
 					  pixelFormat:pixelFormat
 						   aspect:aspect] == 1) {
 		displaying = YES;
-		
-		[self performSelectorOnMainThread:@selector(adjustWindowSizeAndAspectRatio) withObject:nil waitUntilDone:YES];
 
+		[self performSelectorOnMainThread:@selector(adjustWindowSizeAndAspectRatio:) withObject:[NSValue valueWithSize:NSMakeSize(-1, -1)] waitUntilDone:YES];
+
+		[controlUI displayStarted];
+		
 		if ([ud boolForKey:kUDKeyStartByFullScreen] && (![self isInFullScreenMode])) {
 			[self performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
 													windowNumber:0 context:nil
@@ -467,9 +518,15 @@
 	return 0;
 }
 
--(void) adjustWindowSizeAndAspectRatio
+-(void) adjustWindowSizeAndAspectRatio:(NSValue*) sizeVal
 {
 	NSSize sz;
+
+	// 调用该函数会使DispLayer锁定并且窗口的比例也会锁定
+	// 因此在这里设定lock是安全的
+	lockAspectRatio = YES;
+	// 虽然如果是全屏的话，是无法调用设定窗口的代码，但是全屏的时候无法改变窗口的size
+	[dispLayer setExternalAspectRatio:kDisplayAscpectRatioInvalid];
 	
 	if ([self isInFullScreenMode]) {
 		// 如果正在全屏，那么将设定窗口size的工作放到退出全屏的时候进行
@@ -484,15 +541,13 @@
 							   state:([dispLayer fillScreen])?NSOnState:NSOffState];
 	} else {
 		// 如果没有在全屏
-		sz = [self calculateContentSize:NSMakeSize(-1, -1)];
+		sz = [self calculateContentSize:[sizeVal sizeValue]];
 		
 		[playerWindow setContentSize:sz];
 		[playerWindow setContentAspectRatio:sz];
 	
-		[playerWindow makeKeyAndOrderFront:self];
+		[playerWindow orderFront:self];
 	}
-	
-	[controlUI displayStarted];
 }
 
 -(void) draw:(void*)imageData from:(id)sender

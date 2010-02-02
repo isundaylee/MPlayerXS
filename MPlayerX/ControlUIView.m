@@ -119,6 +119,11 @@
 
 	[menuVolInc setKeyEquivalent:kSCMVolumeUpKeyEquivalent];
 	[menuVolDec setKeyEquivalent:kSCMVolumeDownKeyEquivalent];
+	
+	[menuToggleLockAspectRatio setKeyEquivalent:kSCMToggleLockAspectRatioKeyEquivalent];
+	
+	[menuResetLockAspectRatio setKeyEquivalent:kSCMResetLockAspectRatioKeyEquivalent];
+	[menuResetLockAspectRatio setKeyEquivalentModifierMask:kSCMResetLockAspectRatioKeyEquivalentModifierFlagMask];
 }
 
 - (void)awakeFromNib
@@ -191,6 +196,9 @@
 											   object:[self window]];
 	
 	[osd setActive:NO];
+	
+	[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
+	[menuResetLockAspectRatio setAlternate:YES];
 }
 
 -(void) dealloc
@@ -455,6 +463,9 @@
 			
 			// 进入全屏，强制隐藏resizeindicator
 			[rzIndicator.animator setAlphaValue:0];
+			
+			[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
+			[menuToggleLockAspectRatio setEnabled:NO];
 
 		} else {
 			// 退出全屏
@@ -468,11 +479,15 @@
 				// 如果controlUI没有隐藏，那么显示resizeindiccator
 				[rzIndicator.animator setAlphaValue:1];
 			}
+			
+			[menuToggleLockAspectRatio setEnabled:YES];
 		}
 	} else {
 		// 失败
 		[fullScreenButton setState: NSOffState];
 		[fillScreenButton setHidden: YES];
+
+		[menuToggleLockAspectRatio setEnabled:NO];
 	}
 
 	[hintTime.animator setAlphaValue:0];
@@ -619,6 +634,18 @@
 	}
 }
 
+-(IBAction) toggleLockAspectRatio:(id)sender
+{
+	[dispView setLockAspectRatio:(![dispView lockAspectRatio])];
+	[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
+}
+
+-(IBAction) resetAspectRatio:(id)sender
+{
+	[dispView resetAspectRatio];
+	[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
+}
+
 ////////////////////////////////////////////////FullscreenThings//////////////////////////////////////////////////
 -(void) setFillScreenMode:(NSString*)modeKey state:(NSInteger) state
 {
@@ -637,6 +664,8 @@
 	[fullScreenButton setHidden: NO];
 	
 	[menuSnapshot setEnabled:YES];
+	
+	[menuToggleLockAspectRatio setEnabled:YES];
 }
 
 -(void) displayStopped
@@ -644,6 +673,9 @@
 	[fullScreenButton setHidden: YES];
 
 	[menuSnapshot setEnabled:NO];
+	
+	[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
+	[menuToggleLockAspectRatio setEnabled:NO];
 }
 
 ////////////////////////////////////////////////playback//////////////////////////////////////////////////

@@ -74,6 +74,8 @@
 	IBOutlet NSMenuItem *menuSwitchAudio;
 	IBOutlet NSMenuItem *menuVolInc;
 	IBOutlet NSMenuItem *menuVolDec;
+	IBOutlet NSMenuItem *menuToggleLockAspectRatio;
+	IBOutlet NSMenuItem *menuResetLockAspectRatio;
 }
 
 @property (assign, readwrite) NSTimeInterval autoHideTimeInterval;
@@ -142,5 +144,8 @@
 -(IBAction) toggleTimeTextDispMode:(id)sender;
 -(IBAction) changeSubPosBy:(id)sender;
 -(IBAction) changeAudioBalanceBy:(id)sender;
+
+-(IBAction) toggleLockAspectRatio:(id)sender;
+-(IBAction) resetAspectRatio:(id)sender;
 
 @end
