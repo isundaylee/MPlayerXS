@@ -197,6 +197,7 @@
 	
 	[osd setActive:NO];
 	
+	[menuToggleLockAspectRatio setEnabled:NO];
 	[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
 	[menuResetLockAspectRatio setAlternate:YES];
 }
