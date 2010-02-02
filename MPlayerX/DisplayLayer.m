@@ -301,7 +301,7 @@
 			}
 
 			// mask的大小适中和 播放内容的大小一致
-			[[self mask] setBounds:CGRectMake(0.0, 0.0, sz.width*x, sz.height*y)];
+			[[self mask] setBounds:CGRectMake(0.0, 0.0, sz.width*x+0.5, sz.height*y+0.5)];
 			
 			glTexCoord2f(		 0,			 0);	glVertex2f(-x,	 y);
 			glTexCoord2f(		 0, fmt.height);	glVertex2f(-x,	-y);
