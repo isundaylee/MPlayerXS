@@ -204,8 +204,7 @@
 //////////////////////////////////////OpenGLLayer inherent/////////////////////////////////////
 -(BOOL) asynchronous
 {
-	// 这里设置成NO，则在收到setNeedsDisplay的时候才更新画面，否则不更新画面
-	return NO;
+	return YES;
 }
 
 - (BOOL)canDrawInCGLContext:(CGLContextObj)ctx
@@ -301,6 +300,9 @@
 				}
 			}
 
+			// mask的大小适中和 播放内容的大小一致
+			[[self mask] setBounds:CGRectMake(0.0, 0.0, sz.width*x, sz.height*y)];
+			
 			glTexCoord2f(		 0,			 0);	glVertex2f(-x,	 y);
 			glTexCoord2f(		 0, fmt.height);	glVertex2f(-x,	-y);
 			glTexCoord2f(fmt.width, fmt.height);	glVertex2f( x,	-y);
@@ -310,9 +312,6 @@
 			
 			glDisable(CVOpenGLTextureGetTarget(tex));
 			CVOpenGLTextureRelease(tex);
-
-			// mask的大小适中和 播放内容的大小一致
-			[[self mask] setBounds:CGRectMake(0.0, 0.0, sz.width*x, sz.height*y)];
 		}
 	}
 	glFlush();
