@@ -638,7 +638,15 @@
 -(IBAction) toggleLockAspectRatio:(id)sender
 {
 	[dispView setLockAspectRatio:(![dispView lockAspectRatio])];
-	[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
+
+	BOOL lock = [dispView lockAspectRatio];
+	[menuToggleLockAspectRatio setTitle:(lock)?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
+	
+	if ([osd isActive]) {
+		[osd setStringValue:(lock)?(kMPXStringOSDAspectRatioLocked):(kMPXStringOSDAspectRatioUnLocked)
+					  owner:kOSDOwnerOther
+				updateTimer:YES];
+	}
 }
 
 -(IBAction) resetAspectRatio:(id)sender
@@ -666,7 +674,10 @@
 	
 	[menuSnapshot setEnabled:YES];
 	
-	[menuToggleLockAspectRatio setEnabled:YES];
+	if (![dispView isInFullScreenMode]) {
+		[menuToggleLockAspectRatio setEnabled:YES];
+	}
+	[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
 }
 
 -(void) displayStopped
@@ -675,7 +686,6 @@
 
 	[menuSnapshot setEnabled:NO];
 	
-	[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
 	[menuToggleLockAspectRatio setEnabled:NO];
 }
 
