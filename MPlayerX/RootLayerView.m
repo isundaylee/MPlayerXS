@@ -74,6 +74,7 @@
 
 -(void) dealloc
 {
+	[self removeTrackingArea:trackingArea];
 	[trackingArea release];
 	[fullScreenOptions release];
 	[dispLayer release];
@@ -83,6 +84,8 @@
 
 -(void) awakeFromNib
 {
+	// 将osd放到ControlUI的下面，保证osd不会遮挡ControlUI
+	// warning 这段代码必须在setup layer之前运行，否则remove view会使得view被layer遮挡看不见
 	[osd retain];
 	[osd removeFromSuperviewWithoutNeedingDisplay];
 	[self addSubview:osd positioned:NSWindowBelow relativeTo:controlUI];
@@ -91,18 +94,23 @@
 	// 设定LayerHost，现在只Host一个Layer
 	[self setWantsLayer:YES];
 	
+	// 得到基本的rootLayer
 	CALayer *root = [self layer];
 	
+	// 设定delegate为self
 	[root setDelegate:self];
 
+	// 背景颜色
 	CGColorRef col =  CGColorCreateGenericGray(1.0, 1.0);
 	[root setBackgroundColor:col];
 	CGColorRelease(col);
 	
 	[root setAutoresizingMask:kCALayerWidthSizable|kCALayerHeightSizable];
 
+	// 默认添加dispLayer
 	[root insertSublayer:dispLayer atIndex:0];
 
+	// 通知DispLayer
 	[dispLayer setupWithSuperLayer:root];
 
 	// 通知dispView接受mplayer的渲染通知
@@ -114,11 +122,14 @@
 	// 设定可以接受Drag Files
 	[self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType,nil]];
 	
+	// 设定窗口的size
 	[playerWindow setContentMinSize:NSMakeSize(400, 400)];
+	[playerWindow setContentSize:NSMakeSize(400, 300)];
 }
 
 -(id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event
 {
+	// rootLayer的delegate方法，目前是禁用所有动画效果
 	return ((id<CAAction>)[NSNull null]);
 }
 
@@ -199,6 +210,7 @@
 -(void) keyDown:(NSEvent *)theEvent
 {
 	if (![shortCutManager processKeyDown:theEvent]) {
+		// 如果shortcut manager不处理这个evetn的话，那么就按照默认的流程
 		[super keyDown:theEvent];
 	}
 }
@@ -231,6 +243,7 @@
 			// 现在的movie是竖图
 			refSize.width = refSize.height*aspectRatio;
 		} else {
+			// 现在的movie是横图
 			refSize.height = refSize.width/aspectRatio;
 		}
 	}
@@ -258,8 +271,9 @@
 		rcWin.origin.y -= ((rcWin.size.height-sz.height)/2);
 		
 		rcWin = [playerWindow frameRectForContentRect:rcWin];
-		
+
 		if ((rcWin.origin.y + rcWin.size.height) > (rcLimit.origin.y + rcLimit.size.height)) {
+			// 如果y方向超出了屏幕范围
 			rcWin.origin.y = rcLimit.origin.y + rcLimit.size.height - rcWin.size.height;
 		}
 		[playerWindow setFrame:rcWin display:YES];
@@ -337,10 +351,10 @@
 {
 	// ！注意：这里的显示状态和mplayer的播放状态时不一样的，比如，mplayer在MP3的时候，播放状态为YES，显示状态为NO
 	if ([self isInFullScreenMode]) {
-		// 应该退出全屏
 		// 无论否在显示都可以退出全屏
 
 		[self exitFullScreenModeWithOptions:fullScreenOptions];
+		
 		// 必须砸退出全屏的时候再设定
 		// 在退出全屏之前，这个view并不属于window，设定contentsize不起作用
 		if (shouldResize) {
@@ -370,10 +384,8 @@
 		// 得到screen的分辨率，并和播放中的图像进行比较
 		// 知道是横图还是竖图
 		NSSize sz = [chosenScreen frame].size;
-
-		CGFloat aspectRatio = [dispLayer aspectRatio];
 		
-		[controlUI setFillScreenMode:(((sz.height * aspectRatio) >= sz.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
+		[controlUI setFillScreenMode:(((sz.height * [dispLayer aspectRatio]) >= sz.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
 							   state:([dispLayer fillScreen])?NSOnState:NSOffState];
 		[playerWindow orderOut:self];
 		// 这里不需要调用
