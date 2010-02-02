@@ -35,6 +35,7 @@
 
 @interface RootLayerView (RootLayerViewInternal)
 -(NSSize) calculateContentSize:(NSSize)refSize;
+-(void) adjustWindowSizeAndAspectRatio:(NSValue*) sizeVal;
 @end
 
 @implementation RootLayerView
