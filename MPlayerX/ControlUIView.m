@@ -653,6 +653,12 @@
 {
 	[dispView resetAspectRatio];
 	[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
+	
+	if ([osd isActive]) {
+		[osd setStringValue:kMPXStringOSDAspectRatioReset
+					  owner:kOSDOwnerOther
+				updateTimer:YES];
+	}
 }
 
 ////////////////////////////////////////////////FullscreenThings//////////////////////////////////////////////////

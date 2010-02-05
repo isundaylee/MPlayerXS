@@ -55,5 +55,5 @@
 -(IBAction) controlUIAppearanceChanged:(id)sender;
 -(IBAction) osdSetChanged:(id)sender;
 -(IBAction) checkCacheFormat:(id)sender;
-
+-(void) fullscreenModeChanged:(id)sender;
 @end

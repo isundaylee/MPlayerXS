@@ -13,6 +13,7 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="1"/>
+			<integer value="160"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -936,14 +937,36 @@ Z2dsZSBiZXR3ZWVuIGVsYXBzZWQvcmVtYWluaW5nIHRpbWU</string>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="668958637">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
+					<object class="NSButton" id="847863497">
+						<reference key="NSNextResponder" ref="668958637"/>
+						<int key="NSvFlags">268</int>
+						<string key="NSFrame">{{18, 205}, {328, 18}}</string>
+						<reference key="NSSuperview" ref="668958637"/>
+						<bool key="NSEnabled">YES</bool>
+						<object class="NSButtonCell" key="NSCell" id="771176966">
+							<int key="NSCellFlags">-2080244224</int>
+							<int key="NSCellFlags2">0</int>
+							<string key="NSContents">When fullscreen, only capture the current screen</string>
+							<reference key="NSSupport" ref="472449914"/>
+							<reference key="NSControlView" ref="847863497"/>
+							<int key="NSButtonFlags">1211912703</int>
+							<int key="NSButtonFlags2">2</int>
+							<reference key="NSNormalImage" ref="623270170"/>
+							<reference key="NSAlternateImage" ref="286647689"/>
+							<string key="NSAlternateContents"/>
+							<string key="NSKeyEquivalent"/>
+							<int key="NSPeriodicDelay">200</int>
+							<int key="NSPeriodicInterval">25</int>
+						</object>
+					</object>
 					<object class="NSTextField" id="25904246">
 						<reference key="NSNextResponder" ref="668958637"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{37, 229}, {385, 42}}</string>
+						<string key="NSFrame">{{37, 265}, {385, 42}}</string>
 						<reference key="NSSuperview" ref="668958637"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="791099456">
@@ -963,13 +986,13 @@ Z2dsZSBiZXR3ZWVuIGVsYXBzZWQvcmVtYWluaW5nIHRpbWU</string>
 					<object class="NSButton" id="656828627">
 						<reference key="NSNextResponder" ref="668958637"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{18, 204}, {194, 18}}</string>
+						<string key="NSFrame">{{18, 240}, {257, 18}}</string>
 						<reference key="NSSuperview" ref="668958637"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="13760252">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Enter fullscreen when start</string>
+							<string key="NSContents">Enter fullscreen when playback starts</string>
 							<reference key="NSSupport" ref="472449914"/>
 							<reference key="NSControlView" ref="656828627"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -1122,7 +1145,7 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 					<object class="NSButton" id="404347190">
 						<reference key="NSNextResponder" ref="668958637"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{18, 272}, {146, 18}}</string>
+						<string key="NSFrame">{{18, 308}, {146, 18}}</string>
 						<reference key="NSSuperview" ref="668958637"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="708405992">
@@ -1142,7 +1165,8 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 						</object>
 					</object>
 				</object>
-				<string key="NSFrameSize">{441, 308}</string>
+				<string key="NSFrameSize">{441, 344}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="656454476">
@@ -2480,6 +2504,30 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 					</object>
 					<int key="connectionID">278</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.FullScreenKeepOther</string>
+						<reference key="source" ref="847863497"/>
+						<reference key="destination" ref="659034198"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="847863497"/>
+							<reference key="NSDestination" ref="659034198"/>
+							<string key="NSLabel">value: values.FullScreenKeepOther</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.FullScreenKeepOther</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">283</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">fullscreenModeChanged:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="847863497"/>
+					</object>
+					<int key="connectionID">284</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -3087,6 +3135,7 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 							<reference ref="656828627"/>
 							<reference ref="25904246"/>
 							<reference ref="545846570"/>
+							<reference ref="847863497"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Video</string>
@@ -3454,6 +3503,20 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 						<reference key="object" ref="708618849"/>
 						<reference key="parent" ref="279354483"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">281</int>
+						<reference key="object" ref="847863497"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="771176966"/>
+						</object>
+						<reference key="parent" ref="668958637"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">282</int>
+						<reference key="object" ref="771176966"/>
+						<reference key="parent" ref="847863497"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -3581,6 +3644,8 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 					<string>277.IBPluginDependency</string>
 					<string>279.IBPluginDependency</string>
 					<string>280.IBPluginDependency</string>
+					<string>281.IBPluginDependency</string>
+					<string>282.IBPluginDependency</string>
 					<string>39.IBPluginDependency</string>
 					<string>4.IBEditorWindowLastContentRect</string>
 					<string>4.IBPluginDependency</string>
@@ -3662,7 +3727,7 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{108, 629}, {441, 308}}</string>
+					<string>{{161, 595}, {441, 344}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3734,6 +3799,8 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{412, 916}, {617, 0}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3779,7 +3846,7 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">280</int>
+			<int key="maxID">284</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3807,6 +3874,7 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 							<string>changeSubScale:</string>
 							<string>changeVolumeBy:</string>
 							<string>playFromLastStopped:</string>
+							<string>resetAspectRatio:</string>
 							<string>seekTo:</string>
 							<string>setSubWithID:</string>
 							<string>setVolume:</string>
@@ -3815,12 +3883,15 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 							<string>toggleAccessaryControls:</string>
 							<string>toggleFillScreen:</string>
 							<string>toggleFullScreen:</string>
+							<string>toggleLockAspectRatio:</string>
 							<string>toggleMute:</string>
 							<string>togglePlayPause:</string>
 							<string>toggleTimeTextDispMode:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3853,11 +3924,13 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 							<string>fullScreenButton</string>
 							<string>hintTime</string>
 							<string>menuPlayFromLastStoppedPlace</string>
+							<string>menuResetLockAspectRatio</string>
 							<string>menuSnapshot</string>
 							<string>menuSubScaleDec</string>
 							<string>menuSubScaleInc</string>
 							<string>menuSwitchAudio</string>
 							<string>menuSwitchSub</string>
+							<string>menuToggleLockAspectRatio</string>
 							<string>menuVolDec</string>
 							<string>menuVolInc</string>
 							<string>osd</string>
@@ -3880,6 +3953,8 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSTextField</string>
+							<string>NSMenuItem</string>
+							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
@@ -3973,6 +4048,7 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>checkCacheFormat:</string>
 							<string>controlUIAppearanceChanged:</string>
+							<string>fullscreenModeChanged:</string>
 							<string>hintTimeModeChanged:</string>
 							<string>multiThreadChanged:</string>
 							<string>onTopModeChanged:</string>
@@ -3983,6 +4059,7 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -4057,6 +4134,7 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>controlUI</string>
+							<string>osd</string>
 							<string>playerController</string>
 							<string>playerWindow</string>
 							<string>shortCutManager</string>
@@ -4064,6 +4142,7 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>ControlUIView</string>
+							<string>OsdText</string>
 							<string>PlayerController</string>
 							<string>NSWindow</string>
 							<string>ShortCutManager</string>

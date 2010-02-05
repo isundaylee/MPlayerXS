@@ -155,6 +155,11 @@
 	[ud setInteger:((unsigned int)cache) forKey:kUDKeyCacheSize];
 }
 
+-(void) fullscreenModeChanged:(id)sender
+{
+	[dispView refreshFullscreenMode];
+}
+
 /////////////////////////////Toolbar Delegate/////////////////////
 /*
  * 如何添加新的Pref View

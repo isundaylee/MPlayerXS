@@ -47,6 +47,7 @@
 #define kMPXStringOSDCachingPercent		(NSLocalizedString(@"Caching: %4.2f%%", @"OSD hint"))
 #define kMPXStringOSDAspectRatioLocked		(NSLocalizedString(@"Aspect Ratio: Locked", @"OSD hint"))
 #define kMPXStringOSDAspectRatioUnLocked	(NSLocalizedString(@"Aspect Ratio: Unlocked", @"OSD hint"))
+#define kMPXStringOSDAspectRatioReset		(NSLocalizedString(@"Aspect Ratio: Reset", @"OSD hint"))
 
 
 #define kMPXStringMenuUnlockAspectRatio		(NSLocalizedString(@"Unlock Aspect Ratio", @"menu"))

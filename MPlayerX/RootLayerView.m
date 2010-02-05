@@ -394,6 +394,15 @@
 	}
 }
 
+-(void) refreshFullscreenMode
+{
+	[fullScreenOptions release];
+	fullScreenOptions = [[NSDictionary alloc] initWithObjectsAndKeys:
+						 [NSNumber numberWithInt:NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions,
+						 [NSNumber numberWithBool:![ud boolForKey:kUDKeyFullScreenKeepOther]], NSFullScreenModeAllScreens,
+						 nil];	
+}
+
 -(BOOL) toggleFullScreen
 {
 	// ！注意：这里的显示状态和mplayer的播放状态时不一样的，比如，mplayer在MP3的时候，播放状态为YES，显示状态为NO
@@ -549,7 +558,7 @@
 		[playerWindow setContentSize:sz];
 		[playerWindow setContentAspectRatio:sz];
 	
-		[playerWindow orderFront:self];
+		[playerWindow makeKeyAndOrderFront:self];
 	}
 }
 
