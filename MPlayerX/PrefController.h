@@ -43,8 +43,6 @@
 	IBOutlet ControlUIView *controlUI;
 }
 
-@property (readonly) NSWindow *prefWin;
-
 -(IBAction) showUI:(id)sender;
 -(IBAction) switchViews:(id)sender;
 

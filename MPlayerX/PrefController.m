@@ -39,8 +39,6 @@
 
 @implementation PrefController
 
-@synthesize prefWin;
-
 +(void) initialize
 {
 	[[NSUserDefaults standardUserDefaults] registerDefaults:
