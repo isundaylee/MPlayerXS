@@ -36,6 +36,18 @@
 		8609C25C10C693D500B102CE /* MultiClickRemoteBehavior.m in Sources */ = {isa = PBXBuildFile; fileRef = 8609C25710C693D400B102CE /* MultiClickRemoteBehavior.m */; };
 		8609C25D10C693D500B102CE /* RemoteControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8609C25910C693D500B102CE /* RemoteControl.m */; };
 		8609C28110C6944A00B102CE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8609C28010C6944A00B102CE /* IOKit.framework */; };
+		860F6722111C562300190BCC /* VideoTuner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 860F6721111C562300190BCC /* VideoTuner.xib */; };
+		860F6727111C5A7D00190BCC /* VideoTunerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 860F6726111C5A7D00190BCC /* VideoTunerController.m */; };
+		860F6733111C6A7E00190BCC /* brightness-max.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860F6729111C6A7E00190BCC /* brightness-max.tiff */; };
+		860F6734111C6A7E00190BCC /* brightness-min.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860F672A111C6A7E00190BCC /* brightness-min.tiff */; };
+		860F6735111C6A7E00190BCC /* contrast-max.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860F672B111C6A7E00190BCC /* contrast-max.tiff */; };
+		860F6736111C6A7E00190BCC /* contrast-min.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860F672C111C6A7E00190BCC /* contrast-min.tiff */; };
+		860F6737111C6A7E00190BCC /* noisereduction-max.tif in Resources */ = {isa = PBXBuildFile; fileRef = 860F672D111C6A7E00190BCC /* noisereduction-max.tif */; };
+		860F6738111C6A7E00190BCC /* noisereduction-min.tif in Resources */ = {isa = PBXBuildFile; fileRef = 860F672E111C6A7E00190BCC /* noisereduction-min.tif */; };
+		860F6739111C6A7E00190BCC /* saturation-max.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860F672F111C6A7E00190BCC /* saturation-max.tiff */; };
+		860F673A111C6A7E00190BCC /* saturation-min.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860F6730111C6A7E00190BCC /* saturation-min.tiff */; };
+		860F673B111C6A7E00190BCC /* sharpen-max.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860F6731111C6A7E00190BCC /* sharpen-max.tiff */; };
+		860F673C111C6A7E00190BCC /* sharpen-min.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860F6732111C6A7E00190BCC /* sharpen-min.tiff */; };
 		861097F110F1C9A50085B3DF /* MPlayerX.icns in Resources */ = {isa = PBXBuildFile; fileRef = 861097F010F1C9A50085B3DF /* MPlayerX.icns */; };
 		8610F44B1100F329006A1447 /* toolbar_video.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8610F44A1100F329006A1447 /* toolbar_video.icns */; };
 		8610F4681100F539006A1447 /* toolbar_audio.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8610F4671100F539006A1447 /* toolbar_audio.icns */; };
@@ -154,6 +166,19 @@
 		8609C25810C693D400B102CE /* RemoteControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteControl.h; path = "../Apple Remote Control/RemoteControl.h"; sourceTree = SOURCE_ROOT; };
 		8609C25910C693D500B102CE /* RemoteControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemoteControl.m; path = "../Apple Remote Control/RemoteControl.m"; sourceTree = SOURCE_ROOT; };
 		8609C28010C6944A00B102CE /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		860F671F111C561B00190BCC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/VideoTuner.xib; sourceTree = "<group>"; };
+		860F6725111C5A7D00190BCC /* VideoTunerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoTunerController.h; sourceTree = "<group>"; };
+		860F6726111C5A7D00190BCC /* VideoTunerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoTunerController.m; sourceTree = "<group>"; };
+		860F6729111C6A7E00190BCC /* brightness-max.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "brightness-max.tiff"; sourceTree = "<group>"; };
+		860F672A111C6A7E00190BCC /* brightness-min.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "brightness-min.tiff"; sourceTree = "<group>"; };
+		860F672B111C6A7E00190BCC /* contrast-max.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "contrast-max.tiff"; sourceTree = "<group>"; };
+		860F672C111C6A7E00190BCC /* contrast-min.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "contrast-min.tiff"; sourceTree = "<group>"; };
+		860F672D111C6A7E00190BCC /* noisereduction-max.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "noisereduction-max.tif"; sourceTree = "<group>"; };
+		860F672E111C6A7E00190BCC /* noisereduction-min.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "noisereduction-min.tif"; sourceTree = "<group>"; };
+		860F672F111C6A7E00190BCC /* saturation-max.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "saturation-max.tiff"; sourceTree = "<group>"; };
+		860F6730111C6A7E00190BCC /* saturation-min.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "saturation-min.tiff"; sourceTree = "<group>"; };
+		860F6731111C6A7E00190BCC /* sharpen-max.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "sharpen-max.tiff"; sourceTree = "<group>"; };
+		860F6732111C6A7E00190BCC /* sharpen-min.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "sharpen-min.tiff"; sourceTree = "<group>"; };
 		861097EE10F1C98C0085B3DF /* MPlayerX-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MPlayerX-Info.plist"; sourceTree = SOURCE_ROOT; };
 		861097F010F1C9A50085B3DF /* MPlayerX.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = MPlayerX.icns; sourceTree = SOURCE_ROOT; };
 		861097F210F1C9E70085B3DF /* MPlayerX_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPlayerX_Prefix.pch; sourceTree = SOURCE_ROOT; };
@@ -330,6 +355,7 @@
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
 				8624A94610F8561400029251 /* Pref.xib */,
+				860F6721111C562300190BCC /* VideoTuner.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -388,9 +414,27 @@
 			name = "Remote Control";
 			sourceTree = "<group>";
 		};
+		860F6728111C6A6E00190BCC /* VideoTuner */ = {
+			isa = PBXGroup;
+			children = (
+				860F6729111C6A7E00190BCC /* brightness-max.tiff */,
+				860F672A111C6A7E00190BCC /* brightness-min.tiff */,
+				860F672B111C6A7E00190BCC /* contrast-max.tiff */,
+				860F672C111C6A7E00190BCC /* contrast-min.tiff */,
+				860F672D111C6A7E00190BCC /* noisereduction-max.tif */,
+				860F672E111C6A7E00190BCC /* noisereduction-min.tif */,
+				860F672F111C6A7E00190BCC /* saturation-max.tiff */,
+				860F6730111C6A7E00190BCC /* saturation-min.tiff */,
+				860F6731111C6A7E00190BCC /* sharpen-max.tiff */,
+				860F6732111C6A7E00190BCC /* sharpen-min.tiff */,
+			);
+			name = VideoTuner;
+			sourceTree = "<group>";
+		};
 		8629272810C155300077B63E /* buttons */ = {
 			isa = PBXGroup;
 			children = (
+				860F6728111C6A6E00190BCC /* VideoTuner */,
 				8610F4671100F539006A1447 /* toolbar_audio.icns */,
 				8610F44A1100F329006A1447 /* toolbar_video.icns */,
 				863B5A7910F2175C001111F6 /* enterfullscreen.pdf */,
@@ -431,6 +475,8 @@
 				865AB3FC10EC82A300065E2F /* PrefController.m */,
 				86B99D0010C9418600AB28FB /* OpenURLController.h */,
 				86B99D0110C9418600AB28FB /* OpenURLController.m */,
+				860F6725111C5A7D00190BCC /* VideoTunerController.h */,
+				860F6726111C5A7D00190BCC /* VideoTunerController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -585,6 +631,17 @@
 				8624A94710F8561400029251 /* Pref.xib in Resources */,
 				8610F44B1100F329006A1447 /* toolbar_video.icns in Resources */,
 				8610F4681100F539006A1447 /* toolbar_audio.icns in Resources */,
+				860F6722111C562300190BCC /* VideoTuner.xib in Resources */,
+				860F6733111C6A7E00190BCC /* brightness-max.tiff in Resources */,
+				860F6734111C6A7E00190BCC /* brightness-min.tiff in Resources */,
+				860F6735111C6A7E00190BCC /* contrast-max.tiff in Resources */,
+				860F6736111C6A7E00190BCC /* contrast-min.tiff in Resources */,
+				860F6737111C6A7E00190BCC /* noisereduction-max.tif in Resources */,
+				860F6738111C6A7E00190BCC /* noisereduction-min.tif in Resources */,
+				860F6739111C6A7E00190BCC /* saturation-max.tiff in Resources */,
+				860F673A111C6A7E00190BCC /* saturation-min.tiff in Resources */,
+				860F673B111C6A7E00190BCC /* sharpen-max.tiff in Resources */,
+				860F673C111C6A7E00190BCC /* sharpen-min.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -640,6 +697,7 @@
 				86E34BBF10FF42A40004C4E7 /* CoreController.m in Sources */,
 				86E34BC210FF42B10004C4E7 /* PlayerController.m in Sources */,
 				86CA9E9E110094FE00A3CDBC /* OsdText.m in Sources */,
+				860F6727111C5A7D00190BCC /* VideoTunerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -668,6 +726,14 @@
 				1DDD58150DA1D0A300B32029 /* English */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		860F6721111C562300190BCC /* VideoTuner.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				860F671F111C561B00190BCC /* English */,
+			);
+			name = VideoTuner.xib;
 			sourceTree = "<group>";
 		};
 		8624A94610F8561400029251 /* Pref.xib */ = {
