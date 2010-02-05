@@ -50,6 +50,7 @@
 					   [NSNumber numberWithInt:kOnTopModePlaying], kUDKeyOnTopMode,
 					   kSnapshotSaveDefaultPath, kUDKeySnapshotSavePath,
 					   [NSNumber numberWithBool:NO], kUDKeyStartByFullScreen,
+					   [NSNumber numberWithBool:NO], kUDKeyFullScreenKeepOther,
 					   nil]];
 }
 
@@ -57,6 +58,7 @@
 -(id) initWithCoder:(NSCoder *)aDecoder
 {
 	if (self = [super initWithCoder:aDecoder]) {
+		ud = [NSUserDefaults standardUserDefaults];	
 		trackingArea = [[NSTrackingArea alloc] initWithRect:NSInsetRect([self frame], 1, 1) 
 													options:NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved | NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingAssumeInside
 													  owner:self
@@ -67,9 +69,9 @@
 		displaying = NO;
 		fullScreenOptions = [[NSDictionary alloc] initWithObjectsAndKeys:
 							 [NSNumber numberWithInt:NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions,
-							 [NSNumber numberWithBool:NO], NSFullScreenModeAllScreens,
+							 [NSNumber numberWithBool:![ud boolForKey:kUDKeyFullScreenKeepOther]], NSFullScreenModeAllScreens,
 							 nil];
-		ud = [NSUserDefaults standardUserDefaults];	
+
 		lockAspectRatio = YES;
 	}
 	return self;

@@ -59,6 +59,7 @@
 #define kUDKeyCacheSize				(@"CacheSize")
 #define kUDKeyPreferIPV6			(@"PreferIPV6")
 #define kUDKeyCachingLocal			(@"CachingLocal")
+#define kUDKeyFullScreenKeepOther	(@"FullScreenKeepOther")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")
