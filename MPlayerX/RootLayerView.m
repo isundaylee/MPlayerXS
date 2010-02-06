@@ -26,6 +26,7 @@
 #import "PlayerController.h"
 #import "ShortCutManager.h"
 #import "OsdText.h"
+#import "VideoTunerController.h"
 
 #define kOnTopModeNormal		(0)
 #define kOnTopModeAlways		(1)
@@ -132,6 +133,8 @@
 	// 设定窗口的size
 	[playerWindow setContentMinSize:NSMakeSize(400, 400)];
 	[playerWindow setContentSize:NSMakeSize(400, 300)];
+	
+	[VTController setLayer:dispLayer];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(windowHasResized:)

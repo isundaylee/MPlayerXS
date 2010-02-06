@@ -21,7 +21,7 @@
 #import <Cocoa/Cocoa.h>
 #import "CoreController.h"
 
-@class ControlUIView, PlayerController, ShortCutManager, DisplayLayer, OsdText;
+@class ControlUIView, PlayerController, ShortCutManager, DisplayLayer, OsdText, VideoTunerController;
 
 @interface RootLayerView : NSView <CoreDisplayDelegate>
 {
@@ -44,6 +44,7 @@
 	IBOutlet PlayerController *playerController;
 	IBOutlet ShortCutManager *shortCutManager;
 	IBOutlet OsdText *osd;
+	IBOutlet VideoTunerController *VTController;
 }
 
 @property (readonly) CGDirectDisplayID fullScrnDevID;
