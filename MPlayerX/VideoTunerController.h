@@ -24,14 +24,28 @@
 {
 	BOOL nibLoaded;
 	
-	NSArray *filters;
+	CIFilter *colorFilter;
+	CIFilter *nrFilter;
+	CIFilter *gammaFilter;
+
 	CALayer *layer;
 	
 	IBOutlet NSWindow *VTWin;
+	IBOutlet NSSlider *sliderBrightness;
+	IBOutlet NSSlider *sliderSaturation;
+	IBOutlet NSSlider *sliderContrast;
+	IBOutlet NSSlider *sliderNR;
+	IBOutlet NSSlider *sliderSharpness;
+	IBOutlet NSSlider *sliderGamma;
+	
+	IBOutlet NSMenuItem *menuVTPanel;
 }
 
 -(void) setLayer:(CALayer*)l;
 
 -(IBAction) showUI:(id)sender;
 
+-(void) resetFilters:(id)sender;
+
+-(IBAction) setFilterParameters:(id)sender;
 @end

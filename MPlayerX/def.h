@@ -94,3 +94,6 @@
 
 #define kSCMResetLockAspectRatioKeyEquivalent		(@"r")
 #define kSCMResetLockAspectRatioKeyEquivalentModifierFlagMask		(NSShiftKeyMask)
+
+#define kSCMVideoTunerPanelKeyEquivalent	(@"v")
+#define kSCMVideoTunerPanelKeyEquivalentModifierFlagMask	(NSShiftKeyMask|NSCommandKeyMask)

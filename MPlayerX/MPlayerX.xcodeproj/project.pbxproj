@@ -36,6 +36,8 @@
 		8609C25C10C693D500B102CE /* MultiClickRemoteBehavior.m in Sources */ = {isa = PBXBuildFile; fileRef = 8609C25710C693D400B102CE /* MultiClickRemoteBehavior.m */; };
 		8609C25D10C693D500B102CE /* RemoteControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8609C25910C693D500B102CE /* RemoteControl.m */; };
 		8609C28110C6944A00B102CE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8609C28010C6944A00B102CE /* IOKit.framework */; };
+		860E72EA111E94800022F966 /* gamma-max.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860E72E8111E947F0022F966 /* gamma-max.tiff */; };
+		860E72EB111E94800022F966 /* gamma-min.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860E72E9111E94800022F966 /* gamma-min.tiff */; };
 		860F6722111C562300190BCC /* VideoTuner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 860F6721111C562300190BCC /* VideoTuner.xib */; };
 		860F6727111C5A7D00190BCC /* VideoTunerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 860F6726111C5A7D00190BCC /* VideoTunerController.m */; };
 		860F6733111C6A7E00190BCC /* brightness-max.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860F6729111C6A7E00190BCC /* brightness-max.tiff */; };
@@ -166,6 +168,8 @@
 		8609C25810C693D400B102CE /* RemoteControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteControl.h; path = "../Apple Remote Control/RemoteControl.h"; sourceTree = SOURCE_ROOT; };
 		8609C25910C693D500B102CE /* RemoteControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemoteControl.m; path = "../Apple Remote Control/RemoteControl.m"; sourceTree = SOURCE_ROOT; };
 		8609C28010C6944A00B102CE /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		860E72E8111E947F0022F966 /* gamma-max.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "gamma-max.tiff"; sourceTree = "<group>"; };
+		860E72E9111E94800022F966 /* gamma-min.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "gamma-min.tiff"; sourceTree = "<group>"; };
 		860F671F111C561B00190BCC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/VideoTuner.xib; sourceTree = "<group>"; };
 		860F6725111C5A7D00190BCC /* VideoTunerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoTunerController.h; sourceTree = "<group>"; };
 		860F6726111C5A7D00190BCC /* VideoTunerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoTunerController.m; sourceTree = "<group>"; };
@@ -417,6 +421,8 @@
 		860F6728111C6A6E00190BCC /* VideoTuner */ = {
 			isa = PBXGroup;
 			children = (
+				860E72E8111E947F0022F966 /* gamma-max.tiff */,
+				860E72E9111E94800022F966 /* gamma-min.tiff */,
 				860F6729111C6A7E00190BCC /* brightness-max.tiff */,
 				860F672A111C6A7E00190BCC /* brightness-min.tiff */,
 				860F672B111C6A7E00190BCC /* contrast-max.tiff */,
@@ -642,6 +648,8 @@
 				860F673A111C6A7E00190BCC /* saturation-min.tiff in Resources */,
 				860F673B111C6A7E00190BCC /* sharpen-max.tiff in Resources */,
 				860F673C111C6A7E00190BCC /* sharpen-min.tiff in Resources */,
+				860E72EA111E94800022F966 /* gamma-max.tiff in Resources */,
+				860E72EB111E94800022F966 /* gamma-min.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
