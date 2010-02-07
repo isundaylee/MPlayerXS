@@ -113,6 +113,8 @@
 		[sliderGamma setMaxValue:[[dict objectForKey:kCIAttributeSliderMax] doubleValue]];
 				
 		[self resetFilters:nil];
+		
+		[VTWin setLevel:NSMainMenuWindowLevel];
 	}
 
 	[VTWin makeKeyAndOrderFront:self];
