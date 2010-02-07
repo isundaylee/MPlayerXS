@@ -109,7 +109,7 @@
 	[root setDelegate:self];
 
 	// 背景颜色
-	CGColorRef col =  CGColorCreateGenericGray(1.0, 1.0);
+	CGColorRef col =  CGColorCreateGenericGray(0.0, 1.0);
 	[root setBackgroundColor:col];
 	CGColorRelease(col);
 	
@@ -516,6 +516,8 @@
 					  pixelFormat:pixelFormat
 						   aspect:aspect] == 1) {
 		displaying = YES;
+		
+		[VTController resetFilters:self];
 
 		[self performSelectorOnMainThread:@selector(adjustWindowSizeAndAspectRatio:) withObject:[NSValue valueWithSize:NSMakeSize(-1, -1)] waitUntilDone:YES];
 
