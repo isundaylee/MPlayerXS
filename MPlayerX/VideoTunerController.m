@@ -150,18 +150,18 @@
 	}
 	
 	if (layer) {
-		[layer setValue:[colorFilter valueForKeyPath:kCIInputBrightnessKey] forKeyPath:kCILayerBrightnessKeyPath];
-		[layer setValue:[colorFilter valueForKeyPath:kCIInputSaturationKey] forKeyPath:kCILayerSaturationKeyPath];
-		[layer setValue:[colorFilter valueForKeyPath:kCIInputContrastKey] forKeyPath:kCILayerContrastKeyPath];
-		[layer setValue:[nrFilter valueForKeyPath:kCIInputNoiseLevelKey] forKeyPath:kCILayerNoiseLevelKeyPath];
-		[layer setValue:[nrFilter valueForKeyPath:kCIInputSharpnessKey] forKeyPath:kCILayerSharpnesKeyPath];
-		[layer setValue:[gammaFilter valueForKeyPath:kCIInputPowerKey] forKeyPath:kCILayerGammaKeyPath];
+		// 实现Lazy loading
+		layer.filters = nil;
 	}
 }
 
 -(IBAction) setFilterParameters:(id)sender
 {
 	if (layer) {
+		// Lazy loading
+		if (!layer.filters) {
+			[layer setFilters:[NSArray arrayWithObjects:gammaFilter, colorFilter, nrFilter, nil]];
+		}
 		[layer setValue:[NSNumber numberWithDouble:[sender doubleValue]] forKeyPath:[[sender cell] representedObject]];
 		//NSLog(@"%@=%f", [[sender cell] representedObject], [sender doubleValue]);
 	}
@@ -173,8 +173,5 @@
 		[layer setFilters:nil];
 	}
 	layer = l;
-	if (layer) {
-		[layer setFilters:[NSArray arrayWithObjects:gammaFilter, colorFilter, nrFilter, nil]];
-	}
 }
 @end
