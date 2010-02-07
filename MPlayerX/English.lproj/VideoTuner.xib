@@ -607,7 +607,7 @@
 						<object class="NSBox" id="794124464">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">12</int>
-							<string key="NSFrame">{{20, 115}, {357, 5}}</string>
+							<string key="NSFrame">{{20, 111}, {351, 5}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<string key="NSOffsets">{0, 0}</string>
 							<object class="NSTextFieldCell" key="NSTitleCell">
@@ -1289,9 +1289,9 @@
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<string>{{336, 752}, {392, 254}}</string>
+					<string>{{496, 785}, {392, 254}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{336, 752}, {392, 254}}</string>
+					<string>{{496, 785}, {392, 254}}</string>
 					<boolean value="NO"/>
 					<string>{196, 240}</string>
 					<string>{{202, 428}, {480, 270}}</string>
