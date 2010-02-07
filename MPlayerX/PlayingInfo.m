@@ -41,19 +41,21 @@
 -(id) init
 {
 	if (self = [super init]) {
+		NSNumber *floatZero = [NSNumber numberWithFloat:0.0];
+		
 		currentChapter = 0;
-		currentTime = [[NSNumber alloc] initWithFloat:0];
+		currentTime = [floatZero retain];
 		currentAudio = 0;
 		currentSub = 0;
 		volume = 100;
 		audioBalance = 0;
 		mute = NO;
-		audioDelay = [[NSNumber alloc] initWithFloat:0];
-		subDelay = [[NSNumber alloc] initWithFloat:0];
+		audioDelay = [floatZero retain];
+		subDelay = [floatZero retain];
 		subPos = 100;
 		subScale = [[NSNumber alloc] initWithFloat:4];
 		speed = [[NSNumber alloc] initWithFloat:1.0];
-		cachingPercent = [[NSNumber alloc] initWithFloat:0];
+		cachingPercent = [floatZero retain];
 	}
 	return self;
 }
@@ -71,7 +73,9 @@
 }
 
 -(void) resetWithParameterManager:(ParameterManager*)pm
-{	
+{
+	NSNumber *floatZero = [NSNumber numberWithFloat:0.0];
+	
 	currentChapter = 0;
 	currentAudio = 0;
 	currentSub = 0;
@@ -83,10 +87,10 @@
 	[self setSubScale:[NSNumber numberWithFloat:[pm subScaleInternal]]];
 	
 	[self setMute:NO];
-	[self setCurrentTime:[NSNumber numberWithFloat:0]];
-	[self setAudioDelay:[NSNumber numberWithFloat:0]];
-	[self setSubDelay:[NSNumber numberWithFloat:0]];
+	[self setCurrentTime:floatZero];
+	[self setAudioDelay:floatZero];
+	[self setSubDelay:floatZero];
 	[self setSpeed:[NSNumber numberWithFloat:1]];
-	[self setCachingPercent:[NSNumber numberWithFloat:0]];
+	[self setCachingPercent:floatZero];
 }
 @end
