@@ -25,12 +25,14 @@
 #define kCIInputNoiseLevelKey	(@"inputNoiseLevel")
 #define kCIInputPowerKey		(@"inputPower")
 
-#define kCILayerBrightnessKeyPath	(@"filters.colorFilter.inputBrightness")
-#define kCILayerSaturationKeyPath	(@"filters.colorFilter.inputSaturation")
-#define kCILayerContrastKeyPath		(@"filters.colorFilter.inputContrast")
-#define kCILayerNoiseLevelKeyPath	(@"filters.nrFilter.inputNoiseLevel")
-#define kCILayerSharpnesKeyPath		(@"filters.nrFilter.inputSharpness")
-#define kCILayerGammaKeyPath		(@"filters.gammaFilter.inputPower")
+#define kCILayerBrightnessKeyPath		(@"filters.colorFilter.inputBrightness")
+#define kCILayerSaturationKeyPath		(@"filters.colorFilter.inputSaturation")
+#define kCILayerContrastKeyPath			(@"filters.colorFilter.inputContrast")
+#define kCILayerNoiseLevelKeyPath		(@"filters.nrFilter.inputNoiseLevel")
+#define kCILayerSharpnesKeyPath			(@"filters.nrFilter.inputSharpness")
+#define kCILayerGammaKeyPath			(@"filters.gammaFilter.inputPower")
+#define kCILayerBloomRadiusKeyPath		(@"filters.bloomFilter.inputRadius")
+#define kCILayerBloomIntensityKeyPath	(@"filters.bloomFilter.inputIntensity")
 
 @implementation VideoTunerController
 
@@ -43,16 +45,17 @@
 		// 但是残念，因为layer的filters是NSArray，无法实现通过name的binding
 		colorFilter = [[CIFilter filterWithName:@"CIColorControls"] retain];
 		[colorFilter setName:@"colorFilter"];
-		[colorFilter setDefaults];
 
 		nrFilter = [[CIFilter filterWithName:@"CINoiseReduction"] retain];
 		[nrFilter setName:@"nrFilter"];
-		[nrFilter setDefaults];
 		
 		gammaFilter = [[CIFilter filterWithName:@"CIGammaAdjust"] retain];
 		[gammaFilter setName:@"gammaFilter"];
-		[gammaFilter setDefaults];
 		
+		bloomFilter = [[CIFilter filterWithName:@"CIBloom"] retain];
+		[bloomFilter setName:@"bloomFilter"];
+
+		[self resetFilters:self];
 		layer = nil;
 	}
 	return self;
@@ -63,6 +66,7 @@
 	[colorFilter release];
 	[nrFilter release];
 	[gammaFilter release];
+	[bloomFilter release];
 	
 	[super dealloc];
 }
@@ -87,6 +91,8 @@
 		[[sliderNR cell] setRepresentedObject:kCILayerNoiseLevelKeyPath];
 		[[sliderSharpness cell] setRepresentedObject:kCILayerSharpnesKeyPath];
 		[[sliderGamma cell] setRepresentedObject:kCILayerGammaKeyPath];
+		[[sliderBloomRadius cell] setRepresentedObject:kCILayerBloomRadiusKeyPath];
+		[[sliderBloomIntensity cell] setRepresentedObject:kCILayerBloomIntensityKeyPath];
 		
 		NSDictionary *dict;
 
@@ -111,9 +117,17 @@
 		[sliderSharpness setMaxValue:[[dict objectForKey:kCIAttributeSliderMax] doubleValue]];
 		
 		dict = [[gammaFilter attributes] objectForKey:kCIInputPowerKey];
-		NSLog(@"%@", dict);
 		[sliderGamma setMinValue:[[dict objectForKey:kCIAttributeSliderMin] doubleValue]];
 		[sliderGamma setMaxValue:[[dict objectForKey:kCIAttributeSliderMax] doubleValue]];
+		
+		dict = [[bloomFilter attributes] objectForKey:kCIInputRadiusKey];
+		[sliderBloomRadius setMinValue:[[dict objectForKey:kCIAttributeSliderMin] doubleValue]];
+		[sliderBloomRadius setMaxValue:[[dict objectForKey:kCIAttributeSliderMax] doubleValue]];
+		
+		dict = [[bloomFilter attributes] objectForKey:kCIInputIntensityKey];
+		// NSLog(@"%@", dict);
+		[sliderBloomIntensity setMinValue:[[dict objectForKey:kCIAttributeSliderMin] doubleValue]];
+		[sliderBloomIntensity setMaxValue:[[dict objectForKey:kCIAttributeSliderMax] doubleValue]];
 		
 		[self resetFilters:nil];
 	}
@@ -123,16 +137,42 @@
 
 -(void) resetFilters:(id)sender
 {
-	[colorFilter setDefaults];
-	[nrFilter setDefaults];
-	[gammaFilter setDefaults];
+	NSDictionary *attr;
 	
-	[sliderBrightness setDoubleValue:[[colorFilter valueForKeyPath:kCIInputBrightnessKey] doubleValue]];
-	[sliderSaturation setDoubleValue:[[colorFilter valueForKeyPath:kCIInputSaturationKey] doubleValue]];
-	[sliderContrast setDoubleValue:[[colorFilter valueForKeyPath:kCIInputContrastKey] doubleValue]];
-	[sliderNR setDoubleValue:[[nrFilter valueForKeyPath:kCIInputNoiseLevelKey] doubleValue]];
-	[sliderSharpness setDoubleValue:[[nrFilter valueForKeyPath:kCIInputSharpnessKey] doubleValue]];
-	[sliderGamma setDoubleValue:[[gammaFilter valueForKeyPath:kCIInputPowerKey] doubleValue]];
+	attr = [colorFilter attributes];
+	[colorFilter setValue:[[attr objectForKey:kCIInputBrightnessKey] objectForKey:kCIAttributeIdentity]
+			   forKeyPath:kCIInputBrightnessKey];
+	[colorFilter setValue:[[attr objectForKey:kCIInputSaturationKey] objectForKey:kCIAttributeIdentity]
+			   forKeyPath:kCIInputSaturationKey];
+	[colorFilter setValue:[[attr objectForKey:kCIInputContrastKey] objectForKey:kCIAttributeIdentity]
+			   forKeyPath:kCIInputContrastKey];
+	
+	attr = [nrFilter attributes];
+	[nrFilter setValue:[[attr objectForKey:kCIInputNoiseLevelKey] objectForKey:kCIAttributeIdentity]
+			forKeyPath:kCIInputNoiseLevelKey];
+	[nrFilter setValue:[[attr objectForKey:kCIInputSharpnessKey] objectForKey:kCIAttributeIdentity]
+			forKeyPath:kCIInputSharpnessKey];
+
+	attr = [gammaFilter attributes];
+	[gammaFilter setValue:[[attr objectForKey:kCIInputPowerKey] objectForKey:kCIAttributeIdentity]
+			   forKeyPath:kCIInputPowerKey];
+	
+	attr = [bloomFilter attributes];
+	[bloomFilter setValue:[[attr objectForKey:kCIInputRadiusKey] objectForKey:kCIAttributeIdentity]
+			   forKeyPath:kCIInputRadiusKey];
+	[bloomFilter setValue:[[attr objectForKey:kCIInputIntensityKey] objectForKey:kCIAttributeIdentity]
+			   forKeyPath:kCIInputIntensityKey];
+	
+	if (nibLoaded) {
+		[sliderBrightness setDoubleValue:[[colorFilter valueForKeyPath:kCIInputBrightnessKey] doubleValue]];
+		[sliderSaturation setDoubleValue:[[colorFilter valueForKeyPath:kCIInputSaturationKey] doubleValue]];
+		[sliderContrast setDoubleValue:[[colorFilter valueForKeyPath:kCIInputContrastKey] doubleValue]];
+		[sliderNR setDoubleValue:[[nrFilter valueForKeyPath:kCIInputNoiseLevelKey] doubleValue]];
+		[sliderSharpness setDoubleValue:[[nrFilter valueForKeyPath:kCIInputSharpnessKey] doubleValue]];
+		[sliderGamma setDoubleValue:[[gammaFilter valueForKeyPath:kCIInputPowerKey] doubleValue]];
+		[sliderBloomRadius setDoubleValue:[[bloomFilter valueForKeyPath:kCIInputRadiusKey] doubleValue]];
+		[sliderBloomIntensity setDoubleValue:[[bloomFilter valueForKeyPath:kCIInputIntensityKey] doubleValue]];		
+	}
 	
 	if (layer) {
 		[layer setValue:[colorFilter valueForKeyPath:kCIInputBrightnessKey] forKeyPath:kCILayerBrightnessKeyPath];
@@ -141,6 +181,8 @@
 		[layer setValue:[nrFilter valueForKeyPath:kCIInputNoiseLevelKey] forKeyPath:kCILayerNoiseLevelKeyPath];
 		[layer setValue:[nrFilter valueForKeyPath:kCIInputSharpnessKey] forKeyPath:kCILayerSharpnesKeyPath];
 		[layer setValue:[gammaFilter valueForKeyPath:kCIInputPowerKey] forKeyPath:kCILayerGammaKeyPath];
+		[layer setValue:[bloomFilter valueForKeyPath:kCIInputRadiusKey] forKeyPath:kCILayerBloomRadiusKeyPath];
+		[layer setValue:[bloomFilter valueForKeyPath:kCIInputIntensityKey] forKeyPath:kCILayerBloomIntensityKeyPath];
 	}
 }
 
@@ -159,7 +201,7 @@
 	}
 	layer = l;
 	if (layer) {
-		[layer setFilters:[NSArray arrayWithObjects:gammaFilter, colorFilter, nrFilter, nil]];
+		[layer setFilters:[NSArray arrayWithObjects:gammaFilter, colorFilter, nrFilter, bloomFilter, nil]];
 	}
 }
 @end
