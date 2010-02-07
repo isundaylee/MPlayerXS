@@ -115,9 +115,7 @@
 	NSBundle *mainBundle = [NSBundle mainBundle];
 	NSString *homeDirectory = NSHomeDirectory();
 	
-	[aboutText setStringValue:[NSString stringWithFormat: @"MPlayerX %@\nby Niltsh@2009\nhttp://code.google.com/p/mplayerx/\nzongyao.qu@gmail.com\n\nThanks to\n\nmplayer\nhttp://www.mplayerhq.hu\n\nUniversalDetector\nhttp://wakaba.c3.cx/s/apps/unarchiver.html\n\nBGHUDAppKit\nhttp://www.binarymethod.com/bghudappkit/\n\nWenQuan MicroHei Font\nhttp://www.wenq.org", 
-															[mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
-
+	[aboutText setStringValue:[NSString stringWithFormat: kMPXStringAboutText, [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
 	
 	[self setMultiThreadMode:[ud boolForKey:kUDKeyEnableMultiThread]];
 	
