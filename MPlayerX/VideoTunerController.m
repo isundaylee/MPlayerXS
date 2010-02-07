@@ -31,8 +31,6 @@
 #define kCILayerNoiseLevelKeyPath		(@"filters.nrFilter.inputNoiseLevel")
 #define kCILayerSharpnesKeyPath			(@"filters.nrFilter.inputSharpness")
 #define kCILayerGammaKeyPath			(@"filters.gammaFilter.inputPower")
-#define kCILayerBloomRadiusKeyPath		(@"filters.bloomFilter.inputRadius")
-#define kCILayerBloomIntensityKeyPath	(@"filters.bloomFilter.inputIntensity")
 
 @implementation VideoTunerController
 
@@ -52,9 +50,6 @@
 		gammaFilter = [[CIFilter filterWithName:@"CIGammaAdjust"] retain];
 		[gammaFilter setName:@"gammaFilter"];
 		
-		bloomFilter = [[CIFilter filterWithName:@"CIBloom"] retain];
-		[bloomFilter setName:@"bloomFilter"];
-
 		[self resetFilters:self];
 		layer = nil;
 	}
@@ -66,7 +61,6 @@
 	[colorFilter release];
 	[nrFilter release];
 	[gammaFilter release];
-	[bloomFilter release];
 	
 	[super dealloc];
 }
@@ -91,8 +85,6 @@
 		[[sliderNR cell] setRepresentedObject:kCILayerNoiseLevelKeyPath];
 		[[sliderSharpness cell] setRepresentedObject:kCILayerSharpnesKeyPath];
 		[[sliderGamma cell] setRepresentedObject:kCILayerGammaKeyPath];
-		[[sliderBloomRadius cell] setRepresentedObject:kCILayerBloomRadiusKeyPath];
-		[[sliderBloomIntensity cell] setRepresentedObject:kCILayerBloomIntensityKeyPath];
 		
 		NSDictionary *dict;
 
@@ -119,16 +111,7 @@
 		dict = [[gammaFilter attributes] objectForKey:kCIInputPowerKey];
 		[sliderGamma setMinValue:[[dict objectForKey:kCIAttributeSliderMin] doubleValue]];
 		[sliderGamma setMaxValue:[[dict objectForKey:kCIAttributeSliderMax] doubleValue]];
-		
-		dict = [[bloomFilter attributes] objectForKey:kCIInputRadiusKey];
-		[sliderBloomRadius setMinValue:[[dict objectForKey:kCIAttributeSliderMin] doubleValue]];
-		[sliderBloomRadius setMaxValue:[[dict objectForKey:kCIAttributeSliderMax] doubleValue]];
-		
-		dict = [[bloomFilter attributes] objectForKey:kCIInputIntensityKey];
-		// NSLog(@"%@", dict);
-		[sliderBloomIntensity setMinValue:[[dict objectForKey:kCIAttributeSliderMin] doubleValue]];
-		[sliderBloomIntensity setMaxValue:[[dict objectForKey:kCIAttributeSliderMax] doubleValue]];
-		
+				
 		[self resetFilters:nil];
 	}
 
@@ -157,12 +140,6 @@
 	[gammaFilter setValue:[[attr objectForKey:kCIInputPowerKey] objectForKey:kCIAttributeIdentity]
 			   forKeyPath:kCIInputPowerKey];
 	
-	attr = [bloomFilter attributes];
-	[bloomFilter setValue:[[attr objectForKey:kCIInputRadiusKey] objectForKey:kCIAttributeIdentity]
-			   forKeyPath:kCIInputRadiusKey];
-	[bloomFilter setValue:[[attr objectForKey:kCIInputIntensityKey] objectForKey:kCIAttributeIdentity]
-			   forKeyPath:kCIInputIntensityKey];
-	
 	if (nibLoaded) {
 		[sliderBrightness setDoubleValue:[[colorFilter valueForKeyPath:kCIInputBrightnessKey] doubleValue]];
 		[sliderSaturation setDoubleValue:[[colorFilter valueForKeyPath:kCIInputSaturationKey] doubleValue]];
@@ -170,8 +147,6 @@
 		[sliderNR setDoubleValue:[[nrFilter valueForKeyPath:kCIInputNoiseLevelKey] doubleValue]];
 		[sliderSharpness setDoubleValue:[[nrFilter valueForKeyPath:kCIInputSharpnessKey] doubleValue]];
 		[sliderGamma setDoubleValue:[[gammaFilter valueForKeyPath:kCIInputPowerKey] doubleValue]];
-		[sliderBloomRadius setDoubleValue:[[bloomFilter valueForKeyPath:kCIInputRadiusKey] doubleValue]];
-		[sliderBloomIntensity setDoubleValue:[[bloomFilter valueForKeyPath:kCIInputIntensityKey] doubleValue]];		
 	}
 	
 	if (layer) {
@@ -181,8 +156,6 @@
 		[layer setValue:[nrFilter valueForKeyPath:kCIInputNoiseLevelKey] forKeyPath:kCILayerNoiseLevelKeyPath];
 		[layer setValue:[nrFilter valueForKeyPath:kCIInputSharpnessKey] forKeyPath:kCILayerSharpnesKeyPath];
 		[layer setValue:[gammaFilter valueForKeyPath:kCIInputPowerKey] forKeyPath:kCILayerGammaKeyPath];
-		[layer setValue:[bloomFilter valueForKeyPath:kCIInputRadiusKey] forKeyPath:kCILayerBloomRadiusKeyPath];
-		[layer setValue:[bloomFilter valueForKeyPath:kCIInputIntensityKey] forKeyPath:kCILayerBloomIntensityKeyPath];
 	}
 }
 
@@ -201,7 +174,7 @@
 	}
 	layer = l;
 	if (layer) {
-		[layer setFilters:[NSArray arrayWithObjects:gammaFilter, colorFilter, nrFilter, bloomFilter, nil]];
+		[layer setFilters:[NSArray arrayWithObjects:gammaFilter, colorFilter, nrFilter, nil]];
 	}
 }
 @end

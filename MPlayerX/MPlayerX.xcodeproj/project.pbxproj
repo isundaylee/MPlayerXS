@@ -81,10 +81,6 @@
 		86A5E40C10C7D24D00D061C7 /* wqy-microhei.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E40B10C7D24D00D061C7 /* wqy-microhei.ttc */; };
 		86B99D0210C9418600AB28FB /* OpenURLController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B99D0110C9418600AB28FB /* OpenURLController.m */; };
 		86C5492510C5216600DC1511 /* PlayList.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C5492410C5216600DC1511 /* PlayList.m */; };
-		86C55CFC111EBD13007D7A50 /* bloomintensity-max.tif in Resources */ = {isa = PBXBuildFile; fileRef = 86C55CF8111EBD13007D7A50 /* bloomintensity-max.tif */; };
-		86C55CFD111EBD13007D7A50 /* bloomintensity-min.tif in Resources */ = {isa = PBXBuildFile; fileRef = 86C55CF9111EBD13007D7A50 /* bloomintensity-min.tif */; };
-		86C55CFE111EBD13007D7A50 /* bloomradius-max.tif in Resources */ = {isa = PBXBuildFile; fileRef = 86C55CFA111EBD13007D7A50 /* bloomradius-max.tif */; };
-		86C55CFF111EBD13007D7A50 /* bloomradius-min.tif in Resources */ = {isa = PBXBuildFile; fileRef = 86C55CFB111EBD13007D7A50 /* bloomradius-min.tif */; };
 		86CA9E9E110094FE00A3CDBC /* OsdText.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CA9E9D110094FE00A3CDBC /* OsdText.m */; };
 		86CAF23D10BA44DD00848B8E /* LogAnalyzeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF23A10BA44DD00848B8E /* LogAnalyzeOperation.m */; };
 		86CAF23E10BA44DD00848B8E /* LogAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF23C10BA44DD00848B8E /* LogAnalyzer.m */; };
@@ -231,10 +227,6 @@
 		86B99D0110C9418600AB28FB /* OpenURLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenURLController.m; sourceTree = "<group>"; };
 		86C5492310C5216600DC1511 /* PlayList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayList.h; sourceTree = "<group>"; };
 		86C5492410C5216600DC1511 /* PlayList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayList.m; sourceTree = "<group>"; };
-		86C55CF8111EBD13007D7A50 /* bloomintensity-max.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "bloomintensity-max.tif"; sourceTree = "<group>"; };
-		86C55CF9111EBD13007D7A50 /* bloomintensity-min.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "bloomintensity-min.tif"; sourceTree = "<group>"; };
-		86C55CFA111EBD13007D7A50 /* bloomradius-max.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "bloomradius-max.tif"; sourceTree = "<group>"; };
-		86C55CFB111EBD13007D7A50 /* bloomradius-min.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "bloomradius-min.tif"; sourceTree = "<group>"; };
 		86CA9E9C110094FE00A3CDBC /* OsdText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OsdText.h; sourceTree = "<group>"; };
 		86CA9E9D110094FE00A3CDBC /* OsdText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OsdText.m; sourceTree = "<group>"; };
 		86CAF23510BA44A300848B8E /* def.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = def.h; sourceTree = "<group>"; };
@@ -429,10 +421,6 @@
 		860F6728111C6A6E00190BCC /* VideoTuner */ = {
 			isa = PBXGroup;
 			children = (
-				86C55CF8111EBD13007D7A50 /* bloomintensity-max.tif */,
-				86C55CF9111EBD13007D7A50 /* bloomintensity-min.tif */,
-				86C55CFA111EBD13007D7A50 /* bloomradius-max.tif */,
-				86C55CFB111EBD13007D7A50 /* bloomradius-min.tif */,
 				860E72E8111E947F0022F966 /* gamma-max.tiff */,
 				860E72E9111E94800022F966 /* gamma-min.tiff */,
 				860F6729111C6A7E00190BCC /* brightness-max.tiff */,
@@ -662,10 +650,6 @@
 				860F673C111C6A7E00190BCC /* sharpen-min.tiff in Resources */,
 				860E72EA111E94800022F966 /* gamma-max.tiff in Resources */,
 				860E72EB111E94800022F966 /* gamma-min.tiff in Resources */,
-				86C55CFC111EBD13007D7A50 /* bloomintensity-max.tif in Resources */,
-				86C55CFD111EBD13007D7A50 /* bloomintensity-min.tif in Resources */,
-				86C55CFE111EBD13007D7A50 /* bloomradius-max.tif in Resources */,
-				86C55CFF111EBD13007D7A50 /* bloomradius-min.tif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

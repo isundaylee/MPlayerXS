@@ -27,7 +27,6 @@
 	CIFilter *colorFilter;
 	CIFilter *nrFilter;
 	CIFilter *gammaFilter;
-	CIFilter *bloomFilter;
 
 	CALayer *layer;
 	
@@ -38,9 +37,7 @@
 	IBOutlet NSSlider *sliderNR;
 	IBOutlet NSSlider *sliderSharpness;
 	IBOutlet NSSlider *sliderGamma;
-	IBOutlet NSSlider *sliderBloomRadius;
-	IBOutlet NSSlider *sliderBloomIntensity;
-	
+
 	IBOutlet NSMenuItem *menuVTPanel;
 }
 
