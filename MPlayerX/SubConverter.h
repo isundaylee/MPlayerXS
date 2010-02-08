@@ -40,8 +40,6 @@
 
 -(void) clearWorkDirectory;
 
--(BOOL) isTextSubFile:(NSString*) subPath;
-
 -(NSString*) getCPOfTextSubtitle:(NSString*)path;
 
 @end

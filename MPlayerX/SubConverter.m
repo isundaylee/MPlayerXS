@@ -59,17 +59,13 @@
 	workDirectory = wd;
 }
 
--(BOOL) isTextSubFile:(NSString*) subPath
-{
-	return [textSubFileExts containsObject:[[subPath pathExtension] lowercaseString]];
-}
-
 -(NSString*) getCPOfTextSubtitle:(NSString*)path
 {
 	BOOL isDir = YES;
 	NSString *cpStr = nil;	
 	
-	if (path && [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && (!isDir)) {
+	if (path && [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && (!isDir) &&
+		[textSubFileExts containsObject:[[path pathExtension] lowercaseString]]) {
 
 		[detector analyzeContentsOfFile:path];
 		cpStr = [[detector MIMECharset] retain];
