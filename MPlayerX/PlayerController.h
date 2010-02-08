@@ -32,6 +32,8 @@
 	NSURL *lastPlayedPathPre;
 	NSSet *supportVideoFormats;
 	NSSet *supportAudioFormats;
+	NSSet *supportSubFormats;
+
 	NSMutableDictionary *bookmarks;
 	
 	IBOutlet NSWindow *window;

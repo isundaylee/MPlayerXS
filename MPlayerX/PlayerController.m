@@ -94,6 +94,7 @@
 		lastPlayedPathPre = nil;
 		supportVideoFormats = nil;
 		supportAudioFormats = nil;
+		supportSubFormats = nil;
 		bookmarks = nil;
 	}
 	return self;
@@ -184,13 +185,19 @@
 
 	// 建立支持格式的Set
 	for( NSDictionary *dict in [mainBundle objectForInfoDictionaryKey:@"CFBundleDocumentTypes"]) {
+
+		NSString *obj = [dict objectForKey:@"CFBundleTypeName"];
 		// 对不同种类的格式
-		if ([[dict objectForKey:@"CFBundleTypeName"] isEqualToString:@"Audio Media"]) {
+		if ([obj isEqualToString:@"Audio Media"]) {
 			// 如果是音频文件
 			supportAudioFormats = [[NSSet alloc] initWithArray:[dict objectForKey:@"CFBundleTypeExtensions"]];
-		} else if ([[dict objectForKey:@"CFBundleTypeName"] isEqualToString:@"Video Media"]) {
-			//如果是视频文件
+		
+		} else if ([obj isEqualToString:@"Video Media"]) {
+			// 如果是视频文件
 			supportVideoFormats = [[NSSet alloc] initWithArray:[dict objectForKey:@"CFBundleTypeExtensions"]];
+		} else if ([obj isEqualToString:@"Subtitle"]) {
+			// 如果是字幕文件
+			supportSubFormats = [[NSSet alloc] initWithArray:[dict objectForKey:@"CFBundleTypeExtensions"]];
 		}
 	}
 	
@@ -258,6 +265,7 @@
 	[lastPlayedPath release];
 	[supportVideoFormats release];
 	[supportAudioFormats release];
+	[supportSubFormats release];
 	
 	[bookmarks release];
 
@@ -355,13 +363,13 @@
 					if ([fm fileExistsAtPath:path isDirectory:&isDir] && (!isDir)) {
 						// 如果文件存在
 						if ([supportVideoFormats containsObject:[[path pathExtension] lowercaseString]] ||
-							 [supportAudioFormats containsObject:[[path pathExtension] lowercaseString]]) {
+							[supportAudioFormats containsObject:[[path pathExtension] lowercaseString]]) {
 							// 如果是支持的格式
 							[self playMedia:file];
 							break;
 							
-						} else if ([mplayer.subConv isTextSubFile:path]) {
-							// load the sub
+						} else if ([supportSubFormats containsObject:[[path pathExtension] lowercaseString]]) {
+							// 如果是字幕文件
 							if (mplayer.state != kMPCStoppedState) {
 								// 如果是在播放状态，就加载字幕
 								[self loadSubFile:path];
