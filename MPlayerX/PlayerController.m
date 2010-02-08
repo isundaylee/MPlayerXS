@@ -47,6 +47,7 @@
 -(void) mplayerWillStop:(NSNotification *)notification;
 -(void) preventSystemSleep;
 -(void) playMedia:(NSURL*)url;
+-(NSURL*) findFirstMediaFileFromSubFile:(NSString*)path;
 @end
 
 @implementation PlayerController
@@ -353,15 +354,40 @@
 					
 					if ([fm fileExistsAtPath:path isDirectory:&isDir] && (!isDir)) {
 						// 如果文件存在
-						if (([supportVideoFormats containsObject:[[path pathExtension] lowercaseString]] ||
-							 [supportAudioFormats containsObject:[[path pathExtension] lowercaseString]])) {
+						if ([supportVideoFormats containsObject:[[path pathExtension] lowercaseString]] ||
+							 [supportAudioFormats containsObject:[[path pathExtension] lowercaseString]]) {
 							// 如果是支持的格式
 							[self playMedia:file];
 							break;
 							
 						} else if ([mplayer.subConv isTextSubFile:path]) {
 							// load the sub
-							[self loadSubFile:path];
+							if (mplayer.state != kMPCStoppedState) {
+								// 如果是在播放状态，就加载字幕
+								[self loadSubFile:path];
+							} else {
+								// 如果是在停止状态，那么应该是想打开媒体文件先
+								// 需要根据字幕文件名去寻找影片文件
+								NSURL *autoSearchMediaFile = nil;
+								if (autoSearchMediaFile = [self findFirstMediaFileFromSubFile:path]) {
+									// 如果找到了
+									[self playMedia:autoSearchMediaFile];
+								}
+								// 不管有没有找到，都需要break
+								// 找到了就播放
+								// 没有找到。说明按照当前的文件名规则并不存在相应的媒体文件
+								if (!autoSearchMediaFile) {
+									// 如果没有找到合适的播放文件
+									if ([window isVisible]) {
+										NSBeginAlertSheet(kMPXStringError, kMPXStringOK, nil, nil, window, nil, nil, nil, nil, kMPXStringCantFindMediaFile);
+									} else {
+										id alertPanel = NSGetAlertPanel(kMPXStringError, kMPXStringCantFindMediaFile, kMPXStringOK, nil, nil);
+										[NSApp runModalForWindow:alertPanel];
+										NSReleaseAlertPanel(alertPanel);
+									}
+								}
+								break;
+							}
 						} else {
 							// 否则提示
 							if ([window isVisible]) {
@@ -437,6 +463,62 @@
 		lastPlayedPath = lastPlayedPathPre;
 		lastPlayedPathPre = nil;
 	}
+}
+
+-(NSURL*) findFirstMediaFileFromSubFile:(NSString*)path
+{
+	// 需要先得到 nameRule的最新值
+	[mplayer.pm setSubNameRule:[ud integerForKey:kUDKeySubFileNameRule]];
+
+	// 得到最新的nameRule
+	SUBFILE_NAMERULE nameRule = [mplayer.pm subNameRule];
+	
+	NSURL *mediaURL = nil;
+	
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	// 文件夹路径
+	NSString *directoryPath = [path stringByDeletingLastPathComponent];
+	// 字幕文件名称
+	NSString *subName = [[path lastPathComponent] stringByDeletingPathExtension];
+
+	NSDirectoryEnumerator *directoryEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:directoryPath];
+
+	// 遍历播放文件所在的目录
+	for (NSString *mediaFile in directoryEnumerator)
+	{
+		// TODO 这里需要检查mediaFile是文件名还是 路径名
+		NSDictionary *fileAttr = [directoryEnumerator fileAttributes];
+		
+		if ([fileAttr objectForKey:NSFileType] == NSFileTypeDirectory) {
+			//不遍历子目录
+			[directoryEnumerator skipDescendants];
+
+		} else if ([[fileAttr objectForKey:NSFileType] isEqualToString: NSFileTypeRegular] &&
+					([supportVideoFormats containsObject:[[mediaFile pathExtension] lowercaseString]] ||
+					 [supportAudioFormats containsObject:[[mediaFile pathExtension] lowercaseString]])) {
+			// 如果是正常文件，并且是媒体文件
+			NSString *mediaName = [mediaFile stringByDeletingPathExtension];
+			
+			switch (nameRule) {
+				case kSubFileNameRuleExactMatch:
+					if (![mediaName isEqualToString:subName]) continue; // exact match
+					break;
+				case kSubFileNameRuleAny:
+					break; // any sub file is OK
+				case kSubFileNameRuleContain:
+					if ([subName rangeOfString: mediaName].location == NSNotFound) continue; // contain the movieName
+					break;
+				default:
+					continue;
+					break;				
+			}
+			// 能到这里说明找到了一个合适的播放文件, 跳出循环
+			mediaURL = [[NSURL fileURLWithPath:[directoryPath stringByAppendingPathComponent:mediaFile] isDirectory:NO] retain];
+			break;
+		}
+	}
+	[pool release];
+	return [mediaURL autorelease];
 }
 
 -(void) setMultiThreadMode:(BOOL) mt
@@ -676,9 +758,7 @@
 
 -(void) loadSubFile:(NSString*)subPath
 {
-	if (subPath && (mplayer.state != kMPCStoppedState)) {
-		[mplayer loadSubFile:subPath];
-	}
+	[mplayer loadSubFile:subPath];
 }
 /////////////////////////////////////Actions//////////////////////////////////////
 -(IBAction) openFile:(id) sender

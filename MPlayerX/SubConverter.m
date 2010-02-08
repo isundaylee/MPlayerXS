@@ -185,6 +185,7 @@
 	// 遍历播放文件所在的目录
 	for (NSString *path in directoryEnumerator)
 	{
+		// TODO 这里需要检查path是文件名还是 路径名
 		NSDictionary *fileAttr = [directoryEnumerator fileAttributes];
 		
 		if ([fileAttr objectForKey:NSFileType] == NSFileTypeDirectory) { //不遍历子目录
