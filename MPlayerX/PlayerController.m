@@ -61,7 +61,7 @@
 					   [NSNumber numberWithBool:YES], kUDKeyAutoPlayNext,
 					   kMPCDefaultSubFontPath, kUDKeySubFontPath,
 					   [NSNumber numberWithBool:YES], kUDKeyPrefer64bitMPlayer,
-					   [NSNumber numberWithBool:NO], kUDKeyEnableMultiThread,
+					   [NSNumber numberWithBool:YES], kUDKeyEnableMultiThread,
 					   [NSNumber numberWithFloat:4], kUDKeySubScale,
 					   [NSNumber numberWithFloat:0.1], kUDKeySubScaleStepValue,
 					   [NSNumber numberWithBool:NO], kUDKeyQuitOnClose,
