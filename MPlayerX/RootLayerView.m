@@ -51,7 +51,7 @@
 					   [NSNumber numberWithInt:kOnTopModePlaying], kUDKeyOnTopMode,
 					   kSnapshotSaveDefaultPath, kUDKeySnapshotSavePath,
 					   [NSNumber numberWithBool:NO], kUDKeyStartByFullScreen,
-					   [NSNumber numberWithBool:NO], kUDKeyFullScreenKeepOther,
+					   [NSNumber numberWithBool:YES], kUDKeyFullScreenKeepOther,
 					   nil]];
 }
 
