@@ -278,7 +278,7 @@
 	// 只重置与播放有关的
 	[movieInfo.playingInfo resetWithParameterManager:pm];
 	
-	NSLog(@"%@", [pm arrayOfParametersWithName:sharedBufferName]);
+	NSLog(@"%@", [[pm arrayOfParametersWithName:sharedBufferName] componentsJoinedByString:@" "]);
 	
 	if ( [playerCore playMedia:moviePath 
 					  withExec:[mpPathPair objectForKey:(pm.prefer64bMPlayer)?kX86_64Key:kI386Key] 

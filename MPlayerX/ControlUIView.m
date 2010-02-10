@@ -670,7 +670,7 @@
 	if (sender) {
 		// 说明是从menu激发的事件
 		// 如果是nil，说明是内部激发的事件，那么只是更新menu状态
-		if ([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay]) {
+		if ([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay) {
 			// 没有在显示
 			[ud setInteger:[ud integerForKey:kUDKeyLetterBoxModeAlt] forKey:kUDKeyLetterBoxMode];
 		} else {
