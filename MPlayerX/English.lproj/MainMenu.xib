@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="24"/>
+			<integer value="783"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -370,6 +370,14 @@
 									<reference key="NSMenu" ref="891719963"/>
 									<bool key="NSIsAlternate">YES</bool>
 									<string key="NSTitle">Reset Aspect Ratio</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="21662899">
+									<reference key="NSMenu" ref="891719963"/>
+									<string key="NSTitle">Show Letterbox</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
@@ -2146,6 +2154,22 @@
 					</object>
 					<int key="connectionID">915</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">menuToggleLetterBox</string>
+						<reference key="source" ref="85098728"/>
+						<reference key="destination" ref="21662899"/>
+					</object>
+					<int key="connectionID">917</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleLetterBox:</string>
+						<reference key="source" ref="85098728"/>
+						<reference key="destination" ref="21662899"/>
+					</object>
+					<int key="connectionID">918</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -2654,6 +2678,7 @@
 							<reference ref="436413833"/>
 							<reference ref="976320646"/>
 							<reference ref="789096035"/>
+							<reference ref="21662899"/>
 						</object>
 						<reference key="parent" ref="95117089"/>
 					</object>
@@ -3034,6 +3059,11 @@
 						<reference key="object" ref="902432428"/>
 						<reference key="parent" ref="835318025"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">916</int>
+						<reference key="object" ref="21662899"/>
+						<reference key="parent" ref="891719963"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -3248,6 +3278,7 @@
 					<string>907.IBPluginDependency</string>
 					<string>911.IBPluginDependency</string>
 					<string>912.IBPluginDependency</string>
+					<string>916.IBPluginDependency</string>
 					<string>92.IBPluginDependency</string>
 					<string>92.ImportedFromIB2</string>
 				</object>
@@ -3296,7 +3327,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{{525, 802}, {197, 73}}</string>
-					<string>{{332, 916}, {392, 20}}</string>
+					<string>{{513, 840}, {392, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{74, 862}</string>
@@ -3487,7 +3518,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{453, 661}, {244, 243}}</string>
+					<string>{{696, 577}, {244, 263}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3528,6 +3559,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 				</object>
 			</object>
@@ -3547,7 +3579,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">915</int>
+			<int key="maxID">918</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3584,6 +3616,7 @@
 							<string>toggleAccessaryControls:</string>
 							<string>toggleFillScreen:</string>
 							<string>toggleFullScreen:</string>
+							<string>toggleLetterBox:</string>
 							<string>toggleLockAspectRatio:</string>
 							<string>toggleMute:</string>
 							<string>togglePlayPause:</string>
@@ -3591,6 +3624,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3631,6 +3665,7 @@
 							<string>menuSubScaleInc</string>
 							<string>menuSwitchAudio</string>
 							<string>menuSwitchSub</string>
+							<string>menuToggleLetterBox</string>
 							<string>menuToggleLockAspectRatio</string>
 							<string>menuVolDec</string>
 							<string>menuVolInc</string>
@@ -3654,6 +3689,7 @@
 							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSTextField</string>
+							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
@@ -3789,6 +3825,7 @@
 							<string>controlUIAppearanceChanged:</string>
 							<string>fullscreenModeChanged:</string>
 							<string>hintTimeModeChanged:</string>
+							<string>letterBoxModeChanged:</string>
 							<string>multiThreadChanged:</string>
 							<string>onTopModeChanged:</string>
 							<string>osdSetChanged:</string>
@@ -3798,6 +3835,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3969,6 +4007,7 @@
 							<string>menuVTPanel</string>
 							<string>sliderBrightness</string>
 							<string>sliderContrast</string>
+							<string>sliderGamma</string>
 							<string>sliderNR</string>
 							<string>sliderSaturation</string>
 							<string>sliderSharpness</string>
@@ -3977,6 +4016,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSWindow</string>
 							<string>NSMenuItem</string>
+							<string>NSSlider</string>
 							<string>NSSlider</string>
 							<string>NSSlider</string>
 							<string>NSSlider</string>
