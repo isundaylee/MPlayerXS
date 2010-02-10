@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="307"/>
+			<integer value="18"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1471,8 +1471,8 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 										<object class="NSTextFieldCell" key="NSCell" id="903822237">
 											<int key="NSCellFlags">68288064</int>
 											<int key="NSCellFlags2">272761856</int>
-											<string type="base64-UTF8" key="NSContents">WW91IGNvdWxkIGFsc28gdG9nZ2xlIHNob3cvaGlkZSBsZXR0ZXJib3ggaW4gdGhlIG1lbnUKYnV0IHRo
-YXQgd2lsbCB0YWtlIGVmZmVjdCB1bnRpbCBuZXh0IG9uZQ</string>
+											<string type="base64-UTF8" key="NSContents">WW91IGNvdWxkIGFsc28gdG9nZ2xlIHNob3cvaGlkZSBsZXR0ZXJib3ggaW4gdGhlIG1lbnUKYnV0IGl0
+IHdpbGwgdGFrZSBlZmZlY3QgdW50aWwgcGxheWluZyBuZXh0IG9uZQ</string>
 											<reference key="NSSupport" ref="26"/>
 											<reference key="NSControlView" ref="208190824"/>
 											<reference key="NSBackgroundColor" ref="592303529"/>
