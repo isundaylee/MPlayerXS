@@ -60,6 +60,9 @@
 #define kUDKeyPreferIPV6			(@"PreferIPV6")
 #define kUDKeyCachingLocal			(@"CachingLocal")
 #define kUDKeyFullScreenKeepOther	(@"FullScreenKeepOther")
+#define kUDKeyLetterBoxMode			(@"LetterBoxMode")
+#define kUDKeyLetterBoxModeAlt		(@"LetterBoxModeAlt")
+#define kUDKeyLetterBoxHeight		(@"LetterBoxHeight")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")
@@ -97,3 +100,5 @@
 
 #define kSCMVideoTunerPanelKeyEquivalent	(@"v")
 #define kSCMVideoTunerPanelKeyEquivalentModifierFlagMask	(NSShiftKeyMask|NSCommandKeyMask)
+
+#define kSCMToggleLetterBoxKeyEquivalent	(@"l")
