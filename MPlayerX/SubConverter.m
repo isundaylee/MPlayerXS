@@ -26,7 +26,7 @@
 -(id) init
 {
 	if (self = [super init]) {
-		textSubFileExts = [[NSSet alloc] initWithObjects:@"utf", @"utf8", @"srt", @"ass", @"smi", @"txt", @"ssa", nil];
+		textSubFileExts = [[NSSet alloc] initWithObjects:@"utf", @"utf8", @"srt", @"ass", @"smi", @"txt", @"ssa", @"smil", @"jss", @"rt", nil];
 		workDirectory = nil;
 		detector = [[UniversalDetector alloc] init];
 		[detector reset];

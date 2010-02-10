@@ -108,6 +108,8 @@
 				<string>smi</string>
 				<string>ssa</string>
 				<string>smil</string>
+				<string>jss</string>
+				<string>rt</string>
 				<string>sub</string>
 				<string>idx</string>
 			</array>
