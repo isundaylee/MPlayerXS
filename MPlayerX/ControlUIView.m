@@ -346,23 +346,22 @@
 	} else {
 		[dispView setPlayerWindowLevel];
 	}
-	if ([osd isActive]) {
-		NSString *osdStr;
-		switch (playerController.playerState) {
-			case kMPCStoppedState:
-				osdStr = kMPXStringOSDPlaybackStopped;
-				break;
-			case kMPCPausedState:
-				osdStr = kMPXStringOSDPlaybackPaused;
-				break;
-			default:
-				osdStr = kMPXStringOSDNull;
-				break;
-		}
-		[osd setStringValue:osdStr
-					  owner:kOSDOwnerOther
-				updateTimer:YES];
+
+	NSString *osdStr;
+	switch (playerController.playerState) {
+		case kMPCStoppedState:
+			osdStr = kMPXStringOSDPlaybackStopped;
+			break;
+		case kMPCPausedState:
+			osdStr = kMPXStringOSDPlaybackPaused;
+			break;
+		default:
+			osdStr = kMPXStringOSDNull;
+			break;
 	}
+	[osd setStringValue:osdStr
+				  owner:kOSDOwnerOther
+			updateTimer:YES];
 }
 
 -(IBAction) toggleMute:(id)sender
@@ -374,11 +373,9 @@
 	[menuVolInc setEnabled:!mute];
 	[menuVolDec setEnabled:!mute];
 	
-	if ([osd isActive]) {
-		[osd setStringValue:(mute)?(kMPXStringOSDMuteON):(kMPXStringOSDMuteOFF)
-					  owner:kOSDOwnerOther
-				updateTimer:YES];
-	}
+	[osd setStringValue:(mute)?(kMPXStringOSDMuteON):(kMPXStringOSDMuteOFF)
+				  owner:kOSDOwnerOther
+			updateTimer:YES];
 }
 
 -(IBAction) setVolume:(id)sender
@@ -398,11 +395,9 @@
 		// 将音量作为UserDefaults存储
 		[ud setFloat:vol forKey:kUDKeyVolume];
 		
-		if ([osd isActive]) {
-			[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDVolumeHint, vol]
-						  owner:kOSDOwnerOther
-					updateTimer:YES];
-		}
+		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDVolumeHint, vol]
+					  owner:kOSDOwnerOther
+				updateTimer:YES];
 	}
 }
 
@@ -497,9 +492,7 @@
 
 	[hintTime.animator setAlphaValue:0];
 	
-	if ([osd isActive]) {
-		[osd setStringValue:nil owner:osd.owner updateTimer:NO];
-	}
+	[osd setStringValue:nil owner:osd.owner updateTimer:NO];
 }
 
 -(IBAction) toggleFillScreen:(id)sender
@@ -586,11 +579,9 @@
 		}
 		[sender setState:NSOnState];
 		
-		if ([osd isActive]) {
-			[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDSubtitleHint, [sender title]]
-						  owner:kOSDOwnerOther
-					updateTimer:YES];
-		}		
+		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDSubtitleHint, [sender title]]
+					  owner:kOSDOwnerOther
+				updateTimer:YES];
 	}
 }
 
@@ -646,11 +637,9 @@
 	BOOL lock = [dispView lockAspectRatio];
 	[menuToggleLockAspectRatio setTitle:(lock)?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
 	
-	if ([osd isActive]) {
-		[osd setStringValue:(lock)?(kMPXStringOSDAspectRatioLocked):(kMPXStringOSDAspectRatioUnLocked)
-					  owner:kOSDOwnerOther
-				updateTimer:YES];
-	}
+	[osd setStringValue:(lock)?(kMPXStringOSDAspectRatioLocked):(kMPXStringOSDAspectRatioUnLocked)
+				  owner:kOSDOwnerOther
+			updateTimer:YES];
 }
 
 -(IBAction) resetAspectRatio:(id)sender
@@ -658,11 +647,9 @@
 	[dispView resetAspectRatio];
 	[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
 	
-	if ([osd isActive]) {
-		[osd setStringValue:kMPXStringOSDAspectRatioReset
-					  owner:kOSDOwnerOther
-				updateTimer:YES];
-	}
+	[osd setStringValue:kMPXStringOSDAspectRatioReset
+				  owner:kOSDOwnerOther
+			updateTimer:YES];
 }
 
 -(IBAction) toggleLetterBox:(id)sender
@@ -823,31 +810,28 @@
 -(void) gotSpeed:(NSNumber*) speed
 {
 	[speedText setFloatValue:[speed floatValue]];
-	if ([osd isActive]) {
-		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDSpeedHint, [speed floatValue]] 
-					  owner:kOSDOwnerOther
-				updateTimer:YES];
-	}
+	
+	[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDSpeedHint, [speed floatValue]] 
+				  owner:kOSDOwnerOther
+			updateTimer:YES];
 }
 
 -(void) gotSubDelay:(NSNumber*) sd
 {
 	[subDelayText setFloatValue:[sd floatValue]];
-	if ([osd isActive]) {
-		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDSubDelayHint, [sd floatValue]]
-					  owner:kOSDOwnerOther
-				updateTimer:YES];
-	}
+	
+	[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDSubDelayHint, [sd floatValue]]
+				  owner:kOSDOwnerOther
+			updateTimer:YES];
 }
 
 -(void) gotAudioDelay:(NSNumber*) ad
 {
 	[audioDelayText setFloatValue:[ad floatValue]];
-	if ([osd isActive]) {
-		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDAudioDelayHint, [ad floatValue]]
-					  owner:kOSDOwnerOther
-				updateTimer:YES];
-	}
+
+	[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDAudioDelayHint, [ad floatValue]]
+				  owner:kOSDOwnerOther
+			updateTimer:YES];
 }
 
 -(void) resetSubMenu
@@ -1027,8 +1011,6 @@
 	[self setFrame:frm];
 	
 	// 这里是为了让字体大小符合窗口大小
-	if ([osd isActive]) {
-		[osd setStringValue:nil owner:osd.owner updateTimer:NO];		
-	}
+	[osd setStringValue:nil owner:osd.owner updateTimer:NO];
 }
 @end
