@@ -84,7 +84,7 @@
 	
 	[self setVolume:pm.volume];
 	[self setSubPos:pm.subPos];
-	[self setSubScale:[NSNumber numberWithFloat:[pm subScaleInternal]]];
+	[self setSubScale:[NSNumber numberWithFloat:[pm subScale]]];
 	
 	[self setMute:NO];
 	[self setCurrentTime:floatZero];

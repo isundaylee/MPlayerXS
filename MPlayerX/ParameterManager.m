@@ -70,11 +70,10 @@
 		vo = [[NSString alloc] initWithString:kPMDefaultVideoOutput];
 		subPreferedLanguage = [[NSString alloc] initWithString:kPMDefaultSubLang];
 		
-		ass.enabled = YES;
-		ass.frontColor = 0xFFFFFF00; //RRGGBBAA
-		ass.fontScale = 1.5;
-		ass.borderColor = 0x0000000F; //RRGGBBAA
-		ass.forceStyle = [NSString stringWithString:@"BorderStyle=1,Outline=1"];
+		assEnabled = YES;
+		frontColor = 0xFFFFFF00; //RRGGBBAA
+		borderColor = 0x0000000F; //RRGGBBAA
+		assForceStyle = [NSString stringWithString:@"BorderStyle=1,Outline=1"];
 		
 		prefer64bMPlayer = YES;
 		guessSubCP = YES;
@@ -115,27 +114,22 @@
 	[super dealloc];
 }
 
--(float) subScaleInternal
-{
-	return (ass.enabled)?ass.fontScale:subScale;
-}
-
 -(void) setSubFontColor:(NSColor*)col
 {
 	col = [col colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	ass.frontColor = (((uint32)(255 * [col redComponent]))  <<24) + 
-					 (((uint32)(255 * [col greenComponent]))<<16) + 
-					 (((uint32)(255 * [col blueComponent])) <<8)  +
-					  ((uint32)(255 * (1-[col alphaComponent])));
+	frontColor = (((uint32)(255 * [col redComponent]))  <<24) + 
+				 (((uint32)(255 * [col greenComponent]))<<16) + 
+				 (((uint32)(255 * [col blueComponent])) <<8)  +
+				  ((uint32)(255 * (1-[col alphaComponent])));
 }
 
 -(void) setSubFontBorderColor:(NSColor*)col
 {
 	col = [col colorUsingColorSpaceName:NSCalibratedRGBColorSpace];	
-	ass.borderColor = (((uint32)(255 * [col redComponent]))  <<24) + 
-					  (((uint32)(255 * [col greenComponent]))<<16) + 
-					  (((uint32)(255 * [col blueComponent])) <<8) + 
-					   ((uint32)(255 * (1-[col alphaComponent])));
+	borderColor = (((uint32)(255 * [col redComponent]))  <<24) + 
+				  (((uint32)(255 * [col greenComponent]))<<16) + 
+				  (((uint32)(255 * [col blueComponent])) <<8) + 
+				   ((uint32)(255 * (1-[col alphaComponent])));
 	
 }
 
@@ -255,20 +249,20 @@
 	}
 	[paramArray addObject:str];
 
-	if (ass.enabled) {
+	if (assEnabled) {
 		[paramArray addObject:@"-ass"];
 		
 		[paramArray addObject:@"-ass-color"];
-		[paramArray addObject:[NSString stringWithFormat: @"%X", ass.frontColor]];
+		[paramArray addObject:[NSString stringWithFormat: @"%X", frontColor]];
 		
 		[paramArray addObject:@"-ass-font-scale"];
-		[paramArray addObject:[NSString stringWithFormat: @"%f", ass.fontScale]];
+		[paramArray addObject:[NSString stringWithFormat: @"%.1f", subScale]];
 		
 		[paramArray addObject:@"-ass-border-color"];
-		[paramArray addObject:[NSString stringWithFormat: @"%X", ass.borderColor]];
+		[paramArray addObject:[NSString stringWithFormat: @"%X", borderColor]];
 		
 		[paramArray addObject:@"-ass-force-style"];
-		[paramArray addObject:[NSString stringWithFormat: @"%@", ass.forceStyle]];
+		[paramArray addObject:assForceStyle];
 		
 		// 目前只有在使用ass的时候，letterbox才有用
 		// 但是将来也许不用ass也要实现letter box

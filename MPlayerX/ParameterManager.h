@@ -21,16 +21,6 @@
 #import <Cocoa/Cocoa.h>
 #import "coredef_private.h"
 
-typedef struct
-{
-	BOOL enabled;
-	uint32 frontColor;
-	float fontScale;
-	uint32 borderColor;
-	NSString *forceStyle;
-
-} ASS_SETTINGS;
-
 @interface ParameterManager : NSObject 
 {
 	unsigned char autoSync;
@@ -41,7 +31,11 @@ typedef struct
 	NSString *ao;
 	NSString *vo;
 	NSString *subPreferedLanguage;
-	ASS_SETTINGS ass;
+	
+	BOOL assEnabled;
+	uint32 frontColor;
+	uint32 borderColor;
+	NSString *assForceStyle;
 	
 	// accessable variables
 	BOOL prefer64bMPlayer;
@@ -90,8 +84,6 @@ typedef struct
 @property (assign, readwrite) unsigned int letterBoxMode;
 @property (assign, readwrite) float letterBoxHeight;
 
-// 这个接口是面向playingInfo
--(float) subScaleInternal;
 -(void) setSubFontColor:(NSColor*)col;
 -(void) setSubFontBorderColor:(NSColor*)col;
 
