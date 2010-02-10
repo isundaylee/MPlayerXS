@@ -78,6 +78,9 @@
 					   [NSNumber numberWithBool:YES], kUDKeyCloseWindowWhenStopped,
 					   [NSNumber numberWithBool:YES], kUDKeyPreferIPV6,
 					   [NSNumber numberWithBool:YES], kUDKeyCachingLocal,
+					   [NSNumber numberWithUnsignedInt:kPMLetterBoxModeNotDisplay], kUDKeyLetterBoxMode,
+					   [NSNumber numberWithUnsignedInt:kPMLetterBoxModeBottomOnly], kUDKeyLetterBoxModeAlt,
+					   [NSNumber numberWithFloat:0.12], kUDKeyLetterBoxHeight,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
@@ -446,6 +449,9 @@
 		[mplayer.pm setAc3Pass:[ud boolForKey:kUDKeyAC3PassThrough]];
 		[mplayer.pm setFastDecoding:[ud boolForKey:kUDKeyFastDecoding]];
 		[mplayer.pm setUseEmbeddedFonts:[ud boolForKey:kUDKeyUseEmbeddedFonts]];
+		
+		[mplayer.pm setLetterBoxMode:[ud integerForKey:kUDKeyLetterBoxMode]];
+		[mplayer.pm setLetterBoxHeight:[ud floatForKey:kUDKeyLetterBoxHeight]];
 
 		// 这里必须要retain，否则如果用lastPlayedPath作为参数传入的话会有问题
 		lastPlayedPathPre = [[url absoluteURL] retain];

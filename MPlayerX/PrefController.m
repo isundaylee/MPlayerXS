@@ -153,11 +153,22 @@
 	[ud setInteger:((unsigned int)cache) forKey:kUDKeyCacheSize];
 }
 
--(void) fullscreenModeChanged:(id)sender
+-(IBAction) fullscreenModeChanged:(id)sender
 {
 	[dispView refreshFullscreenMode];
 }
 
+-(IBAction) letterBoxModeChanged:(id)sender
+{
+	unsigned int mode = [ud interForKey:kUDKeyLetterBoxMode];
+	
+	if (mode != kPMLetterBoxModeNotDisplay]) {
+		// 如果是现实letterbox，那么更新alt
+		[ud setInteger:mode forKey:kUDKeyLetterBoxModeAlt];
+	}
+	// 更新menu
+	[controlUI toggleLetterBox:nil];
+}
 /////////////////////////////Toolbar Delegate/////////////////////
 /*
  * 如何添加新的Pref View

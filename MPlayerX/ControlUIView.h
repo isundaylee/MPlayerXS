@@ -76,6 +76,7 @@
 	IBOutlet NSMenuItem *menuVolDec;
 	IBOutlet NSMenuItem *menuToggleLockAspectRatio;
 	IBOutlet NSMenuItem *menuResetLockAspectRatio;
+	IBOutlet NSMenuItem *menuToggleLetterBox;
 }
 
 @property (assign, readwrite) NSTimeInterval autoHideTimeInterval;
@@ -148,4 +149,5 @@
 -(IBAction) toggleLockAspectRatio:(id)sender;
 -(IBAction) resetAspectRatio:(id)sender;
 
+-(IBAction) toggleLetterBox:(id)sender;
 @end

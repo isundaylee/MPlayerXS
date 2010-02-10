@@ -124,6 +124,8 @@
 	
 	[menuResetLockAspectRatio setKeyEquivalent:kSCMResetLockAspectRatioKeyEquivalent];
 	[menuResetLockAspectRatio setKeyEquivalentModifierMask:kSCMResetLockAspectRatioKeyEquivalentModifierFlagMask];
+	
+	[menuToggleLetterBox setKeyEquivalent:kSCMToggleLetterBoxKeyEquivalent];
 }
 
 - (void)awakeFromNib
@@ -200,6 +202,8 @@
 	[menuToggleLockAspectRatio setEnabled:NO];
 	[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
 	[menuResetLockAspectRatio setAlternate:YES];
+	
+	[menuToggleLetterBox setTitle:([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay)?(kMPXStringMenuShowLetterBox):(kMPXStringMenuHideLetterBox)];
 }
 
 -(void) dealloc
@@ -659,6 +663,23 @@
 					  owner:kOSDOwnerOther
 				updateTimer:YES];
 	}
+}
+
+-(IBAction) toggleLetterBox:(id)sender
+{
+	if (sender) {
+		// 说明是从menu激发的事件
+		// 如果是nil，说明是内部激发的事件，那么只是更新menu状态
+		if ([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay]) {
+			// 没有在显示
+			[ud setInteger:[ud integerForKey:kUDKeyLetterBoxModeAlt] forKey:kUDKeyLetterBoxMode];
+		} else {
+			// 正在显示
+			[ud setInteger:kPMLetterBoxModeNotDisplay forKey:kUDKeyLetterBoxMode];
+		}
+	}
+	// 更新menu状态
+	[menuToggleLetterBox setTitle:([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay)?(kMPXStringMenuShowLetterBox):(kMPXStringMenuHideLetterBox)];
 }
 
 ////////////////////////////////////////////////FullscreenThings//////////////////////////////////////////////////

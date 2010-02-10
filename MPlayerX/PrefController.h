@@ -53,5 +53,7 @@
 -(IBAction) controlUIAppearanceChanged:(id)sender;
 -(IBAction) osdSetChanged:(id)sender;
 -(IBAction) checkCacheFormat:(id)sender;
--(void) fullscreenModeChanged:(id)sender;
+-(IBAction) fullscreenModeChanged:(id)sender;
+-(IBAction) letterBoxModeChanged:(id)sender;
+
 @end
