@@ -30,3 +30,8 @@ typedef enum
 } SUBFILE_NAMERULE;
 
 #define kPlayerWindowCornerRadius	(6.0)
+
+// letterBox显示模式
+#define kPMLetterBoxModeNotDisplay	(0)
+#define kPMLetterBoxModeBottomOnly	(1)
+#define kPMLetterBoxModeBoth		(2)

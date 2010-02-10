@@ -28,6 +28,7 @@ typedef struct
 	float fontScale;
 	uint32 borderColor;
 	NSString *forceStyle;
+
 } ASS_SETTINGS;
 
 @interface ParameterManager : NSObject 
@@ -62,6 +63,8 @@ typedef struct
 	BOOL useEmbeddedFonts;
 	unsigned int cache;
 	BOOL preferIPV6;
+	unsigned int letterBoxMode;
+	float letterBoxHeight;
 }
 
 @property (assign, readwrite) SUBFILE_NAMERULE subNameRule;
@@ -84,6 +87,8 @@ typedef struct
 @property (assign, readwrite) BOOL useEmbeddedFonts;
 @property (assign, readwrite) unsigned int cache;
 @property (assign, readwrite) BOOL preferIPV6;
+@property (assign, readwrite) unsigned int letterBoxMode;
+@property (assign, readwrite) float letterBoxHeight;
 
 // 这个接口是面向playingInfo
 -(float) subScaleInternal;

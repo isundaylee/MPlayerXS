@@ -52,6 +52,8 @@
 @synthesize useEmbeddedFonts;
 @synthesize cache;
 @synthesize preferIPV6;
+@synthesize letterBoxMode;
+@synthesize letterBoxHeight;
 
 #pragma mark Init/Dealloc
 -(id) init
@@ -73,7 +75,7 @@
 		ass.fontScale = 1.5;
 		ass.borderColor = 0x0000000F; //RRGGBBAA
 		ass.forceStyle = [NSString stringWithString:@"BorderStyle=1,Outline=1"];
-
+		
 		prefer64bMPlayer = YES;
 		guessSubCP = YES;
 		startTime = -1;
@@ -93,6 +95,8 @@
 		useEmbeddedFonts = NO;
 		cache = 1000;
 		preferIPV6 = NO;
+		letterBoxMode = kPMLetterBoxModeNotDisplay;
+		letterBoxHeight = 0.1;
 	}
 	return self;
 }
@@ -236,6 +240,10 @@
 		[paramArray addObject:subCP];
 	}
 	
+	// 字幕大小与高度成正比，默认是对角线长度
+	[paramArray addObject:@"-subfont-autoscale"];
+	[paramArray addObject:@"1"];
+	
 	if (useEmbeddedFonts) {
 		[paramArray addObject:@"-embeddedfonts"];
 	}
@@ -261,6 +269,23 @@
 		
 		[paramArray addObject:@"-ass-force-style"];
 		[paramArray addObject:[NSString stringWithFormat: @"%@", ass.forceStyle]];
+		
+		// 目前只有在使用ass的时候，letterbox才有用
+		// 但是将来也许不用ass也要实现letter box
+		if (letterBoxMode != kPMLetterBoxModeNotDisplay) {
+			// 说明要显示letterBox，那么至少会显示bottom
+			// 字幕显示在letterBox里
+			[paramArray addObject:@"-ass-use-margins"];
+			
+			[paramArray addObject:@"-ass-bottom-margin"];
+			[paramArray addObject:[NSString stringWithFormat: @"%.2f", letterBoxHeight]];
+			
+			if (letterBoxMode == kPMLetterBoxModeBoth) {
+				// 还要显示top margin
+				[paramArray addObject:@"-ass-top-margin"];
+				[paramArray addObject:[NSString stringWithFormat: @"%.2f", letterBoxHeight]];
+			}
+		}
 	}
 	
 	if (guessSubCP) {
