@@ -51,7 +51,8 @@
 #define kMPXStringOSDAspectRatioUnLocked	(NSLocalizedString(@"Aspect Ratio: Unlocked", @"OSD hint"))
 #define kMPXStringOSDAspectRatioReset		(NSLocalizedString(@"Aspect Ratio: Reset", @"OSD hint"))
 
-
 #define kMPXStringMenuUnlockAspectRatio		(NSLocalizedString(@"Unlock Aspect Ratio", @"menu"))
 #define kMPXStringMenuLockAspectRatio		(NSLocalizedString(@"Lock Aspect Ratio", @"menu"))
 
+#define kMPXStringMenuShowLetterBox			(NSLocalizedString(@"Show LetterBox", @"menu"))
+#define kMPXStringMenuHideLetterBox			(NSLocalizedString(@"Hide LetterBox", @"menu"))
