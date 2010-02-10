@@ -51,7 +51,7 @@
 @property(retain, readwrite) NSNumber *audioDelay;
 @property(retain, readwrite) NSNumber *subDelay;
 @property(assign, readwrite) float subPos;
-@property(retain, readwrite) NSNumber * subScale;
+@property(retain, readwrite) NSNumber *subScale;
 @property(retain, readwrite) NSNumber *speed;
 @property(retain, readwrite) NSNumber *cachingPercent;
 

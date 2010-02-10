@@ -30,6 +30,17 @@
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
+@implementation NSColor
+-(uint32) convertToHex
+{
+	NSColor *col = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+	return ((((uint32)(255 * [col redComponent]))  <<24) + 
+		     (((uint32)(255 * [col greenComponent]))<<16) + 
+			 (((uint32)(255 * [col blueComponent])) <<8)  +
+			  ((uint32)(255 * (1-[col alphaComponent]))));
+}
+@end
+
 @implementation ParameterManager
 
 @synthesize subNameRule;
@@ -116,21 +127,12 @@
 
 -(void) setSubFontColor:(NSColor*)col
 {
-	col = [col colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	frontColor = (((uint32)(255 * [col redComponent]))  <<24) + 
-				 (((uint32)(255 * [col greenComponent]))<<16) + 
-				 (((uint32)(255 * [col blueComponent])) <<8)  +
-				  ((uint32)(255 * (1-[col alphaComponent])));
+	frontColor = [col convertToHex];
 }
 
 -(void) setSubFontBorderColor:(NSColor*)col
 {
-	col = [col colorUsingColorSpaceName:NSCalibratedRGBColorSpace];	
-	borderColor = (((uint32)(255 * [col redComponent]))  <<24) + 
-				  (((uint32)(255 * [col greenComponent]))<<16) + 
-				  (((uint32)(255 * [col blueComponent])) <<8) + 
-				   ((uint32)(255 * (1-[col alphaComponent])));
-	
+	borderColor = [col convertToHex];
 }
 
 -(void) reset

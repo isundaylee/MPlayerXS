@@ -200,47 +200,37 @@
 	if ([itemIdentifier isEqualToString:PrefToolBarItemIdGeneral]) {
 		[item setLabel:PrefTBILabelGeneral];
 		[item setImage:[NSImage imageNamed:NSImageNamePreferencesGeneral]];
-		[item setTarget:self];
-		[item setAction:@selector(switchViews:)];
-		[item setAutovalidates:NO];
 		[item setTag:0];
 		
 	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdVideo]) {
 		[item setLabel:PrefTBILabelVideo];
 		[item setImage:[NSImage imageNamed:@"toolbar_video"]];
-		[item setTarget:self];
-		[item setAction:@selector(switchViews:)];
-		[item setAutovalidates:NO];
 		[item setTag:1];
 		
 	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdAudio]) {
 		[item setLabel:PrefTBILabelAudio];
 		[item setImage:[NSImage imageNamed:@"toolbar_audio"]];
-		[item setTarget:self];
-		[item setAction:@selector(switchViews:)];
-		[item setAutovalidates:NO];
 		[item setTag:2];
 		
 	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdSubtitle]) {
 		[item setLabel:PrefTBILabelSubtitle];
 		[item setImage:[NSImage imageNamed:NSImageNameFontPanel]];
-		[item setTarget:self];
-		[item setAction:@selector(switchViews:)];
-		[item setAutovalidates:NO];
 		[item setTag:3];
 		
 	} else if ([itemIdentifier isEqualToString:PrefToolbarItemIdNetwork]) {
 		[item setLabel:PrefTBILabelNetwork];
 		[item setImage:[NSImage imageNamed:NSImageNameNetwork]];
-		[item setTarget:self];
-		[item setAction:@selector(switchViews:)];
-		[item setAutovalidates:NO];
 		[item setTag:4];
 		
 	} else {
 		[item release];
 		return nil;
 	}
+
+	[item setTarget:self];
+	[item setAction:@selector(switchViews:)];
+	[item setAutovalidates:NO];
+
 	return [item autorelease];
 }
 

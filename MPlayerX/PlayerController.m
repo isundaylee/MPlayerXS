@@ -432,51 +432,50 @@
 
 -(void) playMedia:(NSURL*)url
 {
-	if (url) {
-		NSString *path;	
-		// 将播放开始时间重置
-		[mplayer.pm setStartTime:-1];
-		// 设定字幕大小
-		[mplayer.pm setSubScale:[ud floatForKey:kUDKeySubScale]];
-		
-		[mplayer.pm setSubFontColor: [NSUnarchiver unarchiveObjectWithData: [ud objectForKey:kUDKeySubFontColor]]];
-		
-		[mplayer.pm setSubFontBorderColor: [NSUnarchiver unarchiveObjectWithData: [ud objectForKey:kUDKeySubFontBorderColor]]];
-		
-		[mplayer.pm setForceIndex:[ud boolForKey:kUDKeyForceIndex]];
-		[mplayer.pm setSubNameRule:[ud integerForKey:kUDKeySubFileNameRule]];
-		[mplayer.pm setDtsPass:[ud boolForKey:kUDKeyDTSPassThrough]];
-		[mplayer.pm setAc3Pass:[ud boolForKey:kUDKeyAC3PassThrough]];
-		[mplayer.pm setFastDecoding:[ud boolForKey:kUDKeyFastDecoding]];
-		[mplayer.pm setUseEmbeddedFonts:[ud boolForKey:kUDKeyUseEmbeddedFonts]];
-		
-		[mplayer.pm setLetterBoxMode:[ud integerForKey:kUDKeyLetterBoxMode]];
-		[mplayer.pm setLetterBoxHeight:[ud floatForKey:kUDKeyLetterBoxHeight]];
+	// 内部函数，没有那么必要判断url的有效性
+	NSString *path;	
+	// 将播放开始时间重置
+	[mplayer.pm setStartTime:-1];
+	// 设定字幕大小
+	[mplayer.pm setSubScale:[ud floatForKey:kUDKeySubScale]];
+	
+	[mplayer.pm setSubFontColor: [NSUnarchiver unarchiveObjectWithData: [ud objectForKey:kUDKeySubFontColor]]];
+	
+	[mplayer.pm setSubFontBorderColor: [NSUnarchiver unarchiveObjectWithData: [ud objectForKey:kUDKeySubFontBorderColor]]];
+	
+	[mplayer.pm setForceIndex:[ud boolForKey:kUDKeyForceIndex]];
+	[mplayer.pm setSubNameRule:[ud integerForKey:kUDKeySubFileNameRule]];
+	[mplayer.pm setDtsPass:[ud boolForKey:kUDKeyDTSPassThrough]];
+	[mplayer.pm setAc3Pass:[ud boolForKey:kUDKeyAC3PassThrough]];
+	[mplayer.pm setFastDecoding:[ud boolForKey:kUDKeyFastDecoding]];
+	[mplayer.pm setUseEmbeddedFonts:[ud boolForKey:kUDKeyUseEmbeddedFonts]];
+	
+	[mplayer.pm setLetterBoxMode:[ud integerForKey:kUDKeyLetterBoxMode]];
+	[mplayer.pm setLetterBoxHeight:[ud floatForKey:kUDKeyLetterBoxHeight]];
 
-		// 这里必须要retain，否则如果用lastPlayedPath作为参数传入的话会有问题
-		lastPlayedPathPre = [[url absoluteURL] retain];
+	// 这里必须要retain，否则如果用lastPlayedPath作为参数传入的话会有问题
+	lastPlayedPathPre = [[url absoluteURL] retain];
+	
+	if ([url isFileURL]) {
+		path = [url path];
+
+		[mplayer.pm setCache:([ud boolForKey:kUDKeyCachingLocal])?([ud integerForKey:kUDKeyCacheSize]):(0)];
 		
-		if ([url isFileURL]) {
-			path = [url path];
+		// 将文件加入Recent Menu里，只能加入本地文件
+		[[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:url];
 
-			[mplayer.pm setCache:([ud boolForKey:kUDKeyCachingLocal])?([ud integerForKey:kUDKeyCacheSize]):(0)];
-			
-			// 将文件加入Recent Menu里，只能加入本地文件
-			[[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:url];
-
-		} else {
-			path = [url absoluteString];
-			
-			[mplayer.pm setCache:[ud integerForKey:kUDKeyCacheSize]];
-			[mplayer.pm setPreferIPV6:[ud boolForKey:kUDKeyPreferIPV6]];
-		}
-
-		[mplayer playMedia:path];
-
-		SAFERELEASE(lastPlayedPath);
-		lastPlayedPath = lastPlayedPathPre;
-		lastPlayedPathPre = nil;
+	} else {
+		path = [url absoluteString];
+		
+		[mplayer.pm setCache:[ud integerForKey:kUDKeyCacheSize]];
+		[mplayer.pm setPreferIPV6:[ud boolForKey:kUDKeyPreferIPV6]];
 	}
+
+	[mplayer playMedia:path];
+
+	SAFERELEASE(lastPlayedPath);
+	lastPlayedPath = lastPlayedPathPre;
+	lastPlayedPathPre = nil;
 }
 
 -(NSURL*) findFirstMediaFileFromSubFile:(NSString*)path
@@ -611,11 +610,6 @@
 		//如果不是本地文件，肯定返回nil
 		NSString *nextPath = [PlayList AutoSearchNextMoviePathFrom:[lastPlayedPath path]];
 		if (nextPath != nil) {
-			// 如果没有下一个文件，那么就不要浪费一个Timer了
-			
-			// 这个时间的设定是一个trick，如果直接调用会造成线程锁死，因为再delegate方法里面设定了waituntildone为Yes
-			// 因此用了Timer，但是在这个时间期间用户选择别的文件播放或者mplayer还没有回到正常的等待状态
-			// 那么就应该放弃下一个文件
 			[self loadFiles:[NSArray arrayWithObject:nextPath] fromLocal:YES];
 			return;
 		}

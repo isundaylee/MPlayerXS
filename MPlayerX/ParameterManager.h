@@ -21,6 +21,10 @@
 #import <Cocoa/Cocoa.h>
 #import "coredef_private.h"
 
+@interface NSColor (MPXAdditional)
+-(uint32) convertToHex;
+@end
+
 @interface ParameterManager : NSObject 
 {
 	unsigned char autoSync;
