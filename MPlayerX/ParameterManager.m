@@ -30,7 +30,7 @@
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
-@implementation NSColor
+@implementation NSColor (MPXAdditional)
 -(uint32) convertToHex
 {
 	NSColor *col = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
