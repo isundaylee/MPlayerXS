@@ -20,18 +20,31 @@
 
 #import "PlayList.h"
 
-NSUInteger findLastDigitPartIndex(NSString *name)
+NSRange findLastDigitPart(NSString *name)
 {
-	NSInteger idx = [name length] - 1;
 	unichar ch;
+	NSRange range;
+	BOOL entered = NO;
 	
-	while (idx >= 0) {
-		ch = [name characterAtIndex:idx];
-		if ((ch < '0')||(ch>'9'))
+	range.location = [name length];
+	range.length = 0;
+	
+	// 字符串长度大于0
+	while(range.location--) {
+		// 得到当前的char
+		ch = [name characterAtIndex:range.location];
+		
+		if ((ch>='0')&&(ch<='9')) {
+			// 是数字
+			entered = YES;
+			range.length++;
+		} else if (entered) {
+			// 不是数字并且已经找到了数字
 			break;
-		idx--;
+		}
 	}
-	return (idx+1);
+	range.location++;
+ 	return range;
 }
 
 @implementation PlayList
@@ -39,7 +52,7 @@ NSUInteger findLastDigitPartIndex(NSString *name)
 +(NSString*) AutoSearchNextMoviePathFrom:(NSString*) path
 {
 	NSString *nextPath = nil;
-	NSUInteger digitPathIdx;
+	NSRange digitRange;
 	NSString *idxNext;
 	
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -47,33 +60,28 @@ NSUInteger findLastDigitPartIndex(NSString *name)
 	if (path) {
 		// 得到文件的名字，没有后缀
 		NSString *movieName = [[path lastPathComponent] stringByDeletingPathExtension];
-		// 文件名的长度
-		NSUInteger movieNameLength = [movieName length];
 		// 找到数字开头的index
-		digitPathIdx = findLastDigitPartIndex(movieName);
+		digitRange = findLastDigitPart(movieName);
 		
 		// 如果文件后面有数字的话
-		if (digitPathIdx < movieNameLength) {
+		if (digitRange.length) {
 			// 得到下一个想要播放的文件的index
-			idxNext = [NSString stringWithFormat:@"%d", [[movieName substringFromIndex:digitPathIdx] integerValue] + 1];
+			idxNext = [NSString stringWithFormat:@"%d", [[movieName substringWithRange:digitRange] integerValue] + 1];
 			NSUInteger idxNextLen = [idxNext length];
 			
 			// 如果这个index的长度比上一个短，说明有padding
-			if (idxNextLen < (movieNameLength - digitPathIdx)) {
-				NSRange range;
-				range.location = digitPathIdx;
-				range.length = ((movieNameLength - digitPathIdx) - idxNextLen);
-				
-				// padding之后的文件名
-				idxNext = [NSString stringWithFormat: @"%@%@", [movieName substringWithRange:range], idxNext];
+			if (idxNextLen < digitRange.length) {
+				digitRange.location += (digitRange.length-idxNextLen);
+				digitRange.length = idxNextLen;
 			}
-
-			nextPath = [[NSString alloc] initWithFormat:@"%@/%@%@.%@",
+			
+			nextPath = [[NSString alloc] initWithFormat:@"%@/%@%@%@.%@",
 						[path stringByDeletingLastPathComponent],
-						[movieName substringToIndex:digitPathIdx],
+						[movieName substringToIndex:digitRange.location],
 						idxNext,
+						[movieName substringFromIndex:digitRange.location+digitRange.length],
 						[path pathExtension]];
-
+			
 			BOOL isDir = YES;
 			if ((![[NSFileManager defaultManager] fileExistsAtPath:nextPath  isDirectory:&isDir]) || isDir) {
 				[nextPath release];
