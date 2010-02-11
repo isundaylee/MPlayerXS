@@ -669,8 +669,14 @@
 			[ud setInteger:kPMLetterBoxModeNotDisplay forKey:kUDKeyLetterBoxMode];
 		}
 	}
-	// 更新menu状态
-	[menuToggleLetterBox setTitle:([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay)?(kMPXStringMenuShowLetterBox):(kMPXStringMenuHideLetterBox)];
+
+	if ([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay) {
+		[menuToggleLetterBox setTitle:kMPXStringMenuShowLetterBox];
+		[osd setStringValue:kMPXStringOSDLetterBoxWillHide owner:kOSDOwnerOther updateTimer:YES];
+	} else {
+		[menuToggleLetterBox setTitle:kMPXStringMenuHideLetterBox];
+		[osd setStringValue:kMPXStringOSDLetterBoxWillShow owner:kOSDOwnerOther updateTimer:YES];
+	}
 }
 
 ////////////////////////////////////////////////FullscreenThings//////////////////////////////////////////////////
