@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="18"/>
+			<integer value="268"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1271,7 +1271,7 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="403688566">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1807,24 +1807,26 @@ IHdpbGwgdGFrZSBlZmZlY3QgdW50aWwgcGxheWluZyBuZXh0IG9uZQ</string>
 					</object>
 				</object>
 				<string key="NSFrameSize">{516, 298}</string>
-				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="382663841">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="NSTextField" id="279354483">
 						<reference key="NSNextResponder" ref="382663841"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{33, 20}, {325, 42}}</string>
+						<string key="NSFrame">{{33, 20}, {430, 42}}</string>
 						<reference key="NSSuperview" ref="382663841"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="708618849">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">272760832</int>
-							<string key="NSContents">Here local doesn't mean physically local, but also includes the network drives mounted into the OS, and looks like a local drive in Finder</string>
+							<string type="base64-UTF8" key="NSContents">SGVyZSBsb2NhbCBkb2Vzbid0IG1lYW4gcGh5c2ljYWxseSBsb2NhbCwgYnV0IGFsc28gaW5jbHVkZXMg
+dGhlIG5ldHdvcmsgZHJpdmVzIG1vdW50ZWQgaW50byB0aGUgT1MsIGFuZCBsb29rcyBsaWtlIGEgbG9j
+YWwgZHJpdmUgaW4gRmluZGVyCiEhISBCdXQgSSBhbHNvIGZvdW5kIHRoaXMgc2V0dGluZyBtYXkgY2F1
+c2UgdGhlIHBsYXliYWNrIGNsdXR0ZXJlZCB3aGVuIHNlZWtpbmcuA</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="279354483"/>
 							<reference key="NSBackgroundColor" ref="592303529"/>
@@ -1860,7 +1862,7 @@ IHdpbGwgdGFrZSBlZmZlY3QgdW50aWwgcGxheWluZyBuZXh0IG9uZQ</string>
 					<object class="NSTextField" id="428018393">
 						<reference key="NSNextResponder" ref="382663841"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{292, 107}, {39, 14}}</string>
+						<string key="NSFrame">{{236, 107}, {39, 14}}</string>
 						<reference key="NSSuperview" ref="382663841"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="487254623">
@@ -1876,7 +1878,7 @@ IHdpbGwgdGFrZSBlZmZlY3QgdW50aWwgcGxheWluZyBuZXh0IG9uZQ</string>
 					<object class="NSTextField" id="53372635">
 						<reference key="NSNextResponder" ref="382663841"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{218, 106}, {69, 19}}</string>
+						<string key="NSFrame">{{162, 105}, {69, 19}}</string>
 						<reference key="NSSuperview" ref="382663841"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="909944121">
@@ -1893,13 +1895,13 @@ IHdpbGwgdGFrZSBlZmZlY3QgdW50aWwgcGxheWluZyBuZXh0IG9uZQ</string>
 					<object class="NSTextField" id="298127255">
 						<reference key="NSNextResponder" ref="382663841"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{17, 107}, {201, 17}}</string>
+						<string key="NSFrame">{{17, 107}, {146, 17}}</string>
 						<reference key="NSSuperview" ref="382663841"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="861227818">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Cache size for network stream:</string>
+							<string key="NSContents">Cache size for stream:</string>
 							<reference key="NSSupport" ref="472449914"/>
 							<reference key="NSControlView" ref="298127255"/>
 							<reference key="NSBackgroundColor" ref="592303529"/>
@@ -1929,7 +1931,8 @@ IHdpbGwgdGFrZSBlZmZlY3QgdW50aWwgcGxheWluZyBuZXh0IG9uZQ</string>
 						</object>
 					</object>
 				</object>
-				<string key="NSFrameSize">{375, 189}</string>
+				<string key="NSFrameSize">{480, 189}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSUserDefaultsController" id="659034198">
@@ -3731,10 +3734,10 @@ IHdpbGwgdGFrZSBlZmZlY3QgdW50aWwgcGxheWluZyBuZXh0IG9uZQ</string>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="207560814"/>
 							<reference ref="428018393"/>
-							<reference ref="53372635"/>
 							<reference ref="298127255"/>
 							<reference ref="787758060"/>
 							<reference ref="279354483"/>
+							<reference ref="53372635"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Network</string>
@@ -4252,7 +4255,7 @@ IHdpbGwgdGFrZSBlZmZlY3QgdW50aWwgcGxheWluZyBuZXh0IG9uZQ</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{406, 744}, {375, 189}}</string>
+					<string>{{406, 744}, {480, 189}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

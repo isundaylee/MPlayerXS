@@ -77,7 +77,7 @@
 					   [NSNumber numberWithUnsignedInt:1000], kUDKeyCacheSize,
 					   [NSNumber numberWithBool:YES], kUDKeyCloseWindowWhenStopped,
 					   [NSNumber numberWithBool:YES], kUDKeyPreferIPV6,
-					   [NSNumber numberWithBool:YES], kUDKeyCachingLocal,
+					   [NSNumber numberWithBool:NO], kUDKeyCachingLocal,
 					   [NSNumber numberWithUnsignedInt:kPMLetterBoxModeNotDisplay], kUDKeyLetterBoxMode,
 					   [NSNumber numberWithUnsignedInt:kPMLetterBoxModeBottomOnly], kUDKeyLetterBoxModeAlt,
 					   [NSNumber numberWithFloat:0.12], kUDKeyLetterBoxHeight,
