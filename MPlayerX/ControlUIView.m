@@ -144,6 +144,8 @@
 	// 从userdefault中获得default 音量值
 	[volumeSlider setFloatValue:[ud floatForKey:kUDKeyVolume]];
 	[self setVolume:volumeSlider];
+	// 只有拖拽和按下鼠标的时候触发事件
+	[[volumeSlider cell] sendActionOn:NSLeftMouseDownMask|NSLeftMouseDraggedMask];
 
 	[menuVolInc setEnabled:YES];
 	[menuVolInc setTag:1];
@@ -160,6 +162,8 @@
 	[timeSlider setEnabled:NO];
 	[timeSlider setMaxValue:0];
 	[timeSlider setMinValue:-1];
+	// 只有拖拽和按下鼠标的时候触发事件
+	[[timeSlider cell] sendActionOn:NSLeftMouseDownMask|NSLeftMouseDraggedMask];
 
 	[hintTime setAlphaValue:0];
 	[[hintTime cell] setFormatter:timeFormatter];
