@@ -52,18 +52,12 @@
 		fillScreen = NO;
 		externalAspectRatio = kDisplayAscpectRatioInvalid;
 		
+		NSNull *n = [NSNull null];
+		[self setActions:[NSDictionary dictionaryWithObjectsAndKeys:
+						  n, @"anchorPoint", n, @"bounds", n, @"frame", n, @"position", nil]];
+		
 		[self setMasksToBounds:YES];
 		[self setAutoresizingMask:kCALayerWidthSizable|kCALayerHeightSizable];
-
-		CALayer *maskLayer = [CALayer layer];
-		
-		[maskLayer setDelegate:self];
-		CGColorRef col = CGColorCreateGenericGray(0.0, 1.0);
-		[maskLayer setBackgroundColor:col];
-		CGColorRelease(col);
-		[maskLayer setAutoresizingMask:kCALayerWidthSizable|kCALayerHeightSizable];
-
-		[self setMask:maskLayer];
 	}
 	return self;
 }
@@ -73,22 +67,6 @@
 	[self freeLocalBuffer];
 	
 	[super dealloc];
-}
-
--(void) setupWithSuperLayer:(CALayer*)root
-{
-	[self setBounds:[root bounds]];
-	[self setPosition:CGPointMake(root.bounds.size.width/2, root.bounds.size.height/2)];
-	
-	CALayer *maskLayer = [self mask];
-
-	[maskLayer setBounds:[root bounds]];
-	[maskLayer setPosition:CGPointMake(root.bounds.size.width/2, root.bounds.size.height/2)];	
-}
-
--(id<CAAction>) actionForLayer:(CALayer *)layer forKey:(NSString *)event
-{
-	return ((id<CAAction>)[NSNull null]);
 }
 
 -(void) freeLocalBuffer
@@ -111,7 +89,7 @@
 		SAFERELEASEOPENGLBUFFER(bufRef);
 		
 		CVReturn error;
-		CVOpenGLTextureRef texture;
+		//CVOpenGLTextureRef texture;
 				
 		error = CVPixelBufferCreateWithBytes(NULL, fmt.width, fmt.height, fmt.pixelFormat, 
 											 bufRaw, fmt.width * ((fmt.pixelFormat == kYUVSPixelFormat)?2:4), 
@@ -128,6 +106,7 @@
 			return NO;
 		}
 		
+		/*
 		error = CVOpenGLTextureCacheCreateTextureFromImage(NULL, cache, bufRef,  0, &texture);
 		if (error != kCVReturnSuccess) {
 			NSLog(@"texture failed");
@@ -136,6 +115,7 @@
 			return NO;
 		}
 		CVOpenGLTextureRelease(texture);
+		*/
 		return YES;
 	}
 	return NO;
@@ -204,15 +184,7 @@
 //////////////////////////////////////OpenGLLayer inherent/////////////////////////////////////
 -(BOOL) asynchronous
 {
-	return YES;
-}
-
-- (BOOL)canDrawInCGLContext:(CGLContextObj)ctx
-				pixelFormat:(CGLPixelFormatObj)pf 
-			   forLayerTime:(CFTimeInterval)t
-				displayTime:(const CVTimeStamp *)ts
-{
-	return YES;
+	return NO;
 }
 
 - (CGLContextObj)copyCGLContextForPixelFormat:(CGLPixelFormatObj)pf
@@ -232,12 +204,7 @@
 
 	// 打开多线程支持
 	CGLEnable(_context, kCGLCEMPEngine);
-/*
-	glDisable( GL_BLEND );
-    glDisable( GL_DEPTH_TEST );
-    glDepthMask( GL_FALSE );
-    glDisable( GL_CULL_FACE) ;
-*/	
+
 	[self buildOpenGLEnvironment];
 
 	return _context;
@@ -274,44 +241,27 @@
 		
 		if (error == kCVReturnSuccess) {
 			// 成功创建纹理
-			CGFloat x, y;
-			CGSize sz = [self bounds].size;
-			CGFloat dAspect = (sz.width)/(sz.height);
+			CGRect rc = self.superlayer.bounds;
 			CGFloat sAspect = [self aspectRatio];
+			
+			if (((sAspect * rc.size.height) > rc.size.width) == fillScreen) {
+				rc.size.width = rc.size.height * sAspect;
+			} else {
+				rc.size.height = rc.size.width / sAspect;
+			}
+
+			[self setBounds:rc];
 			
 			glEnable(CVOpenGLTextureGetTarget(tex));
 			glBindTexture(CVOpenGLTextureGetTarget(tex), CVOpenGLTextureGetName(tex));
 			
 			glBegin(GL_QUADS);
-
-			if (sAspect > dAspect) {
-				if (fillScreen) {
-					x = sAspect/dAspect;
-					y = 1;
-				}
-				else {
-					x = 1;
-					y = dAspect/sAspect;
-				}
-			}
-			else {
-				if (fillScreen) {
-					x = 1;
-					y = dAspect/sAspect;
-				}
-				else {
-					x = sAspect/dAspect;
-					y = 1;
-				}
-			}
-
-			// mask的大小适中和 播放内容的大小一致
-			[[self mask] setBounds:CGRectMake(0.0, 0.0, sz.width*x+1.0, sz.height*y+1.0)];
 			
-			glTexCoord2f(		 0,			 0);	glVertex2f(-x,	 y);
-			glTexCoord2f(		 0, fmt.height);	glVertex2f(-x,	-y);
-			glTexCoord2f(fmt.width, fmt.height);	glVertex2f( x,	-y);
-			glTexCoord2f(fmt.width,			 0);	glVertex2f( x,	 y);
+			// 直接计算layer需要的尺寸
+			glTexCoord2f(		 0,			 0);	glVertex2f(-1,	 1);
+			glTexCoord2f(		 0, fmt.height);	glVertex2f(-1,	-1);
+			glTexCoord2f(fmt.width, fmt.height);	glVertex2f( 1,	-1);
+			glTexCoord2f(fmt.width,			 0);	glVertex2f( 1,	 1);
 			
 			glEnd();
 			

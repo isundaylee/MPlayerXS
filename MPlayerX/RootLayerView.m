@@ -105,21 +105,24 @@
 	// 得到基本的rootLayer
 	CALayer *root = [self layer];
 	
-	// 设定delegate为self
-	[root setDelegate:self];
+	// 禁用修改尺寸的action
+	NSNull *n = [NSNull null];
+	[root setActions:[NSDictionary dictionaryWithObjectsAndKeys:
+					  n, @"anchorPoint", n, @"bounds", n, @"frame", n, @"position", nil]];
 
 	// 背景颜色
 	CGColorRef col =  CGColorCreateGenericGray(0.0, 1.0);
 	[root setBackgroundColor:col];
 	CGColorRelease(col);
-	
+	// 自动尺寸适应
 	[root setAutoresizingMask:kCALayerWidthSizable|kCALayerHeightSizable];
 
 	// 默认添加dispLayer
 	[root insertSublayer:dispLayer atIndex:0];
 
 	// 通知DispLayer
-	[dispLayer setupWithSuperLayer:root];
+	[dispLayer setBounds:[root bounds]];
+	[dispLayer setPosition:CGPointMake(root.bounds.size.width/2, root.bounds.size.height/2)];
 
 	// 通知dispView接受mplayer的渲染通知
 	[playerController setDelegateForMPlayer:self];
@@ -141,12 +144,6 @@
 												 name:NSWindowDidResizeNotification
 											   object:playerWindow];
 
-}
-
--(id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event
-{
-	// rootLayer的delegate方法，目前是禁用所有动画效果
-	return ((id<CAAction>)[NSNull null]);
 }
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)event 
