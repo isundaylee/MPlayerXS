@@ -64,6 +64,8 @@
 #define kUDKeyLetterBoxModeAlt		(@"LetterBoxModeAlt")
 #define kUDKeyLetterBoxHeight		(@"LetterBoxHeight")
 #define kUDKeyVideoTunerStepValue	(@"VideoTunerStepValue")
+#define kUDKeyARKeyRepeatTimeInterval		(@"ARKeyRepeatTimeInterval")
+#define kUDKeyARKeyRepeatTimeIntervalLong	(@"ARKeyRepeatTimeIntervalLong")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")

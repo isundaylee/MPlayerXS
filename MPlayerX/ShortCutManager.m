@@ -23,6 +23,13 @@
 #import "PlayerController.h"
 #import "ControlUIView.h"
 #import "RootLayerView.h"
+#import "AppleRemote.h"
+
+#define kSCMRepeatCounterThreshold	(6)
+
+@interface ShortCutManager (ShortCutManagerInternal)
+-(void)simulateEvent:(NSArray*) arg;
+@end
 
 @implementation ShortCutManager
 
@@ -35,6 +42,8 @@
 					   [NSNumber numberWithFloat:60], kUDKeySeekStepUB,
 					   [NSNumber numberWithFloat:0.1], kUDKeySubDelayStepTime,
 					   [NSNumber numberWithFloat:0.1], kUDKeyAudioDelayStepTime,
+					   [NSNumber numberWithFloat:0.3], kUDKeyARKeyRepeatTimeInterval,
+					   [NSNumber numberWithFloat:1.0], kUDKeyARKeyRepeatTimeIntervalLong,
 					   nil]];
 }
 
@@ -46,9 +55,15 @@
 		speedStepIncre = [ud floatForKey:kUDKeySpeedStep];
 		seekStepTimeLR = [ud floatForKey:kUDKeySeekStepLR];
 		seekStepTimeUB = [ud floatForKey:kUDKeySeekStepUB];
-		appleRemoteControl = [[AppleRemote alloc] initWithDelegate:self];
 		subDelayStepTime = [ud floatForKey:kUDKeySubDelayStepTime];
 		audioDelayStepTime = [ud floatForKey:kUDKeyAudioDelayStepTime];
+		arKeyRepTime = [ud floatForKey:kUDKeyARKeyRepeatTimeInterval];
+
+		repeatEntered = NO;
+		repeatCanceled = NO;
+		repeatCounter = 0;
+		
+		appleRemoteControl = [[AppleRemote alloc] initWithDelegate:self];		
 	}
 	return self;
 }
@@ -175,83 +190,132 @@
 	return ret;
 }
 
-#define kSCMTypeKeyEquivalent	(1)
-#define kSCMTypeKeyDownEvent	(-1)
-#define kSCMTypeNone			(0)
-
-- (void) sendRemoteButtonEvent: (RemoteControlEventIdentifier) event pressedDown: (BOOL) pressedDown remoteControl: (RemoteControl*) remoteControl
+-(void) sendRemoteButtonEvent:(RemoteControlEventIdentifier)event pressedDown:(BOOL)pressedDown remoteControl:(RemoteControl*)remoteControl
 {
 	unichar key = 0;
-	int type = kSCMTypeNone;
 	NSString *keyEqTemp = nil;
-	id keyEquivalentHolder = controlUI;
-
+	id target = nil;
+	SEL action = NULL;
+	
 	if (pressedDown) {
+		repeatCanceled = NO;
+		// 如果是按下键
 		switch(event) {
+			case kRemoteButtonPlus_Hold:
 			case kRemoteButtonPlus:
 				keyEqTemp = kSCMVolumeUpKeyEquivalent;
-				type = kSCMTypeKeyEquivalent;
-				keyEquivalentHolder = mainMenu;
+				target = mainMenu;
+				action = @selector(performKeyEquivalent:);
 				break;
+				
+			case kRemoteButtonMinus_Hold:
 			case kRemoteButtonMinus:
 				keyEqTemp = kSCMVolumeDownKeyEquivalent;
-				type = kSCMTypeKeyEquivalent;
-				keyEquivalentHolder = mainMenu;
+				target = mainMenu;
+				action = @selector(performKeyEquivalent:);
 				break;			
+						
 			case kRemoteButtonMenu:
 				keyEqTemp = kSCMFullScrnKeyEquivalent;
-				type = kSCMTypeKeyEquivalent;
+				target = controlUI;
+				action = @selector(performKeyEquivalent:);
 				break;			
-			case kRemoteButtonPlay:
-				keyEqTemp = kSCMPlayPauseKeyEquivalent;
-				type = kSCMTypeKeyEquivalent;
-				break;			
-			case kRemoteButtonRight:
-				key = NSRightArrowFunctionKey;
-				type = kSCMTypeKeyDownEvent;
-				break;			
-			case kRemoteButtonLeft:
-				key = NSLeftArrowFunctionKey;
-				type = kSCMTypeKeyDownEvent;
-				break;			
-			case kRemoteButtonRight_Hold:
-				key = NSUpArrowFunctionKey;
-				type = kSCMTypeKeyDownEvent;
-				break;	
-			case kRemoteButtonLeft_Hold:
-				key = NSDownArrowFunctionKey;
-				type = kSCMTypeKeyDownEvent;
-				break;			
-			case kRemoteButtonPlus_Hold:
-				break;				
-			case kRemoteButtonMinus_Hold:
-				break;				
-			case kRemoteButtonPlay_Hold:
-				break;			
+			
 			case kRemoteButtonMenu_Hold:
 				keyEqTemp = kSCMFillScrnKeyEquivalent;
-				type = kSCMTypeKeyEquivalent;
+				target = controlUI;
+				action = @selector(performKeyEquivalent:);
 				break;
-			case kRemoteControl_Switched:
-				break;
+			
+			case kRemoteButtonPlay:
+				keyEqTemp = kSCMPlayPauseKeyEquivalent;
+				target = controlUI;
+				action = @selector(performKeyEquivalent:);
+				break;			
+			
+			case kRemoteButtonRight_Hold:
+				repeatEntered = YES;
+				repeatCounter = 0;
+				arKeyRepTime = [ud floatForKey:kUDKeyARKeyRepeatTimeInterval];
+			case kRemoteButtonRight:
+				key = NSRightArrowFunctionKey;
+				target = self;
+				action = @selector(processKeyDown:);
+				break;			
+						
+			case kRemoteButtonLeft_Hold:
+				repeatEntered = YES;
+				repeatCounter = 0;
+				arKeyRepTime = [ud floatForKey:kUDKeyARKeyRepeatTimeInterval];
+			case kRemoteButtonLeft:
+				key = NSLeftArrowFunctionKey;
+				target = self;
+				action = @selector(processKeyDown:);
+				break;			
+			
 			default:
-				type = kSCMTypeNone;
 				break;
 		}
-		if (kSCMTypeKeyDownEvent == type) {
-			[self processKeyDown:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
-											  windowNumber:0 context:nil
-												characters:nil
-							   charactersIgnoringModifiers:[NSString stringWithCharacters:&key length:1]
-												 isARepeat:NO keyCode:0]];
+		if (target && action) {
+			NSEvent *event;
+			if (keyEqTemp) {
+				event = [NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
+									 windowNumber:0 context:nil
+									   characters:keyEqTemp
+					  charactersIgnoringModifiers:keyEqTemp
+										isARepeat:NO keyCode:0];
+			} else {
+				event = [NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
+									 windowNumber:0 context:nil
+									   characters:[NSString stringWithCharacters:&key length:1]
+					  charactersIgnoringModifiers:[NSString stringWithCharacters:&key length:1]
+										isARepeat:NO keyCode:0];
+			}
+			[self simulateEvent:[NSArray arrayWithObjects:target, [NSNumber numberWithInteger:((NSInteger)action)], event, nil]];
+		}		
+	} else {
+		// 如果是放开键
+		repeatCanceled = YES;
+		repeatEntered = NO;
+	}
+
+}
+
+-(void) simulateEvent:(NSArray *)arg
+{
+	id tgt = [arg objectAtIndex:0];
+	SEL sel = (SEL)[[arg objectAtIndex:1] integerValue];
+	NSEvent *evt = [arg objectAtIndex:2];
+	
+	if (!repeatCanceled) {
+		[tgt performSelector:sel withObject:evt];
+	}
+	
+	if (repeatEntered) {		
+		repeatCounter++;
+		
+		if (repeatCounter != kSCMRepeatCounterThreshold) {
+			[self performSelector:@selector(simulateEvent:) withObject:arg afterDelay:arKeyRepTime];
 			
-		} else if (kSCMTypeKeyEquivalent == type) {
-			[keyEquivalentHolder performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
-																   windowNumber:0 context:nil
-																	 characters:keyEqTemp
-													charactersIgnoringModifiers:keyEqTemp
-																	  isARepeat:NO keyCode:0]];			
-		}			
+		} else if (repeatCounter == kSCMRepeatCounterThreshold) {
+			NSEvent *newEv;
+			unichar key = [[evt charactersIgnoringModifiers] characterAtIndex:0];
+			
+			if (key == NSRightArrowFunctionKey) {
+				key = NSUpArrowFunctionKey;
+			} else if (key == NSLeftArrowFunctionKey) {
+				key = NSDownArrowFunctionKey;
+			}
+			newEv = [NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
+													windowNumber:0 context:nil
+													  characters:[NSString stringWithCharacters:&key length:1]
+									 charactersIgnoringModifiers:[NSString stringWithCharacters:&key length:1]
+													   isARepeat:NO keyCode:0];
+			[self performSelector:@selector(simulateEvent:)
+					   withObject:[NSArray arrayWithObjects:tgt, [NSNumber numberWithInteger:((NSInteger)sel)], newEv, nil]
+					   afterDelay:arKeyRepTime];
+			arKeyRepTime = [ud floatForKey:kUDKeyARKeyRepeatTimeIntervalLong];
+		}
 	}
 }
 

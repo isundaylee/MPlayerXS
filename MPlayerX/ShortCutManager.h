@@ -19,15 +19,20 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "AppleRemote.h"
+#import "RemoteControl.h"
 
-@class PlayerController, ControlUIView, RootLayerView;
+@class PlayerController, ControlUIView, RootLayerView, AppleRemote;
 
 @interface ShortCutManager : NSObject
 {
 	NSUserDefaults *ud;
 	
 	AppleRemote *appleRemoteControl;
+	
+	BOOL repeatEntered;
+	BOOL repeatCanceled;
+	NSUInteger repeatCounter;
+	float arKeyRepTime;
 	
 	float speedStepIncre;
 	float seekStepTimeLR;
@@ -43,7 +48,6 @@
 
 -(BOOL) processKeyDown:(NSEvent*) event;
 
-
-- (void) sendRemoteButtonEvent: (RemoteControlEventIdentifier) event pressedDown: (BOOL) pressedDown remoteControl: (RemoteControl*) remoteControl;
+-(void) sendRemoteButtonEvent:(RemoteControlEventIdentifier)event pressedDown:(BOOL)pressedDown remoteControl:(RemoteControl*)remoteControl;
 
 @end
