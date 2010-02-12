@@ -29,7 +29,7 @@
 	CIFilter *gammaFilter;
 
 	CALayer *layer;
-	
+
 	IBOutlet NSWindow *VTWin;
 	IBOutlet NSSlider *sliderBrightness;
 	IBOutlet NSSlider *sliderSaturation;
@@ -37,6 +37,19 @@
 	IBOutlet NSSlider *sliderNR;
 	IBOutlet NSSlider *sliderSharpness;
 	IBOutlet NSSlider *sliderGamma;
+	
+	IBOutlet NSButton *brInc;
+	IBOutlet NSButton *brDec;
+	IBOutlet NSButton *satInc;
+	IBOutlet NSButton *satDec;
+	IBOutlet NSButton *conInc;
+	IBOutlet NSButton *conDec;
+	IBOutlet NSButton *nrInc;
+	IBOutlet NSButton *ncDec;
+	IBOutlet NSButton *shpInc;
+	IBOutlet NSButton *shpDec;
+	IBOutlet NSButton *gmInc;
+	IBOutlet NSButton *gmDec;
 
 	IBOutlet NSMenuItem *menuVTPanel;
 }

@@ -63,6 +63,7 @@
 #define kUDKeyLetterBoxMode			(@"LetterBoxMode")
 #define kUDKeyLetterBoxModeAlt		(@"LetterBoxModeAlt")
 #define kUDKeyLetterBoxHeight		(@"LetterBoxHeight")
+#define kUDKeyVideoTunerStepValue	(@"VideoTunerStepValue")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")

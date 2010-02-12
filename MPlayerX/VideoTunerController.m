@@ -22,6 +22,8 @@
 #import "VideoTunerController.h"
 #import <Quartz/Quartz.h>
 
+#define kCIStepBase				(100000.0)
+
 #define kCIInputNoiseLevelKey	(@"inputNoiseLevel")
 #define kCIInputPowerKey		(@"inputPower")
 
@@ -33,6 +35,14 @@
 #define kCILayerGammaKeyPath			(@"filters.gammaFilter.inputPower")
 
 @implementation VideoTunerController
+
++(void) initialize
+{
+	[[NSUserDefaults standardUserDefaults] 
+	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+					   [NSNumber numberWithFloat:0.02], kUDKeyVideoTunerStepValue,
+					   nil]];
+}
 
 -(id) init
 {
@@ -85,32 +95,78 @@
 		[[sliderNR cell] setRepresentedObject:kCILayerNoiseLevelKeyPath];
 		[[sliderSharpness cell] setRepresentedObject:kCILayerSharpnesKeyPath];
 		[[sliderGamma cell] setRepresentedObject:kCILayerGammaKeyPath];
+
+		[[brInc cell] setRepresentedObject:sliderBrightness];
+		[[brDec cell] setRepresentedObject:sliderBrightness];
+		[[satInc cell] setRepresentedObject:sliderSaturation];
+		[[satDec cell] setRepresentedObject:sliderSaturation];
+		[[conInc cell] setRepresentedObject:sliderContrast];
+		[[conDec cell] setRepresentedObject:sliderContrast];
+		[[nrInc cell] setRepresentedObject:sliderNR];
+		[[ncDec cell] setRepresentedObject:sliderNR];
+		[[shpInc cell] setRepresentedObject:sliderSharpness];
+		[[shpDec cell] setRepresentedObject:sliderSharpness];
+		[[gmInc cell] setRepresentedObject:sliderGamma];
+		[[gmDec cell] setRepresentedObject:sliderGamma];
 		
 		NSDictionary *dict;
-
+		double step, max, min, stepRatio;
+		
+		stepRatio = [[NSUserDefaults standardUserDefaults] floatForKey:kUDKeyVideoTunerStepValue];
+		
 		dict = [[colorFilter attributes] objectForKey:kCIInputBrightnessKey];
-		[sliderBrightness setMinValue:[[dict objectForKey:kCIAttributeSliderMin] doubleValue]];
-		[sliderBrightness setMaxValue:[[dict objectForKey:kCIAttributeSliderMax] doubleValue]];
+		min = [[dict objectForKey:kCIAttributeSliderMin] doubleValue];
+		max = [[dict objectForKey:kCIAttributeSliderMax] doubleValue];
+		step = (max - min) * stepRatio;
+		[sliderBrightness setMinValue:min];
+		[sliderBrightness setMaxValue:max];
+		[brInc setTag:((NSInteger)( step*kCIStepBase))];
+		[brDec setTag:((NSInteger)(-step*kCIStepBase))];
 		
 		dict = [[colorFilter attributes] objectForKey:kCIInputSaturationKey];
-		[sliderSaturation setMinValue:[[dict objectForKey:kCIAttributeSliderMin] doubleValue]];
-		[sliderSaturation setMaxValue:[[dict objectForKey:kCIAttributeSliderMax] doubleValue]];
+		min = [[dict objectForKey:kCIAttributeSliderMin] doubleValue];
+		max = [[dict objectForKey:kCIAttributeSliderMax] doubleValue];
+		step = (max - min) * stepRatio;
+		[sliderSaturation setMinValue:min];
+		[sliderSaturation setMaxValue:max];
+		[satInc setTag:((NSInteger)( step*kCIStepBase))];
+		[satDec setTag:((NSInteger)(-step*kCIStepBase))];
 		
 		dict = [[colorFilter attributes] objectForKey:kCIInputContrastKey];
-		[sliderContrast setMinValue:[[dict objectForKey:kCIAttributeSliderMin] doubleValue]];
-		[sliderContrast setMaxValue:[[dict objectForKey:kCIAttributeSliderMax] doubleValue]];
+		min = [[dict objectForKey:kCIAttributeSliderMin] doubleValue];
+		max = [[dict objectForKey:kCIAttributeSliderMax] doubleValue];
+		step = (max - min) * stepRatio;
+		[sliderContrast setMinValue:min];
+		[sliderContrast setMaxValue:max];
+		[conInc setTag:((NSInteger)( step*kCIStepBase))];
+		[conDec setTag:((NSInteger)(-step*kCIStepBase))];
 		
 		dict = [[nrFilter attributes] objectForKey:kCIInputNoiseLevelKey];
-		[sliderNR setMinValue:[[dict objectForKey:kCIAttributeSliderMin] doubleValue]];
-		[sliderNR setMaxValue:[[dict objectForKey:kCIAttributeSliderMax] doubleValue]];
+		min = [[dict objectForKey:kCIAttributeSliderMin] doubleValue];
+		max = [[dict objectForKey:kCIAttributeSliderMax] doubleValue];
+		step = (max - min) * stepRatio;
+		[sliderNR setMinValue:min];
+		[sliderNR setMaxValue:max];
+		[nrInc setTag:((NSInteger)( step*kCIStepBase))];
+		[ncDec setTag:((NSInteger)(-step*kCIStepBase))];
 		
 		dict = [[nrFilter attributes] objectForKey:kCIInputSharpnessKey];
-		[sliderSharpness setMinValue:[[dict objectForKey:kCIAttributeSliderMin] doubleValue]];
-		[sliderSharpness setMaxValue:[[dict objectForKey:kCIAttributeSliderMax] doubleValue]];
+		min = [[dict objectForKey:kCIAttributeSliderMin] doubleValue];
+		max = [[dict objectForKey:kCIAttributeSliderMax] doubleValue];
+		step = (max - min) * stepRatio;
+		[sliderSharpness setMinValue:min];
+		[sliderSharpness setMaxValue:max];
+		[shpInc setTag:((NSInteger)( step*kCIStepBase))];
+		[shpDec setTag:((NSInteger)(-step*kCIStepBase))];
 		
 		dict = [[gammaFilter attributes] objectForKey:kCIInputPowerKey];
-		[sliderGamma setMinValue:[[dict objectForKey:kCIAttributeSliderMin] doubleValue]];
-		[sliderGamma setMaxValue:[[dict objectForKey:kCIAttributeSliderMax] doubleValue]];
+		min = [[dict objectForKey:kCIAttributeSliderMin] doubleValue];
+		max = [[dict objectForKey:kCIAttributeSliderMax] doubleValue];
+		step = (max - min) * stepRatio;
+		[sliderGamma setMinValue:min];
+		[sliderGamma setMaxValue:max];
+		[gmInc setTag:((NSInteger)( step*kCIStepBase))];
+		[gmDec setTag:((NSInteger)(-step*kCIStepBase))];
 				
 		[self resetFilters:nil];
 		
@@ -167,6 +223,14 @@
 		[layer setValue:[NSNumber numberWithDouble:[sender doubleValue]] forKeyPath:[[sender cell] representedObject]];
 		//NSLog(@"%@=%f", [[sender cell] representedObject], [sender doubleValue]);
 	}
+}
+-(IBAction) stepFilterParameters:(id)sender
+{
+	// 得到Slider
+	NSSlider *obj = [[sender cell] representedObject];
+	
+	[obj setFloatValue:[obj floatValue] + (((float)[sender tag])/kCIStepBase)];
+	[self setFilterParameters:obj];
 }
 
 -(void) setLayer:(CALayer*)l
