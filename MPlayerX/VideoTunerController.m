@@ -103,7 +103,7 @@
 		[[conInc cell] setRepresentedObject:sliderContrast];
 		[[conDec cell] setRepresentedObject:sliderContrast];
 		[[nrInc cell] setRepresentedObject:sliderNR];
-		[[ncDec cell] setRepresentedObject:sliderNR];
+		[[nrDec cell] setRepresentedObject:sliderNR];
 		[[shpInc cell] setRepresentedObject:sliderSharpness];
 		[[shpDec cell] setRepresentedObject:sliderSharpness];
 		[[gmInc cell] setRepresentedObject:sliderGamma];
@@ -148,7 +148,7 @@
 		[sliderNR setMinValue:min];
 		[sliderNR setMaxValue:max];
 		[nrInc setTag:((NSInteger)( step*kCIStepBase))];
-		[ncDec setTag:((NSInteger)(-step*kCIStepBase))];
+		[nrDec setTag:((NSInteger)(-step*kCIStepBase))];
 		
 		dict = [[nrFilter attributes] objectForKey:kCIInputSharpnessKey];
 		min = [[dict objectForKey:kCIAttributeSliderMin] doubleValue];
@@ -224,6 +224,7 @@
 		//NSLog(@"%@=%f", [[sender cell] representedObject], [sender doubleValue]);
 	}
 }
+
 -(IBAction) stepFilterParameters:(id)sender
 {
 	// 得到Slider

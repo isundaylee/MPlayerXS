@@ -45,7 +45,7 @@
 	IBOutlet NSButton *conInc;
 	IBOutlet NSButton *conDec;
 	IBOutlet NSButton *nrInc;
-	IBOutlet NSButton *ncDec;
+	IBOutlet NSButton *nrDec;
 	IBOutlet NSButton *shpInc;
 	IBOutlet NSButton *shpDec;
 	IBOutlet NSButton *gmInc;
@@ -61,4 +61,6 @@
 -(void) resetFilters:(id)sender;
 
 -(IBAction) setFilterParameters:(id)sender;
+
+-(IBAction) stepFilterParameters:(id)sender;
 @end
