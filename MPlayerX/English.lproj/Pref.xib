@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="268"/>
+			<integer value="307"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1271,7 +1271,7 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="403688566">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1375,7 +1375,7 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTextFieldCell" key="NSCell" id="785939094">
 											<int key="NSCellFlags">-1804468671</int>
-											<int key="NSCellFlags2">-1874717696</int>
+											<int key="NSCellFlags2">-2076044288</int>
 											<string key="NSContents"/>
 											<reference key="NSSupport" ref="26"/>
 											<object class="NSNumberFormatter" key="NSFormatter" id="899467738">
@@ -1391,9 +1391,11 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 														<string>locale</string>
 														<string>maximum</string>
 														<string>minimum</string>
+														<string>negativeFormat</string>
 														<string>negativeInfinitySymbol</string>
 														<string>nilSymbol</string>
 														<string>numberStyle</string>
+														<string>positiveFormat</string>
 														<string>positiveInfinitySymbol</string>
 														<string>usesGroupingSeparator</string>
 													</object>
@@ -1407,15 +1409,17 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 														<reference ref="709498659"/>
 														<real value="1"/>
 														<real value="0.0"/>
+														<string>#0 %</string>
 														<string>-∞</string>
 														<string/>
 														<integer value="3"/>
+														<string>#0 %</string>
 														<string>+∞</string>
 														<boolean value="NO"/>
 													</object>
 												</object>
-												<string key="NS.positiveformat">#0%</string>
-												<string key="NS.negativeformat">#0%</string>
+												<string key="NS.positiveformat">#0 %</string>
+												<string key="NS.negativeformat">#0 %</string>
 												<nil key="NS.positiveattrs"/>
 												<nil key="NS.negativeattrs"/>
 												<nil key="NS.zero"/>
@@ -1807,10 +1811,11 @@ IHdpbGwgdGFrZSBlZmZlY3QgdW50aWwgcGxheWluZyBuZXh0IG9uZQ</string>
 					</object>
 				</object>
 				<string key="NSFrameSize">{516, 298}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="382663841">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1932,7 +1937,6 @@ c2UgdGhlIHBsYXliYWNrIGNsdXR0ZXJlZCB3aGVuIHNlZWtpbmcuA</string>
 					</object>
 				</object>
 				<string key="NSFrameSize">{480, 189}</string>
-				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSUserDefaultsController" id="659034198">
@@ -4281,7 +4285,7 @@ c2UgdGhlIHBsYXliYWNrIGNsdXR0ZXJlZCB3aGVuIHNlZWtpbmcuA</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1040"/>
 					<boolean value="YES"/>
-					<real value="0.5"/>
+					<real value="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4681,9 +4685,11 @@ c2UgdGhlIHBsYXliYWNrIGNsdXR0ZXJlZCB3aGVuIHNlZWtpbmcuA</string>
 							<string>resetFilters:</string>
 							<string>setFilterParameters:</string>
 							<string>showUI:</string>
+							<string>stepFilterParameters:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -4694,7 +4700,19 @@ c2UgdGhlIHBsYXliYWNrIGNsdXR0ZXJlZCB3aGVuIHNlZWtpbmcuA</string>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>VTWin</string>
+							<string>brDec</string>
+							<string>brInc</string>
+							<string>conDec</string>
+							<string>conInc</string>
+							<string>gmDec</string>
+							<string>gmInc</string>
 							<string>menuVTPanel</string>
+							<string>nrDec</string>
+							<string>nrInc</string>
+							<string>satDec</string>
+							<string>satInc</string>
+							<string>shpDec</string>
+							<string>shpInc</string>
 							<string>sliderBrightness</string>
 							<string>sliderContrast</string>
 							<string>sliderGamma</string>
@@ -4705,7 +4723,19 @@ c2UgdGhlIHBsYXliYWNrIGNsdXR0ZXJlZCB3aGVuIHNlZWtpbmcuA</string>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSWindow</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
 							<string>NSMenuItem</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
 							<string>NSSlider</string>
 							<string>NSSlider</string>
 							<string>NSSlider</string>
