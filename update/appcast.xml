@@ -6,8 +6,28 @@
       <description>MplayerX</description>
       <language>en</language>      
          <item>
-            <title>Version 0.9.6.1</title>
+            <title>Version 0.9.7</title>
 			<description><![CDATA[
+				<p>MPlayerX needs your help for the new application icon.</p>
+				<p>please go <a href="https://spreadsheets.google.com/viewform?formkey=dENZQ1dDSVY3OU5ZUWdDbHdlQTVYUUE6MA">here</a> for a poll</p>
+				<h2>MPlayerX 0.9.7</h2>
+				2010/02/13
+				<ul>
+					<li><strong>Pref:</strong> you could put the subtitle into LetterBox</li>
+					<li><strong>Pref:</strong> settings for network</li>
+                    <li>Pref: only capture the current screen when fullscreen</li>
+					<li><strong>Video Tuner</strong>(MPlayerX now powered by CoreImage, :) )</li>
+                    <li>set the aspect ratio as you like (in the menu, or shortcut r, shift+r)</li>
+                    <li>subtitle could be loaded while playing, by drag or double-click the subtitle file</li>
+					<li>double-click the subtitle while NOT playing, MPlayerX will search for the proper media file</li>
+					<li>subtitle for korean language fallbacks to CP9494 rather than EUC_KR</li>
+					<li>Auto Play Next: the index don't have to be at the end of filename, but the rightmost digit part</li>
+					<li>register for opening mms, rtsp, http media streams</li>
+					<li><strong>Translation:</strong> Simplified Chinese add, <strong>Happy Chinese New year and Valentine's Day :)</strong></li>
+                    <li>refinement of Apple Remote behavior, holding key for fast seeking</li>
+					<li>performance enhancement</li>
+					<li>Core:mplayer to r30546, ffmpeg-mt to f804162</li>
+				</ul>
 				<h2>MPlayerX 0.9.6.1</h2>
 				2010/01/18
 				<ul>
@@ -52,12 +72,12 @@
 					<li>add change subtitle size while playing</li>
 				</ul>
             ]]></description>
-            <pubDate>Mon, 18 Jan 2010 20:53:14 +0900</pubDate>
+            <pubDate>Sat, 13 Feb 2010 20:41:01 +0900</pubDate>
             <enclosure url="http://mplayerx.googlecode.com/svn/releases/MPlayerX.zip"
-					   sparkle:version="0.9.6.1"
-					   length="21100514"
+					   sparkle:version="0.9.7"
+					   length="21331432"
 					   type="application/octet-stream"
-					   sparkle:dsaSignature="MC4CFQCBUL2E25hVFAwZuta+i5pSRphiWgIVAJNXWl1Gc5PJWycS9wySWIVO9bk2" />
+					   sparkle:dsaSignature="MCwCFAw2Sil0LlEW08SaC3FXAZlgtEW8AhQef4QyhdFpEM5+WD5yeZiEatZOgw==" />
          </item>
    </channel>
 </rss>
