@@ -82,6 +82,8 @@ NSRange findLastDigitPart(NSString *name)
 						[movieName substringFromIndex:digitRange.location+digitRange.length],
 						[path pathExtension]];
 			
+			// NSLog(@"Next File:%@", nextPath);
+			
 			BOOL isDir = YES;
 			if ((![[NSFileManager defaultManager] fileExistsAtPath:nextPath  isDirectory:&isDir]) || isDir) {
 				[nextPath release];
