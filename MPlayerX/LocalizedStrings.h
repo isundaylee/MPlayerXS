@@ -38,7 +38,7 @@
 #define kMPXStringOSDSettingChanged		(NSLocalizedString(@"OSD setting changed", @"OSD hint"))
 #define kMPXStringOSDPlaybackStopped	(NSLocalizedString(@"Stopped", @"OSD hint"))
 #define kMPXStringOSDPlaybackPaused		(NSLocalizedString(@"Paused", @"OSD hint"))
-#define kMPXStringOSDNull				(NSLocalizedString(@"", @"OSD hint"))
+#define kMPXStringOSDNull				(NSLocalizedString(@" ", @"OSD hint"))
 #define kMPXStringOSDMuteON				(NSLocalizedString(@"Mute ON", @"OSD hint"))
 #define kMPXStringOSDMuteOFF			(NSLocalizedString(@"Mute OFF", @"OSD hint"))
 #define kMPXStringOSDVolumeHint			(NSLocalizedString(@"Volume: %.1f", @"OSD hint"))
