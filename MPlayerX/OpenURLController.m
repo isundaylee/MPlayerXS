@@ -52,9 +52,11 @@
 -(IBAction) confirmed:(id) sender
 {
 	NSURL *url = [NSURL URLWithString:[urlBox stringValue]];
+
+	NSString *scheme = [[url scheme] lowercaseString];
 	
-	if ([[url scheme] caseInsensitiveCompare:@"http"] == NSOrderedSame || [[url scheme] caseInsensitiveCompare:@"ftp"] == NSOrderedSame ||
-		[[url scheme] caseInsensitiveCompare:@"rtsp"] == NSOrderedSame || [[url scheme] caseInsensitiveCompare:@"mms"] == NSOrderedSame) {
+	if (scheme && ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"ftp"] || 
+				   [scheme isEqualToString:@"rtsp"] || [scheme isEqualToString:@"mms"])) {
 		// 先修正URL
 		[urlBox setStringValue:[[url standardizedURL] absoluteString]];
 		// 退出Modal模式
