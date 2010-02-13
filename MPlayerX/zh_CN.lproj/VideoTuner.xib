@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="2"/>
+			<integer value="1"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -43,7 +43,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 256}, {392, 254}}</string>
 				<int key="NSWTFlags">-528998400</int>
-				<string key="NSWindowTitle">Video Tuner</string>
+				<string key="NSWindowTitle">视频调节器</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
@@ -82,11 +82,11 @@
 							<object class="NSTextFieldCell" key="NSCell" id="776218330">
 								<int key="NSCellFlags">68288064</int>
 								<int key="NSCellFlags2">71439360</int>
-								<string key="NSContents">Brightness:</string>
-								<object class="NSFont" key="NSSupport" id="26">
-									<string key="NSName">LucidaGrande</string>
+								<string key="NSContents">亮度:</string>
+								<object class="NSFont" key="NSSupport" id="1055061708">
+									<string key="NSName">STHeitiSC-Light</string>
 									<double key="NSSize">11</double>
-									<int key="NSfFlags">3100</int>
+									<int key="NSfFlags">16</int>
 								</object>
 								<reference key="NSControlView" ref="4890324"/>
 								<object class="NSColor" key="NSBackgroundColor" id="429011394">
@@ -189,8 +189,8 @@
 							<object class="NSTextFieldCell" key="NSCell" id="207068910">
 								<int key="NSCellFlags">68288064</int>
 								<int key="NSCellFlags2">71439360</int>
-								<string key="NSContents">Saturation:</string>
-								<reference key="NSSupport" ref="26"/>
+								<string key="NSContents">饱和度:</string>
+								<reference key="NSSupport" ref="1055061708"/>
 								<reference key="NSControlView" ref="719503299"/>
 								<reference key="NSBackgroundColor" ref="429011394"/>
 								<object class="NSColor" key="NSTextColor">
@@ -278,8 +278,8 @@
 							<object class="NSTextFieldCell" key="NSCell" id="682507018">
 								<int key="NSCellFlags">68288064</int>
 								<int key="NSCellFlags2">71439360</int>
-								<string key="NSContents">Contrast:</string>
-								<reference key="NSSupport" ref="26"/>
+								<string key="NSContents">对比度:</string>
+								<reference key="NSSupport" ref="1055061708"/>
 								<reference key="NSControlView" ref="441914523"/>
 								<reference key="NSBackgroundColor" ref="429011394"/>
 								<object class="NSColor" key="NSTextColor">
@@ -368,7 +368,11 @@
 								<int key="NSCellFlags">68288064</int>
 								<int key="NSCellFlags2">71439360</int>
 								<string key="NSContents">Gamma:</string>
-								<reference key="NSSupport" ref="26"/>
+								<object class="NSFont" key="NSSupport">
+									<string key="NSName">LucidaGrande</string>
+									<double key="NSSize">11</double>
+									<int key="NSfFlags">3100</int>
+								</object>
 								<reference key="NSControlView" ref="431481931"/>
 								<reference key="NSBackgroundColor" ref="429011394"/>
 								<object class="NSColor" key="NSTextColor">
@@ -456,8 +460,8 @@
 							<object class="NSTextFieldCell" key="NSCell" id="882311652">
 								<int key="NSCellFlags">68288064</int>
 								<int key="NSCellFlags2">71439360</int>
-								<string key="NSContents">Noise Reduction:</string>
-								<reference key="NSSupport" ref="26"/>
+								<string key="NSContents">降噪:</string>
+								<reference key="NSSupport" ref="1055061708"/>
 								<reference key="NSControlView" ref="71697007"/>
 								<reference key="NSBackgroundColor" ref="429011394"/>
 								<object class="NSColor" key="NSTextColor">
@@ -545,8 +549,8 @@
 							<object class="NSTextFieldCell" key="NSCell" id="542229786">
 								<int key="NSCellFlags">68288064</int>
 								<int key="NSCellFlags2">71439360</int>
-								<string key="NSContents">Sharpness:</string>
-								<reference key="NSSupport" ref="26"/>
+								<string key="NSContents">边缘增强:</string>
+								<reference key="NSSupport" ref="1055061708"/>
 								<reference key="NSControlView" ref="693172742"/>
 								<reference key="NSBackgroundColor" ref="429011394"/>
 								<object class="NSColor" key="NSTextColor">
@@ -643,8 +647,8 @@
 							<object class="NSButtonCell" key="NSCell" id="675186945">
 								<int key="NSCellFlags">-2080244224</int>
 								<int key="NSCellFlags2">134348800</int>
-								<string key="NSContents">Reset</string>
-								<reference key="NSSupport" ref="26"/>
+								<string key="NSContents">重置</string>
+								<reference key="NSSupport" ref="1055061708"/>
 								<reference key="NSControlView" ref="194107108"/>
 								<int key="NSButtonFlags">-2038152961</int>
 								<int key="NSButtonFlags2">164</int>
