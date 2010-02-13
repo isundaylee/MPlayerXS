@@ -80,7 +80,7 @@
 					   [NSNumber numberWithBool:NO], kUDKeyCachingLocal,
 					   [NSNumber numberWithUnsignedInt:kPMLetterBoxModeNotDisplay], kUDKeyLetterBoxMode,
 					   [NSNumber numberWithUnsignedInt:kPMLetterBoxModeBottomOnly], kUDKeyLetterBoxModeAlt,
-					   [NSNumber numberWithFloat:0.12], kUDKeyLetterBoxHeight,
+					   [NSNumber numberWithFloat:0.1], kUDKeyLetterBoxHeight,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
