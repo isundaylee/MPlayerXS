@@ -343,29 +343,32 @@
 -(IBAction) togglePlayPause:(id)sender
 {
 	[playerController togglePlayPause];
-	
-	if (playerController.playerState == kMPCStoppedState) {
-		// 如果失败的话，ControlUI回到停止状态
-		[self playBackStopped];
-	} else {
-		[dispView setPlayerWindowLevel];
-	}
 
 	NSString *osdStr;
+
 	switch (playerController.playerState) {
 		case kMPCStoppedState:
+			// 停止状态
+			[self playBackStopped];
 			osdStr = kMPXStringOSDPlaybackStopped;
 			break;
 		case kMPCPausedState:
+			// 暂停状态
+			[dispView setPlayerWindowLevel];
+			[playPauseButton setState:PauseState];
 			osdStr = kMPXStringOSDPlaybackPaused;
+			break;
+		case kMPCPlayingState:
+			// 播放状态
+			[dispView setPlayerWindowLevel];
+			[playPauseButton setState:PlayState];
+			osdStr = kMPXStringOSDNull;
 			break;
 		default:
 			osdStr = kMPXStringOSDNull;
 			break;
 	}
-	[osd setStringValue:osdStr
-				  owner:kOSDOwnerOther
-			updateTimer:YES];
+	[osd setStringValue:osdStr owner:kOSDOwnerOther updateTimer:YES];
 }
 
 -(IBAction) toggleMute:(id)sender
