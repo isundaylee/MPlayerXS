@@ -22,7 +22,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		86034C3210D13DBF001CB180 /* fold.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 86034C3010D13DBF001CB180 /* fold.pdf */; };
 		86034C3310D13DBF001CB180 /* unfold.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 86034C3110D13DBF001CB180 /* unfold.pdf */; };
 		8608652E10BA55CE00459392 /* DisplayLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8608652B10BA55CE00459392 /* DisplayLayer.m */; };
@@ -38,7 +37,9 @@
 		8609C28110C6944A00B102CE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8609C28010C6944A00B102CE /* IOKit.framework */; };
 		860E72EA111E94800022F966 /* gamma-max.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860E72E8111E947F0022F966 /* gamma-max.tiff */; };
 		860E72EB111E94800022F966 /* gamma-min.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860E72E9111E94800022F966 /* gamma-min.tiff */; };
-		860F6722111C562300190BCC /* VideoTuner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 860F6721111C562300190BCC /* VideoTuner.xib */; };
+		860EF90E1127BAE40015B6EE /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 860EF90D1127BAE40015B6EE /* MainMenu.xib */; };
+		860EF9101127BB050015B6EE /* Pref.xib in Resources */ = {isa = PBXBuildFile; fileRef = 860EF90F1127BB050015B6EE /* Pref.xib */; };
+		860EF9121127BB0E0015B6EE /* VideoTuner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 860EF9111127BB0E0015B6EE /* VideoTuner.xib */; };
 		860F6727111C5A7D00190BCC /* VideoTunerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 860F6726111C5A7D00190BCC /* VideoTunerController.m */; };
 		860F6733111C6A7E00190BCC /* brightness-max.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860F6729111C6A7E00190BCC /* brightness-max.tiff */; };
 		860F6734111C6A7E00190BCC /* brightness-min.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860F672A111C6A7E00190BCC /* brightness-min.tiff */; };
@@ -54,7 +55,6 @@
 		8610F44B1100F329006A1447 /* toolbar_video.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8610F44A1100F329006A1447 /* toolbar_video.icns */; };
 		8610F4681100F539006A1447 /* toolbar_audio.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8610F4671100F539006A1447 /* toolbar_audio.icns */; };
 		8617287D10CFAB32003A0CE2 /* ArrowTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 8617287C10CFAB32003A0CE2 /* ArrowTextField.m */; };
-		8624A94710F8561400029251 /* Pref.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8624A94610F8561400029251 /* Pref.xib */; };
 		8629205510C03B8F0077B63E /* mute.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8629205010C03B8F0077B63E /* mute.pdf */; };
 		8629205610C03B8F0077B63E /* vol_high.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8629205110C03B8F0077B63E /* vol_high.pdf */; };
 		8629205710C03B8F0077B63E /* vol_low.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8629205210C03B8F0077B63E /* vol_low.pdf */; };
@@ -93,7 +93,6 @@
 		86D10C1C10F4A40D000B573F /* resizeindicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 86D10C1B10F4A40D000B573F /* resizeindicator.png */; };
 		86E34BBF10FF42A40004C4E7 /* CoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E34BBE10FF42A40004C4E7 /* CoreController.m */; };
 		86E34BC210FF42B10004C4E7 /* PlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E34BC110FF42B10004C4E7 /* PlayerController.m */; };
-		86E4B771112694C100B9ADAE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 86E4B770112694C100B9ADAE /* Localizable.strings */; };
 		86F4DADB10BC329F007AE56A /* ControlUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86F4DADA10BC329F007AE56A /* ControlUIView.m */; };
 		86F4DD8110BD6ECA007AE56A /* pause.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 86F4DD7F10BD6ECA007AE56A /* pause.pdf */; };
 		86F4DD8210BD6ECA007AE56A /* play.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 86F4DD8010BD6ECA007AE56A /* play.pdf */; };
@@ -190,8 +189,6 @@
 		8610F4671100F539006A1447 /* toolbar_audio.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = toolbar_audio.icns; sourceTree = "<group>"; };
 		8617287B10CFAB32003A0CE2 /* ArrowTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrowTextField.h; sourceTree = "<group>"; };
 		8617287C10CFAB32003A0CE2 /* ArrowTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrowTextField.m; sourceTree = "<group>"; };
-		8621A165112691A5003C9450 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		8621A166112691AE003C9450 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/Pref.xib; sourceTree = "<group>"; };
 		8624A94410F8560400029251 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Pref.xib; sourceTree = "<group>"; };
 		8629205010C03B8F0077B63E /* mute.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = mute.pdf; sourceTree = "<group>"; };
 		8629205110C03B8F0077B63E /* vol_high.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = vol_high.pdf; sourceTree = "<group>"; };
@@ -216,7 +213,6 @@
 		863B5A7E10F2175C001111F6 /* fillscreen_ub.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = fillscreen_ub.pdf; sourceTree = "<group>"; };
 		863F1A4010EF4CD40089C695 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = ../Sparkle.framework/Sparkle.framework; sourceTree = SOURCE_ROOT; };
 		86450B871108840700E79645 /* LocalizedStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalizedStrings.h; sourceTree = "<group>"; };
-		8650D187112691E70036321C /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/VideoTuner.xib; sourceTree = "<group>"; };
 		8654807D10CBB231009438A4 /* FloatWrapFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatWrapFormatter.h; sourceTree = "<group>"; };
 		8654807E10CBB231009438A4 /* FloatWrapFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloatWrapFormatter.m; sourceTree = "<group>"; };
 		865AB3FB10EC82A300065E2F /* PrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefController.h; sourceTree = "<group>"; };
@@ -259,7 +255,6 @@
 		86E34BBE10FF42A40004C4E7 /* CoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreController.m; sourceTree = "<group>"; };
 		86E34BC010FF42B10004C4E7 /* PlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerController.h; sourceTree = "<group>"; };
 		86E34BC110FF42B10004C4E7 /* PlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerController.m; sourceTree = "<group>"; };
-		86E4B772112694C900B9ADAE /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
 		86F4DAD910BC329F007AE56A /* ControlUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlUIView.h; sourceTree = "<group>"; };
 		86F4DADA10BC329F007AE56A /* ControlUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControlUIView.m; sourceTree = "<group>"; };
 		86F4DD7F10BD6ECA007AE56A /* pause.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pause.pdf; sourceTree = "<group>"; };
@@ -362,10 +357,9 @@
 				86F6D4D010EB42620038895F /* doc_video.icns */,
 				8671FAF41120456B00F7E5E5 /* doc_sub.icns */,
 				86A5E40B10C7D24D00D061C7 /* wqy-microhei.ttc */,
-				86E4B770112694C100B9ADAE /* Localizable.strings */,
-				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
-				8624A94610F8561400029251 /* Pref.xib */,
-				860F6721111C562300190BCC /* VideoTuner.xib */,
+				860EF90D1127BAE40015B6EE /* MainMenu.xib */,
+				860EF90F1127BB050015B6EE /* Pref.xib */,
+				860EF9111127BB0E0015B6EE /* VideoTuner.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -618,10 +612,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				86328DF910EF50C4003C5EE8 /* dsa_pub.pem in Resources */,
-				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
-				8624A94710F8561400029251 /* Pref.xib in Resources */,
-				860F6722111C562300190BCC /* VideoTuner.xib in Resources */,
-				86E4B771112694C100B9ADAE /* Localizable.strings in Resources */,
+				860EF90E1127BAE40015B6EE /* MainMenu.xib in Resources */,
+				860EF9101127BB050015B6EE /* Pref.xib in Resources */,
+				860EF9121127BB0E0015B6EE /* VideoTuner.xib in Resources */,
 				861097F110F1C9A50085B3DF /* MPlayerX.icns in Resources */,
 				86F6D4D310EB42620038895F /* doc_video.icns in Resources */,
 				86F6D4D210EB42620038895F /* doc_audio.icns in Resources */,
@@ -727,39 +720,28 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1DDD58140DA1D0A300B32029 /* MainMenu.xib */ = {
+		860EF90D1127BAE40015B6EE /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1DDD58150DA1D0A300B32029 /* English */,
-				8621A165112691A5003C9450 /* zh_CN */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
-		860F6721111C562300190BCC /* VideoTuner.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				860F671F111C561B00190BCC /* English */,
-				8650D187112691E70036321C /* zh_CN */,
-			);
-			name = VideoTuner.xib;
-			sourceTree = "<group>";
-		};
-		8624A94610F8561400029251 /* Pref.xib */ = {
+		860EF90F1127BB050015B6EE /* Pref.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				8624A94410F8560400029251 /* English */,
-				8621A166112691AE003C9450 /* zh_CN */,
 			);
 			name = Pref.xib;
 			sourceTree = "<group>";
 		};
-		86E4B770112694C100B9ADAE /* Localizable.strings */ = {
+		860EF9111127BB0E0015B6EE /* VideoTuner.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				86E4B772112694C900B9ADAE /* zh_CN */,
+				860F671F111C561B00190BCC /* English */,
 			);
-			name = Localizable.strings;
+			name = VideoTuner.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
