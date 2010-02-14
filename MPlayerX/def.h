@@ -66,6 +66,7 @@
 #define kUDKeyVideoTunerStepValue	(@"VideoTunerStepValue")
 #define kUDKeyARKeyRepeatTimeInterval		(@"ARKeyRepeatTimeInterval")
 #define kUDKeyARKeyRepeatTimeIntervalLong	(@"ARKeyRepeatTimeIntervalLong")
+#define kUDKeyStartToPlayWhenOpened		(@"StartToPlayWhenOpened")
 
 #define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
 #define kUDKeySelectedPrefView		(@"SelectedPrefView")
