@@ -298,23 +298,30 @@
 			[self performSelector:@selector(simulateEvent:) withObject:arg afterDelay:arKeyRepTime];
 			
 		} else if (repeatCounter == kSCMRepeatCounterThreshold) {
-			NSEvent *newEv;
+			NSEvent *newEv = nil;
 			unichar key = [[evt charactersIgnoringModifiers] characterAtIndex:0];
+			float timeLong = arKeyRepTime;
 			
-			if (key == NSRightArrowFunctionKey) {
-				key = NSUpArrowFunctionKey;
-			} else if (key == NSLeftArrowFunctionKey) {
-				key = NSDownArrowFunctionKey;
+			if ((key == NSRightArrowFunctionKey) || (key == NSLeftArrowFunctionKey)) {
+				if (key == NSRightArrowFunctionKey) {
+					key = NSUpArrowFunctionKey;
+				} else {
+					key = NSDownArrowFunctionKey;
+				}
+				newEv = [NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
+									 windowNumber:0 context:nil
+									   characters:[NSString stringWithCharacters:&key length:1]
+					  charactersIgnoringModifiers:[NSString stringWithCharacters:&key length:1]
+										isARepeat:NO keyCode:0];
+				timeLong = [ud floatForKey:kUDKeyARKeyRepeatTimeIntervalLong];
+			} else {
+				newEv = evt;
 			}
-			newEv = [NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
-													windowNumber:0 context:nil
-													  characters:[NSString stringWithCharacters:&key length:1]
-									 charactersIgnoringModifiers:[NSString stringWithCharacters:&key length:1]
-													   isARepeat:NO keyCode:0];
+			
 			[self performSelector:@selector(simulateEvent:)
 					   withObject:[NSArray arrayWithObjects:tgt, [NSNumber numberWithInteger:((NSInteger)sel)], newEv, nil]
 					   afterDelay:arKeyRepTime];
-			arKeyRepTime = [ud floatForKey:kUDKeyARKeyRepeatTimeIntervalLong];
+			arKeyRepTime = timeLong;
 		}
 	}
 }
