@@ -410,7 +410,11 @@
 
 -(IBAction) changeVolumeBy:(id)sender
 {
-	[self setVolume:[NSNumber numberWithFloat:[volumeSlider floatValue] + ([sender tag] * volStep)]];
+	float delta;
+	
+	delta = ([sender isKindOfClass:[NSMenuItem class]])?([sender tag]):([sender floatValue]);
+	
+	[self setVolume:[NSNumber numberWithFloat:[volumeSlider floatValue] + (delta * volStep)]];
 }
 
 -(IBAction) seekTo:(id) sender

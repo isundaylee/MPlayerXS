@@ -186,7 +186,6 @@
 				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 
-
 	// 建立支持格式的Set
 	for( NSDictionary *dict in [mainBundle objectForInfoDictionaryKey:@"CFBundleDocumentTypes"]) {
 
