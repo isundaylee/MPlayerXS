@@ -58,3 +58,5 @@
 
 #define kMPXStringMenuShowLetterBox			(NSLocalizedString(@"Show LetterBox", @"menu"))
 #define kMPXStringMenuHideLetterBox			(NSLocalizedString(@"Hide LetterBox", @"menu"))
+
+#define kMPXStringURLPanelClearMenu			(NSLocalizedString(@"Clear Menu...", @"open url panel"))

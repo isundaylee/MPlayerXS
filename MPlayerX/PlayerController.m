@@ -25,6 +25,7 @@
 #import "PlayList.h"
 #import <sys/sysctl.h>
 #import <Sparkle/Sparkle.h>
+#import "OpenURLController.h"
 
 #define kObservedValueStringMediaLength		(@"movieInfo.length")
 #define kObservedValueStringCurrentTime		(@"movieInfo.playingInfo.currentTime")
@@ -214,6 +215,8 @@
 		// 如果文件不存在或者格式非法
 		bookmarks = [[NSMutableDictionary alloc] initWithCapacity:10];
 	}
+	
+	[openUrlController initURLList:bookmarks];
 	
 	// 设定手动更新
 	[[SUUpdater sharedUpdater] setAutomaticallyChecksForUpdates:NO];
@@ -569,6 +572,8 @@
 		[window setTitle:[[lastPlayedPathPre path] lastPathComponent]];
 	} else {
 		[window setTitle:[absStr lastPathComponent]];
+		
+		[openUrlController addUrl:absStr];
 	}
 	
 	[controlUI playBackStarted];
@@ -820,6 +825,8 @@
 	NSString *lastStoppedTimePath = [NSString stringWithFormat:@"%@/Library/Preferences/%@.bookmarks.plist", 
 															   NSHomeDirectory(), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
 
+	[openUrlController syncToBookmark:bookmarks];
+	
 	[bookmarks writeToFile:lastStoppedTimePath atomically:YES];
 	
 	return NSTerminateNow;	

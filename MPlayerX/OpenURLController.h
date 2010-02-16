@@ -34,4 +34,10 @@
 -(IBAction) confirmed:(id) sender;
 -(IBAction) canceled:(id) sender;
 
+-(void) initURLList:(NSDictionary*)list;
+-(void) addUrl:(NSString*)urlString;
+-(void) syncToBookmark:(NSMutableDictionary*)bmk;
+
+-(IBAction) urlSelected:(id)sender;
+
 @end

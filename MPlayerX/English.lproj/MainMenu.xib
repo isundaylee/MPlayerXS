@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="783"/>
+			<integer value="628"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1159,7 +1159,7 @@
 				<string key="NSWindowContentMaxSize">{500, 100}</string>
 				<string key="NSWindowContentMinSize">{500, 100}</string>
 				<object class="NSView" key="NSWindowView" id="77567990">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1257,15 +1257,16 @@
 								<object class="NSComboTableView" key="NSTableView" id="320193884">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
-									<string key="NSFrameSize">{15, 0}</string>
+									<string key="NSFrameSize">{374, 21}</string>
 									<reference key="NSSuperview"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSMutableArray" key="NSTableColumns">
 										<bool key="EncodedWithXMLCoder">YES</bool>
 										<object class="NSTableColumn">
 											<integer value="0" key="NSIdentifier"/>
-											<double key="NSWidth">12</double>
+											<double key="NSWidth">371</double>
 											<double key="NSMinWidth">10</double>
 											<double key="NSMaxWidth">1000</double>
 											<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -1330,6 +1331,7 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{500, 100}</string>
+					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{500, 122}</string>
@@ -2169,6 +2171,22 @@
 						<reference key="destination" ref="666544122"/>
 					</object>
 					<int key="connectionID">919</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">openUrlController</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="492182815"/>
+					</object>
+					<int key="connectionID">920</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">urlSelected:</string>
+						<reference key="source" ref="492182815"/>
+						<reference key="destination" ref="818454281"/>
+					</object>
+					<int key="connectionID">921</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3579,7 +3597,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">919</int>
+			<int key="maxID">921</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3740,9 +3758,11 @@
 							<string>canceled:</string>
 							<string>confirmed:</string>
 							<string>openURL:</string>
+							<string>urlSelected:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3798,12 +3818,14 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>aboutText</string>
 							<string>controlUI</string>
+							<string>openUrlController</string>
 							<string>window</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSTextField</string>
 							<string>ControlUIView</string>
+							<string>OpenURLController</string>
 							<string>NSWindow</string>
 						</object>
 					</object>

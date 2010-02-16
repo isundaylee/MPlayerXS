@@ -23,6 +23,8 @@
 #import "OpenURLController.h"
 #import "PlayerController.h"
 
+#define kBookmarkURLKey		(@"Bookmark:URL")
+
 @implementation OpenURLController
 
 +(void) initialize
@@ -33,15 +35,48 @@
 	  nil]];
 }
 
+-(void) initURLList:(NSDictionary*)list
+{
+	[urlBox removeAllItems];
+	
+	NSArray *urls = [list objectForKey:kBookmarkURLKey];
+
+	if (urls) {
+		[urlBox addItemsWithObjectValues:urls];
+	}
+	
+	[urlBox addItemWithObjectValue:kMPXStringURLPanelClearMenu];
+}
+
+-(void) addUrl:(NSString*)urlString
+{
+	if (![[urlBox objectValues] containsObject:urlString]) {
+		// 将这个URL添加到list中，添加到第一位
+		[urlBox insertItemWithObjectValue:urlString atIndex:0];
+	}
+}
+
+-(void) syncToBookmark:(NSMutableDictionary*)bmk
+{
+	NSArray *urls = [urlBox objectValues];
+	
+	[bmk setObject:[urls subarrayWithRange:NSMakeRange(0, [urls count]-1)] forKey:kBookmarkURLKey];
+}
+
+-(IBAction) urlSelected:(id)sender
+{
+	if ([sender indexOfSelectedItem] == ([[sender objectValues] count]-1)) {
+		[sender removeAllItems];
+		[sender addItemWithObjectValue:kMPXStringURLPanelClearMenu];
+		[sender setStringValue:@""];
+	}
+}
+
 -(IBAction) openURL:(id) sender
 {
 	if ([NSApp runModalForWindow:openURLPanel] == NSFileHandlingPanelOKButton) {
 		NSString *urlString = [urlBox stringValue];
 		
-		if (![[urlBox objectValues] containsObject:urlString]) {
-			// 将这个URL添加到list中，添加到第一位
-			[urlBox insertItemWithObjectValue:urlString atIndex:0];
-		}
 		// 现在mplayer的在线播放的功能不是很稳定，经常freeze，因此先禁用这个功能
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyDebugEnableOpenURL]) {
 			[playerController loadFiles:[NSArray arrayWithObject:urlString] fromLocal:NO];

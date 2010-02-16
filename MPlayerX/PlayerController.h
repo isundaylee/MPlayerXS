@@ -21,7 +21,7 @@
 #import <Cocoa/Cocoa.h>
 #import "CoreController.h"
 
-@class ControlUIView;
+@class ControlUIView, OpenURLController;
 
 @interface PlayerController : NSObject <NSApplicationDelegate>
 {
@@ -39,6 +39,7 @@
 	IBOutlet NSWindow *window;
 	IBOutlet ControlUIView *controlUI;
 	IBOutlet NSTextField *aboutText;
+	IBOutlet OpenURLController *openUrlController;
 }
 
 @property (readonly) NSURL *lastPlayedPath;
