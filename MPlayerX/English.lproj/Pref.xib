@@ -12,7 +12,6 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="307"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1271,7 +1270,7 @@ ZSB3aXRoIHBlcmZvcm1hbmNlIGFuZCBpbWFnZSBxdWFsaXR5Lg</string>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="403688566">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1811,7 +1810,6 @@ IHdpbGwgdGFrZSBlZmZlY3QgdW50aWwgcGxheWluZyBuZXh0IG9uZQ</string>
 					</object>
 				</object>
 				<string key="NSFrameSize">{516, 298}</string>
-				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="382663841">
@@ -4362,7 +4360,6 @@ c2UgdGhlIHBsYXliYWNrIGNsdXR0ZXJlZCB3aGVuIHNlZWtpbmcuA</string>
 							<string>changeSubPosBy:</string>
 							<string>changeSubScale:</string>
 							<string>changeVolumeBy:</string>
-							<string>playFromLastStopped:</string>
 							<string>resetAspectRatio:</string>
 							<string>seekTo:</string>
 							<string>setSubWithID:</string>
@@ -4380,7 +4377,6 @@ c2UgdGhlIHBsYXliYWNrIGNsdXR0ZXJlZCB3aGVuIHNlZWtpbmcuA</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

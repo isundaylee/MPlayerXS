@@ -419,11 +419,18 @@
 
 -(IBAction) seekTo:(id) sender
 {
+	if ([sender isKindOfClass:[NSMenuItem class]]) {
+		
+		sender = [NSNumber numberWithFloat:MAX(0, (((float)[sender tag]) / LASTSTOPPEDTIMERATIO) - 5)];
+	}
+	
 	// 这里并没有直接更新controlUI的代码
 	// 因为controlUI会KVO mplayer.movieInfo.playingInfo.currentTime
 	// playerController的seekTo方法里会根据新设定的时间修改currentTime
 	// 因此这里不用直接更新界面
 	float time = [playerController seekTo:[sender floatValue]];
+	
+	[timeSlider setFloatValue:time];
 	
 	[self updateHintTime];
 	
@@ -594,15 +601,6 @@
 					  owner:kOSDOwnerOther
 				updateTimer:YES];
 	}
-}
-
--(IBAction) playFromLastStopped:(id)sender
-{
-	float tm = [sender tag];
-	tm = MAX(0, (tm / LASTSTOPPEDTIMERATIO) - 5); // 给大家一个5秒钟的回忆时间
-	
-	[timeSlider setFloatValue:tm];
-	[self seekTo:timeSlider];
 }
 
 /** \warning this is a temporary implementation */

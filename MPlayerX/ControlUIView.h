@@ -138,7 +138,6 @@
 -(IBAction) setSubWithID:(id)sender;
 
 -(IBAction) changeSubScale:(id)sender;
--(IBAction) playFromLastStopped:(id)sender;
 
 -(IBAction) stepAudios:(id)sender;
 
