@@ -472,6 +472,9 @@
 		
 		[mplayer.pm setCache:[ud integerForKey:kUDKeyCacheSize]];
 		[mplayer.pm setPreferIPV6:[ud boolForKey:kUDKeyPreferIPV6]];
+		
+		// 将URL加入OpenURLController
+		[openUrlController addUrl:path];
 	}
 
 	[mplayer playMedia:path];
@@ -572,8 +575,6 @@
 		[window setTitle:[[lastPlayedPathPre path] lastPathComponent]];
 	} else {
 		[window setTitle:[absStr lastPathComponent]];
-		
-		[openUrlController addUrl:absStr];
 	}
 	
 	[controlUI playBackStarted];
