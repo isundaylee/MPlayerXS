@@ -52,12 +52,15 @@
 {
 	NSInteger idx = [urlBox indexOfItemWithObjectValue:urlString];
 	
-	if (idx != NSNotFound) {
-		// 本来就有这个string就删除这个string，然后添加到第一位
-		[urlBox removeItemAtIndex:idx];
-	}
+	if (idx != 0) {
+		// 如果不存在，或者不在第一位的话
+		if (idx != NSNotFound) {
+			// 本来就有这个string就删除这个string，然后添加到第一位
+			[urlBox removeItemAtIndex:idx];
+		}
 
-	[urlBox insertItemWithObjectValue:urlString atIndex:0];
+		[urlBox insertItemWithObjectValue:urlString atIndex:0];	
+	}
 }
 
 -(void) syncToBookmark:(NSMutableDictionary*)bmk
