@@ -455,6 +455,7 @@
 	
 	[mplayer.pm setLetterBoxMode:[ud integerForKey:kUDKeyLetterBoxMode]];
 	[mplayer.pm setLetterBoxHeight:[ud floatForKey:kUDKeyLetterBoxHeight]];
+	[mplayer.pm setPauseAtStart:[ud boolForKey:kUDKeyPauseAtStart]];
 
 	// 这里必须要retain，否则如果用lastPlayedPath作为参数传入的话会有问题
 	lastPlayedPathPre = [[url absoluteURL] retain];
