@@ -34,6 +34,8 @@
 #define kCILayerSharpnesKeyPath			(@"filters.nrFilter.inputSharpness")
 #define kCILayerGammaKeyPath			(@"filters.gammaFilter.inputPower")
 
+#define kCILayerFilterEnabled			(@"enabled")
+
 @implementation VideoTunerController
 
 +(void) initialize
@@ -53,15 +55,15 @@
 		// 但是残念，因为layer的filters是NSArray，无法实现通过name的binding
 		colorFilter = [[CIFilter filterWithName:@"CIColorControls"] retain];
 		[colorFilter setName:@"colorFilter"];
-
+		
 		nrFilter = [[CIFilter filterWithName:@"CINoiseReduction"] retain];
 		[nrFilter setName:@"nrFilter"];
 		
 		gammaFilter = [[CIFilter filterWithName:@"CIGammaAdjust"] retain];
 		[gammaFilter setName:@"gammaFilter"];
 		
-		[self resetFilters:self];
 		layer = nil;
+		[self resetFilters:self];
 	}
 	return self;
 }
@@ -198,6 +200,10 @@
 	[gammaFilter setValue:[[attr objectForKey:kCIInputPowerKey] objectForKey:kCIAttributeIdentity]
 			   forKeyPath:kCIInputPowerKey];
 	
+	[colorFilter setEnabled:NO];
+	[nrFilter setEnabled:NO];
+	[gammaFilter setEnabled:NO];
+
 	if (nibLoaded) {
 		[sliderBrightness setDoubleValue:[[colorFilter valueForKeyPath:kCIInputBrightnessKey] doubleValue]];
 		[sliderSaturation setDoubleValue:[[colorFilter valueForKeyPath:kCIInputSaturationKey] doubleValue]];
@@ -220,7 +226,15 @@
 		if (!layer.filters) {
 			[layer setFilters:[NSArray arrayWithObjects:gammaFilter, colorFilter, nrFilter, nil]];
 		}
-		[layer setValue:[NSNumber numberWithDouble:[sender doubleValue]] forKeyPath:[[sender cell] representedObject]];
+		
+		NSString *keyPath = [[sender cell] representedObject];
+		NSString *enaStr = [[keyPath stringByDeletingPathExtension] stringByAppendingPathExtension:kCILayerFilterEnabled];
+		
+		if (![layer valueForKeyPath:enaStr]) {
+			[layer setValue:[NSNumber numberWithBool:YES] forKeyPath:enaStr];
+		}
+
+		[layer setValue:[NSNumber numberWithDouble:[sender doubleValue]] forKeyPath:keyPath];
 		//NSLog(@"%@=%f", [[sender cell] representedObject], [sender doubleValue]);
 	}
 }
