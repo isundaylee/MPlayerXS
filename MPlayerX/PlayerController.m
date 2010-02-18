@@ -82,7 +82,7 @@
 					   [NSNumber numberWithUnsignedInt:kPMLetterBoxModeNotDisplay], kUDKeyLetterBoxMode,
 					   [NSNumber numberWithUnsignedInt:kPMLetterBoxModeBottomOnly], kUDKeyLetterBoxModeAlt,
 					   [NSNumber numberWithFloat:0.1], kUDKeyLetterBoxHeight,
-					   [NSNumber numberWithBool:YES], kUDKeyStartToPlayWhenOpened,
+					   [NSNumber numberWithBool:NO], kUDKeyPauseAtStart,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
@@ -585,14 +585,6 @@
 	if (stopTime) {
 		// 有的话，通知controlUI
 		[controlUI gotLastStoppedPlace:[stopTime floatValue]];
-	}
-	
-	// 根据打开就播放设置，默认打开肯定就是播放状态，所以直接toggle就可以了
-	if (![ud boolForKey:kUDKeyStartToPlayWhenOpened]) {
-		// TODO 这个时候不一定是开始播放的时候，比如打开network stream时，这个时间点可能在caching
-		// 这个时候togglePlayPause是没有作用的
-		// 因此需要找到真正开始播放的时间点在togglePlayPause
-		//[controlUI togglePlayPause:self];
 	}
 }
 

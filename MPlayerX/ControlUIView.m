@@ -723,8 +723,8 @@
 {
 	[dispView setPlayerWindowLevel];
 	
-	[playPauseButton setState:PlayState];
-	
+	[playPauseButton setState:(playerController.playerState == kMPCPlayingState)?PlayState:PauseState];
+
 	[speedText setEnabled:YES];
 	[subDelayText setEnabled:YES];
 	[audioDelayText setEnabled:YES];

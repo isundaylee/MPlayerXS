@@ -284,7 +284,7 @@
 					  withExec:[mpPathPair objectForKey:(pm.prefer64bMPlayer)?kX86_64Key:kI386Key] 
 					withParams:[pm arrayOfParametersWithName:sharedBufferName]]
 	   ) {
-		state = kMPCPlayingState;
+		state = (pm.pauseAtStart)?(kMPCPausedState):(kMPCPlayingState);
 		
 		[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayStartedNotification object:self];
 		
