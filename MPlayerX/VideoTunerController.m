@@ -230,7 +230,7 @@
 		NSString *keyPath = [[sender cell] representedObject];
 		NSString *enaStr = [[keyPath stringByDeletingPathExtension] stringByAppendingPathExtension:kCILayerFilterEnabled];
 		
-		if (![layer valueForKeyPath:enaStr]) {
+		if (![[layer valueForKeyPath:enaStr] boolValue]) {
 			[layer setValue:[NSNumber numberWithBool:YES] forKeyPath:enaStr];
 		}
 
