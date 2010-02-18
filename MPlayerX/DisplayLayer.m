@@ -52,14 +52,16 @@
 		fillScreen = NO;
 		externalAspectRatio = kDisplayAscpectRatioInvalid;
 		
-		NSNull *n = [NSNull null];
-		[self setActions:[NSDictionary dictionaryWithObjectsAndKeys:
-						  n, @"anchorPoint", n, @"bounds", n, @"frame", n, @"position", nil]];
-		
+		[self setDelegate:self];
 		[self setMasksToBounds:YES];
 		[self setAutoresizingMask:kCALayerWidthSizable|kCALayerHeightSizable];
 	}
 	return self;
+}
+
+-(id<CAAction>) actionForLayer:(CALayer*)layer forKey:(NSString*)event
+{
+	return ((id<CAAction>)[NSNull null]);
 }
 
 - (void)dealloc

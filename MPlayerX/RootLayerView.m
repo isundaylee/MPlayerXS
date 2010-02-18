@@ -106,9 +106,7 @@
 	CALayer *root = [self layer];
 	
 	// 禁用修改尺寸的action
-	NSNull *n = [NSNull null];
-	[root setActions:[NSDictionary dictionaryWithObjectsAndKeys:
-					  n, @"anchorPoint", n, @"bounds", n, @"frame", n, @"position", nil]];
+	[root setDelegate:self];
 
 	// 背景颜色
 	CGColorRef col =  CGColorCreateGenericGray(0.0, 1.0);
@@ -145,6 +143,11 @@
 											   object:playerWindow];
 
 }
+-(id<CAAction>) actionForLayer:(CALayer*)layer forKey:(NSString*)event
+{
+	return ((id<CAAction>)[NSNull null]);
+}
+
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)event 
 { return YES; }
