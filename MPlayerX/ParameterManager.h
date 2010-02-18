@@ -63,6 +63,7 @@
 	BOOL preferIPV6;
 	unsigned int letterBoxMode;
 	float letterBoxHeight;
+	BOOL pauseAtStart;
 }
 
 @property (assign, readwrite) SUBFILE_NAMERULE subNameRule;
@@ -87,6 +88,7 @@
 @property (assign, readwrite) BOOL preferIPV6;
 @property (assign, readwrite) unsigned int letterBoxMode;
 @property (assign, readwrite) float letterBoxHeight;
+@property (assign, readwrite) BOOL pauseAtStart;
 
 -(void) setSubFontColor:(NSColor*)col;
 -(void) setSubFontBorderColor:(NSColor*)col;

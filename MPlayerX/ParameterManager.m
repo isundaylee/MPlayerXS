@@ -65,6 +65,7 @@
 @synthesize preferIPV6;
 @synthesize letterBoxMode;
 @synthesize letterBoxHeight;
+@synthesize pauseAtStart;
 
 #pragma mark Init/Dealloc
 -(id) init
@@ -107,6 +108,7 @@
 		preferIPV6 = NO;
 		letterBoxMode = kPMLetterBoxModeNotDisplay;
 		letterBoxHeight = 0.1;
+		pauseAtStart = NO;
 	}
 	return self;
 }
@@ -308,6 +310,10 @@
 			passStr = [passStr stringByAppendingString:@"hwac3,a52,"];
 		}
 		[paramArray addObject:passStr];
+	}
+	
+	if (pauseAtStart) {
+		[paramArray addObject:@"-stpause"];
 	}
 
 	[pool release];
