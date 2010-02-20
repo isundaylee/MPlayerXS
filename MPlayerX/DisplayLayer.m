@@ -221,6 +221,11 @@
 	[super releaseCGLContext:ctx];
 }
 
+-(BOOL) canDrawInCGLContext:(CGLContextObj)ctx pixelFormat:(CGLPixelFormatObj)pf forLayerTime:(CFTimeInterval)t displayTime:(const CVTimeStamp *)ts
+{
+	return (bufRaw != nil);
+}
+
 - (void)drawInCGLContext:(CGLContextObj)glContext 
 			 pixelFormat:(CGLPixelFormatObj)pixelFormat
 			forLayerTime:(CFTimeInterval)timeInterval 
@@ -232,44 +237,42 @@
 	CGLLockContext(glContext);	
 	
 	CGLSetCurrentContext(glContext);
-
+	
 	// 清理屏幕
 	glClearColor(0, 0, 0, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
 	
-	if (bufRaw != NULL) {
-		// 有图就画图
-		error = CVOpenGLTextureCacheCreateTextureFromImage (NULL, cache, bufRef,  0, &tex);
+	// 有图就画图
+	error = CVOpenGLTextureCacheCreateTextureFromImage (NULL, cache, bufRef,  0, &tex);
+	
+	if (error == kCVReturnSuccess) {
+		// 成功创建纹理
+		CGRect rc = self.superlayer.bounds;
+		CGFloat sAspect = [self aspectRatio];
 		
-		if (error == kCVReturnSuccess) {
-			// 成功创建纹理
-			CGRect rc = self.superlayer.bounds;
-			CGFloat sAspect = [self aspectRatio];
-			
-			if (((sAspect * rc.size.height) > rc.size.width) == fillScreen) {
-				rc.size.width = rc.size.height * sAspect;
-			} else {
-				rc.size.height = rc.size.width / sAspect;
-			}
-
-			[self setBounds:rc];
-			
-			glEnable(CVOpenGLTextureGetTarget(tex));
-			glBindTexture(CVOpenGLTextureGetTarget(tex), CVOpenGLTextureGetName(tex));
-			
-			glBegin(GL_QUADS);
-			
-			// 直接计算layer需要的尺寸
-			glTexCoord2f(		 0,			 0);	glVertex2f(-1,	 1);
-			glTexCoord2f(		 0, fmt.height);	glVertex2f(-1,	-1);
-			glTexCoord2f(fmt.width, fmt.height);	glVertex2f( 1,	-1);
-			glTexCoord2f(fmt.width,			 0);	glVertex2f( 1,	 1);
-			
-			glEnd();
-			
-			glDisable(CVOpenGLTextureGetTarget(tex));
-			CVOpenGLTextureRelease(tex);
+		if (((sAspect * rc.size.height) > rc.size.width) == fillScreen) {
+			rc.size.width = rc.size.height * sAspect;
+		} else {
+			rc.size.height = rc.size.width / sAspect;
 		}
+		
+		[self setBounds:rc];
+		
+		glEnable(CVOpenGLTextureGetTarget(tex));
+		glBindTexture(CVOpenGLTextureGetTarget(tex), CVOpenGLTextureGetName(tex));
+		
+		glBegin(GL_QUADS);
+		
+		// 直接计算layer需要的尺寸
+		glTexCoord2f(		 0,			 0);	glVertex2f(-1,	 1);
+		glTexCoord2f(		 0, fmt.height);	glVertex2f(-1,	-1);
+		glTexCoord2f(fmt.width, fmt.height);	glVertex2f( 1,	-1);
+		glTexCoord2f(fmt.width,			 0);	glVertex2f( 1,	 1);
+		
+		glEnd();
+		
+		glDisable(CVOpenGLTextureGetTarget(tex));
+		CVOpenGLTextureRelease(tex);
 	}
 	glFlush();
 	CGLUnlockContext(glContext);
