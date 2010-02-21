@@ -64,4 +64,6 @@
 
 -(IBAction) writeSnapshotToFile:(id)sender;
 
+-(void) showLogo:(BOOL)show;
+
 @end
