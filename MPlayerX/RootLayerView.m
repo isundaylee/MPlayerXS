@@ -86,19 +86,13 @@
 	[trackingArea release];
 	[fullScreenOptions release];
 	[dispLayer release];
+	[logo release];
 	
 	[super dealloc];
 }
 
 -(void) awakeFromNib
 {
-	// 将osd放到ControlUI的下面，保证osd不会遮挡ControlUI
-	// warning 这段代码必须在setup layer之前运行，否则remove view会使得view被layer遮挡看不见
-	[osd retain];
-	[osd removeFromSuperviewWithoutNeedingDisplay];
-	[self addSubview:osd positioned:NSWindowBelow relativeTo:controlUI];
-	[osd release];
-
 	// 设定LayerHost，现在只Host一个Layer
 	[self setWantsLayer:YES];
 	
@@ -114,14 +108,21 @@
 	CGColorRelease(col);
 	// 自动尺寸适应
 	[root setAutoresizingMask:kCALayerWidthSizable|kCALayerHeightSizable];
-
+	
+	NSBundle *mainB = [NSBundle mainBundle];
+	logo = [[NSBitmapImageRep alloc] initWithCIImage:
+			[CIImage imageWithContentsOfURL:
+			 [[mainB resourceURL] URLByAppendingPathComponent:@"logo.png"]]];
+	[root setContentsGravity:kCAGravityCenter];
+	[root setContents:(id)[logo CGImage]];
+	
 	// 默认添加dispLayer
 	[root insertSublayer:dispLayer atIndex:0];
 
 	// 通知DispLayer
 	[dispLayer setBounds:[root bounds]];
 	[dispLayer setPosition:CGPointMake(root.bounds.size.width/2, root.bounds.size.height/2)];
-
+	
 	// 通知dispView接受mplayer的渲染通知
 	[playerController setDelegateForMPlayer:self];
 	
@@ -132,7 +133,7 @@
 	[self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType,nil]];
 	
 	// 设定窗口的size
-	[playerWindow setContentMinSize:NSMakeSize(400, 400)];
+	[playerWindow setContentMinSize:NSMakeSize(400, 300)];
 	[playerWindow setContentSize:NSMakeSize(400, 300)];
 	
 	[VTController setLayer:dispLayer];
@@ -141,13 +142,16 @@
 											 selector:@selector(windowHasResized:)
 												 name:NSWindowDidResizeNotification
 											   object:playerWindow];
-
+	// 将ControlUI放在最上层以防止被覆盖
+	[controlUI retain];
+	[controlUI removeFromSuperviewWithoutNeedingDisplay];
+	[self addSubview:controlUI positioned:NSWindowAbove	relativeTo:nil];
+	[controlUI release];
 }
 -(id<CAAction>) actionForLayer:(CALayer*)layer forKey:(NSString*)event
 {
 	return ((id<CAAction>)[NSNull null]);
 }
-
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)event 
 { return YES; }
@@ -576,7 +580,9 @@
 		[playerWindow setContentSize:sz];
 		[playerWindow setContentAspectRatio:sz];
 	
-		[playerWindow makeKeyAndOrderFront:self];
+		if (![playerWindow isVisible]) {
+			[playerWindow makeKeyAndOrderFront:self];
+		}
 	}
 }
 

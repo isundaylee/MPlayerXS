@@ -28,7 +28,8 @@
 	NSUserDefaults *ud;
 
 	NSTrackingArea *trackingArea;
-
+	NSBitmapImageRep *logo;
+	
 	BOOL shouldResize;
 	DisplayLayer *dispLayer;
 	
@@ -43,7 +44,6 @@
 	IBOutlet ControlUIView *controlUI;
 	IBOutlet PlayerController *playerController;
 	IBOutlet ShortCutManager *shortCutManager;
-	IBOutlet OsdText *osd;
 	IBOutlet VideoTunerController *VTController;
 }
 
