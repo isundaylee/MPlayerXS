@@ -21,88 +21,88 @@
 #import "coredef.h"
 
 // UserDefaults定义
-#define kUDKeyVolume				(@"volume")
-#define kUDKeyOnTopMode				(@"OnTopMode")
-#define kUDKeyCtrlUIAutoHideTime	(@"CtrlUIAutoHideTime")
-#define kUDKeySpeedStep				(@"SpeedStepIncre")
-#define kUDKeySeekStepLR			(@"SeekStepTimeLR")
-#define kUDKeySeekStepUB			(@"SeekStepTimeUB")
-#define kUDKeyVolumeStep			(@"VolumeStep")
-#define kUDKeyAutoPlayNext			(@"AutoPlayNext")
-#define kUDKeySubFontPath			(@"SubFontPath")
-#define kUDKeySnapshotSavePath		(@"SnapshotSavePath")
-#define kUDKeyStartByFullScreen		(@"StartByFullScreen")
-#define kUDKeySubDelayStepTime		(@"SubDelayStepTime")
-#define kUDKeyAudioDelayStepTime	(@"AudioDelayStepTime")
-#define kUDKeyPrefer64bitMPlayer	(@"Prefer64bitMPlayer")
-#define kUDKeyEnableMultiThread		(@"EnableMultiThread")
-#define kUDKeySubScale				(@"SubScale")
-#define kUDKeySubScaleStepValue		(@"SubScaleStepValue")
-#define kUDKeySwitchTimeHintPressOnAbusolute	(@"TimeHintPrsOnAbs")
-#define kUDKeyQuitOnClose			(@"QuitOnClose")
-#define kUDKeySwitchTimeTextPressOnRemain		(@"TimeTextPrsOnRemain")
-#define kUDKeySubFontColor			(@"SubFontColor")
-#define kUDKeySubFontBorderColor	(@"SubFontBorderColor")
-#define kUDKeyCtrlUIBackGroundAlpha	(@"CtrlUIBackGroundAlpha")
-#define kUDKeyForceIndex			(@"ForceIndex")
-#define kUDKeySubFileNameRule		(@"SubFileNameRule")
-#define kUDKeyDTSPassThrough		(@"DTSPassThrough")
-#define kUDKeyAC3PassThrough		(@"AC3PassThrough")
-#define kUDKeyShowOSD				(@"ShowOSD")
-#define kUDKeyOSDFontSizeMax		(@"OSDFontSizeMax")
-#define kUDKeyOSDFontSizeMin		(@"OSDFontSizeMin")
-#define kUDKeyOSDFrontColor			(@"OSDFrontColor")
-#define kUDKeyOSDAutoHideTime		(@"OSDAutoHideTime")
-#define kUDKeyThreadNum				(@"NumberOfThreads")
-#define kUDKeyFastDecoding			(@"FastDecoding")
-#define kUDKeyUseEmbeddedFonts		(@"UseEmbeddedFonts")
-#define kUDKeyCacheSize				(@"CacheSize")
-#define kUDKeyPreferIPV6			(@"PreferIPV6")
-#define kUDKeyCachingLocal			(@"CachingLocal")
-#define kUDKeyFullScreenKeepOther	(@"FullScreenKeepOther")
-#define kUDKeyLetterBoxMode			(@"LetterBoxMode")
-#define kUDKeyLetterBoxModeAlt		(@"LetterBoxModeAlt")
-#define kUDKeyLetterBoxHeight		(@"LetterBoxHeight")
-#define kUDKeyVideoTunerStepValue	(@"VideoTunerStepValue")
-#define kUDKeyARKeyRepeatTimeInterval		(@"ARKeyRepeatTimeInterval")
-#define kUDKeyARKeyRepeatTimeIntervalLong	(@"ARKeyRepeatTimeIntervalLong")
-#define kUDKeyPlayWhenOpened			(@"PlayWhenOpened")
+extern NSString * const kUDKeyVolume;
+extern NSString * const kUDKeyOnTopMode;
+extern NSString * const kUDKeyCtrlUIAutoHideTime;
+extern NSString * const kUDKeySpeedStep;
+extern NSString * const kUDKeySeekStepLR;
+extern NSString * const kUDKeySeekStepUB;
+extern NSString * const kUDKeyVolumeStep;
+extern NSString * const kUDKeyAutoPlayNext;
+extern NSString * const kUDKeySubFontPath;
+extern NSString * const kUDKeySnapshotSavePath;
+extern NSString * const kUDKeyStartByFullScreen;
+extern NSString * const kUDKeySubDelayStepTime;
+extern NSString * const kUDKeyAudioDelayStepTime;
+extern NSString * const kUDKeyPrefer64bitMPlayer;
+extern NSString * const kUDKeyEnableMultiThread;
+extern NSString * const kUDKeySubScale;
+extern NSString * const kUDKeySubScaleStepValue;
+extern NSString * const kUDKeySwitchTimeHintPressOnAbusolute;
+extern NSString * const kUDKeyQuitOnClose;
+extern NSString * const kUDKeySwitchTimeTextPressOnRemain;
+extern NSString * const kUDKeySubFontColor;
+extern NSString * const kUDKeySubFontBorderColor;
+extern NSString * const kUDKeyCtrlUIBackGroundAlpha;
+extern NSString * const kUDKeyForceIndex;
+extern NSString * const kUDKeySubFileNameRule;
+extern NSString * const kUDKeyDTSPassThrough;
+extern NSString * const kUDKeyAC3PassThrough;
+extern NSString * const kUDKeyShowOSD;
+extern NSString * const kUDKeyOSDFontSizeMax;
+extern NSString * const kUDKeyOSDFontSizeMin;
+extern NSString * const kUDKeyOSDFrontColor;
+extern NSString * const kUDKeyOSDAutoHideTime;
+extern NSString * const kUDKeyThreadNum;
+extern NSString * const kUDKeyFastDecoding;
+extern NSString * const kUDKeyUseEmbeddedFonts;
+extern NSString * const kUDKeyCacheSize;
+extern NSString * const kUDKeyPreferIPV6;
+extern NSString * const kUDKeyCachingLocal;
+extern NSString * const kUDKeyFullScreenKeepOther;
+extern NSString * const kUDKeyLetterBoxMode;
+extern NSString * const kUDKeyLetterBoxModeAlt;
+extern NSString * const kUDKeyLetterBoxHeight;
+extern NSString * const kUDKeyVideoTunerStepValue;
+extern NSString * const kUDKeyARKeyRepeatTimeInterval;
+extern NSString * const kUDKeyARKeyRepeatTimeIntervalLong;
+extern NSString * const kUDKeyPlayWhenOpened;
 
-#define kUDKeyDebugEnableOpenURL	(@"DebugEnableOpenURL")
-#define kUDKeySelectedPrefView		(@"SelectedPrefView")
-#define kUDKeyHelpURL				(@"HelpURL")
-#define kUDKeyCloseWindowWhenStopped	(@"CloseOnStopped")
+extern NSString * const kUDKeyDebugEnableOpenURL;
+extern NSString * const kUDKeySelectedPrefView;
+extern NSString * const kUDKeyHelpURL;
+extern NSString * const kUDKeyCloseWindowWhenStopped;
 
 #define kSCMSwitchTimeHintKeyModifierMask	(NSFunctionKeyMask)
 
-#define kSCMVolumeUpKeyEquivalent		(@"=")
-#define kSCMVolumeDownKeyEquivalent		(@"-")
-#define kSCMSwitchAudioKeyEquivalent	(@"a")
-#define kSCMSwitchSubKeyEquivalent		(@"s")
-#define kSCMSnapShotKeyEquivalent		(@"S")
-#define kSCMMuteKeyEquivalent			(@"m")
-#define kSCMPlayPauseKeyEquivalent		(@" ")
-#define kSCMFullScrnKeyEquivalent		(@"f")
-#define kSCMFillScrnKeyEquivalent		(@"F")
-#define kSCMAcceControlKeyEquivalent	(@"c")
+extern NSString * const kSCMVolumeUpKeyEquivalent;
+extern NSString * const kSCMVolumeDownKeyEquivalent;
+extern NSString * const kSCMSwitchAudioKeyEquivalent;
+extern NSString * const kSCMSwitchSubKeyEquivalent;
+extern NSString * const kSCMSnapShotKeyEquivalent;
+extern NSString * const kSCMMuteKeyEquivalent;
+extern NSString * const kSCMPlayPauseKeyEquivalent;
+extern NSString * const kSCMFullScrnKeyEquivalent;
+extern NSString * const kSCMFillScrnKeyEquivalent;
+extern NSString * const kSCMAcceControlKeyEquivalent;
 
-#define kSCMSubScaleIncreaseKeyEquivalent					(@"=")
+extern NSString * const kSCMSubScaleIncreaseKeyEquivalent;
 #define kSCMSubScaleIncreaseKeyEquivalentModifierFlagMask	(NSCommandKeyMask)
-#define kSCMSubScaleDecreaseKeyEquivalent					(@"-")
+extern NSString * const kSCMSubScaleDecreaseKeyEquivalent;
 #define kSCMSubScaleDecreaseKeyEquivalentModifierFlagMask	(NSCommandKeyMask)
 
-#define kSCMPlayFromLastStoppedKeyEquivalent					(@"c")
+extern NSString * const kSCMPlayFromLastStoppedKeyEquivalent;
 #define kSCMPlayFromLastStoppedKeyEquivalentModifierFlagMask	(NSShiftKeyMask)
 
 #define kSCMDragSubPosModifierFlagMask			(NSCommandKeyMask)
 #define kSCMDragAudioBalanceModifierFlagMask	(NSAlternateKeyMask)
 
-#define kSCMToggleLockAspectRatioKeyEquivalent		(@"r")
+extern NSString * const kSCMToggleLockAspectRatioKeyEquivalent;
 
-#define kSCMResetLockAspectRatioKeyEquivalent		(@"r")
+extern NSString * const kSCMResetLockAspectRatioKeyEquivalent;
 #define kSCMResetLockAspectRatioKeyEquivalentModifierFlagMask		(NSShiftKeyMask)
 
-#define kSCMVideoTunerPanelKeyEquivalent	(@"v")
+extern NSString * const kSCMVideoTunerPanelKeyEquivalent;
 #define kSCMVideoTunerPanelKeyEquivalentModifierFlagMask	(NSShiftKeyMask|NSCommandKeyMask)
 
-#define kSCMToggleLetterBoxKeyEquivalent	(@"l")
+extern NSString * const kSCMToggleLetterBoxKeyEquivalent;

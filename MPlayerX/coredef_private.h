@@ -23,41 +23,41 @@
 #define GetRealVolume(x)		(0.01*(x)*(x))
 
 // mplayer通信所用的command的字符串
-#define kMPCTogglePauseCmd		(@"pause\n")
-#define kMPCFrameStepCmd		(@"frame_step\n")
-#define kMPCSubSelectCmd		(@"sub_select\n")
-#define kMPCKeyEventCmd			(@"key_down_event")
+extern NSString * const kMPCTogglePauseCmd;
+extern NSString * const kMPCFrameStepCmd;
+extern NSString * const kMPCSubSelectCmd;
+extern NSString * const kMPCKeyEventCmd;
 
-#define kMPCGetPropertyPreFix	(@"get_property")
-#define kMPCSetPropertyPreFix	(@"set_property")
-#define kMPCSetPropertyPreFixPauseKeep	(@"pausing_keep_force set_property")
+extern NSString * const kMPCGetPropertyPreFix;
+extern NSString * const kMPCSetPropertyPreFix;
+extern NSString * const kMPCSetPropertyPreFixPauseKeep;
 
 ////////////////////////////////////////////////////////////////////
 // 没有ID结尾的是 命令字符串 和 属性字符串 有可能是公用的
-#define kMPCTimePos				(@"time_pos")
-#define kMPCOsdLevel			(@"osdlevel")
-#define kMPCSpeed				(@"speed")
-#define kMPCChapter				(@"chapter")
-#define kMPCPercentPos			(@"percent_pos")
-#define kMPCVolume				(@"volume")
-#define kMPCAudioBalance		(@"balance")
-#define kMPCMute				(@"mute")
-#define kMPCAudioDelay			(@"audio_delay")
-#define kMPCSwitchAudio			(@"switch_audio")
-#define kMPCSub					(@"sub")
-#define kMPCSubDelay			(@"sub_delay")
-#define kMPCSubPos				(@"sub_pos")
-#define kMPCSubScale			(@"sub_scale")
-#define kMPCSubLoad				(@"sub_load")
+extern NSString * const kMPCTimePos;
+extern NSString * const kMPCOsdLevel;
+extern NSString * const kMPCSpeed;
+extern NSString * const kMPCChapter;
+extern NSString * const kMPCPercentPos;
+extern NSString * const kMPCVolume;
+extern NSString * const kMPCAudioBalance;
+extern NSString * const kMPCMute;
+extern NSString * const kMPCAudioDelay;
+extern NSString * const kMPCSwitchAudio;
+extern NSString * const kMPCSub;
+extern NSString * const kMPCSubDelay;
+extern NSString * const kMPCSubPos;
+extern NSString * const kMPCSubScale;
+extern NSString * const kMPCSubLoad;
 
 // 有ID结尾的是 只用来做属性字符串的
-#define kMPCLengthID			(@"LENGTH")
-#define kMPCSeekableID			(@"SEEKABLE")
-#define kMPCSubInfosID			(@"MPXSUBNAMES")
-#define kMPCSubInfoAppendID		(@"MPXSUBFILEADD")
-#define kMPCCachingPercentID	(@"CACHING")
-#define kMPCPlayBackStartedID	(@"PBST")
-#define kMPCAudioInfoID			(@"AUDIOINFO")
-#define kMPCVideoInfoID			(@"VIDEOINFO")
+extern NSString * const kMPCLengthID;
+extern NSString * const kMPCSeekableID;
+extern NSString * const kMPCSubInfosID;
+extern NSString * const kMPCSubInfoAppendID;
+extern NSString * const kMPCCachingPercentID;
+extern NSString * const kMPCPlayBackStartedID;
+extern NSString * const kMPCAudioInfoID;
+extern NSString * const kMPCVideoInfoID;
 
-#define kKVOPropertyKeyPathState	(@"state")
+extern NSString * const kKVOPropertyKeyPathState;

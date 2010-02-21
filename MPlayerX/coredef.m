@@ -1,5 +1,5 @@
 /*
- * MPlayerX - coredef.h
+ * MPlayerX - coredef.m
  *
  * Copyright (C) 2009 Zongyao QU
  * 
@@ -17,31 +17,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+#import <Cocoa/Cocoa.h>
+#import "coredef.h"
 
 // 指定两种arch的mplayer路径时所用的key
-extern NSString * const kI386Key;
-extern NSString * const kX86_64Key;
-
-typedef enum
-{
-	kSubFileNameRuleExactMatch = 0,
-	kSubFileNameRuleContain = 1,
-	kSubFileNameRuleAny = 2
-} SUBFILE_NAMERULE;
-
-#define kPlayerWindowCornerRadius	(6.0)
-
-// letterBox显示模式
-#define kPMLetterBoxModeNotDisplay	(0)
-#define kPMLetterBoxModeBottomOnly	(1)
-#define kPMLetterBoxModeBoth		(2)
+NSString * const kI386Key	= @"i386";
+NSString * const kX86_64Key	= @"x86_64";
 
 // KVO观测的属性的KeyPath
-extern NSString * const kKVOPropertyKeyPathCurrentTime;
-extern NSString * const kKVOPropertyKeyPathLength;
-extern NSString * const kKVOPropertyKeyPathSeekable;
-extern NSString * const kKVOPropertyKeyPathSubInfo;
-extern NSString * const kKVOPropertyKeyPathCachingPercent;
+NSString * const kKVOPropertyKeyPathCurrentTime		= @"movieInfo.playingInfo.currentTime";
+NSString * const kKVOPropertyKeyPathLength			= @"movieInfo.length";
+NSString * const kKVOPropertyKeyPathSeekable		= @"movieInfo.seekable";
+NSString * const kKVOPropertyKeyPathSubInfo			= @"movieInfo.subInfo";
+NSString * const kKVOPropertyKeyPathCachingPercent	= @"movieInfo.playingInfo.cachingPercent";
 
-extern NSString * const kKVOPropertyKeyPathVideoInfo;
-extern NSString * const kKVOPropertyKeyPathAudioInfo;
+NSString * const kKVOPropertyKeyPathVideoInfo		= @"movieInfo.videoInfo";
+NSString * const kKVOPropertyKeyPathAudioInfo		= @"movieInfo.audioInfo";
