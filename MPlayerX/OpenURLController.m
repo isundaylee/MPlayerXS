@@ -23,7 +23,12 @@
 #import "OpenURLController.h"
 #import "PlayerController.h"
 
-#define kBookmarkURLKey		(@"Bookmark:URL")
+NSString * const kBookmarkURLKey	= @"Bookmark:URL";
+
+NSString * const kStringURLSchemaHttp	= @"http";
+NSString * const kStringURLSchemaFtp	= @"ftp";
+NSString * const kStringURLSchemaMms	= @"mms";
+NSString * const kStringURLSchemaRtsp	= @"rtsp";
 
 @implementation OpenURLController
 
@@ -97,8 +102,8 @@
 
 	NSString *scheme = [[url scheme] lowercaseString];
 	
-	if (scheme && ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"ftp"] || 
-				   [scheme isEqualToString:@"rtsp"] || [scheme isEqualToString:@"mms"])) {
+	if (scheme && ([scheme isEqualToString:kStringURLSchemaHttp] || [scheme isEqualToString:kStringURLSchemaFtp] || 
+				   [scheme isEqualToString:kStringURLSchemaRtsp] || [scheme isEqualToString:kStringURLSchemaMms])) {
 		// 先修正URL
 		[urlBox setStringValue:[[url standardizedURL] absoluteString]];
 		// 退出Modal模式
