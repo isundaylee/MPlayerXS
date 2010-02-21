@@ -26,15 +26,12 @@
 #define kMPXStringFileNotExist			(NSLocalizedString(@"The file does not exist", nil))
 #define kMPXStringURLNotSupported		(NSLocalizedString(@"The URL is not supported by MPlayerX.", nil))
 #define kMPXStringCantFindMediaFile		(NSLocalizedString(@"Can't find a proper media file to play", nil))
-
 #define kMPXStringTBILabelGeneral		(NSLocalizedString(@"General", @"PrefToolBarLabel"))
 #define kMPXStringTBILabelVideo			(NSLocalizedString(@"Video", @"PrefToolBarLabel"))
 #define kMPXStringTBILabelAudio			(NSLocalizedString(@"Audio", @"PrefToolBarLabel"))
 #define kMPXStringTBILabelSubtitle		(NSLocalizedString(@"Subtitle", @"PrefToolBarLabel"))
 #define kMPXStringTBILabelNetwork		(NSLocalizedString(@"Network", @"PrefToolBarLabel"))
-
 #define kMPXStringDisable				(NSLocalizedString(@"Disable", nil))
-
 #define kMPXStringOSDSettingChanged		(NSLocalizedString(@"OSD setting changed", @"OSD hint"))
 #define kMPXStringOSDPlaybackStopped	(NSLocalizedString(@"Stopped", @"OSD hint"))
 #define kMPXStringOSDPlaybackPaused		(NSLocalizedString(@"Paused", @"OSD hint"))
@@ -52,11 +49,8 @@
 #define kMPXStringOSDAspectRatioReset		(NSLocalizedString(@"Aspect Ratio: Restored", @"OSD hint"))
 #define kMPXStringOSDLetterBoxWillShow		(NSLocalizedString(@"Letterbox will show", @"OSD hint"))
 #define kMPXStringOSDLetterBoxWillHide		(NSLocalizedString(@"Letterbox will hide", @"OSD hint"))
-
 #define kMPXStringMenuUnlockAspectRatio		(NSLocalizedString(@"Unlock Aspect Ratio", @"menu"))
 #define kMPXStringMenuLockAspectRatio		(NSLocalizedString(@"Lock Aspect Ratio", @"menu"))
-
-#define kMPXStringMenuShowLetterBox			(NSLocalizedString(@"Show LetterBox", @"menu"))
-#define kMPXStringMenuHideLetterBox			(NSLocalizedString(@"Hide LetterBox", @"menu"))
-
-#define kMPXStringURLPanelClearMenu			(NSLocalizedString(@"Clear Menu...", @"open url panel"))
+#define kMPXStringMenuShowLetterBox		(NSLocalizedString(@"Show LetterBox", @"menu"))
+#define kMPXStringMenuHideLetterBox		(NSLocalizedString(@"Hide LetterBox", @"menu"))
+#define kMPXStringURLPanelClearMenu		(NSLocalizedString(@"Clear Menu...", @"open url panel"))
