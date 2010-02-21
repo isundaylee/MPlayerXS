@@ -198,12 +198,13 @@
 
 	// 设定context的更新速度，默认为0，设定为1
 	CGLSetParameter(_context, kCGLCPSwapInterval, &i);
-
+	
+	/*
 	glEnable(GL_TEXTURE_RECTANGLE_ARB);
 	glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
 	
 	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
-
+	 */
 	// 打开多线程支持
 	CGLEnable(_context, kCGLCEMPEngine);
 
