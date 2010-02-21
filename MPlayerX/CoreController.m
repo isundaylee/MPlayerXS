@@ -286,7 +286,7 @@
 	   ) {
 		state = (pm.pauseAtStart)?(kMPCPausedState):(kMPCPlayingState);
 		
-		[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayStartedNotification object:self];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayOpenedNotification object:self];
 		
 		// 这里需要打开Timer去Polling播放时间，然后定期发送现在的播放时间
 		pollingTimer = [[NSTimer timerWithTimeInterval:kPollingTimeForTimePos

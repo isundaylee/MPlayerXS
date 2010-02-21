@@ -104,7 +104,7 @@
 -(void) displayStopped;
 
 ////////////////////////////////播放相关////////////////////////////////
--(void) playBackStarted;
+-(void) playBackOpened;
 -(void) playBackStopped;
 -(void) playBackWillStop;
 

@@ -43,7 +43,7 @@
 #define SAFERELEASE(x)		{if(x) {[x release];x = nil;}}
 
 @interface PlayerController (CoreControllerNotification)
--(void) mplayerStarted:(NSNotification *)notification;
+-(void) mplayerOpened:(NSNotification *)notification;
 -(void) mplayerStopped:(NSNotification *)notification;
 -(void) mplayerWillStop:(NSNotification *)notification;
 -(void) preventSystemSleep;
@@ -142,8 +142,8 @@
 	
 	// 开始监听mplayer的开始/结束事件
 	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(mplayerStarted:)
-												 name:kMPCPlayStartedNotification
+											 selector:@selector(mplayerOpened:)
+												 name:kMPCPlayOpenedNotification
 											   object:mplayer];
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(mplayerStopped:)
@@ -568,7 +568,7 @@
 }
 
 ///////////////////////////////////////MPlayer Notifications/////////////////////////////////////////////
--(void) mplayerStarted:(NSNotification *)notification
+-(void) mplayerOpened:(NSNotification *)notification
 {
 	NSString *absStr = [lastPlayedPathPre absoluteString];
 	NSString *lastComp;
@@ -581,7 +581,7 @@
 	
 	[window setTitle:lastComp];
 	
-	[controlUI playBackStarted];
+	[controlUI playBackOpened];
 	
 	// 用文件名查找有没有之前的播放记录
 	NSNumber *stopTime = [bookmarks objectForKey:absStr];

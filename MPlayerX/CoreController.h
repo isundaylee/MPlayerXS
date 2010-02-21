@@ -32,7 +32,7 @@
 -(void) stop:(id)sender;
 @end
 
-#define kMPCPlayStartedNotification		(@"kMPCPlayStartedNotification")
+#define kMPCPlayOpenedNotification		(@"kMPCPlayOpenedNotification")
 #define kMPCPlayStoppedNotification		(@"kMPCPlayStoppedNotification")
 #define kMPCPlayWillStopNotification	(@"kMPCPlayWillStopNotification")
 
