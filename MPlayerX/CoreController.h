@@ -40,10 +40,10 @@
 #define kMPCPlayStoppedByForceKey		(@"kMPCPlayStoppedByForceKey")
 #define kMPCPlayStoppedTimeKey			(@"kMPCPlayStoppedTimeKey")
 
-#define kMPCStoppedState	(0)		/**< 完全停止状态 */
-#define kMPCOpenedState		(1)		/**< 播放打开，但是还没有开始播放 */
-#define kMPCPlayingState	(2)		/**< 正在播放并且没有暂停 */
-#define kMPCPausedState		(3)		/**< 有文件正在播放但是暂停中 */
+#define kMPCStoppedState	(0x0000)		/**< 完全停止状态 */
+#define kMPCOpenedState		(0x0001)		/**< 播放打开，但是还没有开始播放 */
+#define kMPCPlayingState	(0x0100)		/**< 正在播放并且没有暂停 */
+#define kMPCPausedState		(0x0101)		/**< 有文件正在播放但是暂停中 */
 
 @interface CoreController : NSObject <PlayerCoreDelegate, LogAnalyzerDelegate>
 {

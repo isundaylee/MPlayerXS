@@ -24,9 +24,11 @@
 
 #define kPollingTimeForTimePos	(1)
 
+#define kMITypeNoProc		(0)
 #define kMITypeFlatValue	(1)
 #define kMITypeSubArray		(2)
 #define kMITypeSubAppend	(3)
+#define kMITypeStateChanged	(4)
 
 #define SAFERELEASE(x)			{if(x) {[x release]; x = nil;}}
 #define SAFECLOSESHM(x)			{if(x != -1) {close(x); x = -1;}}
@@ -87,6 +89,7 @@
 																	kKVOPropertyKeyPathSubInfo, kMPCSubInfosID,
 																	kKVOPropertyKeyPathSubInfo, kMPCSubInfoAppendID,
 																	kKVOPropertyKeyPathCachingPercent, kMPCCachingPercentID,
+																	kKVOPropertyKeyPathState, kMPCPlayBackStartedID,
 																	nil];
 		typeDict = [[NSDictionary alloc] initWithObjectsAndKeys:flatValue, kMPCTimePos, 
 																flatValue, kMPCLengthID,
@@ -94,6 +97,7 @@
 																[NSNumber numberWithInt:kMITypeSubArray], kMPCSubInfosID,
 																[NSNumber numberWithInt:kMITypeSubAppend], kMPCSubInfoAppendID,
 																flatValue, kMPCCachingPercentID,
+																[NSNumber numberWithInt:kMITypeStateChanged], kMPCPlayBackStartedID,
 																nil];
 		state = kMPCStoppedState;
 		
@@ -317,8 +321,8 @@
 					  withExec:[mpPathPair objectForKey:(pm.prefer64bMPlayer)?kX86_64Key:kI386Key] 
 					withParams:[pm arrayOfParametersWithName:sharedBufferName]]
 	   ) {
-		state = (pm.pauseAtStart)?(kMPCPausedState):(kMPCPlayingState);
-		
+		state = kMPCOpenedState;
+
 		[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayOpenedNotification object:self];
 		
 		// 这里需要打开Timer去Polling播放时间，然后定期发送现在的播放时间
@@ -351,7 +355,8 @@
 		[playerCore sendStringCommand: [NSString stringWithFormat:@"%@ %@\n", kMPCGetPropertyPreFix, kMPCTimePos]];
 	} else if (state == kMPCPausedState) {
 		// 即使是暂停的时候这样更新时间，会引发KVO事件，这样是为了保持界面更新
-		[movieInfo.playingInfo setCurrentTime:movieInfo.playingInfo.currentTime];
+		[movieInfo.playingInfo willChangeValueForKey:@"currentTime"];
+		[movieInfo.playingInfo didChangeValueForKey:@"currentTime"];
 	}
 }
 
@@ -501,7 +506,9 @@
 		NSString *keyPath = [keyPathDict objectForKey:key];
 		id obj;
 		
+		// NSLog(@"%@", dict);
 		if (keyPath) {
+
 			//如果log里面能找到相应的key path
 			switch ([[typeDict objectForKey:key] intValue]) {
 				case kMITypeFlatValue:
@@ -520,7 +527,11 @@
 					// NSLog(@"%@", obj);
 					[[movieInfo mutableArrayValueForKey:@"subInfo"] addObject: [[obj objectAtIndex:0] lastPathComponent]];
 					break;
-					
+				case kMITypeStateChanged:
+					state = [[dict objectForKey:key] intValue];
+					[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayStartedNotification object:self];
+					break;
+
 				default:
 					break;
 			}
