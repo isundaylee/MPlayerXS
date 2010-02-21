@@ -19,7 +19,6 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "LogAnalyzer.h"
 #import "PlayingInfo.h"
 #import "SubInfo.h"
 #import "VideoInfo.h"
@@ -27,12 +26,12 @@
 
 @class ParameterManager;
 
-@interface MovieInfo : NSObject <LogAnalyzerDelegate>
+@interface MovieInfo : NSObject
 {
 	NSString *demuxer;
 	NSNumber *chapters;
 	NSNumber *length;
-	BOOL seekable;
+	NSNumber *seekable;
 	
 	PlayingInfo *playingInfo;
 	
@@ -41,16 +40,12 @@
 	NSMutableArray *videoInfo;
 	NSMutableArray *audioInfo;
 	NSMutableArray *subInfo;
-	
-	//////////////////////////
-	NSDictionary *keyPathDict;
-	NSDictionary *typeDict;
 }
 
 @property (retain, readwrite) NSString *demuxer;
 @property (retain, readwrite) NSNumber *chapters;
 @property (retain, readwrite) NSNumber *length;
-@property (assign, readwrite) BOOL seekable;
+@property (retain, readwrite) NSNumber *seekable;
 
 @property (retain, readwrite) PlayingInfo *playingInfo;
 
