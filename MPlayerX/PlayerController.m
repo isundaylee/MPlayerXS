@@ -602,6 +602,7 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 	
 	NSLog(@"vc:%d, ac:%d", [mplayer.movieInfo.videoInfo count], [mplayer.movieInfo.audioInfo count]);
 	if ([mplayer.movieInfo.videoInfo count] == 0) {
+		[window setContentSize:[window contentMinSize]];
 		[window makeKeyAndOrderFront:self];
 	}
 }
