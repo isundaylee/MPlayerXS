@@ -26,7 +26,6 @@
 extern NSString * const kMPCTogglePauseCmd;
 extern NSString * const kMPCFrameStepCmd;
 extern NSString * const kMPCSubSelectCmd;
-extern NSString * const kMPCKeyEventCmd;
 
 extern NSString * const kMPCGetPropertyPreFix;
 extern NSString * const kMPCSetPropertyPreFix;
