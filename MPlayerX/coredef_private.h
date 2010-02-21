@@ -23,10 +23,10 @@
 #define GetRealVolume(x)		(0.01*(x)*(x))
 
 // mplayer通信所用的command的字符串
-#define kMPCTogglePauseCmd			(@"pause\n")
-#define kMPCFrameStepCmd			(@"frame_step\n")
-#define kMPCSubSelectCmd			(@"sub_select\n")
-#define kMPCKeyEventCmd				(@"key_down_event")
+#define kMPCTogglePauseCmd		(@"pause\n")
+#define kMPCFrameStepCmd		(@"frame_step\n")
+#define kMPCSubSelectCmd		(@"sub_select\n")
+#define kMPCKeyEventCmd			(@"key_down_event")
 
 #define kMPCGetPropertyPreFix	(@"get_property")
 #define kMPCSetPropertyPreFix	(@"set_property")
@@ -56,3 +56,6 @@
 #define kMPCSubInfosID			(@"MPXSUBNAMES")
 #define kMPCSubInfoAppendID		(@"MPXSUBFILEADD")
 #define kMPCCachingPercentID	(@"CACHING")
+#define kMPCPlayBackStartedID	(@"PBST")
+
+#define kKVOPropertyKeyPathState	(@"state")
