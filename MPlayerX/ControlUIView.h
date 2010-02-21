@@ -96,8 +96,8 @@
 -(IBAction) toggleFillScreen:(id)sender;
 
 ////////////////////////////////显示相关////////////////////////////////
-#define kFillScreenButtonImageLRKey		(@"LR")
-#define kFillScreenButtonImageUBKey		(@"UB")
+extern NSString * const kFillScreenButtonImageLRKey;
+extern NSString * const kFillScreenButtonImageUBKey;
 -(void) setFillScreenMode:(NSString*)modeKey state:(NSInteger) state;
 
 -(void) displayStarted;
@@ -105,6 +105,7 @@
 
 ////////////////////////////////播放相关////////////////////////////////
 -(void) playBackOpened;
+-(void) playBackStarted;
 -(void) playBackStopped;
 -(void) playBackWillStop;
 

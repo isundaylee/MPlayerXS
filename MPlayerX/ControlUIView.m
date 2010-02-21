@@ -38,6 +38,11 @@
 
 #define LASTSTOPPEDTIMERATIO	(100)
 
+NSString * const kFillScreenButtonImageLRKey = @"LR";
+NSString * const kFillScreenButtonImageUBKey = @"UB";
+
+NSString * const kStringFMTTimeAppendTotal	= @" / %@";
+
 #define PlayState	(NSOnState)
 #define PauseState	(NSOffState)
 
@@ -46,7 +51,6 @@
 -(void) calculateHintTime;
 -(void) resetSubMenu;
 @end
-
 
 @implementation ControlUIView
 
@@ -72,6 +76,7 @@
 {
 	if (self = [super initWithFrame:frameRect]) {
 		ud = [NSUserDefaults standardUserDefaults];
+		
 		shouldHide = NO;
 		fillGradient = nil;
 		autoHideTimer = nil;
@@ -196,18 +201,19 @@
 	hintTimePrsOnAbs = [ud boolForKey:kUDKeySwitchTimeHintPressOnAbusolute];
 	timeTextPrsOnRmn = [ud boolForKey:kUDKeySwitchTimeTextPressOnRemain];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(windowHasResized:)
-												 name:NSWindowDidResizeNotification
-											   object:[self window]];
-	
-	[osd setActive:NO];
-	
 	[menuToggleLockAspectRatio setEnabled:NO];
 	[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
 	[menuResetLockAspectRatio setAlternate:YES];
 	
-	[menuToggleLetterBox setTitle:([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay)?(kMPXStringMenuShowLetterBox):(kMPXStringMenuHideLetterBox)];
+	[menuToggleLetterBox setTitle:([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay)?(kMPXStringMenuShowLetterBox):
+																										 (kMPXStringMenuHideLetterBox)];
+	
+	[osd setActive:NO];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(windowHasResized:)
+												 name:NSWindowDidResizeNotification
+											   object:[self window]];
 }
 
 -(void) dealloc
@@ -254,7 +260,7 @@
 		[osd setActive:YES];
 		[osd setStringValue:kMPXStringOSDSettingChanged owner:kOSDOwnerOther updateTimer:YES];
 	}
-	if ([playerController playerState] != kMPCStoppedState) {
+	if ([playerController couldAcceptCommand]) {
 		// 如果正在播放，那么就设定显示
 		// 如果不在播放，osd的active状态会被设置为强制OFF，所以不能设定
 		// 在开始播放的时候，会再一次设定active状态
@@ -439,7 +445,7 @@
 		double length = [timeSlider maxValue];
 		
 		if (length > 0) {
-			osdStr = [osdStr stringByAppendingFormat:@" / %@", [timeFormatter stringForObjectValue:[NSNumber numberWithDouble:length]]];
+			osdStr = [osdStr stringByAppendingFormat:kStringFMTTimeAppendTotal, [timeFormatter stringForObjectValue:[NSNumber numberWithDouble:length]]];
 		}
 		[osd setStringValue:osdStr owner:kOSDOwnerTime updateTimer:YES];
 	}
@@ -454,7 +460,7 @@
 		double length = [timeSlider maxValue];
 		
 		if (length > 0) {
-			osdStr = [osdStr stringByAppendingFormat:@" / %@", [timeFormatter stringForObjectValue:[NSNumber numberWithDouble:length]]];
+			osdStr = [osdStr stringByAppendingFormat:kStringFMTTimeAppendTotal, [timeFormatter stringForObjectValue:[NSNumber numberWithDouble:length]]];
 		}
 		[osd setStringValue:osdStr owner:kOSDOwnerTime updateTimer:YES];
 	}
@@ -731,17 +737,19 @@
 ////////////////////////////////////////////////playback//////////////////////////////////////////////////
 -(void) playBackOpened
 {
+	[osd setActive:[ud boolForKey:kUDKeyShowOSD]];
+}
+
+-(void) playBackStarted
+{
 	[dispView setPlayerWindowLevel];
-	
 	[playPauseButton setState:(playerController.playerState == kMPCPlayingState)?PlayState:PauseState];
 
 	[speedText setEnabled:YES];
 	[subDelayText setEnabled:YES];
 	[audioDelayText setEnabled:YES];
 	
-	[menuSwitchAudio setEnabled:YES];
-
-	[osd setActive:[ud boolForKey:kUDKeyShowOSD]];
+	[menuSwitchAudio setEnabled:YES];	
 }
 
 -(void) playBackWillStop
@@ -821,7 +829,7 @@
 		NSString *osdStr = [timeFormatter stringForObjectValue:timePos];
 		
 		if (length > 0) {
-			osdStr = [osdStr stringByAppendingFormat:@" / %@", [timeFormatter stringForObjectValue:[NSNumber numberWithDouble:length]]];
+			osdStr = [osdStr stringByAppendingFormat:kStringFMTTimeAppendTotal, [timeFormatter stringForObjectValue:[NSNumber numberWithDouble:length]]];
 		}
 		[osd setStringValue:osdStr owner:kOSDOwnerTime updateTimer:NO];		
 	}
