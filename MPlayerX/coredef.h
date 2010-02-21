@@ -42,3 +42,6 @@ typedef enum
 #define kKVOPropertyKeyPathSeekable			(@"movieInfo.seekable")
 #define kKVOPropertyKeyPathSubInfo			(@"movieInfo.subInfo")
 #define kKVOPropertyKeyPathCachingPercent	(@"movieInfo.playingInfo.cachingPercent")
+
+#define kKVOPropertyKeyPathVideoInfo		(@"movieInfo.videoInfo")
+#define kKVOPropertyKeyPathAudioInfo		(@"movieInfo.audioInfo")

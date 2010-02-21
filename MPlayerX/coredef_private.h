@@ -57,5 +57,7 @@
 #define kMPCSubInfoAppendID		(@"MPXSUBFILEADD")
 #define kMPCCachingPercentID	(@"CACHING")
 #define kMPCPlayBackStartedID	(@"PBST")
+#define kMPCAudioInfoID			(@"AUDIOINFO")
+#define kMPCVideoInfoID			(@"VIDEOINFO")
 
 #define kKVOPropertyKeyPathState	(@"state")

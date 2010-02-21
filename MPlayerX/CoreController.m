@@ -29,6 +29,8 @@
 #define kMITypeSubArray		(2)
 #define kMITypeSubAppend	(3)
 #define kMITypeStateChanged	(4)
+#define kMITypeVideoAppend	(5)
+#define kMITypeAudioAppend	(6)
 
 #define SAFERELEASE(x)			{if(x) {[x release]; x = nil;}}
 #define SAFECLOSESHM(x)			{if(x != -1) {close(x); x = -1;}}
@@ -90,6 +92,8 @@
 																	kKVOPropertyKeyPathSubInfo, kMPCSubInfoAppendID,
 																	kKVOPropertyKeyPathCachingPercent, kMPCCachingPercentID,
 																	kKVOPropertyKeyPathState, kMPCPlayBackStartedID,
+																	kKVOPropertyKeyPathVideoInfo, kMPCVideoInfoID,
+																	kKVOPropertyKeyPathAudioInfo, kMPCAudioInfoID,
 																	nil];
 		typeDict = [[NSDictionary alloc] initWithObjectsAndKeys:flatValue, kMPCTimePos, 
 																flatValue, kMPCLengthID,
@@ -98,6 +102,8 @@
 																[NSNumber numberWithInt:kMITypeSubAppend], kMPCSubInfoAppendID,
 																flatValue, kMPCCachingPercentID,
 																[NSNumber numberWithInt:kMITypeStateChanged], kMPCPlayBackStartedID,
+																[NSNumber numberWithInt:kMITypeVideoAppend], kMPCVideoInfoID,
+																[NSNumber numberWithInt:kMITypeAudioAppend], kMPCAudioInfoID,
 																nil];
 		state = kMPCStoppedState;
 		
@@ -528,8 +534,16 @@
 					[[movieInfo mutableArrayValueForKey:@"subInfo"] addObject: [[obj objectAtIndex:0] lastPathComponent]];
 					break;
 				case kMITypeStateChanged:
+					// 目前只有在播放开始的时候才会激发这个事件，所以可以发notification
+					// 但是如果变成一般的事件，发notification要注意！！！
 					state = [[dict objectForKey:key] intValue];
 					[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayStartedNotification object:self];
+					break;
+				case kMITypeVideoAppend:
+				case kMITypeAudioAppend:
+					// 现在还没有实现KVO
+					[self setValue:[NSMutableArray arrayWithObject:[[dict objectForKey:key] componentsSeparatedByString:@":"]]
+						forKeyPath:keyPath];
 					break;
 
 				default:
