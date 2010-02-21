@@ -78,15 +78,10 @@
 	}
 	
 	[metaData removeAllObjects];
-	
+
 	// 目前这两个还不需要KVO
-	[self willChangeValueForKey:@"videoInfo"];
 	[videoInfo removeAllObjects];
-	[self didChangeValueForKey:@"videoInfo"];
-	
-	[self willChangeValueForKey:@"audioInfo"];	
 	[audioInfo removeAllObjects];
-	[self didChangeValueForKey:@"audioInfo"];
 
 	[self setSeekable:zero];
 	[self setDemuxer:@"unknown"];
