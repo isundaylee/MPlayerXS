@@ -39,6 +39,7 @@
 	if (self = [super init])
 	{
 		NSNumber *zero = [NSNumber numberWithInt:0];
+		
 		demuxer = [@"unknown" retain];
 		chapters = [zero retain];
 		length = [zero retain];
@@ -77,8 +78,15 @@
 	}
 	
 	[metaData removeAllObjects];
+	
+	// 目前这两个还不需要KVO
+	[self willChangeValueForKey:@"videoInfo"];
 	[videoInfo removeAllObjects];
+	[self didChangeValueForKey:@"videoInfo"];
+	
+	[self willChangeValueForKey:@"audioInfo"];	
 	[audioInfo removeAllObjects];
+	[self didChangeValueForKey:@"audioInfo"];
 
 	[self setSeekable:zero];
 	[self setDemuxer:@"unknown"];
