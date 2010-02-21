@@ -24,6 +24,10 @@
 
 #define kPollingTimeForTimePos	(1)
 
+#define kMITypeFlatValue	(1)
+#define kMITypeSubArray		(2)
+#define kMITypeSubAppend	(3)
+
 #define SAFERELEASE(x)			{if(x) {[x release]; x = nil;}}
 #define SAFECLOSESHM(x)			{if(x != -1) {close(x); x = -1;}}
 #define SAFEUNMAP(x, sz)		{if(x) {munmap(x, sz); x = NULL; sz = 0;}} 
@@ -31,24 +35,34 @@
 
 // the Distant Protocol from mplayer binary
 @protocol MPlayerOSXVOProto
-- (int) startWithWidth: (bycopy int)width withHeight: (bycopy int)height withBytes: (bycopy int)bytes withAspect: (bycopy int)aspect;
-- (void) stop;
-- (void) render;
-- (void) toggleFullscreen;
-- (void) ontop;
+-(int) startWithWidth:(bycopy int)width withHeight:(bycopy int)height withBytes:(bycopy int)bytes withAspect:(bycopy int)aspect;
+-(void) stop;
+-(void) render;
+-(void) toggleFullscreen;
+-(void) ontop;
 @end
 
 /// 内部方法声明
 @interface CoreController (MPlayerOSXVOProto)
-- (int) startWithWidth: (bycopy int)width withHeight: (bycopy int)height withBytes: (bycopy int)bytes withAspect: (bycopy int)aspect;
-- (void) stop;
-- (void) render;
-- (void) toggleFullscreen;
-- (void) ontop;
+-(int) startWithWidth:(bycopy int)width withHeight:(bycopy int)height withBytes:(bycopy int)bytes withAspect:(bycopy int)aspect;
+-(void) stop;
+-(void) render;
+-(void) toggleFullscreen;
+-(void) ontop;
 @end
 
 @interface CoreController (CoreControllerInternal)
--(void) getCurrentTime:(NSTimer *)theTimer;
+-(void) getCurrentTime:(NSTimer*)theTimer;
+@end
+
+@interface CoreController (LogAnalyzerDelegate)
+-(void) logAnalyzeFinished:(NSDictionary*)dict;
+@end
+
+@interface CoreController (PlayerCoreDelegate)
+-(void) playerCore:(id)player hasTerminated:(BOOL)byForce;			/**< 通知播放任务结束 */
+-(void) playerCore:(id)player outputAvailable:(NSData*)outData;		/**< 有输出 */
+-(void) playerCore:(id)player errorHappened:(NSData*) errData;		/**< 有错误输出 */
 @end
 
 @implementation CoreController
@@ -64,13 +78,27 @@
 ///////////////////////////////////////////Init/Dealloc////////////////////////////////////////////////////////
 -(id) init
 {
-	if (self = [super init]) {
+	if (self = [super init]) {		
+		keyPathDict = [[NSDictionary alloc] initWithObjectsAndKeys:	kKVOPropertyKeyPathCurrentTime, kMPCTimePos, 
+																	kKVOPropertyKeyPathLength, kMPCLengthID,
+																	kKVOPropertyKeyPathSeekable, kMPCSeekableID,
+																	kKVOPropertyKeyPathSubInfo, kMPCSubInfosID,
+																	kKVOPropertyKeyPathSubInfo, kMPCSubInfoAppendID,
+																	kKVOPropertyKeyPathCachingPercent, kMPCCachingPercentID,
+																	nil];
+		typeDict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:kMITypeFlatValue], kMPCTimePos, 
+																[NSNumber numberWithInt:kMITypeFlatValue], kMPCLengthID,
+																[NSNumber numberWithInt:kMITypeFlatValue], kMPCSeekableID,
+																[NSNumber numberWithInt:kMITypeSubArray], kMPCSubInfosID,
+																[NSNumber numberWithInt:kMITypeSubAppend], kMPCSubInfoAppendID,
+																[NSNumber numberWithInt:kMITypeFlatValue], kMPCCachingPercentID,
+																nil];
 		state = kMPCStoppedState;
 		
 		pm = [[ParameterManager alloc] init];
 		movieInfo = [[MovieInfo alloc] init];
 
-		la = [[LogAnalyzer alloc] initWithDelegate:movieInfo];
+		la = [[LogAnalyzer alloc] initWithDelegate:self];
 		[movieInfo resetWithParameterManager:pm];
 		
 		playerCore = [[PlayerCore alloc] init];
@@ -107,6 +135,9 @@
 
 -(void) dealloc
 {
+	[keyPathDict release];
+	[typeDict release];
+
 	[movieInfo release];
 	[la release];
 	[pm release];
@@ -332,15 +363,18 @@
 
 -(void) togglePause
 {
-	if (state != kMPCStoppedState) {
-		// 如果不是停止状态
-		[playerCore sendStringCommand: kMPCTogglePauseCmd];
-
-		if (state == kMPCPlayingState) {
+	switch (state) {
+		case kMPCPlayingState:
+			[playerCore sendStringCommand: kMPCTogglePauseCmd];
 			state = kMPCPausedState;
-		} else {
+			break;
+		case kMPCPausedState:
+			[playerCore sendStringCommand: kMPCTogglePauseCmd];
 			state = kMPCPlayingState;
-		}
+			break;
+
+		default:
+			break;
 	}
 }
 
@@ -454,6 +488,42 @@
 -(void) simulateKeyDown: (char) keyCode
 {
 	[playerCore sendStringCommand: [NSString stringWithFormat:@"%@ %d\n", kMPCKeyEventCmd, keyCode]];
+}
+
+// 这个是LogAnalyzer的delegate方法，
+// 因此是运行在工作线程上的，因为这里用到了KVC和KVO
+// 有没有必要运行在主线程上？
+-(void) logAnalyzeFinished:(NSDictionary*) dict
+{
+	for (NSString *key in dict) {
+		NSString *keyPath = [keyPathDict objectForKey:key];
+		id obj;
+		
+		if (keyPath) {
+			//如果log里面能找到相应的key path
+			switch ([[typeDict objectForKey:key] intValue]) {
+				case kMITypeFlatValue:
+					[movieInfo setValue:[dict objectForKey:key] forKeyPath:keyPath];
+					break;
+				case kMITypeSubArray:
+					// 这里如果直接使用KVO的话，产生的时Insert的change，效率太低
+					// 因此手动发生KVO
+					[movieInfo willChangeValueForKey:@"subInfo"];
+					[movieInfo.subInfo setArray:[[dict objectForKey:key] componentsSeparatedByString:@":"]];
+					[movieInfo didChangeValueForKey:@"subInfo"];					
+					break;
+				case kMITypeSubAppend:
+					// 会发生insert的KVO change
+					obj = [[dict objectForKey:key] componentsSeparatedByString:@":"];
+					// NSLog(@"%@", obj);
+					[[movieInfo mutableArrayValueForKey:keyPath] addObject: [[obj objectAtIndex:0] lastPathComponent]];
+					break;
+					
+				default:
+					break;
+			}
+		}
+	}
 }
 
 @end

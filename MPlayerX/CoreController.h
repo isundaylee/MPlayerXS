@@ -33,19 +33,19 @@
 @end
 
 #define kMPCPlayOpenedNotification		(@"kMPCPlayOpenedNotification")
+#define kMPCPlayStartedNotification		(@"kMPCPlayStartedNotification")
 #define kMPCPlayStoppedNotification		(@"kMPCPlayStoppedNotification")
 #define kMPCPlayWillStopNotification	(@"kMPCPlayWillStopNotification")
 
 #define kMPCPlayStoppedByForceKey		(@"kMPCPlayStoppedByForceKey")
 #define kMPCPlayStoppedTimeKey			(@"kMPCPlayStoppedTimeKey")
 
-#define kMPCStoppedState	(0)		/** 完全停止状态 */
-#define kMPCPlayingState	(1)		/** 正在播放并且没有暂停 */
-#define kMPCPausedState		(2)		/** 有文件正在播放但是暂停中 */
+#define kMPCStoppedState	(0)		/**< 完全停止状态 */
+#define kMPCOpenedState		(1)		/**< 播放打开，但是还没有开始播放 */
+#define kMPCPlayingState	(2)		/**< 正在播放并且没有暂停 */
+#define kMPCPausedState		(3)		/**< 有文件正在播放但是暂停中 */
 
-@class SubConverter;
-
-@interface CoreController : NSObject <PlayerCoreDelegate>
+@interface CoreController : NSObject <PlayerCoreDelegate, LogAnalyzerDelegate>
 {
 	int state;
 
@@ -64,6 +64,9 @@
 	id<CoreDisplayDelegate> dispDelegate;
 	
 	NSTimer *pollingTimer;
+	
+	NSDictionary *keyPathDict;
+	NSDictionary *typeDict;
 }
 
 @property (readonly)			int state;
@@ -119,10 +122,3 @@
 
 -(void) simulateKeyDown: (char) keyCode;
 @end
-
-@interface CoreController (PlayerCoreDelegate)
--(void) playerCore:(id)player hasTerminated:(BOOL) byForce;			/**< 通知播放任务结束 */
--(void) playerCore:(id)player outputAvailable:(NSData*)outData;		/**< 有输出 */
--(void) playerCore:(id)player errorHappened:(NSData*) errData;		/**< 有错误输出 */
-@end
-
