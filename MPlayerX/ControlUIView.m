@@ -524,12 +524,18 @@
 {
 	NSRect rcSelf = [self frame];
 	CGFloat delta = accessaryContainer.frame.size.height -10;
+	NSRect rcAcc = [accessaryContainer frame];
 	
 	if ([toggleAcceButton state] == NSOnState) {
 		rcSelf.size.height += delta;
 		rcSelf.origin.y -= MIN(rcSelf.origin.y, delta);
 		
 		[self.animator setFrame:rcSelf];
+		
+		rcAcc.origin.y = 0;
+		rcAcc.origin.x = (rcSelf.size.width - rcAcc.size.width) / 2;
+		[accessaryContainer setFrameOrigin:rcAcc.origin];
+		
 		[accessaryContainer.animator setHidden: NO];
 		
 	} else {
@@ -538,8 +544,12 @@
 		rcSelf.origin.y += delta;
 		
 		[self.animator setFrame:rcSelf];
+		
+		rcAcc.origin.y = 0;
+		rcAcc.origin.x = (rcSelf.size.width - rcAcc.size.width) / 2;
+		[accessaryContainer setFrameOrigin:rcAcc.origin];
 	}
-
+	
 	[hintTime.animator setAlphaValue:0];
 }
 

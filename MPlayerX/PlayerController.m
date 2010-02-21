@@ -571,21 +571,28 @@
 -(void) mplayerStarted:(NSNotification *)notification
 {
 	NSString *absStr = [lastPlayedPathPre absoluteString];
+	NSString *lastComp;
 	
 	if ([lastPlayedPathPre isFileURL]) {
-		[window setTitle:[[lastPlayedPathPre path] lastPathComponent]];
+		lastComp = [[lastPlayedPathPre path] lastPathComponent];
 	} else {
-		[window setTitle:[absStr lastPathComponent]];
+		lastComp = [absStr lastPathComponent];
 	}
+	
+	[window setTitle:lastComp];
 	
 	[controlUI playBackStarted];
 	
 	// 用文件名查找有没有之前的播放记录
 	NSNumber *stopTime = [bookmarks objectForKey:absStr];
-
+	
 	if (stopTime) {
 		// 有的话，通知controlUI
 		[controlUI gotLastStoppedPlace:[stopTime floatValue]];
+	}
+	
+	if ((![window isVisible]) && (![supportVideoFormats containsObject:[[lastComp pathExtension] lowercaseString]])) {
+		[window makeKeyAndOrderFront:self];
 	}
 }
 
