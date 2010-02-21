@@ -39,7 +39,7 @@
 	if (self = [super init])
 	{
 		NSNumber *zero = [NSNumber numberWithInt:0];
-		demuxer = [@"" retain];
+		demuxer = [@"unknown" retain];
 		chapters = [zero retain];
 		length = [zero retain];
 		seekable = [zero retain];
@@ -81,7 +81,7 @@
 	[audioInfo removeAllObjects];
 
 	[self setSeekable:zero];
-	[self setDemuxer:@""];
+	[self setDemuxer:@"unknown"];
 	[self setChapters:zero];
 	[self setLength:zero];
 	
