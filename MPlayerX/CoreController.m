@@ -390,17 +390,20 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 	}
 }
 
+NSString * const kCmdStringFMTFloat		= @"%@ %@ %f\n";
+NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
+
 -(void) setSpeed: (float) speed
 {
 	speed = MAX(speed, 0.1);
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f\n", kMPCSetPropertyPreFixPauseKeep, kMPCSpeed, speed]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTFloat, kMPCSetPropertyPreFixPauseKeep, kMPCSpeed, speed]]) {
 		[movieInfo.playingInfo setSpeed:[NSNumber numberWithFloat: speed]];
 	}
 }
 
 -(void) setChapter: (int) chapter
 {
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d\n", kMPCSetPropertyPreFix, kMPCChapter, chapter]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTInteger, kMPCSetPropertyPreFix, kMPCChapter, chapter]]) {
 		[movieInfo.playingInfo setCurrentChapter: chapter];
 	}
 }
@@ -408,7 +411,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 -(float) setTimePos: (float) time
 {
 	time = MAX(time, 0);
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f\n", kMPCSetPropertyPreFixPauseKeep, kMPCTimePos, time]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTFloat, kMPCSetPropertyPreFixPauseKeep, kMPCTimePos, time]]) {
 		[movieInfo.playingInfo setCurrentTime:[NSNumber numberWithFloat:time]];
 		return time;
 	}
@@ -418,7 +421,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 -(float) setVolume: (float) vol
 {
 	vol = MIN(100, MAX(vol, 0));
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f\n", kMPCSetPropertyPreFixPauseKeep, kMPCVolume, GetRealVolume(vol)]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTFloat, kMPCSetPropertyPreFixPauseKeep, kMPCVolume, GetRealVolume(vol)]]) {
 		[movieInfo.playingInfo setVolume: vol];
 	}
 	return vol;
@@ -427,14 +430,14 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 -(void) setBalance: (float) bal
 {
 	bal = MIN(1, MAX(bal, -1));
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f\n", kMPCSetPropertyPreFixPauseKeep, kMPCAudioBalance, bal]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTFloat, kMPCSetPropertyPreFixPauseKeep, kMPCAudioBalance, bal]]) {
 		[movieInfo.playingInfo setAudioBalance: bal];
 	}
 }
 
 -(BOOL) setMute: (BOOL) mute
 {
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d\n", kMPCSetPropertyPreFixPauseKeep, kMPCMute, (mute)?1:0]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTInteger, kMPCSetPropertyPreFixPauseKeep, kMPCMute, (mute)?1:0]]) {
 		[movieInfo.playingInfo setMute:mute];
 	} else {
 		[movieInfo.playingInfo setMute:NO];
@@ -445,24 +448,24 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 
 -(void) setAudioDelay: (float) delay
 {
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f\n", kMPCSetPropertyPreFixPauseKeep, kMPCAudioDelay, delay]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTFloat, kMPCSetPropertyPreFixPauseKeep, kMPCAudioDelay, delay]]) {
 		[movieInfo.playingInfo setAudioDelay: [NSNumber numberWithFloat: delay]];
 	}
 }
 
 -(void) setAudio: (int) audioID
 {
-	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d\n", kMPCSetPropertyPreFixPauseKeep, kMPCSwitchAudio, audioID]];	
+	[playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTInteger, kMPCSetPropertyPreFixPauseKeep, kMPCSwitchAudio, audioID]];	
 }
 
 -(void) setSub: (int) subID
 {
-	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d\n", kMPCSetPropertyPreFixPauseKeep, kMPCSub, subID]];
+	[playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTInteger, kMPCSetPropertyPreFixPauseKeep, kMPCSub, subID]];
 }
 
 -(void) setSubDelay: (float) delay
 {
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f\n", kMPCSetPropertyPreFixPauseKeep, kMPCSubDelay, delay]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTFloat, kMPCSetPropertyPreFixPauseKeep, kMPCSubDelay, delay]]) {
 		[movieInfo.playingInfo setSubDelay:[NSNumber numberWithFloat: delay]];
 	}
 }
@@ -470,7 +473,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 -(void) setSubPos: (float) pos
 {
 	pos = MIN(100, MAX(pos, 0));
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %d\n", kMPCSetPropertyPreFixPauseKeep, kMPCSubPos, ((unsigned int)pos)]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTInteger, kMPCSetPropertyPreFixPauseKeep, kMPCSubPos, ((unsigned int)pos)]]) {
 		[movieInfo.playingInfo setSubPos:pos];
 	}
 }
@@ -479,7 +482,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 {
 	scale = MAX(0.1, MIN(scale, 100));
 
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f\n", kMPCSetPropertyPreFixPauseKeep, kMPCSubScale, scale]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTFloat, kMPCSetPropertyPreFixPauseKeep, kMPCSubScale, scale]]) {
 		[movieInfo.playingInfo setSubScale:[NSNumber numberWithFloat:scale]];
 	}
 }
@@ -497,11 +500,6 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 	}
 }
 
--(void) simulateKeyDown: (char) keyCode
-{
-	[playerCore sendStringCommand: [NSString stringWithFormat:@"%@ %d\n", kMPCKeyEventCmd, keyCode]];
-}
-
 // 这个是LogAnalyzer的delegate方法，
 // 因此是运行在工作线程上的，因为这里用到了KVC和KVO
 // 有没有必要运行在主线程上？
@@ -510,6 +508,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 	for (NSString *key in dict) {
 		NSString *keyPath = [keyPathDict objectForKey:key];
 		id obj;
+		int stateOld;
 		
 		// NSLog(@"%@", dict);
 		if (keyPath) {
@@ -535,14 +534,16 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 				case kMITypeStateChanged:
 					// 目前只有在播放开始的时候才会激发这个事件，所以可以发notification
 					// 但是如果变成一般的事件，发notification要注意！！！
+					stateOld = state;
 					state = [[dict objectForKey:key] intValue];
-					[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayStartedNotification object:self];
+					if (((stateOld & kMPCStateMask) == 0) && (state & kMPCStateMask)) {
+						[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayStartedNotification object:self];
+					}
 					break;
 				case kMITypeVideoAppend:
 				case kMITypeAudioAppend:
 					// 现在还没有实现KVO
-					[self setValue:[NSMutableArray arrayWithObject:[[dict objectForKey:key] componentsSeparatedByString:@":"]]
-						forKeyPath:keyPath];
+					[[self valueForKeyPath:keyPath] addObject:[[dict objectForKey:key] componentsSeparatedByString:@":"]];
 					break;
 
 				default:

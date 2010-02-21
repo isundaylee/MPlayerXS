@@ -45,6 +45,8 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 #define kMPCPlayingState	(0x0100)		/**< 正在播放并且没有暂停 */
 #define kMPCPausedState		(0x0101)		/**< 有文件正在播放但是暂停中 */
 
+#define kMPCStateMask		(0x0100)
+
 @interface CoreController : NSObject <PlayerCoreDelegate, LogAnalyzerDelegate>
 {
 	int state;
@@ -119,8 +121,6 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 -(void) setSubScale: (float) scale;
 
 -(void) loadSubFile: (NSString*) path;
-
--(void) simulateKeyDown: (char) keyCode;
 @end
 
 
