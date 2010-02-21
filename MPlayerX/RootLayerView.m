@@ -114,6 +114,7 @@
 			[CIImage imageWithContentsOfURL:
 			 [[mainB resourceURL] URLByAppendingPathComponent:@"logo.png"]]];
 	[root setContentsGravity:kCAGravityCenter];
+	[root setContents:(id)[logo CGImage]];
 	
 	// 默认添加dispLayer
 	[root insertSublayer:dispLayer atIndex:0];
@@ -150,11 +151,6 @@
 -(id<CAAction>) actionForLayer:(CALayer*)layer forKey:(NSString*)event
 {
 	return ((id<CAAction>)[NSNull null]);
-}
-
--(void) showLogo:(BOOL)show
-{
-	[[self layer] setContents:(show)?((id)[logo CGImage]):(nil)];
 }
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)event 
@@ -585,6 +581,7 @@
 		[playerWindow setContentAspectRatio:sz];
 	
 		if (![playerWindow isVisible]) {
+			[[self layer] setContents:nil];
 			[playerWindow makeKeyAndOrderFront:self];
 		}
 	}
@@ -603,6 +600,7 @@
 	displaying = NO;
 	[controlUI displayStopped];
 	[playerWindow setContentResizeIncrements:NSMakeSize(1.0, 1.0)];
+	[[self layer] setContents:(id)[logo CGImage]];
 }
 
 @end
