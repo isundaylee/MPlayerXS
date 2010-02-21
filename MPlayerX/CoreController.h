@@ -32,13 +32,13 @@
 -(void) stop:(id)sender;
 @end
 
-#define kMPCPlayOpenedNotification		(@"kMPCPlayOpenedNotification")
-#define kMPCPlayStartedNotification		(@"kMPCPlayStartedNotification")
-#define kMPCPlayStoppedNotification		(@"kMPCPlayStoppedNotification")
-#define kMPCPlayWillStopNotification	(@"kMPCPlayWillStopNotification")
+extern NSString * const kMPCPlayOpenedNotification;
+extern NSString * const kMPCPlayStartedNotification;
+extern NSString * const kMPCPlayStoppedNotification;
+extern NSString * const kMPCPlayWillStopNotification;
 
-#define kMPCPlayStoppedByForceKey		(@"kMPCPlayStoppedByForceKey")
-#define kMPCPlayStoppedTimeKey			(@"kMPCPlayStoppedTimeKey")
+extern NSString * const kMPCPlayStoppedByForceKey;
+extern NSString * const kMPCPlayStoppedTimeKey;
 
 #define kMPCStoppedState	(0x0000)		/**< 完全停止状态 */
 #define kMPCOpenedState		(0x0001)		/**< 播放打开，但是还没有开始播放 */
@@ -121,4 +121,15 @@
 -(void) loadSubFile: (NSString*) path;
 
 -(void) simulateKeyDown: (char) keyCode;
+@end
+
+
+@interface CoreController (LogAnalyzerDelegate)
+-(void) logAnalyzeFinished:(NSDictionary*)dict;
+@end
+
+@interface CoreController (PlayerCoreDelegate)
+-(void) playerCore:(id)player hasTerminated:(BOOL)byForce;			/**< 通知播放任务结束 */
+-(void) playerCore:(id)player outputAvailable:(NSData*)outData;		/**< 有输出 */
+-(void) playerCore:(id)player errorHappened:(NSData*) errData;		/**< 有错误输出 */
 @end

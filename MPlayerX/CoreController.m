@@ -32,6 +32,15 @@
 #define kMITypeVideoAppend	(5)
 #define kMITypeAudioAppend	(6)
 
+NSString * const kMPCPlayOpenedNotification		= @"kMPCPlayOpenedNotification";
+NSString * const kMPCPlayStartedNotification	= @"kMPCPlayStartedNotification";
+NSString * const kMPCPlayStoppedNotification	= @"kMPCPlayStoppedNotification";
+NSString * const kMPCPlayWillStopNotification	= @"kMPCPlayWillStopNotification";
+
+NSString * const kMPCPlayStoppedByForceKey		= @"kMPCPlayStoppedByForceKey";
+NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
+
+
 #define SAFERELEASE(x)			{if(x) {[x release]; x = nil;}}
 #define SAFECLOSESHM(x)			{if(x != -1) {close(x); x = -1;}}
 #define SAFEUNMAP(x, sz)		{if(x) {munmap(x, sz); x = NULL; sz = 0;}} 
@@ -57,16 +66,6 @@
 
 @interface CoreController (CoreControllerInternal)
 -(void) getCurrentTime:(NSTimer*)theTimer;
-@end
-
-@interface CoreController (LogAnalyzerDelegate)
--(void) logAnalyzeFinished:(NSDictionary*)dict;
-@end
-
-@interface CoreController (PlayerCoreDelegate)
--(void) playerCore:(id)player hasTerminated:(BOOL)byForce;			/**< 通知播放任务结束 */
--(void) playerCore:(id)player outputAvailable:(NSData*)outData;		/**< 有输出 */
--(void) playerCore:(id)player errorHappened:(NSData*) errData;		/**< 有错误输出 */
 @end
 
 @implementation CoreController
