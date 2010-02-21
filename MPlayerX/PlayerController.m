@@ -27,14 +27,9 @@
 #import <Sparkle/Sparkle.h>
 #import "OpenURLController.h"
 
-#define kObservedValueStringMediaLength		(@"movieInfo.length")
-#define kObservedValueStringCurrentTime		(@"movieInfo.playingInfo.currentTime")
-#define kObservedValueStringSeekable		(@"movieInfo.seekable")
 #define kObservedValueStringSpeed			(@"movieInfo.playingInfo.speed")
 #define kObservedValueStringSubDelay		(@"movieInfo.playingInfo.subDelay")
 #define kObservedValueStringAudioDelay		(@"movieInfo.playingInfo.audioDelay")
-#define kObservedValueStringSubInfo			(@"movieInfo.subInfo")
-#define kObservedValueStringCachingPercent	(@"movieInfo.playingInfo.cachingPercent")
 
 #define kMPCDefaultSubFontPath				(@"wqy-microhei.ttc")
 
@@ -155,15 +150,15 @@
 											   object:mplayer];
 	// 设置监听KVO
 	[mplayer addObserver:self
-			  forKeyPath:kObservedValueStringMediaLength
+			  forKeyPath:kKVOPropertyKeyPathLength
 				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 	[mplayer addObserver:self
-			  forKeyPath:kObservedValueStringCurrentTime
+			  forKeyPath:kKVOPropertyKeyPathCurrentTime
 				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 	[mplayer addObserver:self
-			  forKeyPath:kObservedValueStringSeekable
+			  forKeyPath:kKVOPropertyKeyPathSeekable
 				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 	[mplayer addObserver:self
@@ -179,11 +174,11 @@
 				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 	[mplayer addObserver:self
-			  forKeyPath:kObservedValueStringSubInfo
+			  forKeyPath:kKVOPropertyKeyPathSubInfo
 				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 	[mplayer addObserver:self
-			  forKeyPath:kObservedValueStringCachingPercent
+			  forKeyPath:kKVOPropertyKeyPathCachingPercent
 				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 
@@ -258,14 +253,14 @@
 	// 结束监听mplayer的开始/结束事件
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	// 结束监听KVO
-	[mplayer removeObserver:self forKeyPath:kObservedValueStringCurrentTime];
-	[mplayer removeObserver:self forKeyPath:kObservedValueStringMediaLength];
-	[mplayer removeObserver:self forKeyPath:kObservedValueStringSeekable];
+	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathCurrentTime];
+	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathLength];
+	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathSeekable];
 	[mplayer removeObserver:self forKeyPath:kObservedValueStringSpeed];
 	[mplayer removeObserver:self forKeyPath:kObservedValueStringSubDelay];
 	[mplayer removeObserver:self forKeyPath:kObservedValueStringAudioDelay];
-	[mplayer removeObserver:self forKeyPath:kObservedValueStringSubInfo];
-	[mplayer removeObserver:self forKeyPath:kObservedValueStringCachingPercent];
+	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathSubInfo];
+	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathCachingPercent];
 	
 	[mplayer release];
 	[lastPlayedPath release];
@@ -281,7 +276,7 @@
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	if (object == mplayer) {
-		if ([keyPath isEqualToString:kObservedValueStringCurrentTime]) {
+		if ([keyPath isEqualToString:kKVOPropertyKeyPathCurrentTime]) {
 			// 得到现在的播放时间
 			[controlUI gotCurentTime:[change objectForKey:NSKeyValueChangeNewKey]];
 			
@@ -297,19 +292,19 @@
 			// 得到 声音延迟
 			[controlUI gotAudioDelay:[change objectForKey:NSKeyValueChangeNewKey]];
 			
-		} else if ([keyPath isEqualToString:kObservedValueStringMediaLength]){
+		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathLength]){
 			// 得到媒体文件的长度
 			[controlUI gotMediaLength:[change objectForKey:NSKeyValueChangeNewKey]];
 			
-		} else if ([keyPath isEqualToString:kObservedValueStringSeekable]) {
+		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathSeekable]) {
 			// 得到 能否跳跃
 			[controlUI gotSeekableState:[change objectForKey:NSKeyValueChangeNewKey]];
 			
-		} else if ([keyPath isEqualToString:kObservedValueStringCachingPercent]) {
+		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathCachingPercent]) {
 			// 得到目前的caching percent
 			[controlUI gotCachingPercent:[change objectForKey:NSKeyValueChangeNewKey]];
 			
-		} else if ([keyPath isEqualToString:kObservedValueStringSubInfo]) {
+		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathSubInfo]) {
 			// 得到 字幕信息
 			[controlUI gotSubInfo:[change objectForKey:NSKeyValueChangeNewKey]
 						  changed:[[change objectForKey:NSKeyValueChangeKindKey] intValue]];

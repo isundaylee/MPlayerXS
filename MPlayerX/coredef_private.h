@@ -56,12 +56,3 @@
 #define kMPCSubInfosID			(@"MPXSUBNAMES")
 #define kMPCSubInfoAppendID		(@"MPXSUBFILEADD")
 #define kMPCCachingPercentID	(@"CACHING")
-
-/////////////////////////////////////////////////////////////////////
-
-// KVO观测的属性的KeyPath
-#define kKVOPropertyKeyPathCurrentTime		(@"playingInfo.currentTime")
-#define kKVOPropertyKeyPathLength			(@"length")
-#define kKVOPropertyKeyPathSeekable			(@"seekable")
-#define kKVOPropertyKeyPathSubInfo			(@"subInfo")
-#define kKVOPropertyKeyPathCachingPercent	(@"playingInfo.cachingPercent")

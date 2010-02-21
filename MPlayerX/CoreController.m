@@ -78,7 +78,9 @@
 ///////////////////////////////////////////Init/Dealloc////////////////////////////////////////////////////////
 -(id) init
 {
-	if (self = [super init]) {		
+	if (self = [super init]) {
+		NSNumber *flatValue = [NSNumber numberWithInt:kMITypeFlatValue];
+		
 		keyPathDict = [[NSDictionary alloc] initWithObjectsAndKeys:	kKVOPropertyKeyPathCurrentTime, kMPCTimePos, 
 																	kKVOPropertyKeyPathLength, kMPCLengthID,
 																	kKVOPropertyKeyPathSeekable, kMPCSeekableID,
@@ -86,12 +88,12 @@
 																	kKVOPropertyKeyPathSubInfo, kMPCSubInfoAppendID,
 																	kKVOPropertyKeyPathCachingPercent, kMPCCachingPercentID,
 																	nil];
-		typeDict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:kMITypeFlatValue], kMPCTimePos, 
-																[NSNumber numberWithInt:kMITypeFlatValue], kMPCLengthID,
-																[NSNumber numberWithInt:kMITypeFlatValue], kMPCSeekableID,
+		typeDict = [[NSDictionary alloc] initWithObjectsAndKeys:flatValue, kMPCTimePos, 
+																flatValue, kMPCLengthID,
+																flatValue, kMPCSeekableID,
 																[NSNumber numberWithInt:kMITypeSubArray], kMPCSubInfosID,
 																[NSNumber numberWithInt:kMITypeSubAppend], kMPCSubInfoAppendID,
-																[NSNumber numberWithInt:kMITypeFlatValue], kMPCCachingPercentID,
+																flatValue, kMPCCachingPercentID,
 																nil];
 		state = kMPCStoppedState;
 		
@@ -503,7 +505,7 @@
 			//如果log里面能找到相应的key path
 			switch ([[typeDict objectForKey:key] intValue]) {
 				case kMITypeFlatValue:
-					[movieInfo setValue:[dict objectForKey:key] forKeyPath:keyPath];
+					[self setValue:[dict objectForKey:key] forKeyPath:keyPath];
 					break;
 				case kMITypeSubArray:
 					// 这里如果直接使用KVO的话，产生的时Insert的change，效率太低
@@ -516,7 +518,7 @@
 					// 会发生insert的KVO change
 					obj = [[dict objectForKey:key] componentsSeparatedByString:@":"];
 					// NSLog(@"%@", obj);
-					[[movieInfo mutableArrayValueForKey:keyPath] addObject: [[obj objectAtIndex:0] lastPathComponent]];
+					[[movieInfo mutableArrayValueForKey:@"subInfo"] addObject: [[obj objectAtIndex:0] lastPathComponent]];
 					break;
 					
 				default:

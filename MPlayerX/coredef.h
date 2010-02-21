@@ -35,3 +35,10 @@ typedef enum
 #define kPMLetterBoxModeNotDisplay	(0)
 #define kPMLetterBoxModeBottomOnly	(1)
 #define kPMLetterBoxModeBoth		(2)
+
+// KVO观测的属性的KeyPath
+#define kKVOPropertyKeyPathCurrentTime		(@"movieInfo.playingInfo.currentTime")
+#define kKVOPropertyKeyPathLength			(@"movieInfo.length")
+#define kKVOPropertyKeyPathSeekable			(@"movieInfo.seekable")
+#define kKVOPropertyKeyPathSubInfo			(@"movieInfo.subInfo")
+#define kKVOPropertyKeyPathCachingPercent	(@"movieInfo.playingInfo.cachingPercent")
