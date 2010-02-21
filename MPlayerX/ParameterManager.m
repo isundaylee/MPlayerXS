@@ -20,13 +20,67 @@
 
 #import "ParameterManager.h"
 
-#define kPMDefaultFontPath			(@"/System/Library/Fonts/HelveticaNeue.ttc")
+NSString * const kPMDefaultFontPath = @"/System/Library/Fonts/HelveticaNeue.ttc";
 
-#define kPMDefaultAudioOutput		(@"coreaudio") 
-#define kPMNoAudio					(@"null")
-#define kPMDefaultVideoOutput		(@"corevideo") 
-#define kPMNoVideo					(@"null") 
-#define kPMDefaultSubLang			(@"en,eng,ch,chs,cht,ja,jpn")
+NSString * const kPMDefaultAudioOutput	= @"coreaudio"; 
+NSString * const kPMNoAudio				= @"null";
+NSString * const kPMDefaultVideoOutput	= @"corevideo"; 
+NSString * const kPMNoVideo				= @"null";
+NSString * const kPMDefaultSubLang		= @"en,eng,ch,chs,cht,ja,jpn";
+
+NSString * const kPMParMsgLevel = @"-msglevel";
+NSString * const kPMValMsgLevel = @"all=-1:global=4:cplayer=4:identify=4";
+NSString * const kPMParAutoSync = @"-autosync";
+NSString * const kPMFMTInt		= @"%d";
+NSString * const kPMParSlave	= @"-slave";
+NSString * const kPMParFrameDrop= @"-framedrop";
+NSString * const kPMParForceIdx	= @"-forceidx";
+NSString * const kPMParNoDouble	= @"-nodouble";
+NSString * const kPMParCache	= @"-cache";
+NSString * const kPMParIPV6		= @"-prefer-ipv6";
+NSString * const kPMParIPV4		= @"-prefer-ipv4";
+NSString * const kPMParOsdLevel	= @"-osdlevel";
+NSString * const kPMParSubFuzziness	= @"-sub-fuzziness";
+NSString * const kPMParFont		= @"-font";
+NSString * const kPMParAudioOut	= @"-ao";
+NSString * const kPMParVideoOut	= @"-vo";
+NSString * const kPMFMTVO		= @"%@:shared_buffer:buffer_name=%@";
+NSString * const kPMParSLang	= @"-slang";
+NSString * const kPMFMTNSObj	= @"%@";
+NSString * const kPMParStartTime= @"-ss";
+NSString * const kPMFMTFloat1	= @"%.1f";
+NSString * const kPMParVolume	= @"-volume";
+NSString * const kPMFMTFloat2	= @"%.2f";
+NSString * const kPMFMTHex		= @"%X";
+NSString * const kPMParSubPos	= @"-subpos";
+NSString * const kPMParSubAlign	= @"-subalign";
+NSString * const kPMParOSDScale	= @"-subfont-osd-scale";
+NSString * const kPMParTextScale= @"-subfont-text-scale";
+NSString * const kPMBlank		= @"";
+NSString * const kPMParSubFont	= @"-subfont";
+NSString * const kPMParSubCP	= @"-subcp";
+NSString * const kPMParSubFontAutoScale	= @"-subfont-autoscale";
+NSString * const kPMVal1				= @"1";
+NSString * const kPMParEmbeddedFonts	= @"-embeddedfonts";
+NSString * const kPMParLavdopts			= @"-lavdopts";
+NSString * const kPMFMTThreads			= @"threads=%d";
+NSString * const kPMValFastCoding		= @":fast:skiploopfilter=all";
+NSString * const kPMParAss				= @"-ass";
+NSString * const kPMParAssColor			= @"-ass-color";
+NSString * const kPMParAssFontScale		= @"-ass-font-scale";
+NSString * const kPMParAssBorderColor	= @"-ass-border-color";
+NSString * const kPMParAssForcrStyle	= @"-ass-force-style";
+NSString * const kPMParAssUsesMargin	= @"-ass-use-margins";
+NSString * const kPMParAssBottomMargin	= @"-ass-bottom-margin";
+NSString * const kPMParAssTopMargin		= @"-ass-top-margin";
+NSString * const kPMParNoAutoSub		= @"-noautosub";
+NSString * const kPMParSub				= @"-sub";
+NSString * const kPMComma				= @",";
+NSString * const kPMParVobSub			= @"-vobsub";
+NSString * const kPMParAC				= @"-ac";
+NSString * const kPMParHWDTS			= @"hwdts,";
+NSString * const kPMParHWAC3			= @"hwac3,a52,";
+NSString * const kPMParSTPause			= @"-stpause";
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
@@ -72,6 +126,7 @@
 {
 	if (self = [super init])
 	{
+		paramArray = nil;
 		autoSync = 30;
 		frameDrop = YES;
 		osdLevel = 0;
@@ -115,6 +170,7 @@
 
 -(void) dealloc
 {
+	[paramArray release];
 	[font release];
 	[ao release];
 	[vo release];
@@ -145,127 +201,129 @@
 
 -(NSArray *) arrayOfParametersWithName:(NSString*) name
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	if (paramArray) {
+		[paramArray removeAllObjects];
+	} else {
+		paramArray = [[NSMutableArray alloc] initWithCapacity:80];
+	}
 	
-	NSMutableArray *paramArray = [[NSMutableArray alloc] initWithCapacity:80];
+	[paramArray addObject:kPMParMsgLevel];
+	[paramArray addObject:kPMValMsgLevel];
 	
-	[paramArray addObject:@"-msglevel"];
-	[paramArray addObject:@"all=-1:global=4:cplayer=4:identify=4"];
+	[paramArray addObject:kPMParAutoSync];
+	[paramArray addObject:[NSString stringWithFormat: kPMFMTInt, autoSync]];
 	
-	[paramArray addObject:@"-autosync"];
-	[paramArray addObject:[NSString stringWithFormat: @"%d", autoSync]];
-	
-	[paramArray addObject:@"-slave"];
+	[paramArray addObject:kPMParSlave];
 	
 	if (frameDrop) {
-		[paramArray addObject:@"-framedrop"];
+		[paramArray addObject:kPMParFrameDrop];
 	}
 	
 	if (forceIndex) {
-		[paramArray addObject:@"-forceidx"];
+		[paramArray addObject:kPMParForceIdx];
 	}
 
-	[paramArray addObject:@"-nodouble"];
+	[paramArray addObject:kPMParNoDouble];
 	
 	if (cache > 0) {
-		[paramArray addObject:@"-cache"];
-		[paramArray addObject:[NSString stringWithFormat:@"%d", cache]];
+		[paramArray addObject:kPMParCache];
+		[paramArray addObject:[NSString stringWithFormat:kPMFMTInt, cache]];
 	}
 	
 	if (preferIPV6) {
-		[paramArray addObject:@"-prefer-ipv6"];
+		[paramArray addObject:kPMParIPV6];
 	} else {
-		[paramArray addObject:@"-prefer-ipv4"];
+		[paramArray addObject:kPMParIPV4];
 	}
 	
-	[paramArray addObject:@"-osdlevel"];
-	[paramArray addObject: [NSString stringWithFormat: @"%d",osdLevel]];
+	[paramArray addObject:kPMParOsdLevel];
+	[paramArray addObject: [NSString stringWithFormat: kPMFMTInt,osdLevel]];
 	
-	[paramArray addObject:@"-sub-fuzziness"];
-	[paramArray addObject:[NSString stringWithFormat: @"%d",subNameRule]];
+	[paramArray addObject:kPMParSubFuzziness];
+	[paramArray addObject:[NSString stringWithFormat: kPMFMTInt,subNameRule]];
 	
 	if (font) {
-		[paramArray addObject:@"-font"];
+		[paramArray addObject:kPMParFont];
 		[paramArray addObject:font];
 	}
 	
 	if (ao) {
-		[paramArray addObject:@"-ao"];
+		[paramArray addObject:kPMParAudioOut];
 		[paramArray addObject:ao];
 	}
 	
 	if (vo) {
-		[paramArray addObject:@"-vo"];
+		[paramArray addObject:kPMParVideoOut];
 		if (([vo isEqualToString:kPMDefaultVideoOutput]) && name) {
-			[paramArray addObject: [NSString stringWithFormat: @"%@:shared_buffer:buffer_name=%@", vo, name]];
+			[paramArray addObject: [NSString stringWithFormat:kPMFMTVO, vo, name]];
 		} else {
 			[paramArray addObject:vo];
 		}
 	}
 	
 	if (subPreferedLanguage) {
-		[paramArray addObject:@"-slang"];
-		[paramArray addObject:[NSString stringWithFormat: @"%@",subPreferedLanguage]];		
+		[paramArray addObject:kPMParSLang];
+		[paramArray addObject:[NSString stringWithFormat:kPMFMTNSObj, subPreferedLanguage]];		
 	}
 	
 	if (startTime > 0) {
-		[paramArray addObject:@"-ss"];
-		[paramArray addObject:[NSString stringWithFormat: @"%.1f",startTime]];
+		[paramArray addObject:kPMParStartTime];
+		[paramArray addObject:[NSString stringWithFormat:kPMFMTFloat1, startTime]];
 	}
 	
-	[paramArray addObject:@"-volume"];
-	[paramArray addObject:[NSString stringWithFormat: @"%.1f",GetRealVolume(volume)]];
+	[paramArray addObject:kPMParVolume];
+	[paramArray addObject:[NSString stringWithFormat: kPMFMTFloat1,GetRealVolume(volume)]];
 	
-	[paramArray addObject:@"-subpos"];
-	[paramArray addObject:[NSString stringWithFormat: @"%d",((unsigned int)subPos)]];
+	[paramArray addObject:kPMParSubPos];
+	[paramArray addObject:[NSString stringWithFormat: kPMFMTInt,((unsigned int)subPos)]];
 	
-	[paramArray addObject:@"-subalign"];
-	[paramArray addObject:[NSString stringWithFormat: @"%d",subAlign]];
+	[paramArray addObject:kPMParSubAlign];
+	[paramArray addObject:[NSString stringWithFormat: kPMFMTInt,subAlign]];
 	
-	[paramArray addObject:@"-subfont-osd-scale"];
-	[paramArray addObject:[NSString stringWithFormat: @"%.1f",subScale]];
+	[paramArray addObject:kPMParOSDScale];
+	[paramArray addObject:[NSString stringWithFormat: kPMFMTFloat1,subScale]];
 	
-	[paramArray addObject:@"-subfont-text-scale"];
-	[paramArray addObject:[NSString stringWithFormat: @"%.1f",subScale]];
+	[paramArray addObject:kPMParTextScale];
+	[paramArray addObject:[NSString stringWithFormat: kPMFMTFloat1,subScale]];
 	
-	if (subFont && (![subFont isEqualToString:@""])) {
-		[paramArray addObject:@"-subfont"];
+	if (subFont && (![subFont isEqualToString:kPMBlank])) {
+		[paramArray addObject:kPMParSubFont];
 		[paramArray addObject:subFont];
 	}
 
-	if (subCP && (![subCP isEqualToString:@""])) {
-		[paramArray addObject:@"-subcp"];
+	if (subCP && (![subCP isEqualToString:kPMBlank])) {
+		[paramArray addObject:kPMParSubCP];
 		[paramArray addObject:subCP];
 	}
 	
 	// 字幕大小与高度成正比，默认是对角线长度
-	[paramArray addObject:@"-subfont-autoscale"];
-	[paramArray addObject:@"1"];
+	[paramArray addObject:kPMParSubFontAutoScale];
+	[paramArray addObject:kPMVal1];
 	
 	if (useEmbeddedFonts) {
-		[paramArray addObject:@"-embeddedfonts"];
+		[paramArray addObject:kPMParEmbeddedFonts];
 	}
 		
-	[paramArray addObject:@"-lavdopts"];
-	NSString *str = [NSString stringWithFormat: @"threads=%d", threads];
+	[paramArray addObject:kPMParLavdopts];
+	NSString *str = [NSString stringWithFormat: kPMFMTThreads, threads];
 	if (fastDecoding) {
-		str = [str stringByAppendingString:@":fast:skiploopfilter=all"];
+		str = [str stringByAppendingString:kPMValFastCoding];
 	}
 	[paramArray addObject:str];
 
 	if (assEnabled) {
-		[paramArray addObject:@"-ass"];
+		[paramArray addObject:kPMParAss];
 		
-		[paramArray addObject:@"-ass-color"];
-		[paramArray addObject:[NSString stringWithFormat: @"%X", frontColor]];
+		[paramArray addObject:kPMParAssColor];
+		[paramArray addObject:[NSString stringWithFormat: kPMFMTHex, frontColor]];
 		
-		[paramArray addObject:@"-ass-font-scale"];
-		[paramArray addObject:[NSString stringWithFormat: @"%.1f", subScale]];
+		[paramArray addObject:kPMParAssFontScale];
+		[paramArray addObject:[NSString stringWithFormat: kPMFMTFloat1, subScale]];
 		
-		[paramArray addObject:@"-ass-border-color"];
-		[paramArray addObject:[NSString stringWithFormat: @"%X", borderColor]];
+		[paramArray addObject:kPMParAssBorderColor];
+		[paramArray addObject:[NSString stringWithFormat: kPMFMTHex, borderColor]];
 		
-		[paramArray addObject:@"-ass-force-style"];
+		[paramArray addObject:kPMParAssForcrStyle];
 		[paramArray addObject:assForceStyle];
 		
 		// 目前只有在使用ass的时候，letterbox才有用
@@ -273,52 +331,50 @@
 		if (letterBoxMode != kPMLetterBoxModeNotDisplay) {
 			// 说明要显示letterBox，那么至少会显示bottom
 			// 字幕显示在letterBox里
-			[paramArray addObject:@"-ass-use-margins"];
+			[paramArray addObject:kPMParAssUsesMargin];
 			
-			[paramArray addObject:@"-ass-bottom-margin"];
-			[paramArray addObject:[NSString stringWithFormat: @"%.2f", letterBoxHeight]];
+			[paramArray addObject:kPMParAssBottomMargin];
+			[paramArray addObject:[NSString stringWithFormat:kPMFMTFloat2, letterBoxHeight]];
 			
 			if (letterBoxMode == kPMLetterBoxModeBoth) {
 				// 还要显示top margin
-				[paramArray addObject:@"-ass-top-margin"];
-				[paramArray addObject:[NSString stringWithFormat: @"%.2f", letterBoxHeight]];
+				[paramArray addObject:kPMParAssTopMargin];
+				[paramArray addObject:[NSString stringWithFormat: kPMFMTFloat2, letterBoxHeight]];
 			}
 		}
 	}
 	
 	if (guessSubCP) {
-		[paramArray addObject:@"-noautosub"];
+		[paramArray addObject:kPMParNoAutoSub];
 	}
 
 	if (textSubs && [textSubs count]) {
-		[paramArray addObject:@"-sub"];	
-		[paramArray addObject:[textSubs componentsJoinedByString:@","]];
+		[paramArray addObject:kPMParSub];	
+		[paramArray addObject:[textSubs componentsJoinedByString:kPMComma]];
 	}
 	
-	if (vobSub && (![vobSub isEqualToString:@""])) {
-		[paramArray addObject:@"-vobsub"];
+	if (vobSub && (![vobSub isEqualToString:kPMBlank])) {
+		[paramArray addObject:kPMParVobSub];
 		[paramArray addObject:[vobSub stringByDeletingPathExtension]];
 	}
 
 	if (dtsPass || ac3Pass) {
-		[paramArray addObject:@"-ac"];
-		NSString *passStr = @"";
+		[paramArray addObject:kPMParAC];
+		NSString *passStr = kPMBlank;
 		if (dtsPass) {
-			passStr = [passStr stringByAppendingString:@"hwdts,"];
+			passStr = [passStr stringByAppendingString:kPMParHWDTS];
 		}
 		if (ac3Pass) {
-			passStr = [passStr stringByAppendingString:@"hwac3,a52,"];
+			passStr = [passStr stringByAppendingString:kPMParHWAC3];
 		}
 		[paramArray addObject:passStr];
 	}
 	
 	if (pauseAtStart) {
-		[paramArray addObject:@"-stpause"];
+		[paramArray addObject:kPMParSTPause];
 	}
-
-	[pool release];
 	
-	return [paramArray autorelease];
+	return paramArray;
 }
 
 @end

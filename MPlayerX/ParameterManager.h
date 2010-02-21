@@ -27,6 +27,8 @@
 
 @interface ParameterManager : NSObject 
 {
+	NSMutableArray *paramArray;
+	
 	unsigned char autoSync;
 	BOOL frameDrop;
 	unsigned char osdLevel;
