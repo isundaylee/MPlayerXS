@@ -784,7 +784,7 @@
 ////////////////////////////////////////////////KVO for time//////////////////////////////////////////////////
 -(void) gotMediaLength:(NSNumber*) length
 {
-	if ([length isGreaterThan:[NSNumber numberWithFloat:0]]) {
+	if ([length floatValue] > 0) {
 		[timeSlider setMaxValue:[length doubleValue]];
 		[timeSlider setMinValue:0];
 	} else {
@@ -817,7 +817,7 @@
 		[self calculateHintTime];
 	}
 	
-	if ([osd isActive] && ([timePos floatValue] > 0)) {
+	if ([osd isActive] && (time > 0)) {
 		NSString *osdStr = [timeFormatter stringForObjectValue:timePos];
 		
 		if (length > 0) {
@@ -882,41 +882,20 @@
 	[mItem autorelease];	
 }
 
--(void) gotNewSubs:(NSArray*) newSubs
+-(void) gotSubInfo:(NSArray*) subs changed:(int)changeKind
 {
-	if (newSubs && (newSubs != (id)[NSNull null]) && [newSubs count]) {
-		NSInteger idx = [subListMenu numberOfItems]-2;
+	if (changeKind == NSKeyValueChangeSetting) {
+		[self resetSubMenu];
+	}
+	
+	if (subs && (subs != (id)[NSNull null]) && [subs count]) {
+		
+		NSInteger idx = [subListMenu numberOfItems] - 2;
 		NSMenuItem *mItem = nil;
 		
-		for(NSString *str in newSubs) {
-			mItem = [[NSMenuItem alloc] init];
-			[mItem setEnabled:YES];
-			[mItem setTarget:self];
-			[mItem setAction:@selector(setSubWithID:)];
-			[mItem setTitle:str];
-			[mItem setTag:idx];
-			[mItem setState:NSOffState];
-			[subListMenu insertItem:mItem atIndex:idx++];
-			[mItem autorelease];
-		}
-		
-		[self setSubWithID:mItem];
-		
-		[menuSwitchSub setEnabled:YES];
-		[menuSubScaleInc setEnabled:YES];
-		[menuSubScaleDec setEnabled:YES];		
-	}
-}
-
--(void) gotSubInfo:(NSArray*) subs
-{
-	[self resetSubMenu];
-
-	if (subs && (subs != (id)[NSNull null]) && [subs count]) {
-		unsigned int idx = 0;
 		// 将所有的字幕名字加到菜单中
 		for(NSString *str in subs) {
-			NSMenuItem *mItem = [[NSMenuItem alloc] init];
+			mItem = [[NSMenuItem alloc] init];
 			[mItem setEnabled:YES];
 			[mItem setTarget:self];
 			[mItem setAction:@selector(setSubWithID:)];
@@ -928,13 +907,17 @@
 			idx++;
 		}
 		
-		// 选中第一项
-		[[subListMenu itemAtIndex:0] setState:NSOnState];
-		
+		if (changeKind == NSKeyValueChangeSetting) {
+			[[subListMenu itemAtIndex:0] setState:NSOnState];
+		} else {
+			[self setSubWithID:mItem];
+		}
+
 		[menuSwitchSub setEnabled:YES];
 		[menuSubScaleInc setEnabled:YES];
 		[menuSubScaleDec setEnabled:YES];
-	} else {
+		
+	} else if (changeKind == NSKeyValueChangeSetting) {
 		[menuSwitchSub setEnabled:NO];
 		[menuSubScaleInc setEnabled:NO];
 		[menuSubScaleDec setEnabled:NO];

@@ -115,9 +115,8 @@
 -(void) gotSpeed:(NSNumber*) speed;
 -(void) gotSubDelay:(NSNumber*) sd;
 -(void) gotAudioDelay:(NSNumber*) ad;
--(void) gotSubInfo:(NSArray*) subs;
+-(void) gotSubInfo:(NSArray*) subs changed:(int)changeKind;
 -(void) gotLastStoppedPlace:(float) tm;
--(void) gotNewSubs:(NSArray*) newSubs;
 -(void) gotCachingPercent:(NSNumber*) caching;
 
 //////////////////////////////自动隐藏相关/////////////////////////////
