@@ -24,17 +24,17 @@
 
 #define kCIStepBase				(100000.0)
 
-#define kCIInputNoiseLevelKey	(@"inputNoiseLevel")
-#define kCIInputPowerKey		(@"inputPower")
+NSString * const kCIInputNoiseLevelKey	= @"inputNoiseLevel";
+NSString * const kCIInputPowerKey		= @"inputPower";
 
-#define kCILayerBrightnessKeyPath		(@"filters.colorFilter.inputBrightness")
-#define kCILayerSaturationKeyPath		(@"filters.colorFilter.inputSaturation")
-#define kCILayerContrastKeyPath			(@"filters.colorFilter.inputContrast")
-#define kCILayerNoiseLevelKeyPath		(@"filters.nrFilter.inputNoiseLevel")
-#define kCILayerSharpnesKeyPath			(@"filters.nrFilter.inputSharpness")
-#define kCILayerGammaKeyPath			(@"filters.gammaFilter.inputPower")
+NSString * const kCILayerBrightnessKeyPath	= @"filters.colorFilter.inputBrightness";
+NSString * const kCILayerSaturationKeyPath	= @"filters.colorFilter.inputSaturation";
+NSString * const kCILayerContrastKeyPath	= @"filters.colorFilter.inputContrast";
+NSString * const kCILayerNoiseLevelKeyPath	= @"filters.nrFilter.inputNoiseLevel";
+NSString * const kCILayerSharpnesKeyPath	= @"filters.nrFilter.inputSharpness";
+NSString * const kCILayerGammaKeyPath		= @"filters.gammaFilter.inputPower";
 
-#define kCILayerFilterEnabled			(@"enabled")
+NSString * const kCILayerFilterEnabled		= @"enabled";
 
 @implementation VideoTunerController
 
