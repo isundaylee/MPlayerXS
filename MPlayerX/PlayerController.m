@@ -26,21 +26,34 @@
 #import <sys/sysctl.h>
 #import <Sparkle/Sparkle.h>
 #import "OpenURLController.h"
+#import "RootLayerView.h"
 
-#define kObservedValueStringSpeed			(@"movieInfo.playingInfo.speed")
-#define kObservedValueStringSubDelay		(@"movieInfo.playingInfo.subDelay")
-#define kObservedValueStringAudioDelay		(@"movieInfo.playingInfo.audioDelay")
+NSString * const kObservedValueStringSpeed		= @"movieInfo.playingInfo.speed";
+NSString * const kObservedValueStringSubDelay	= @"movieInfo.playingInfo.subDelay";
+NSString * const kObservedValueStringAudioDelay	= @"movieInfo.playingInfo.audioDelay";
 
-#define kMPCDefaultSubFontPath				(@"wqy-microhei.ttc")
+NSString * const kMPCDefaultSubFontPath			= @"wqy-microhei.ttc";
+
+NSString * const kMPCFMTBookmarkPath	= @"%@/Library/Preferences/%@.bookmarks.plist";
+NSString * const kMPCStringMPlayerX		= @"MPlayerX";
+
+NSString * const kMPCMplayerNameMT		= @"mplayer-mt";
+NSString * const kMPCMplayerName		= @"mplayer";
+NSString * const kMPCFMTMplayerPathM32	= @"binaries/m32/%@";
+NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 
 #define kThreadsNumMax	(8)
 
 #define SAFERELEASE(x)		{if(x) {[x release];x = nil;}}
 
+#define PlayerCouldAcceptCommand	(((mplayer.state) & 0x0100)!=0)
+
 @interface PlayerController (CoreControllerNotification)
 -(void) mplayerOpened:(NSNotification *)notification;
+-(void) mplayerStarted:(NSNotification *)notification;
 -(void) mplayerStopped:(NSNotification *)notification;
 -(void) mplayerWillStop:(NSNotification *)notification;
+
 -(void) preventSystemSleep;
 -(void) playMedia:(NSURL*)url;
 -(NSURL*) findFirstMediaFileFromSubFile:(NSString*)path;
@@ -88,6 +101,7 @@
 {
 	if (self = [super init]) {
 		ud = [NSUserDefaults standardUserDefaults];
+		notifCenter = [NSNotificationCenter defaultCenter];
 		
 		mplayer = [[CoreController alloc] init];
 		lastPlayedPath = nil;
@@ -136,18 +150,11 @@
 	[mplayer.pm setPrefer64bMPlayer:[self shouldRun64bitMPlayer]];
 	
 	// 开始监听mplayer的开始/结束事件
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(mplayerOpened:)
-												 name:kMPCPlayOpenedNotification
-											   object:mplayer];
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(mplayerStopped:)
-												 name:kMPCPlayStoppedNotification
-											   object:mplayer];
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(mplayerWillStop:)
-												 name:kMPCPlayWillStopNotification
-											   object:mplayer];
+	[notifCenter addObserver:self selector:@selector(mplayerOpened:) name:kMPCPlayOpenedNotification object:mplayer];
+	[notifCenter addObserver:self selector:@selector(mplayerStarted:) name:kMPCPlayStartedNotification object:mplayer];
+	[notifCenter addObserver:self selector:@selector(mplayerWillStop:) name:kMPCPlayWillStopNotification object:mplayer];
+	[notifCenter addObserver:self selector:@selector(mplayerStopped:) name:kMPCPlayStoppedNotification object:mplayer];
+
 	// 设置监听KVO
 	[mplayer addObserver:self
 			  forKeyPath:kKVOPropertyKeyPathLength
@@ -181,7 +188,7 @@
 			  forKeyPath:kKVOPropertyKeyPathCachingPercent
 				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
-
+	
 	// 建立支持格式的Set
 	for( NSDictionary *dict in [mainBundle objectForInfoDictionaryKey:@"CFBundleDocumentTypes"]) {
 
@@ -201,7 +208,7 @@
 	}
 	
 	// 得到书签的文件名
-	NSString *lastStoppedTimePath = [NSString stringWithFormat:@"%@/Library/Preferences/%@.bookmarks.plist", 
+	NSString *lastStoppedTimePath = [NSString stringWithFormat:kMPCFMTBookmarkPath, 
 															   homeDirectory, [mainBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
 	
 	// 得到记录播放时间的dict
@@ -222,7 +229,7 @@
 									 inDomain:NSUserDomainMask
 							appropriateForURL:NULL
 									   create:YES
-										error:NULL] path] stringByAppendingPathComponent:@"MPlayerX"];
+										error:NULL] path] stringByAppendingPathComponent:kMPCStringMPlayerX];
 
 	if ([fm fileExistsAtPath:workDir isDirectory:&isDir] && (!isDir)) {
 		// 如果存在但不是文件夹的话
@@ -252,6 +259,7 @@
 {
 	// 结束监听mplayer的开始/结束事件
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	// 结束监听KVO
 	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathCurrentTime];
 	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathLength];
@@ -261,7 +269,7 @@
 	[mplayer removeObserver:self forKeyPath:kObservedValueStringAudioDelay];
 	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathSubInfo];
 	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathCachingPercent];
-	
+
 	[mplayer release];
 	[lastPlayedPath release];
 	[supportVideoFormats release];
@@ -331,6 +339,11 @@
 	return mplayer.state;
 }
 
+-(BOOL) couldAcceptCommand
+{
+	return PlayerCouldAcceptCommand;
+}
+
 -(void) loadFiles:(NSArray*)files fromLocal:(BOOL)local
 {
 	if (files) {
@@ -367,7 +380,7 @@
 							
 						} else if ([supportSubFormats containsObject:[[path pathExtension] lowercaseString]]) {
 							// 如果是字幕文件
-							if (mplayer.state != kMPCStoppedState) {
+							if (PlayerCouldAcceptCommand) {
 								// 如果是在播放状态，就加载字幕
 								[self loadSubFile:path];
 							} else {
@@ -542,10 +555,10 @@
 	if (mt) {
 		// 使用多线程
 		threadNum = MIN(kThreadsNumMax, MAX(2,[ud integerForKey:kUDKeyThreadNum]));
-		mplayerName = @"mplayer-mt";
+		mplayerName = kMPCMplayerNameMT;
 	} else {
 		threadNum = MIN(kThreadsNumMax, MAX(1,[ud integerForKey:kUDKeyThreadNum]));
-		mplayerName = @"mplayer";
+		mplayerName = kMPCMplayerName;
 	}
 
 	[ud setInteger:threadNum forKey:kUDKeyThreadNum];
@@ -553,8 +566,8 @@
 	[mplayer.pm setThreads: threadNum];
 	
 	[mplayer setMpPathPair: [NSDictionary dictionaryWithObjectsAndKeys: 
-							 [resPath stringByAppendingPathComponent:[NSString stringWithFormat:@"binaries/m32/%@", mplayerName]], kI386Key,
-							 [resPath stringByAppendingPathComponent:[NSString stringWithFormat:@"binaries/x86_64/%@", mplayerName]], kX86_64Key,
+							 [resPath stringByAppendingPathComponent:[NSString stringWithFormat:kMPCFMTMplayerPathM32, mplayerName]], kI386Key,
+							 [resPath stringByAppendingPathComponent:[NSString stringWithFormat:kMPCFMTMplayerPathX64, mplayerName]], kX86_64Key,
 							 nil]];
 }
 
@@ -581,8 +594,14 @@
 		// 有的话，通知controlUI
 		[controlUI gotLastStoppedPlace:[stopTime floatValue]];
 	}
+}
+
+-(void) mplayerStarted:(NSNotification *)notification
+{
+	[controlUI playBackStarted];
 	
-	if ((![window isVisible]) && (![supportVideoFormats containsObject:[[lastComp pathExtension] lowercaseString]])) {
+	NSLog(@"vc:%d, ac:%d", [mplayer.movieInfo.videoInfo count], [mplayer.movieInfo.audioInfo count]);
+	if ([mplayer.movieInfo.videoInfo count] == 0) {
 		[window makeKeyAndOrderFront:self];
 	}
 }
@@ -596,7 +615,7 @@
 {	
 	BOOL stoppedByForce = [[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue];
 	
-	[window setTitle: @"MPlayerX"];
+	[window setTitle: kMPCStringMPlayerX];
 	
 	[controlUI playBackStopped];
 	
@@ -635,22 +654,21 @@
 ////////////////////////////////////////////////cooperative actions with UI//////////////////////////////////////////////////
 -(void) togglePlayPause
 {
-	if (mplayer.state != kMPCStoppedState) {
-		// mplayer正在播放
-		[mplayer togglePause];
-	} else {
+	if (mplayer.state == kMPCStoppedState) {
 		//mplayer不在播放状态
-		// 想播放
 		if (lastPlayedPath) {
 			// 有可以播放的文件
 			[self playMedia:lastPlayedPath];
 		}
+	} else {
+		// mplayer正在播放
+		[mplayer togglePause];
 	}
 }
 
 -(BOOL) toggleMute
 {
-	return (mplayer.state != kMPCStoppedState)? ([mplayer setMute:!mplayer.movieInfo.playingInfo.mute]):NO;
+	return (PlayerCouldAcceptCommand)? ([mplayer setMute:!mplayer.movieInfo.playingInfo.mute]):NO;
 }
 
 -(float) setVolume:(float) vol
@@ -663,7 +681,7 @@
 -(float) seekTo:(float) time
 {
 	// playingInfo的currentTime是通过获取log来同步的，因此这里不进行直接设定
-	if ((mplayer.state != kMPCStoppedState) && mplayer.movieInfo.seekable) {
+	if (PlayerCouldAcceptCommand && mplayer.movieInfo.seekable) {
 		time = [mplayer setTimePos:time];
 		[mplayer.la stop];
 		return time;
@@ -674,7 +692,7 @@
 -(float) changeTimeBy:(float) delta
 {
 	// playingInfo的currentTime是通过获取log来同步的，因此这里不进行直接设定
-	if ((mplayer.state != kMPCStoppedState) && mplayer.movieInfo.seekable) {
+	if (PlayerCouldAcceptCommand && mplayer.movieInfo.seekable) {
 		delta = [mplayer setTimePos:[mplayer.movieInfo.playingInfo.currentTime floatValue] + delta];	
 		[mplayer.la stop];
 		return delta;
@@ -684,7 +702,7 @@
 
 -(float) changeSpeedBy:(float) delta
 {
-	if (mplayer.state != kMPCStoppedState) {
+	if (PlayerCouldAcceptCommand) {
 		[mplayer setSpeed:[mplayer.movieInfo.playingInfo.speed floatValue] + delta];
 	}
 	return [mplayer.movieInfo.playingInfo.speed floatValue];
@@ -692,7 +710,7 @@
 
 -(float) changeSubDelayBy:(float) delta
 {
-	if (mplayer.state != kMPCStoppedState) {
+	if (PlayerCouldAcceptCommand) {
 		[mplayer setSubDelay:[mplayer.movieInfo.playingInfo.subDelay floatValue] + delta];
 	}
 	return [mplayer.movieInfo.playingInfo.subDelay floatValue];
@@ -700,7 +718,7 @@
 
 -(float) changeAudioDelayBy:(float) delta
 {
-	if (mplayer.state != kMPCStoppedState) {
+	if (PlayerCouldAcceptCommand) {
 		[mplayer setAudioDelay:[mplayer.movieInfo.playingInfo.audioDelay floatValue] + delta];
 	}
 	return [mplayer.movieInfo.playingInfo.audioDelay floatValue];	
@@ -708,7 +726,7 @@
 
 -(float) changeSubScaleBy:(float) delta
 {
-	if (mplayer.state != kMPCStoppedState) {
+	if (PlayerCouldAcceptCommand) {
 		[mplayer setSubScale: [mplayer.movieInfo.playingInfo.subScale floatValue] + delta];
 	}
 	return [mplayer.movieInfo.playingInfo.subScale floatValue];
@@ -716,7 +734,7 @@
 
 -(float) changeSubPosBy:(float)delta
 {
-	if (mplayer.state != kMPCStoppedState) {
+	if (PlayerCouldAcceptCommand) {
 		[mplayer setSubPos: mplayer.movieInfo.playingInfo.subPos + delta*100];
 	}
 	return mplayer.movieInfo.playingInfo.subPos;
@@ -724,7 +742,7 @@
 
 -(float) changeAudioBalanceBy:(float)delta
 {
-	if (mplayer.state != kMPCStoppedState) {
+	if (PlayerCouldAcceptCommand) {
 		[mplayer setBalance:mplayer.movieInfo.playingInfo.audioBalance + delta];
 	}
 	return mplayer.movieInfo.playingInfo.audioBalance;
@@ -732,7 +750,7 @@
 
 -(float) setSpeed:(float) spd
 {
-	if (mplayer.state != kMPCStoppedState) {
+	if (PlayerCouldAcceptCommand) {
 		[mplayer setSpeed:spd];
 	}
 	return [mplayer.movieInfo.playingInfo.speed floatValue];
@@ -740,7 +758,7 @@
 
 -(float) setSubDelay:(float) sd
 {
-	if (mplayer.state != kMPCStoppedState) {
+	if (PlayerCouldAcceptCommand) {
 		[mplayer setSubDelay:sd];
 	}
 	return [mplayer.movieInfo.playingInfo.subDelay floatValue];	
@@ -748,7 +766,7 @@
 
 -(float) setAudioDelay:(float) ad
 {
-	if (mplayer.state != kMPCStoppedState) {
+	if (PlayerCouldAcceptCommand) {
 		[mplayer setAudioDelay:ad];
 	}
 	return [mplayer.movieInfo.playingInfo.audioDelay floatValue];	
@@ -814,7 +832,7 @@
 
 	[ud synchronize];
 
-	NSString *lastStoppedTimePath = [NSString stringWithFormat:@"%@/Library/Preferences/%@.bookmarks.plist", 
+	NSString *lastStoppedTimePath = [NSString stringWithFormat:kMPCFMTBookmarkPath, 
 															   NSHomeDirectory(), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
 
 	[openUrlController syncToBookmark:bookmarks];

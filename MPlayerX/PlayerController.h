@@ -26,7 +26,8 @@
 @interface PlayerController : NSObject <NSApplicationDelegate>
 {
 	NSUserDefaults *ud;
-
+	NSNotificationCenter *notifCenter;
+	
 	CoreController *mplayer;
 	NSURL *lastPlayedPath;
 	NSURL *lastPlayedPathPre;
@@ -46,6 +47,7 @@
 
 -(void) setDelegateForMPlayer:(id<CoreDisplayDelegate>) delegate;
 -(int) playerState;
+-(BOOL) couldAcceptCommand;
 
 -(void) setMultiThreadMode:(BOOL) mt;
 
