@@ -3931,7 +3931,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>VTController</string>
 							<string>controlUI</string>
-							<string>osd</string>
 							<string>playerController</string>
 							<string>playerWindow</string>
 							<string>shortCutManager</string>
@@ -3940,7 +3939,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>VideoTunerController</string>
 							<string>ControlUIView</string>
-							<string>OsdText</string>
 							<string>PlayerController</string>
 							<string>NSWindow</string>
 							<string>ShortCutManager</string>
