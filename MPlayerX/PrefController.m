@@ -25,11 +25,11 @@
 #import "RootLayerView.h"
 #import "ControlUIView.h"
 
-#define PrefToolBarItemIdGeneral	(@"TBIGeneral")
-#define PrefToolBarItemIdVideo		(@"TBIVideo")
-#define PrefToolBarItemIdAudio		(@"TBIAudio")
-#define PrefToolBarItemIdSubtitle	(@"TBISubtitle")
-#define PrefToolbarItemIdNetwork	(@"TBINetwork")
+NSString * const PrefToolBarItemIdGeneral	= @"TBIGeneral";
+NSString * const PrefToolBarItemIdVideo		= @"TBIVideo";
+NSString * const PrefToolBarItemIdAudio		= @"TBIAudio";
+NSString * const PrefToolBarItemIdSubtitle	= @"TBISubtitle";
+NSString * const PrefToolbarItemIdNetwork	= @"TBINetwork";
 
 #define PrefTBILabelGeneral			(kMPXStringTBILabelGeneral)
 #define PrefTBILabelVideo			(kMPXStringTBILabelVideo)
