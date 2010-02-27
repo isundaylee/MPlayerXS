@@ -12,6 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="594"/>
 			<integer value="371"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -584,28 +585,33 @@
 			<object class="NSWindowTemplate" id="818772155">
 				<int key="NSWindowStyleMask">8223</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{375, 501}, {300, 368}}</string>
+				<string key="NSWindowRect">{{375, 495}, {300, 377}}</string>
 				<int key="NSWTFlags">1685585920</int>
 				<string key="NSWindowTitle">About MPlayerX</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
-				<string key="NSWindowContentMaxSize">{300, 368}</string>
-				<string key="NSWindowContentMinSize">{300, 368}</string>
+				<string key="NSWindowContentMaxSize">{300, 377}</string>
+				<string key="NSWindowContentMinSize">{300, 377}</string>
 				<object class="NSView" key="NSWindowView" id="255223115">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSTextField" id="173260629">
 							<reference key="NSNextResponder" ref="255223115"/>
 							<int key="NSvFlags">303</int>
-							<string key="NSFrame">{{-3, 20}, {306, 224}}</string>
+							<string key="NSFrame">{{-3, 20}, {306, 231}}</string>
 							<reference key="NSSuperview" ref="255223115"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="3445284">
 								<int key="NSCellFlags">70385217</int>
 								<int key="NSCellFlags2">1212417024</int>
-								<string key="NSContents"/>
+								<string type="base64-UTF8" key="NSContents">TVBsYXllclggMC45LjcKYnkgTmlsdHNoQDIwMDkKaHR0cDovL2NvZGUuZ29vZ2xlLmNvbS9wL21wbGF5
+ZXJ4Lwp6b25neWFvLnF1QGdtYWlsLmNvbQoKVGhhbmtzIHRvCgptcGxheWVyCmh0dHA6Ly93d3cubXBs
+YXllcmhxLmh1CgpVbml2ZXJzYWxEZXRlY3RvcgpodHRwOi8vd2FrYWJhLmMzLmN4L3MvYXBwcy91bmFy
+Y2hpdmVyLmh0bWwKCkJHSFVEQXBwS2l0Cmh0dHA6Ly93d3cuYmluYXJ5bWV0aG9kLmNvbS9iZ2h1ZGFw
+cGtpdC8KCldlblF1YW4gTWljcm9IZWkgRm9udApodHRwOi8vd3d3LndlbnEub3JnCgpBcHBsaWNhdG9u
+IEljb24KTWlsb8WhIEtyc21hbm92acSHA</string>
 								<object class="NSFont" key="NSSupport" id="22">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">9</double>
@@ -642,7 +648,7 @@
 									<string>NeXT TIFF v4.0 pasteboard type</string>
 								</object>
 							</object>
-							<string key="NSFrame">{{102, 252}, {96, 96}}</string>
+							<string key="NSFrame">{{102, 261}, {96, 96}}</string>
 							<reference key="NSSuperview" ref="255223115"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="587597968">
@@ -660,11 +666,12 @@
 							<bool key="NSEditable">YES</bool>
 						</object>
 					</object>
-					<string key="NSFrameSize">{300, 368}</string>
+					<string key="NSFrameSize">{300, 377}</string>
+					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
-				<string key="NSMinSize">{300, 387}</string>
-				<string key="NSMaxSize">{300, 387}</string>
+				<string key="NSMinSize">{300, 396}</string>
+				<string key="NSMaxSize">{300, 396}</string>
 			</object>
 			<object class="NSWindowTemplate" id="972006081">
 				<int key="NSWindowStyleMask">15</int>
@@ -3429,14 +3436,14 @@
 					<integer value="1"/>
 					<string>TimeSliderCell</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{766, 427}, {300, 368}}</string>
+					<string>{{766, 418}, {300, 377}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{766, 427}, {300, 368}}</string>
+					<string>{{766, 418}, {300, 377}}</string>
 					<boolean value="NO"/>
 					<boolean value="YES"/>
 					<boolean value="YES"/>
-					<string>{300, 368}</string>
-					<string>{300, 368}</string>
+					<string>{300, 377}</string>
+					<string>{300, 377}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3723,13 +3730,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">ControlUIView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../Apple Remote Control/MultiClickRemoteBehavior.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
