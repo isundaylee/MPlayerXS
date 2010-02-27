@@ -44,8 +44,6 @@
 -(NSGradient *)highlightKnobColor;
 -(NSGradient *)knobColor;
 -(NSGradient *)disabledKnobColor;
--(CGFloat)alphaValue;
--(CGFloat)disabledAlphaValue;
 @end
 
 
@@ -559,25 +557,22 @@
 
 #pragma mark internal
 -(NSColor *)sliderTrackColor {
-	
-	//return [NSColor colorWithDeviceRed: 0.318f green: 0.318f blue: 0.318f alpha: [self alphaValue]];
-	return [NSColor colorWithDeviceRed: 0 green: 0 blue: 0 alpha: [self alphaValue]];
+	return [NSColor colorWithDeviceRed: 0 green: 0 blue: 0 alpha: 0.5];
 }
 
 -(NSColor *)strokeColor {
 	
-	return [NSColor colorWithDeviceRed: 0.749f green: 0.761f blue: 0.788f alpha: 1.0f];
+	return [NSColor colorWithDeviceRed: 0.749f green: 0.761f blue: 0.788f alpha: 1.0];
 }
 
 -(NSColor *)disabledSliderTrackColor {
 	
-	//return [NSColor colorWithDeviceRed: 0.318f green: 0.318f blue: 0.318f alpha: [self disabledAlphaValue]];
-	return [NSColor colorWithDeviceRed: 0 green: 0 blue: 0 alpha: [self disabledAlphaValue]];
+	return [NSColor colorWithDeviceRed: 0 green: 0 blue: 0 alpha: 0.2];
 }
 
 -(NSColor *)disabledStrokeColor {
 	
-	return [NSColor colorWithDeviceRed: 0.749f green: 0.761f blue: 0.788f alpha: [self disabledAlphaValue]];
+	return [NSColor colorWithDeviceRed: 0.749f green: 0.761f blue: 0.788f alpha: 0.2];
 }
 
 -(NSShadow *)focusRing {
@@ -616,15 +611,6 @@
 	
 	return [[[NSGradient alloc] initWithStartingColor: [NSColor colorWithDeviceRed: 0.251f green: 0.251f blue: 0.255f alpha: 1.0f]
 										  endingColor: [NSColor colorWithDeviceRed: 0.118f green: 0.118f blue: 0.118f alpha: 1.0f]] autorelease];
-}
--(CGFloat)alphaValue {
-	
-	return 1.0f;
-}
-
--(CGFloat)disabledAlphaValue {
-	
-	return 0.2f;
 }
 
 @end

@@ -206,7 +206,7 @@
 	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
 	 */
 	// 打开多线程支持
-	CGLEnable(_context, kCGLCEMPEngine);
+	// CGLEnable(_context, kCGLCEMPEngine);
 
 	[self buildOpenGLEnvironment];
 
