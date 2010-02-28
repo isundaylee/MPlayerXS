@@ -436,7 +436,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	// 因此这里不用直接更新界面
 	float time = [playerController seekTo:[sender floatValue]];
 	
-	[timeSlider setFloatValue:time];
+	// [timeSlider setFloatValue:time];
 	
 	[self updateHintTime];
 	

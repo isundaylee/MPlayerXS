@@ -21,6 +21,8 @@
 #import "SubConverter.h"
 #import <UniversalDetector/UniversalDetector.h>
 
+NSString * const kWorkDirSubDir = @"Subs";
+
 @implementation SubConverter
 
 -(id) init
@@ -46,7 +48,7 @@
 -(void) clearWorkDirectory
 {
 	if (workDirectory) {
-		[[NSFileManager defaultManager] removeItemAtPath:[workDirectory stringByAppendingPathComponent:@"Subs"] error:NULL];
+		[[NSFileManager defaultManager] removeItemAtPath:[workDirectory stringByAppendingPathComponent:kWorkDirSubDir] error:NULL];
 	}
 }
 
@@ -80,12 +82,12 @@
 		return nil;
 	}
 	
-	NSString *subDir = [workDirectory stringByAppendingPathComponent:@"Subs"];
+	NSString *subDir = [workDirectory stringByAppendingPathComponent:kWorkDirSubDir];
 	NSFileManager *fm = [NSFileManager defaultManager];
 	BOOL isDir = NO;
 	
 	if ([fm fileExistsAtPath:subDir isDirectory:&isDir] && (!isDir)) {
-		// 如果存在但不是文件夹的话
+		// 如果存在但不是文件夹的话，删除文件先
 		[fm removeItemAtPath:subDir error:NULL];
 	}
 	

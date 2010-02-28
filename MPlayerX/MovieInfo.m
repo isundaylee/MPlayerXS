@@ -22,6 +22,9 @@
 #import "coredef_private.h"
 #import "ParameterManager.h"
 
+NSString * const kDemuxValueDefault = @"unknown";
+NSString * const kKVOSubInfo		= @"subInfo";
+
 @implementation MovieInfo
 
 @synthesize demuxer;
@@ -40,7 +43,7 @@
 	{
 		NSNumber *zero = [NSNumber numberWithInt:0];
 		
-		demuxer = [@"unknown" retain];
+		demuxer = [kDemuxValueDefault retain];
 		chapters = [zero retain];
 		length = [zero retain];
 		seekable = [zero retain];
@@ -84,13 +87,13 @@
 	[audioInfo removeAllObjects];
 
 	[self setSeekable:zero];
-	[self setDemuxer:@"unknown"];
+	[self setDemuxer:kDemuxValueDefault];
 	[self setChapters:zero];
 	[self setLength:zero];
 	
 	// 比较简单的实现KVO的方式，要不会一个一个的删除，效率比较低
-	[self willChangeValueForKey:@"subInfo"];
+	[self willChangeValueForKey:kKVOSubInfo];
 	[subInfo removeAllObjects];
-	[self didChangeValueForKey:@"subInfo"];
+	[self didChangeValueForKey:kKVOSubInfo];
 }
 @end

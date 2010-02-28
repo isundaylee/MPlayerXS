@@ -82,7 +82,7 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 					   [NSNumber numberWithBool:NO], kUDKeyAC3PassThrough,
 					   [NSNumber numberWithUnsignedInt:1], kUDKeyThreadNum,
 					   [NSNumber numberWithBool:NO], kUDKeyFastDecoding,
-					   [NSNumber numberWithBool:NO], kUDKeyUseEmbeddedFonts,
+					   [NSNumber numberWithBool:YES], kUDKeyUseEmbeddedFonts,
 					   [NSNumber numberWithUnsignedInt:1000], kUDKeyCacheSize,
 					   [NSNumber numberWithBool:YES], kUDKeyCloseWindowWhenStopped,
 					   [NSNumber numberWithBool:YES], kUDKeyPreferIPV6,

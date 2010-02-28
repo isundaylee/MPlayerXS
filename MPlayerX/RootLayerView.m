@@ -564,6 +564,8 @@
 	
 	if ([self isInFullScreenMode]) {
 		// 如果正在全屏，那么将设定窗口size的工作放到退出全屏的时候进行
+		// 必须砸退出全屏的时候再设定
+		// 在退出全屏之前，这个view并不属于window，设定contentsize不起作用
 		shouldResize = YES;
 		
 		// 如果是全屏开始的，那么还需要设定ControlUI的FillScreen状态
@@ -596,7 +598,6 @@
 {
 	[dispLayer stop];
 
-	// 这个时候必须保证在推出全屏之后设为NO，因为切换全屏会参照现在displaying状态，NO的时候不动作
 	displaying = NO;
 	[controlUI displayStopped];
 	[playerWindow setContentResizeIncrements:NSMakeSize(1.0, 1.0)];

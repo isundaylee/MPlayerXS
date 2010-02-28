@@ -137,8 +137,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 			[mpPathPair release];
 			mpPathPair = dict;
 		}		
-	}
-	else {
+	} else {
 		[mpPathPair release];
 		mpPathPair = nil;
 	}
@@ -500,6 +499,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 	}
 }
 
+NSString * const kKVOMovieSubInfo		= @"subInfo";
 // 这个是LogAnalyzer的delegate方法，
 // 因此是运行在工作线程上的，因为这里用到了KVC和KVO
 // 有没有必要运行在主线程上？
@@ -521,15 +521,15 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 				case kMITypeSubArray:
 					// 这里如果直接使用KVO的话，产生的时Insert的change，效率太低
 					// 因此手动发生KVO
-					[movieInfo willChangeValueForKey:@"subInfo"];
+					[movieInfo willChangeValueForKey:kKVOMovieSubInfo];
 					[movieInfo.subInfo setArray:[[dict objectForKey:key] componentsSeparatedByString:@":"]];
-					[movieInfo didChangeValueForKey:@"subInfo"];					
+					[movieInfo didChangeValueForKey:kKVOMovieSubInfo];					
 					break;
 				case kMITypeSubAppend:
 					// 会发生insert的KVO change
 					obj = [[dict objectForKey:key] componentsSeparatedByString:@":"];
 					// NSLog(@"%@", obj);
-					[[movieInfo mutableArrayValueForKey:@"subInfo"] addObject: [[obj objectAtIndex:0] lastPathComponent]];
+					[[movieInfo mutableArrayValueForKey:kKVOMovieSubInfo] addObject: [[obj objectAtIndex:0] lastPathComponent]];
 					break;
 				case kMITypeStateChanged:
 					// 目前只有在播放开始的时候才会激发这个事件，所以可以发notification
