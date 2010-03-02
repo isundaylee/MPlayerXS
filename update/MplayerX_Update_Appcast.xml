@@ -10,6 +10,15 @@
 			<description><![CDATA[
 				<h3>MPlayerX needs your help for the new application icon.</h3>
 				<p>please go <a href="https://spreadsheets.google.com/viewform?formkey=dENZQ1dDSVY3OU5ZUWdDbHdlQTVYUUE6MA">here</a> for a poll</p>
+				<h2>MPlayerX 0.9.X</h2>
+				2010/XX/XX
+				<ul>
+					<li><strong>MPlayerX now has a brand-new Application Icon!! Thank you so much, Miloš Krsmanović</strong>, and for other contributers who sent me the propsal and voted for poll, your attendance was deeply appreciated.</li>
+					<li>pop up the player window when playing audio(it is not perfect but usable for the very first time, I will try to make a better one)</li>
+					<li>Opened URLs will be saved</li>
+					<li>Pref:Pause when file opened</li>
+					<li>Bugfix:crash on some Macbook Pro with 9400M</li>
+				</ul>
 				<h2>MPlayerX 0.9.7</h2>
 				2010/02/13
 				<ul>
