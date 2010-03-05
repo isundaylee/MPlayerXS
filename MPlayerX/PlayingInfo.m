@@ -53,7 +53,7 @@
 		audioDelay = [floatZero retain];
 		subDelay = [floatZero retain];
 		subPos = 100;
-		subScale = [[NSNumber alloc] initWithFloat:4];
+		subScale = [[NSNumber alloc] initWithFloat:1.5];
 		speed = [[NSNumber alloc] initWithFloat:1.0];
 		cachingPercent = [floatZero retain];
 	}

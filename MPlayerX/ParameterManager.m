@@ -84,6 +84,8 @@ NSString * const kPMParSTPause			= @"-stpause";
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
+#define kSubScaleNoAss		(4.0)
+
 @implementation NSColor (MPXAdditional)
 -(uint32) convertToHex
 {
@@ -148,7 +150,7 @@ NSString * const kPMParSTPause			= @"-stpause";
 		volume = 100;
 		subPos = 100;
 		subAlign = 2;
-		subScale = 4;
+		subScale = 1.5;
 		subFont = nil;
 		subCP = nil;
 		threads = 1;
@@ -281,10 +283,10 @@ NSString * const kPMParSTPause			= @"-stpause";
 	[paramArray addObject:[NSString stringWithFormat: kPMFMTInt,subAlign]];
 	
 	[paramArray addObject:kPMParOSDScale];
-	[paramArray addObject:[NSString stringWithFormat: kPMFMTFloat1,subScale]];
+	[paramArray addObject:[NSString stringWithFormat: kPMFMTFloat1,kSubScaleNoAss]];
 	
 	[paramArray addObject:kPMParTextScale];
-	[paramArray addObject:[NSString stringWithFormat: kPMFMTFloat1,subScale]];
+	[paramArray addObject:[NSString stringWithFormat: kPMFMTFloat1,kSubScaleNoAss]];
 	
 	if (subFont && (![subFont isEqualToString:kPMBlank])) {
 		[paramArray addObject:kPMParSubFont];
