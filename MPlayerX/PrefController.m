@@ -63,6 +63,8 @@ NSString * const PrefToolbarItemIdNetwork	= @"TBINetwork";
 	if (!nibLoaded) {
 		[NSBundle loadNibNamed:@"Pref" owner:self];
 
+		CGFloat winH = [prefWin frame].size.height;
+		
 		prefViews = [[NSArray alloc] initWithObjects:viewGeneral, viewVideo, viewAudio, viewSub, viewNetwork, nil];
 		
 		NSToolbarItem *tbi = [[prefToolbar items] objectAtIndex:[ud integerForKey:kUDKeySelectedPrefView]];
@@ -77,6 +79,10 @@ NSString * const PrefToolbarItemIdNetwork	= @"TBINetwork";
 		
 		// 可以选择 透明度
 		[[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
+		
+		NSPoint org = [prefWin frame].origin;
+		org.y -= (winH - [prefWin frame].size.height);
+		[prefWin setFrameOrigin:org];
 		
 		nibLoaded = YES;
 	}
