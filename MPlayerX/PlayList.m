@@ -20,11 +20,11 @@
 
 #import "PlayList.h"
 
-NSRange findLastDigitPart(NSString *name)
+NSArray* findLastDigitPart(NSString *name)
 {
 	unichar ch;
 	NSRange range;
-	BOOL entered = NO;
+	NSMutableArray *ret = [[NSMutableArray alloc] initWithCapacity:5];;
 	
 	range.location = [name length];
 	range.length = 0;
@@ -36,15 +36,17 @@ NSRange findLastDigitPart(NSString *name)
 		
 		if ((ch>='0')&&(ch<='9')) {
 			// 是数字
-			entered = YES;
 			range.length++;
-		} else if (entered) {
+		} else if (range.length > 0) {
 			// 不是数字并且已经找到了数字
-			break;
+			[ret addObject:[NSValue valueWithRange:NSMakeRange(range.location+1, range.length)]];
+			range.length = 0;
 		}
 	}
-	range.location++;
- 	return range;
+	if (range.length > 0) {
+		[ret addObject:[NSValue valueWithRange:NSMakeRange(0, range.length)]];
+	}
+	return [ret autorelease];
 }
 
 @implementation PlayList
@@ -52,46 +54,53 @@ NSRange findLastDigitPart(NSString *name)
 +(NSString*) AutoSearchNextMoviePathFrom:(NSString*) path
 {
 	NSString *nextPath = nil;
-	NSRange digitRange;
-	NSString *idxNext;
-	
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	if (path) {
+		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		NSRange digitRange;
+		NSString *idxNext;
+		BOOL isDir;
 		// 得到文件的名字，没有后缀
 		NSString *movieName = [[path lastPathComponent] stringByDeletingPathExtension];
-		// 找到数字开头的index
-		digitRange = findLastDigitPart(movieName);
 		
-		// 如果文件后面有数字的话
-		if (digitRange.length) {
-			// 得到下一个想要播放的文件的index
-			idxNext = [NSString stringWithFormat:@"%d", [[movieName substringWithRange:digitRange] integerValue] + 1];
-			NSUInteger idxNextLen = [idxNext length];
+		// 找到数字开头的index
+		NSArray *digitRangeArray = findLastDigitPart(movieName);
+		
+		for (NSValue *val in digitRangeArray) {
+			digitRange = [val rangeValue];
 			
-			// 如果这个index的长度比上一个短，说明有padding
-			if (idxNextLen < digitRange.length) {
-				digitRange.location += (digitRange.length-idxNextLen);
-				digitRange.length = idxNextLen;
-			}
-			
-			nextPath = [[NSString alloc] initWithFormat:@"%@/%@%@%@.%@",
-						[path stringByDeletingLastPathComponent],
-						[movieName substringToIndex:digitRange.location],
-						idxNext,
-						[movieName substringFromIndex:digitRange.location+digitRange.length],
-						[path pathExtension]];
-			
-			// NSLog(@"Next File:%@", nextPath);
-			
-			BOOL isDir = YES;
-			if ((![[NSFileManager defaultManager] fileExistsAtPath:nextPath  isDirectory:&isDir]) || isDir) {
-				[nextPath release];
-				nextPath = nil;
+			// 如果文件后面有数字的话
+			if (digitRange.length) {
+				// 得到下一个想要播放的文件的index
+				idxNext = [NSString stringWithFormat:@"%d", [[movieName substringWithRange:digitRange] integerValue] + 1];
+				NSUInteger idxNextLen = [idxNext length];
+				
+				// 如果这个index的长度比上一个短，说明有padding
+				if (idxNextLen < digitRange.length) {
+					digitRange.location += (digitRange.length-idxNextLen);
+					digitRange.length = idxNextLen;
+				}
+				
+				nextPath = [[NSString alloc] initWithFormat:@"%@/%@%@%@.%@",
+							[path stringByDeletingLastPathComponent],
+							[movieName substringToIndex:digitRange.location],
+							idxNext,
+							[movieName substringFromIndex:digitRange.location+digitRange.length],
+							[path pathExtension]];
+				
+				// NSLog(@"Next File:%@", nextPath);
+				
+				isDir = YES;
+				if ((![[NSFileManager defaultManager] fileExistsAtPath:nextPath  isDirectory:&isDir]) || isDir) {
+					[nextPath release];
+					nextPath = nil;
+				} else {
+					break;
+				}
 			}
 		}
+		[pool release];
 	}
-	[pool release];
 	
 	return [nextPath autorelease];
 }
