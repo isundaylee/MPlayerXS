@@ -142,7 +142,7 @@ NSString * const kPMParSTPause			= @"-stpause";
 		assEnabled = YES;
 		frontColor = 0xFFFFFF00; //RRGGBBAA
 		borderColor = 0x0000000F; //RRGGBBAA
-		assForceStyle = [NSString stringWithString:@"BorderStyle=1,Outline=1"];
+		assForceStyle = [NSString stringWithString:@"BorderStyle=1,Outline=1,Fontsize=12,MarginV=2"];
 		
 		prefer64bMPlayer = YES;
 		guessSubCP = YES;
