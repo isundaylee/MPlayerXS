@@ -20,12 +20,13 @@
 
 #import "FloatWrapFormatter.h"
 
+NSString * const kFMTFloat1 = @"%.1f";
 
 @implementation FloatWrapFormatter
 
 - (NSString *)stringForObjectValue:(id)obj
 {
-	return [NSString stringWithFormat:@"%.1f", [obj floatValue]];
+	return [NSString stringWithFormat:kFMTFloat1, [obj floatValue]];
 }
 
 - (BOOL)getObjectValue:(out id *)obj forString:(NSString *)string errorDescription:(out NSString **)error

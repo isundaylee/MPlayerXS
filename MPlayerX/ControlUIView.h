@@ -79,7 +79,6 @@
 	IBOutlet NSMenuItem *menuToggleLetterBox;
 }
 
-@property (assign, readwrite) NSTimeInterval autoHideTimeInterval;
 @property (assign, readwrite) BOOL hintTimePrsOnAbs;
 @property (assign, readwrite) BOOL timeTextPrsOnRmn;
 

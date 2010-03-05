@@ -136,7 +136,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 			[dict retain];
 			[mpPathPair release];
 			mpPathPair = dict;
-		}		
+		}
 	} else {
 		[mpPathPair release];
 		mpPathPair = nil;

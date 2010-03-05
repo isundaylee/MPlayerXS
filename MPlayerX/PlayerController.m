@@ -512,14 +512,14 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 	{
 		// TODO 这里需要检查mediaFile是文件名还是 路径名
 		NSDictionary *fileAttr = [directoryEnumerator fileAttributes];
+		NSString *ext = [[mediaFile pathExtension] lowercaseString];
 		
 		if ([fileAttr objectForKey:NSFileType] == NSFileTypeDirectory) {
 			//不遍历子目录
 			[directoryEnumerator skipDescendants];
 
 		} else if ([[fileAttr objectForKey:NSFileType] isEqualToString: NSFileTypeRegular] &&
-					([supportVideoFormats containsObject:[[mediaFile pathExtension] lowercaseString]] ||
-					 [supportAudioFormats containsObject:[[mediaFile pathExtension] lowercaseString]])) {
+					([supportVideoFormats containsObject:ext] || [supportAudioFormats containsObject:ext])) {
 			// 如果是正常文件，并且是媒体文件
 			NSString *mediaName = [mediaFile stringByDeletingPathExtension];
 			

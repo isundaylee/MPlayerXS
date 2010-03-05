@@ -47,14 +47,13 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 #define PauseState	(NSOffState)
 
 @interface ControlUIView (ControlUIViewInternal)
-- (void) windowHasResized:(NSNotification *)notification;
+-(void) windowHasResized:(NSNotification *)notification;
 -(void) calculateHintTime;
 -(void) resetSubMenu;
 @end
 
 @implementation ControlUIView
 
-@synthesize autoHideTimeInterval;
 @synthesize hintTimePrsOnAbs;
 @synthesize timeTextPrsOnRmn;
 
@@ -143,7 +142,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[self loadButtonImages];
 
 	// 自动隐藏设定
-	shouldHide = NO;
 	[self refreshAutoHideTimer];
 	
 	// 从userdefault中获得default 音量值
@@ -514,9 +512,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		[menuToggleLockAspectRatio setEnabled:NO];
 	}
 
-	[hintTime.animator setAlphaValue:0];
-	
-	[osd setStringValue:nil owner:osd.owner updateTimer:NO];
+	[self windowHasResized:nil];
 }
 
 -(IBAction) toggleFillScreen:(id)sender
@@ -784,7 +780,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuSubScaleInc setEnabled:NO];
 	[menuSubScaleDec setEnabled:NO];
 	[menuPlayFromLastStoppedPlace setEnabled:NO];
-	[menuPlayFromLastStoppedPlace setTag:0];
 	
 	timeTextPrsOnRmn = [ud boolForKey:kUDKeySwitchTimeTextPressOnRemain];
 }
@@ -968,7 +963,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	float timeDisp = ((pt.x-frm.origin.x) * [timeSlider maxValue])/ frm.size.width;;
 
 	if ((([NSEvent modifierFlags] == kSCMSwitchTimeHintKeyModifierMask)?YES:NO) != hintTimePrsOnAbs) {
-		// 如果没有按cmd，显示时间差
+		// 如果没有按Fn，显示时间差
 		// 否则显示绝对时间
 		timeDisp -= [timeSlider floatValue];
 	}
