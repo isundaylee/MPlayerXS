@@ -71,7 +71,7 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 					   kMPCDefaultSubFontPath, kUDKeySubFontPath,
 					   [NSNumber numberWithBool:YES], kUDKeyPrefer64bitMPlayer,
 					   [NSNumber numberWithBool:YES], kUDKeyEnableMultiThread,
-					   [NSNumber numberWithFloat:1.5], kUDKeySubScale,
+					   [NSNumber numberWithFloat:2.0], kUDKeySubScale,
 					   [NSNumber numberWithFloat:0.1], kUDKeySubScaleStepValue,
 					   [NSNumber numberWithBool:NO], kUDKeyQuitOnClose,
 					   [NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:1.0 alpha:1.00]], kUDKeySubFontColor,
