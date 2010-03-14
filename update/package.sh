@@ -4,9 +4,9 @@ rm -Rf MPlayerX.app
 rm -Rf MPlayerX.zip
 rm -Rf ../../releases/MPlayerX.zip
 
-cp -r ../MPlayerX/build/Release/MPlayerX.app ./MPlayerX.app
+cp -R ../MPlayerX/build/Release/MPlayerX.app ./MPlayerX.app
 
-zip -r MPlayerX.zip MPlayerX.app > /dev/null
+zip -ry MPlayerX.zip MPlayerX.app > /dev/null
 
 ruby GetTime.rb "./MPlayerX.zip"
 echo
