@@ -54,7 +54,6 @@ extern NSString * const kUDKeyOSDFontSizeMin;
 extern NSString * const kUDKeyOSDFrontColor;
 extern NSString * const kUDKeyOSDAutoHideTime;
 extern NSString * const kUDKeyThreadNum;
-extern NSString * const kUDKeyFastDecoding;
 extern NSString * const kUDKeyUseEmbeddedFonts;
 extern NSString * const kUDKeyCacheSize;
 extern NSString * const kUDKeyPreferIPV6;

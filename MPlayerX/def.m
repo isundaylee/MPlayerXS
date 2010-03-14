@@ -54,7 +54,6 @@ NSString * const kUDKeyOSDFontSizeMin		= @"OSDFontSizeMin";
 NSString * const kUDKeyOSDFrontColor		= @"OSDFrontColor";
 NSString * const kUDKeyOSDAutoHideTime		= @"OSDAutoHideTime";
 NSString * const kUDKeyThreadNum			= @"NumberOfThreads";
-NSString * const kUDKeyFastDecoding			= @"FastDecoding";
 NSString * const kUDKeyUseEmbeddedFonts		= @"UseEmbeddedFonts";
 NSString * const kUDKeyCacheSize			= @"CacheSize";
 NSString * const kUDKeyPreferIPV6			= @"PreferIPV6";
