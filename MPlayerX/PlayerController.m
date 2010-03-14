@@ -81,7 +81,6 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 					   [NSNumber numberWithBool:NO], kUDKeyDTSPassThrough,
 					   [NSNumber numberWithBool:NO], kUDKeyAC3PassThrough,
 					   [NSNumber numberWithUnsignedInt:1], kUDKeyThreadNum,
-					   [NSNumber numberWithBool:NO], kUDKeyFastDecoding,
 					   [NSNumber numberWithBool:YES], kUDKeyUseEmbeddedFonts,
 					   [NSNumber numberWithUnsignedInt:1000], kUDKeyCacheSize,
 					   [NSNumber numberWithBool:YES], kUDKeyCloseWindowWhenStopped,
@@ -454,7 +453,6 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 	[mplayer.pm setSubNameRule:[ud integerForKey:kUDKeySubFileNameRule]];
 	[mplayer.pm setDtsPass:[ud boolForKey:kUDKeyDTSPassThrough]];
 	[mplayer.pm setAc3Pass:[ud boolForKey:kUDKeyAC3PassThrough]];
-	[mplayer.pm setFastDecoding:[ud boolForKey:kUDKeyFastDecoding]];
 	[mplayer.pm setUseEmbeddedFonts:[ud boolForKey:kUDKeyUseEmbeddedFonts]];
 	
 	[mplayer.pm setLetterBoxMode:[ud integerForKey:kUDKeyLetterBoxMode]];
