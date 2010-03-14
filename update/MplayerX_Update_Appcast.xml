@@ -6,20 +6,21 @@
       <description>MplayerX</description>
       <language>en</language>      
          <item>
-            <title>Version 0.9.7</title>
+            <title>Version 0.9.8</title>
 			<description><![CDATA[
-				<h3>MPlayerX needs your help for the new application icon.</h3>
-				<p>please go <a href="https://spreadsheets.google.com/viewform?formkey=dENZQ1dDSVY3OU5ZUWdDbHdlQTVYUUE6MA">here</a> for a poll</p>
-				<h2>MPlayerX 0.9.X</h2>
-				2010/XX/XX
+				<h2>MPlayerX 0.9.8</h2>
+				2010/03/14
 				<ul>
-					<li><strong>MPlayerX now has a brand-new Application Icon!! Thank you so much, Miloš Krsmanović</strong>, and for other contributers who sent me the propsal and voted, your attendance was deeply appreciated.</li>
+					<li><strong>new Application Icon</strong></li>
 					<li>pop up the player window when playing audio(it is not perfect but usable for the very first release, I will try to make a better solution)</li>
 					<li>Opened URLs will be saved</li>
 					<li>Pref:Pause when file opened</li>
+					<li>Auto Play Next is smarter to detect all the digit part in the file name</li>
 					<li>Bugfix:crash on some Macbook Pro with 9400M</li>
 					<li>Bugfix:font size of ssa subs and non-ssa subs are not consistent</li>
 					<li>Bugfix:Preference window is not located to the right position</li>
+					<li>Core:mplayer:r30880 ffmpeg:d62b7c0</li>
+					<li>pefrformance enhancement</li>
 				</ul>
 				<h2>MPlayerX 0.9.7</h2>
 				2010/02/13
@@ -83,12 +84,12 @@
 					<li>add change subtitle size while playing</li>
 				</ul>
             ]]></description>
-            <pubDate>Sat, 13 Feb 2010 20:41:01 +0900</pubDate>
+            <pubDate>Sun, 14 Mar 2010 12:44:25 +0900</pubDate>
             <enclosure url="http://mplayerx.googlecode.com/svn/releases/MPlayerX.zip"
-					   sparkle:version="0.9.7"
-					   length="21331432"
+					   sparkle:version="0.9.8"
+					   length="19821840"
 					   type="application/octet-stream"
-					   sparkle:dsaSignature="MCwCFAw2Sil0LlEW08SaC3FXAZlgtEW8AhQef4QyhdFpEM5+WD5yeZiEatZOgw==" />
+					   sparkle:dsaSignature="MC0CFQC/icaQ19qd+OsLHV6eXDvuj3QPsgIUcpQROEAUKajKTSLGPaH7jpNvlx4=" />
          </item>
    </channel>
 </rss>
