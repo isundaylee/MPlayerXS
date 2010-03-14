@@ -64,7 +64,6 @@ NSString * const kPMVal1				= @"1";
 NSString * const kPMParEmbeddedFonts	= @"-embeddedfonts";
 NSString * const kPMParLavdopts			= @"-lavdopts";
 NSString * const kPMFMTThreads			= @"threads=%d";
-NSString * const kPMValFastCoding		= @":fast:skiploopfilter=all";
 NSString * const kPMParAss				= @"-ass";
 NSString * const kPMParAssColor			= @"-ass-color";
 NSString * const kPMParAssFontScale		= @"-ass-font-scale";
@@ -115,7 +114,6 @@ NSString * const kPMParSTPause			= @"-stpause";
 @synthesize forceIndex;
 @synthesize dtsPass;
 @synthesize ac3Pass;
-@synthesize fastDecoding;
 @synthesize useEmbeddedFonts;
 @synthesize cache;
 @synthesize preferIPV6;
@@ -159,7 +157,6 @@ NSString * const kPMParSTPause			= @"-stpause";
 		forceIndex = NO;
 		dtsPass = NO;
 		ac3Pass = NO;
-		fastDecoding = NO;
 		useEmbeddedFonts = NO;
 		cache = 1000;
 		preferIPV6 = NO;
@@ -307,11 +304,7 @@ NSString * const kPMParSTPause			= @"-stpause";
 	}
 		
 	[paramArray addObject:kPMParLavdopts];
-	NSString *str = [NSString stringWithFormat: kPMFMTThreads, threads];
-	if (fastDecoding) {
-		str = [str stringByAppendingString:kPMValFastCoding];
-	}
-	[paramArray addObject:str];
+	[paramArray addObject:[NSString stringWithFormat: kPMFMTThreads, threads]];
 
 	if (assEnabled) {
 		[paramArray addObject:kPMParAss];

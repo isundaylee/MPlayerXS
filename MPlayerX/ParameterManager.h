@@ -84,7 +84,6 @@
 @property (assign, readwrite) BOOL forceIndex;
 @property (assign, readwrite) BOOL dtsPass;
 @property (assign, readwrite) BOOL ac3Pass;
-@property (assign, readwrite) BOOL fastDecoding;
 @property (assign, readwrite) BOOL useEmbeddedFonts;
 @property (assign, readwrite) unsigned int cache;
 @property (assign, readwrite) BOOL preferIPV6;
