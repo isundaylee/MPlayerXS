@@ -84,12 +84,12 @@
 					<li>add change subtitle size while playing</li>
 				</ul>
             ]]></description>
-            <pubDate>Sun, 14 Mar 2010 12:44:25 +0900</pubDate>
+            <pubDate>Sun, 14 Mar 2010 13:27:37 +0900</pubDate>
             <enclosure url="http://mplayerx.googlecode.com/svn/releases/MPlayerX.zip"
 					   sparkle:version="0.9.8"
-					   length="19821840"
+					   length="17713879"
 					   type="application/octet-stream"
-					   sparkle:dsaSignature="MC0CFQC/icaQ19qd+OsLHV6eXDvuj3QPsgIUcpQROEAUKajKTSLGPaH7jpNvlx4=" />
+					   sparkle:dsaSignature="MC0CFQCiUAwe4K2SDO4M2Valf9Ck6x4UjgIUPozaSwtb98blu0VbkQoG3J+c300=" />
          </item>
    </channel>
 </rss>
