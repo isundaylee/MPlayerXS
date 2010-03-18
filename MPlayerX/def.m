@@ -70,8 +70,10 @@ NSString * const kUDKeyPlayWhenOpened		= @"PlayWhenOpened";
 NSString * const kUDKeyDebugEnableOpenURL	= @"DebugEnableOpenURL";
 NSString * const kUDKeySelectedPrefView		= @"SelectedPrefView";
 NSString * const kUDKeyHelpURL				= @"HelpURL";
-NSString * const kUDKeyCloseWindowWhenStopped	= @"CloseOnStopped";
-
+NSString * const kUDKeyCloseWindowWhenStopped				= @"CloseOnStopped";
+NSString * const kUDKeyTextSubtitleCharsetConfidenceThresh	= @"TextSubCharsetConfidenceThresh";
+NSString * const kUDKeyTextSubtitleCharsetManual	= @"TextSubCharsetManual";
+NSString * const kUDKeyTextSubtitleCharsetFallback	= @"TextSubCharsetFallback";
 
 NSString * const kSCMVolumeUpKeyEquivalent		= @"=";
 NSString * const kSCMVolumeDownKeyEquivalent	= @"-";

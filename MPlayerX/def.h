@@ -66,6 +66,9 @@ extern NSString * const kUDKeyVideoTunerStepValue;
 extern NSString * const kUDKeyARKeyRepeatTimeInterval;
 extern NSString * const kUDKeyARKeyRepeatTimeIntervalLong;
 extern NSString * const kUDKeyPlayWhenOpened;
+extern NSString * const kUDKeyTextSubtitleCharsetConfidenceThresh;
+extern NSString * const kUDKeyTextSubtitleCharsetManual;
+extern NSString * const kUDKeyTextSubtitleCharsetFallback;
 
 extern NSString * const kUDKeyDebugEnableOpenURL;
 extern NSString * const kUDKeySelectedPrefView;
