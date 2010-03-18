@@ -122,25 +122,28 @@ NSString * const kWorkDirSubDir = @"Subs";
 		if (enc) {
 			// 如果能够得到编码字符串，先转换为CF格式
 			CFStringEncoding ce = CFStringConvertIANACharSetNameToEncoding((CFStringRef)enc);
-
-			subPathNew = [subDir stringByAppendingPathComponent:[subPathOld lastPathComponent]];
-			
-			// 因为有可能会有重名的情况，所以这里要找到合适的文件名
-			isDir = YES;
-			idx = 0;
-			ext = [subPathNew pathExtension];
-			prefix = [subPathNew stringByDeletingPathExtension];
-			
-			while([fm fileExistsAtPath:subPathNew isDirectory:&isDir] && (!isDir)) {
-				// 如果该文件存在那么就寻找下一个不存在的文件名
-				subPathNew = [prefix stringByAppendingFormat:@".mpx.%d.%@", idx++, ext];
-			}
 			
 			if (ce != kCFStringEncodingInvalidId) {
+				// 先根据本来的文件名得到workDir的文件路径
+				subPathNew = [subDir stringByAppendingPathComponent:[subPathOld lastPathComponent]];
+				
+				// 因为有可能会有重名的情况，所以这里要找到合适的文件名
+				isDir = YES;
+				idx = 0;
+				ext = [subPathNew pathExtension];
+				prefix = [subPathNew stringByDeletingPathExtension];
+				
+				// 因为有重名的可能性，所以要找到一个不重复的文件名
+				while([fm fileExistsAtPath:subPathNew isDirectory:&isDir] && (!isDir)) {
+					// 如果该文件存在那么就寻找下一个不存在的文件名
+					subPathNew = [prefix stringByAppendingFormat:@".mpx.%d.%@", idx++, ext];
+				}
+				
 				// CP949据说总会fallback到EUC_KR，这里把它回到CP949(kCFStringEncodingDOSKorean)
 				if ((ce == kCFStringEncodingMacKorean) || (ce == kCFStringEncodingEUC_KR)) {
 					ce = kCFStringEncodingDOSKorean;
 				}
+				
 				// 如果合法就转码
 				NSStringEncoding ne = CFStringConvertEncodingToNSStringEncoding(ce);
 				
@@ -155,14 +158,6 @@ NSString * const kWorkDirSubDir = @"Subs";
 						[newSubs addObject:subPathNew];
 						continue;
 					}
-				}
-			}
-			isDir = YES;
-			if ([fm fileExistsAtPath:subPathOld isDirectory:&isDir] && (!isDir)) {
-				// 文件确实存在
-				if ([fm copyItemAtPath:subPathOld toPath:subPathNew error:NULL]) {
-					// 拷贝成功的话
-					[newSubs addObject:subPathNew];
 				}
 			}
 		}
@@ -234,12 +229,9 @@ NSString * const kWorkDirSubDir = @"Subs";
 				}
 				
 				if (cpStr) {
-					// 如果猜出来了，不管有多少的确认率
 					[subEncDict setObject:[cpStr uppercaseString] forKey:subPath];
-				} else {
-					// 如果没有猜出来，那么设为空
-					[subEncDict setObject:@"" forKey:subPath];
 				}
+				
 				[detector reset];				
 			} else if (vobPath && [ext isEqualToString:@"sub"]) {
 				// 如果是vobsub并且设定要寻找vobsub
