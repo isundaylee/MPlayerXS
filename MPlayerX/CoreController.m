@@ -351,6 +351,11 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 	[subConv setWorkDirectory:wd];
 }
 
+-(void) setSubConverterDelegate:(id<SubConverterDelegate>)dlgt
+{
+	[subConv setDelegate:dlgt];
+}
+
 -(void) getCurrentTime:(NSTimer*)theTimer
 {
 	if (state == kMPCPlayingState) {

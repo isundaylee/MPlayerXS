@@ -78,6 +78,8 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 @property (readonly)			LogAnalyzer *la;
 @property (assign, readwrite)	id<CoreDisplayDelegate> dispDelegate;
 
+-(void) setSubConverterDelegate:(id<SubConverterDelegate>)dlgt;
+
 -(void) setWorkDirectory:(NSString*) wd;
 
 -(void) playMedia:(NSString*)moviePath;
