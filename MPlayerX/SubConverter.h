@@ -21,15 +21,23 @@
 #import <Cocoa/Cocoa.h>
 #import "coredef_private.h"
 
+@protocol SubConverterDelegate
+/** \return 返回值需要符合IANA标准, 或者nil不改变当前值 */
+-(NSString*) subConverter:(SubConverter*)subConv detectedFile:(NSString*)path ofCharsetName:(NSString*)charsetName confidence:(float)confidence;
+@end
+
 @class UniversalDetector;
 
 @interface SubConverter : NSObject
 {
+	id<SubConverterDelegate> delegate;
+	
 	NSSet *textSubFileExts;
 	NSString *workDirectory;
 	
 	UniversalDetector *detector;
 }
+@property (readwrite, assign) id<SubConverterDelegate> delegate;
 
 -(void) setWorkDirectory:(NSString *)wd;
 

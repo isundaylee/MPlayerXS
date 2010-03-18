@@ -25,9 +25,12 @@ NSString * const kWorkDirSubDir = @"Subs";
 
 @implementation SubConverter
 
+@synthesize delegate;
+ 
 -(id) init
 {
 	if (self = [super init]) {
+		delegate = nil;
 		textSubFileExts = [[NSSet alloc] initWithObjects:@"utf", @"utf8", @"srt", @"ass", @"smi", @"txt", @"ssa", @"smil", @"jss", @"rt", nil];
 		workDirectory = nil;
 		detector = [[UniversalDetector alloc] init];
@@ -70,7 +73,15 @@ NSString * const kWorkDirSubDir = @"Subs";
 		[textSubFileExts containsObject:[[path pathExtension] lowercaseString]]) {
 
 		[detector analyzeContentsOfFile:path];
-		cpStr = [[detector MIMECharset] retain];
+		cpStr = [detector MIMECharset];
+		
+		if (delegate) {
+			NSString *cpPrefer = [delegate subConverter:self detectedFile:path ofCharsetName:cpStr confidence:[detecter confidence];
+			if (cpPrefer && (cpPrefer != cpStr)) {
+				cpStr = cpPrefer;
+			}
+		}
+		[cpStr retain];
 		[detector reset];
 	}
 	return [cpStr autorelease];
@@ -214,6 +225,13 @@ NSString * const kWorkDirSubDir = @"Subs";
 				[detector analyzeContentsOfFile: subPath];
 				
 				cpStr = [detector MIMECharset];
+
+				if (delegate) {
+					NSString *cpPrefer = [delegate subConverter:self detectedFile:subPath ofCharsetName:cpStr confidence:[detecter confidence];
+					if (cpPrefer && (cpPrefer != cpStr)) {
+						cpStr = cpPrefer;
+					}
+				}
 				
 				if (cpStr) {
 					// 如果猜出来了，不管有多少的确认率
