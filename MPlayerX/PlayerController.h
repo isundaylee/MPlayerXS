@@ -23,7 +23,7 @@
 
 @class ControlUIView, OpenURLController;
 
-@interface PlayerController : NSObject <NSApplicationDelegate>
+@interface PlayerController : NSObject <NSApplicationDelegate, SubConverterDelegate>
 {
 	NSUserDefaults *ud;
 	NSNotificationCenter *notifCenter;
@@ -45,7 +45,7 @@
 
 @property (readonly) NSURL *lastPlayedPath;
 
--(void) setDelegateForMPlayer:(id<CoreDisplayDelegate>) delegate;
+-(void) setDisplayDelegateForMPlayer:(id<CoreDisplayDelegate>) delegate;
 -(int) playerState;
 -(BOOL) couldAcceptCommand;
 

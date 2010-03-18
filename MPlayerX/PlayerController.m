@@ -53,10 +53,16 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 -(void) mplayerStarted:(NSNotification *)notification;
 -(void) mplayerStopped:(NSNotification *)notification;
 -(void) mplayerWillStop:(NSNotification *)notification;
+@end
 
+@interface PlayerController (PlayerControllerInternal)
 -(void) preventSystemSleep;
 -(void) playMedia:(NSURL*)url;
 -(NSURL*) findFirstMediaFileFromSubFile:(NSString*)path;
+@end
+
+@interface PlayerController (SubConverterDelegate)
+-(NSString*) subConverter:(SubConverter*)subConv detectedFile:(NSString*)path ofCharsetName:(NSString*)charsetName confidence:(float)confidence;
 @end
 
 @implementation PlayerController
@@ -242,6 +248,8 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 	}
 	[mplayer setWorkDirectory:workDir];
 	
+	[mplayer setSubConverterDelegate:self];
+	
 	// 开启Timer防止睡眠
 	NSTimer *prevSlpTimer = [NSTimer timerWithTimeInterval:20 
 													target:self
@@ -328,7 +336,7 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 	}
 }
 
--(void) setDelegateForMPlayer:(id<CoreDisplayDelegate>) delegate
+-(void) setDisplayDelegateForMPlayer:(id<CoreDisplayDelegate>) delegate
 {
 	[mplayer setDispDelegate:delegate];
 }
@@ -341,6 +349,11 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 -(BOOL) couldAcceptCommand
 {
 	return PlayerCouldAcceptCommand;
+}
+
+-(NSString*) subConverter:(SubConverter*)subConv detectedFile:(NSString*)path ofCharsetName:(NSString*)charsetName confidence:(float)confidence
+{
+	return nil;
 }
 
 -(void) loadFiles:(NSArray*)files fromLocal:(BOOL)local

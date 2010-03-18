@@ -124,7 +124,7 @@
 	[dispLayer setPosition:CGPointMake(root.bounds.size.width/2, root.bounds.size.height/2)];
 	
 	// 通知dispView接受mplayer的渲染通知
-	[playerController setDelegateForMPlayer:self];
+	[playerController setDisplayDelegateForMPlayer:self];
 	
 	// 默认的全屏的DisplayID
 	fullScrnDevID = [[[[playerWindow screen] deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
