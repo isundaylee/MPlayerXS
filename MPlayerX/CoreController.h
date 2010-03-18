@@ -76,7 +76,6 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 @property (readonly)			MovieInfo *movieInfo;
 @property (retain, readwrite)	ParameterManager *pm;
 @property (readonly)			LogAnalyzer *la;
-@property (readonly)			SubConverter *subConv;
 @property (assign, readwrite)	id<CoreDisplayDelegate> dispDelegate;
 
 -(void) setWorkDirectory:(NSString*) wd;

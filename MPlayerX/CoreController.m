@@ -76,7 +76,6 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 @synthesize movieInfo;
 @synthesize mpPathPair;
 @synthesize la;
-@synthesize subConv;
 
 ///////////////////////////////////////////Init/Dealloc////////////////////////////////////////////////////////
 -(id) init
