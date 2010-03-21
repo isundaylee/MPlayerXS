@@ -27,6 +27,7 @@
 #import <Sparkle/Sparkle.h>
 #import "OpenURLController.h"
 #import "RootLayerView.h"
+#import "CharsetQueryController.h"
 
 NSString * const kObservedValueStringSpeed		= @"movieInfo.playingInfo.speed";
 NSString * const kObservedValueStringSubDelay	= @"movieInfo.playingInfo.subDelay";
@@ -88,7 +89,7 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 					   [NSNumber numberWithBool:NO], kUDKeyAC3PassThrough,
 					   [NSNumber numberWithUnsignedInt:1], kUDKeyThreadNum,
 					   [NSNumber numberWithBool:YES], kUDKeyUseEmbeddedFonts,
-					   [NSNumber numberWithUnsignedInt:1000], kUDKeyCacheSize,
+					   [NSNumber numberWithUnsignedInt:5000], kUDKeyCacheSize,
 					   [NSNumber numberWithBool:YES], kUDKeyCloseWindowWhenStopped,
 					   [NSNumber numberWithBool:YES], kUDKeyPreferIPV6,
 					   [NSNumber numberWithBool:NO], kUDKeyCachingLocal,
@@ -353,7 +354,22 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 
 -(NSString*) subConverter:(SubConverter*)subConv detectedFile:(NSString*)path ofCharsetName:(NSString*)charsetName confidence:(float)confidence
 {
-	return nil;
+	NSString *ret = nil;
+	
+	if (confidence <= [ud floatForKey:kUDKeyTextSubtitleCharsetConfidenceThresh]) {
+		// 当置信率小于阈值时
+		CFStringEncoding ce;
+		
+		if ([ud boolForKey:kUDKeyTextSubtitleCharsetManual]) {
+			// 如果是手动指定的话
+			ce = [charsetController askForSubEncodingForFile:path charsetName:charsetName confidence:confidence];
+		} else {
+			// 如果是自动fallback
+			ce = [ud integerForKey:kUDKeyTextSubtitleCharsetFallback];
+		}
+		ret = (NSString*)CFStringConvertEncodingToIANACharSetName(ce);
+	}
+	return ret;
 }
 
 -(void) loadFiles:(NSArray*)files fromLocal:(BOOL)local

@@ -41,6 +41,7 @@
     IBOutlet PlayerController *playerController;
     IBOutlet RootLayerView *dispView;
 	IBOutlet ControlUIView *controlUI;
+	IBOutlet NSPopUpButton *charsetListPopup;
 }
 
 -(IBAction) showUI:(id)sender;
@@ -55,5 +56,6 @@
 -(IBAction) checkCacheFormat:(id)sender;
 -(IBAction) fullscreenModeChanged:(id)sender;
 -(IBAction) letterBoxModeChanged:(id)sender;
+-(IBAction) subEncodingSchemeChanged:(id)sender;
 
 @end

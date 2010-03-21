@@ -24,6 +24,7 @@
 #import "PlayerController.h"
 #import "RootLayerView.h"
 #import "ControlUIView.h"
+#import "CocoaAppendix.h"
 
 NSString * const PrefToolBarItemIdGeneral	= @"TBIGeneral";
 NSString * const PrefToolBarItemIdVideo		= @"TBIVideo";
@@ -62,7 +63,28 @@ NSString * const PrefToolbarItemIdNetwork	= @"TBINetwork";
 {
 	if (!nibLoaded) {
 		[NSBundle loadNibNamed:@"Pref" owner:self];
+		
+		[[charsetListPopup menu] removeAllItems];
+		
+		NSMenuItem *mItem;
+		mItem = [[NSMenuItem alloc] init];
+		[mItem setTitle:kMPXStringTextSubEncManual];
+		[mItem setTag:kCFStringEncodingInvalidId];
+		[mItem setEnabled:YES];
+		[[charsetListPopup menu] addItem:mItem];
 
+		[[charsetListPopup menu] addItem:[NSMenuItem separatorItem]];
+
+		[[charsetListPopup menu] appendCharsetList];
+
+		if ([ud boolForKey:kUDKeyTextSubtitleCharsetManual]) {
+			[charsetListPopup selectItem:mItem];
+		} else {
+			[charsetListPopup selectItem:[[charsetListPopup menu] itemWithTag:[ud integerForKey:kUDKeyTextSubtitleCharsetFallback]]];
+		}
+
+		[mItem release];
+		
 		CGFloat winH = [prefWin frame].size.height;
 		
 		prefViews = [[NSArray alloc] initWithObjects:viewGeneral, viewVideo, viewAudio, viewSub, viewNetwork, nil];
@@ -175,6 +197,19 @@ NSString * const PrefToolbarItemIdNetwork	= @"TBINetwork";
 	// 更新menu
 	[controlUI toggleLetterBox:nil];
 }
+
+-(IBAction) subEncodingSchemeChanged:(id)sender
+{
+	NSInteger tag = [[charsetListPopup selectedItem] tag];
+	
+	if (tag == kCFStringEncodingInvalidId) {
+		[ud setBool:YES forKey:kUDKeyTextSubtitleCharsetManual];
+	} else {
+		[ud setBool:NO forKey:kUDKeyTextSubtitleCharsetManual];
+		[ud setInteger:tag forKey:kUDKeyTextSubtitleCharsetFallback];
+	}
+}
+
 /////////////////////////////Toolbar Delegate/////////////////////
 /*
  * 如何添加新的Pref View

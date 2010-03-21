@@ -21,7 +21,7 @@
 #import <Cocoa/Cocoa.h>
 #import "CoreController.h"
 
-@class ControlUIView, OpenURLController;
+@class ControlUIView, OpenURLController, CharsetQueryController;
 
 @interface PlayerController : NSObject <NSApplicationDelegate, SubConverterDelegate>
 {
@@ -41,6 +41,7 @@
 	IBOutlet ControlUIView *controlUI;
 	IBOutlet NSTextField *aboutText;
 	IBOutlet OpenURLController *openUrlController;
+	IBOutlet CharsetQueryController *charsetController;
 }
 
 @property (readonly) NSURL *lastPlayedPath;
