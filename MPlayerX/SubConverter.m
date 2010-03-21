@@ -76,7 +76,7 @@ NSString * const kWorkDirSubDir = @"Subs";
 		cpStr = [detector MIMECharset];
 		
 		if (delegate) {
-			NSString *cpPrefer = [delegate subConverter:self detectedFile:path ofCharsetName:cpStr confidence:[detecter confidence];
+			NSString *cpPrefer = [delegate subConverter:self detectedFile:path ofCharsetName:cpStr confidence:[detector confidence]];
 			if (cpPrefer && (cpPrefer != cpStr)) {
 				cpStr = cpPrefer;
 			}
@@ -222,7 +222,7 @@ NSString * const kWorkDirSubDir = @"Subs";
 				cpStr = [detector MIMECharset];
 
 				if (delegate) {
-					NSString *cpPrefer = [delegate subConverter:self detectedFile:subPath ofCharsetName:cpStr confidence:[detecter confidence];
+					NSString *cpPrefer = [delegate subConverter:self detectedFile:subPath ofCharsetName:cpStr confidence:[detector confidence]];
 					if (cpPrefer && (cpPrefer != cpStr)) {
 						cpStr = cpPrefer;
 					}
