@@ -12,8 +12,8 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="594"/>
 			<integer value="371"/>
+			<integer value="594"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3902,11 +3902,13 @@ IEljb24KTWlsb8WhIEtyc21hbm92acSHA</string>
 							<string>onTopModeChanged:</string>
 							<string>osdSetChanged:</string>
 							<string>showUI:</string>
+							<string>subEncodingSchemeChanged:</string>
 							<string>switchViews:</string>
 							<string>timeTextModeChanged:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3924,6 +3926,7 @@ IEljb24KTWlsb8WhIEtyc21hbm92acSHA</string>
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>charsetListPopup</string>
 							<string>controlUI</string>
 							<string>dispView</string>
 							<string>playerController</string>
@@ -3937,6 +3940,7 @@ IEljb24KTWlsb8WhIEtyc21hbm92acSHA</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSPopUpButton</string>
 							<string>ControlUIView</string>
 							<string>RootLayerView</string>
 							<string>PlayerController</string>
