@@ -28,7 +28,6 @@
 	IBOutlet NSPopUpButton *charsetListPopup;
 	
 	IBOutlet NSWindow *encodingWindow;
-	IBOutlet NSWindow *playerWindow;
 }
 
 -(CFStringEncoding) askForSubEncodingForFile:(NSString*)path charsetName:(NSString*)charsetName confidence:(float)conf;
