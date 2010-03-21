@@ -30,6 +30,7 @@
 	 [NSDictionary dictionaryWithObjectsAndKeys:
 	  [NSNumber numberWithFloat:0.8], kUDKeyTextSubtitleCharsetConfidenceThresh,
 	  [NSNumber numberWithBool:YES], kUDKeyTextSubtitleCharsetManual,
+	  [NSNumber numberWithInteger:kCFStringEncodingInvalidId], kUDKeyTextSubtitleCharsetFallback,
 	  nil]];
 }
 
@@ -56,9 +57,21 @@
 		[[charsetListPopup menu] removeAllItems];
 		[[charsetListPopup menu] appendCharsetList];
 	}
-	[outputText setStringValue:[NSString stringWithFormat:@"Detected file:%@\nEncoding:%@\nconfidence:%f", 
-								[path lastPathComponent], charsetName, conf]];
 	
+	[outputText setStringValue:[NSString stringWithFormat:@"Detected file: %@\nEncoding: %@\nconfidence: %2.1f%%", 
+								[path lastPathComponent], charsetName, conf*100.0]];
+	
+	CFStringEncoding ce = CFStringConvertIANACharSetNameToEncoding((CFStringRef)charsetName);
+	
+	if (ce != kCFStringEncodingInvalidId) {
+		// 如果charset的返回值是合法的
+		NSMenuItem *item = [[charsetListPopup menu] itemWithTag:ce];
+		
+		if (item) {
+			// 如果能在menu里面找到相应的item，那么就选中这个item
+			[charsetListPopup selectItem:item];
+		}
+	}
 	return [NSApp runModalForWindow:encodingWindow];
 }
 
