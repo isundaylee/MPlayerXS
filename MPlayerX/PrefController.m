@@ -68,7 +68,7 @@ NSString * const PrefToolbarItemIdNetwork	= @"TBINetwork";
 		
 		NSMenuItem *mItem;
 		mItem = [[NSMenuItem alloc] init];
-		[mItem setTitle:kMPXStringTextSubEncManual];
+		[mItem setTitle:kMPXStringTextSubEncAskMe];
 		[mItem setTag:kCFStringEncodingInvalidId];
 		[mItem setEnabled:YES];
 		[[charsetListPopup menu] addItem:mItem];
