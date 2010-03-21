@@ -19,6 +19,7 @@
  */
 
 #import "ParameterManager.h"
+#import "CocoaAppendix.h"
 
 NSString * const kPMDefaultFontPath = @"/System/Library/Fonts/HelveticaNeue.ttc";
 
@@ -84,17 +85,6 @@ NSString * const kPMParSTPause			= @"-stpause";
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
 #define kSubScaleNoAss		(4.0)
-
-@implementation NSColor (MPXAdditional)
--(uint32) convertToHex
-{
-	NSColor *col = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	return ((((uint32)(255 * [col redComponent]))  <<24) + 
-		     (((uint32)(255 * [col greenComponent]))<<16) + 
-			 (((uint32)(255 * [col blueComponent])) <<8)  +
-			  ((uint32)(255 * (1-[col alphaComponent]))));
-}
-@end
 
 @implementation ParameterManager
 
