@@ -882,7 +882,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[mItem setTag:-1];
 	[mItem setState:NSOffState];
 	[subListMenu addItem:mItem];
-	[mItem autorelease];	
+	[mItem release];	
 }
 
 -(void) gotSubInfo:(NSArray*) subs changed:(int)changeKind
@@ -906,7 +906,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 			[mItem setTag:idx];
 			[mItem setState:NSOffState];
 			[subListMenu insertItem:mItem atIndex:idx];
-			[mItem autorelease];
+			[mItem release];
 			idx++;
 		}
 		
