@@ -53,7 +53,7 @@
 		nibLoaded = YES;
 	}
 	
-	[outputText setStringValue:[NSString stringWithFormat:@"Detected file: %@\nEncoding: %@ with confidence: %2.1f%%", 
+	[outputText setStringValue:[NSString stringWithFormat:@"Detected file:\t%@\nEncoding:\t\t%@\nconfidence:\t%2.1f%%", 
 								[path lastPathComponent], charsetName, conf*100.0]];
 	
 	CFStringEncoding ce = CFStringConvertIANACharSetNameToEncoding((CFStringRef)charsetName);
