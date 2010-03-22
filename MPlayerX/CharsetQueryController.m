@@ -42,23 +42,18 @@
 	return self;
 }
 
--(void) dealloc
-{	
-	[super dealloc];
-}
-
 -(CFStringEncoding) askForSubEncodingForFile:(NSString*)path charsetName:(NSString*)charsetName confidence:(float)conf
 {
 	if (!nibLoaded) {
-		nibLoaded = YES;
-		
 		[NSBundle loadNibNamed:@"SubEncoding" owner:self];
 		
 		[[charsetListPopup menu] removeAllItems];
 		[[charsetListPopup menu] appendCharsetList];
+		
+		nibLoaded = YES;
 	}
 	
-	[outputText setStringValue:[NSString stringWithFormat:@"Detected file: %@\nEncoding: %@\nconfidence: %2.1f%%", 
+	[outputText setStringValue:[NSString stringWithFormat:@"Detected file: %@\nEncoding: %@ with confidence: %2.1f%%", 
 								[path lastPathComponent], charsetName, conf*100.0]];
 	
 	CFStringEncoding ce = CFStringConvertIANACharSetNameToEncoding((CFStringRef)charsetName);
