@@ -229,7 +229,7 @@ NSString * const kWorkDirSubDir = @"Subs";
 				}
 				
 				if (cpStr) {
-					[subEncDict setObject:[cpStr uppercaseString] forKey:subPath];
+					[subEncDict setObject:cpStr forKey:subPath];
 				}
 				
 				[detector reset];				
