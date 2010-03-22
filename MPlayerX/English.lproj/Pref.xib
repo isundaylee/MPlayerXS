@@ -1418,7 +1418,7 @@ Z2dsZSBiZXR3ZWVuIGVsYXBzZWQvcmVtYWluaW5nIHRpbWU</string>
 										<object class="NSTextFieldCell" key="NSCell" id="336991185">
 											<int key="NSCellFlags">67239424</int>
 											<int key="NSCellFlags2">272760832</int>
-											<string key="NSContents">Set the confidence threshold to 100% could disable auto detection for the text encoding, however it is not recommended.</string>
+											<string key="NSContents">Set confidence threshold to 100% could disable auto detection of the text encoding, but it is not recommended.</string>
 											<reference key="NSSupport" ref="26"/>
 											<reference key="NSControlView" ref="578438192"/>
 											<reference key="NSBackgroundColor" ref="592303529"/>
