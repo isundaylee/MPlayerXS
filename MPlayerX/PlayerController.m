@@ -400,13 +400,14 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 					
 					if ([fm fileExistsAtPath:path isDirectory:&isDir] && (!isDir)) {
 						// 如果文件存在
-						if ([supportVideoFormats containsObject:[[path pathExtension] lowercaseString]] ||
-							[supportAudioFormats containsObject:[[path pathExtension] lowercaseString]]) {
+						NSString *ext = [[path pathExtension] lowercaseString];
+						
+						if ([supportVideoFormats containsObject:ext] || [supportAudioFormats containsObject:ext]) {
 							// 如果是支持的格式
 							[self playMedia:file];
 							break;
 							
-						} else if ([supportSubFormats containsObject:[[path pathExtension] lowercaseString]]) {
+						} else if ([supportSubFormats containsObject:ext]) {
 							// 如果是字幕文件
 							if (PlayerCouldAcceptCommand) {
 								// 如果是在播放状态，就加载字幕
