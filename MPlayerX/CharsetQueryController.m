@@ -21,6 +21,7 @@
 #import "CharsetQueryController.h"
 #import "CocoaAppendix.h"
 #import "def.h"
+#import "LocalizedStrings.h"
 
 @implementation CharsetQueryController
 
@@ -53,8 +54,7 @@
 		nibLoaded = YES;
 	}
 	
-	[outputText setStringValue:[NSString stringWithFormat:@"Detected file:\t%@\nEncoding:\t\t%@\nconfidence:\t%2.1f%%", 
-								[path lastPathComponent], charsetName, conf*100.0]];
+	[outputText setStringValue:[NSString stringWithFormat:kMPXStringSubEncQueryResult, [path lastPathComponent], charsetName, conf*100.0]];
 	
 	CFStringEncoding ce = CFStringConvertIANACharSetNameToEncoding((CFStringRef)charsetName);
 	

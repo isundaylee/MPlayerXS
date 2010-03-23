@@ -54,5 +54,6 @@
 #define kMPXStringMenuShowLetterBox		(NSLocalizedString(@"Show LetterBox", @"menu"))
 #define kMPXStringMenuHideLetterBox		(NSLocalizedString(@"Hide LetterBox", @"menu"))
 #define kMPXStringURLPanelClearMenu		(NSLocalizedString(@"Clear Menu...", @"open url panel"))
+#define kMPXStringSubEncQueryResult		(NSLocalizedString(@"Detected file:\t%@\nEncoding:\t\t%@\nconfidence:\t%2.1f%%", @"SubEncoding"))
 
 #define kMPXStringTextSubEncAskMe		(NSLocalizedString(@"Ask me", @"preference"))
