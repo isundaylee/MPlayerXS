@@ -158,11 +158,12 @@
 						[playerController setSubDelay:0];
 						break;
 					case kSCMFullScrnShortcutKey:
-						[controlUI performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
-																	 windowNumber:0 context:nil
-																	   characters:kSCMFullScrnKeyEquivalent
-													  charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
-																		isARepeat:NO keyCode:0]];
+						ret = [controlUI performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0)
+																		  modifierFlags:0 timestamp:0
+																		   windowNumber:0 context:nil
+																			 characters:kSCMFullScrnKeyEquivalent
+															charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
+																			  isARepeat:NO keyCode:0]];
 						break;
 					default:
 						ret = NO;
