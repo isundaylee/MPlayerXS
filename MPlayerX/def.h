@@ -85,26 +85,38 @@ extern NSString * const kSCMSnapShotKeyEquivalent;
 extern NSString * const kSCMMuteKeyEquivalent;
 extern NSString * const kSCMPlayPauseKeyEquivalent;
 extern NSString * const kSCMFullScrnKeyEquivalent;
+#define kSCMFullScrnShortcutKey		('f')
+
 extern NSString * const kSCMFillScrnKeyEquivalent;
 extern NSString * const kSCMAcceControlKeyEquivalent;
 
 extern NSString * const kSCMSubScaleIncreaseKeyEquivalent;
-#define kSCMSubScaleIncreaseKeyEquivalentModifierFlagMask	(NSCommandKeyMask)
+#define kSCMSubScaleIncreaseKeyEquivalentModifierFlagMask		(NSCommandKeyMask)
 extern NSString * const kSCMSubScaleDecreaseKeyEquivalent;
-#define kSCMSubScaleDecreaseKeyEquivalentModifierFlagMask	(NSCommandKeyMask)
+#define kSCMSubScaleDecreaseKeyEquivalentModifierFlagMask		(NSCommandKeyMask)
 
 extern NSString * const kSCMPlayFromLastStoppedKeyEquivalent;
 #define kSCMPlayFromLastStoppedKeyEquivalentModifierFlagMask	(NSShiftKeyMask)
 
-#define kSCMDragSubPosModifierFlagMask			(NSCommandKeyMask)
-#define kSCMDragAudioBalanceModifierFlagMask	(NSAlternateKeyMask)
+#define kSCMDragSubPosModifierFlagMask							(NSCommandKeyMask)
+#define kSCMDragAudioBalanceModifierFlagMask					(NSAlternateKeyMask)
 
 extern NSString * const kSCMToggleLockAspectRatioKeyEquivalent;
 
 extern NSString * const kSCMResetLockAspectRatioKeyEquivalent;
-#define kSCMResetLockAspectRatioKeyEquivalentModifierFlagMask		(NSShiftKeyMask)
+#define kSCMResetLockAspectRatioKeyEquivalentModifierFlagMask	(NSShiftKeyMask)
 
 extern NSString * const kSCMVideoTunerPanelKeyEquivalent;
-#define kSCMVideoTunerPanelKeyEquivalentModifierFlagMask	(NSShiftKeyMask|NSCommandKeyMask)
+#define kSCMVideoTunerPanelKeyEquivalentModifierFlagMask		(NSShiftKeyMask|NSCommandKeyMask)
 
 extern NSString * const kSCMToggleLetterBoxKeyEquivalent;
+
+#define kSCMPlaybackSpeedUpShortcutKey		('[')
+#deifne kSCMPlaybackSpeedDownShortcutKey	('[')
+
+#deifne kSCMAudioDelayPlusShortcutKey		('q')
+#deifne kSCMAudioDelayMinusShortcutKey		('z')
+
+#deifne kSCMSubDelayPlusShortcutKey			('w')
+#deifne kSCMSubDelayMinusShortcutKey		('x')
+

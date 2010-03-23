@@ -157,6 +157,13 @@
 					case NSLeftArrowFunctionKey:
 						[playerController setSubDelay:0];
 						break;
+					case kSCMFullScrnShortcutKey:
+						[controlUI performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
+																	 windowNumber:0 context:nil
+																	   characters:kSCMFullScrnKeyEquivalent
+													  charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
+																		isARepeat:NO keyCode:0]];
+						break;
 					default:
 						ret = NO;
 						break;
@@ -176,6 +183,24 @@
 						break;
 					case NSDownArrowFunctionKey:
 						[controlUI changeTimeBy:-seekStepTimeUB];
+						break;
+					case kSCMPlaybackSpeedUpShortcutKey:
+						[playerController changeSpeedBy:speedStepIncre];
+						break;
+					case kSCMPlaybackSpeedDownShortcutKey:
+						[playerController changeSpeedBy:-speedStepIncre];
+						break;
+					case kSCMAudioDelayPlusShortcutKey:
+						[playerController changeAudioDelayBy:audioDelayStepTime];
+						break;
+					case kSCMAudioDelayMinusShortcutKey:
+						[playerController changeAudioDelayBy:-audioDelayStepTime];
+						break;
+					case kSCMSubDelayPlusShortcutKey:
+						[playerController changeSubDelayBy:subDelayStepTime];
+						break;
+					case kSCMSubDelayMinusShortcutKey:
+						[playerController changeSubDelayBy:-subDelayStepTime];
 						break;
 					default:
 						ret = NO;

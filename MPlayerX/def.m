@@ -95,6 +95,6 @@ NSString * const kSCMToggleLockAspectRatioKeyEquivalent	= @"r";
 
 NSString * const kSCMResetLockAspectRatioKeyEquivalent	= @"r";
 
-NSString * const kSCMVideoTunerPanelKeyEquivalent	= @"v";
+NSString * const kSCMVideoTunerPanelKeyEquivalent		= @"v";
 
-NSString * const kSCMToggleLetterBoxKeyEquivalent	= @"l";
+NSString * const kSCMToggleLetterBoxKeyEquivalent		= @"l";
