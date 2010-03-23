@@ -111,8 +111,9 @@ extern NSString * const kSCMVideoTunerPanelKeyEquivalent;
 
 extern NSString * const kSCMToggleLetterBoxKeyEquivalent;
 
-#define kSCMPlaybackSpeedUpShortcutKey		('[')
-#deifne kSCMPlaybackSpeedDownShortcutKey	('[')
+#define kSCMPlaybackSpeedUpShortcutKey		(']')
+#define kSCMPlaybackSpeedDownShortcutKey	('[')
+
 /*
 #deifne kSCMAudioDelayPlusShortcutKey		('q')
 #deifne kSCMAudioDelayMinusShortcutKey		('z')
