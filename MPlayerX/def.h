@@ -113,10 +113,10 @@ extern NSString * const kSCMToggleLetterBoxKeyEquivalent;
 
 #define kSCMPlaybackSpeedUpShortcutKey		('[')
 #deifne kSCMPlaybackSpeedDownShortcutKey	('[')
-
+/*
 #deifne kSCMAudioDelayPlusShortcutKey		('q')
 #deifne kSCMAudioDelayMinusShortcutKey		('z')
 
 #deifne kSCMSubDelayPlusShortcutKey			('w')
 #deifne kSCMSubDelayMinusShortcutKey		('x')
-
+*/

@@ -190,6 +190,7 @@
 					case kSCMPlaybackSpeedDownShortcutKey:
 						[playerController changeSpeedBy:-speedStepIncre];
 						break;
+					/*
 					case kSCMAudioDelayPlusShortcutKey:
 						[playerController changeAudioDelayBy:audioDelayStepTime];
 						break;
@@ -202,6 +203,7 @@
 					case kSCMSubDelayMinusShortcutKey:
 						[playerController changeSubDelayBy:-subDelayStepTime];
 						break;
+					*/
 					default:
 						ret = NO;
 						break;
