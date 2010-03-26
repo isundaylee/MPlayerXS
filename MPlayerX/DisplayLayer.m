@@ -255,8 +255,10 @@
 			
 			[self setBounds:rc];
 			
-			glEnable(CVOpenGLTextureGetTarget(tex));
-			glBindTexture(CVOpenGLTextureGetTarget(tex), CVOpenGLTextureGetName(tex));
+			GLenum target = CVOpenGLTextureGetTarget(tex);
+			
+			glEnable(target);
+			glBindTexture(target, CVOpenGLTextureGetName(tex));
 			
 			glBegin(GL_QUADS);
 			
@@ -268,7 +270,7 @@
 			
 			glEnd();
 			
-			glDisable(CVOpenGLTextureGetTarget(tex));
+			glDisable(target);
 			CVOpenGLTextureRelease(tex);
 		}
 	}
