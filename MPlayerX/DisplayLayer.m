@@ -195,7 +195,7 @@
 	GLint num;
 	CGLPixelFormatAttribute attr[] = {
 		kCGLPFAAccelerated,
-		kCGLPFAColorSize, 32,
+		kCGLPFADisplayMask,mask,
 		0
 	};
 	
