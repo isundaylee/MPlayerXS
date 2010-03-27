@@ -81,6 +81,8 @@ NSString * const kPMParAC				= @"-ac";
 NSString * const kPMParHWDTS			= @"hwdts,";
 NSString * const kPMParHWAC3			= @"hwac3,a52,";
 NSString * const kPMParSTPause			= @"-stpause";
+NSString * const kPMParDemuxer			= @"-demuxer";
+NSString * const kPMValDemuxLavf		= @"lavf";
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
@@ -195,6 +197,9 @@ NSString * const kPMParSTPause			= @"-stpause";
 	} else {
 		paramArray = [[NSMutableArray alloc] initWithCapacity:80];
 	}
+	
+	[paramArray addObject:kPMParDemuxer];
+	[paramArray addObject:kPMValDemuxLavf];
 	
 	[paramArray addObject:kPMParMsgLevel];
 	[paramArray addObject:kPMValMsgLevel];
