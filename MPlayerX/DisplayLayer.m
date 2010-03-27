@@ -189,6 +189,20 @@
 	return NO;
 }
 
+- (CGLPixelFormatObj)copyCGLPixelFormatForDisplayMask:(uint32_t)mask
+{
+	CGLPixelFormatObj pf;
+	GLint num;
+	CGLPixelFormatAttribute attr[] = {
+		kCGLPFAAccelerated,
+		kCGLPFAColorSize, 32,
+		0
+	};
+	
+	CGLChoosePixelFormat(attr, &pf, &num);
+	return pf;
+}
+
 - (CGLContextObj)copyCGLContextForPixelFormat:(CGLPixelFormatObj)pf
 {	
 	GLint i = 1;
