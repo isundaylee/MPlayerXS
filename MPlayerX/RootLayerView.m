@@ -436,6 +436,15 @@
 		if (shouldResize) {
 			shouldResize = NO;
 			NSSize sz = [self calculateContentSize:[[playerWindow contentView] bounds].size];
+			
+			NSPoint pos = [playerWindow frame].origin;
+			NSSize orgSz = [[playerWindow contentView] bounds].size;
+			
+			pos.x += (orgSz.width - sz.width)  / 2;
+			pos.y += (orgSz.height - sz.height)/ 2;
+			
+			[playerWindow setFrameOrigin:pos];
+
 			[playerWindow setContentSize:sz];
 			[playerWindow setContentAspectRatio:sz];			
 		}
@@ -578,6 +587,14 @@
 	} else {
 		// 如果没有在全屏
 		sz = [self calculateContentSize:[sizeVal sizeValue]];
+		
+		NSPoint pos = [playerWindow frame].origin;
+		NSSize orgSz = [[playerWindow contentView] bounds].size;
+		
+		pos.x += (orgSz.width - sz.width)  / 2;
+		pos.y += (orgSz.height - sz.height)/ 2;
+		
+		[playerWindow setFrameOrigin:pos];
 		
 		[playerWindow setContentSize:sz];
 		[playerWindow setContentAspectRatio:sz];
