@@ -25,42 +25,43 @@
 {
 	NSMutableArray *paramArray;
 	
-	unsigned char autoSync;
-	BOOL frameDrop;
-	unsigned char osdLevel;
 	SUBFILE_NAMERULE subNameRule;
 	NSString *font;
 	NSString *ao;
 	NSString *vo;
 	NSString *subPreferedLanguage;
 	
-	BOOL assEnabled;
 	uint32 frontColor;
 	uint32 borderColor;
 	NSString *assForceStyle;
+	BOOL assEnabled;
+
+	unsigned char autoSync;
+	BOOL frameDrop;
+	unsigned char osdLevel;
 	
 	// accessable variables
-	BOOL prefer64bMPlayer;
-	BOOL guessSubCP;
+	NSArray *textSubs;
+	NSString *vobSub;
+	NSString *subFont;
+	NSString *subCP;
 	float startTime;
 	float volume;
 	float subPos;
-	unsigned char subAlign;
 	float subScale;
-	NSString *subFont;
-	NSString *subCP;
 	unsigned int threads;
-	NSArray *textSubs;
-	NSString *vobSub;
+	unsigned int cache;
+	unsigned int letterBoxMode;
+	float letterBoxHeight;
+	unsigned char subAlign;
+	BOOL prefer64bMPlayer;
+	BOOL guessSubCP;
 	BOOL forceIndex;
 	BOOL dtsPass;
 	BOOL ac3Pass;
 	BOOL fastDecoding;
 	BOOL useEmbeddedFonts;
-	unsigned int cache;
 	BOOL preferIPV6;
-	unsigned int letterBoxMode;
-	float letterBoxHeight;
 	BOOL pauseAtStart;
 }
 
