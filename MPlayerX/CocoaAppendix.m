@@ -19,6 +19,7 @@
  */
 
 #import "CocoaAppendix.h"
+#import "LocalizedStrings.h"
 
 @implementation NSColor (MPXAdditional)
 -(uint32) convertToHex
@@ -38,35 +39,35 @@
 	NSMenuItem *mItem;
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Unicode (UTF-8)"];
+	[mItem setTitle:kMPXStringEncUTF8];
 	[mItem setTag:kCFStringEncodingUTF8];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Unicode (UTF-16BE)"];
+	[mItem setTitle:kMPXStringEncUTF16BE];
 	[mItem setTag:kCFStringEncodingUTF16BE];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Unicode (UTF-16LE)"];
+	[mItem setTitle:kMPXStringEncUTF16LE];
 	[mItem setTag:kCFStringEncodingUTF16LE];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Unicode (UTF-32BE)"];
+	[mItem setTitle:kMPXStringEncUTF32BE];
 	[mItem setTag:kCFStringEncodingUTF32BE];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Unicode (UTF-32LE)"];
+	[mItem setTitle:kMPXStringEncUTF32LE];
 	[mItem setTag:kCFStringEncodingUTF32LE];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
@@ -75,21 +76,21 @@
 	[self addItem:[NSMenuItem separatorItem]];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Arabic (ISO 8859-6)"];
+	[mItem setTitle:kMPXStringEnc8859_6];
 	[mItem setTag:kCFStringEncodingISOLatinArabic];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Arabic (Windows-1256)"];
+	[mItem setTitle:kMPXStringEncWin1256];
 	[mItem setTag:kCFStringEncodingWindowsArabic];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Arabic (Mac)"];
+	[mItem setTitle:kMPXStringEncMacArabic];
 	[mItem setTag:kCFStringEncodingMacArabic];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
@@ -98,21 +99,21 @@
 	[self addItem:[NSMenuItem separatorItem]];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Baltic (ISO 8859-4)"];
+	[mItem setTitle:kMPXStringEnc8859_4];
 	[mItem setTag:kCFStringEncodingISOLatin4];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Baltic (ISO 8859-13)"];
+	[mItem setTitle:kMPXStringEnc8859_13];
 	[mItem setTag:kCFStringEncodingISOLatin7];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Baltic (Windows-1257)"];
+	[mItem setTitle:kMPXStringEncWin1257];
 	[mItem setTag:kCFStringEncodingWindowsBalticRim];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
@@ -121,14 +122,14 @@
 	[self addItem:[NSMenuItem separatorItem]];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Celtic (ISO 8859-14)"];
+	[mItem setTitle:kMPXStringEnc8859_14];
 	[mItem setTag:kCFStringEncodingISOLatin8];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Celtic (Mac)"];
+	[mItem setTitle:kMPXStringEncMacCeltic];
 	[mItem setTag:kCFStringEncodingMacCeltic];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
@@ -137,28 +138,28 @@
 	[self addItem:[NSMenuItem separatorItem]];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Central Europe (ISO 8859-2)"];
+	[mItem setTitle:kMPXStringEnc8859_2];
 	[mItem setTag:kCFStringEncodingISOLatin2];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Central Europe (ISO 8859-16)"];
+	[mItem setTitle:kMPXStringEnc8859_16];
 	[mItem setTag:kCFStringEncodingISOLatin10];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Central Europe (Windows-1250)"];
+	[mItem setTitle:kMPXStringEncWin1250];
 	[mItem setTag:kCFStringEncodingWindowsLatin2];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Central Europe (Mac)"];
+	[mItem setTitle:kMPXStringEncMacCentralEuro];
 	[mItem setTag:kCFStringEncodingMacCentralEurRoman];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
@@ -167,35 +168,35 @@
 	[self addItem:[NSMenuItem separatorItem]];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Chinese Simplified (GB18030)"];
+	[mItem setTitle:kMPXStringEncGB18030];
 	[mItem setTag:kCFStringEncodingGB_18030_2000];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Chinese Simplified (ISO 2022)"];
+	[mItem setTitle:kMPXStringEnc2022_CN];
 	[mItem setTag:kCFStringEncodingISO_2022_CN];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Chinese Simplified (EUC)"];
+	[mItem setTitle:kMPXStringEncEUC_CN];
 	[mItem setTag:kCFStringEncodingEUC_CN];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Chinese Simplified (Windows-936)"];
+	[mItem setTitle:kMPXStringEncWin936];
 	[mItem setTag:kCFStringEncodingDOSChineseSimplif];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Chinese Simplified (Mac)"];
+	[mItem setTitle:kMPXStringEncMacCNSimp];
 	[mItem setTag:kCFStringEncodingMacChineseSimp];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
@@ -204,35 +205,35 @@
 	[self addItem:[NSMenuItem separatorItem]];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Chinese Traditional (Big5)"];
+	[mItem setTitle:kMPXStringEncBIG5];
 	[mItem setTag:kCFStringEncodingBig5];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Chinese Traditional (Big5 HKSCS)"];
+	[mItem setTitle:kMPXStringEncBIG5_HKSCS];
 	[mItem setTag:kCFStringEncodingBig5_HKSCS_1999];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Chinese Traditional (EUC)"];
+	[mItem setTitle:kMPXStringEncEUC_TW];
 	[mItem setTag:kCFStringEncodingEUC_TW];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Chinese Traditional (Windows-950)"];
+	[mItem setTitle:kMPXStringEncWin950];
 	[mItem setTag:kCFStringEncodingDOSChineseTrad];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Chinese Traditional (Mac)"];
+	[mItem setTitle:kMPXStringEncMacCNTrad];
 	[mItem setTag:kCFStringEncodingMacChineseTrad];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
@@ -241,35 +242,35 @@
 	[self addItem:[NSMenuItem separatorItem]];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Cyrillic (ISO 8859-5)"];
+	[mItem setTitle:kMPXStringEnc8859_5];
 	[mItem setTag:kCFStringEncodingISOLatinCyrillic];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Cyrillic (Windows-1251)"];
-	[mItem setTag:kCFStringEncodingISOLatinCyrillic];
+	[mItem setTitle:kMPXStringEncWin1251];
+	[mItem setTag:kCFStringEncodingWindowsCyrillic];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Cyrillic (Mac)"];
+	[mItem setTitle:kMPXStringEncMacCyrillic];
 	[mItem setTag:kCFStringEncodingMacCyrillic];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Cyrillic (KOI8-R)"];
+	[mItem setTitle:kMPXStringEncKOI8_R];
 	[mItem setTag:kCFStringEncodingKOI8_R];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Cyrillic (KOI8-U)"];
+	[mItem setTitle:kMPXStringEncKOI8_U];
 	[mItem setTag:kCFStringEncodingKOI8_U];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
@@ -278,21 +279,21 @@
 	[self addItem:[NSMenuItem separatorItem]];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Greek (ISO 8859-7)"];
+	[mItem setTitle:kMPXStringEnc8859_7];
 	[mItem setTag:kCFStringEncodingISOLatinGreek];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Greek (Windows-1253)"];
+	[mItem setTitle:kMPXStringEncWin1253];
 	[mItem setTag:kCFStringEncodingWindowsGreek];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Greek (Mac)"];
+	[mItem setTitle:kMPXStringEncMacGreek];
 	[mItem setTag:kCFStringEncodingMacGreek];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
@@ -301,21 +302,21 @@
 	[self addItem:[NSMenuItem separatorItem]];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Hebrew (ISO 8859-8)"];
+	[mItem setTitle:kMPXStringEnc8859_8];
 	[mItem setTag:kCFStringEncodingISOLatinHebrew];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Hebrew (Windows-1255)"];
+	[mItem setTitle:kMPXStringEncWin1255];
 	[mItem setTag:kCFStringEncodingWindowsHebrew];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Hebrew (Mac)"];
+	[mItem setTitle:kMPXStringEncMacHebrew];
 	[mItem setTag:kCFStringEncodingMacHebrew];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
@@ -324,35 +325,35 @@
 	[self addItem:[NSMenuItem separatorItem]];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Japanese (Shift-JIS)"];
+	[mItem setTitle:kMPXStringEncShift_JIS];
 	[mItem setTag:kCFStringEncodingShiftJIS];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Japanese (ISO 2022)"];
+	[mItem setTitle:kMPXStringEnc2022_JP];
 	[mItem setTag:kCFStringEncodingISO_2022_JP];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Japanese (EUC)"];
+	[mItem setTitle:kMPXStringEncEUC_JP];
 	[mItem setTag:kCFStringEncodingEUC_JP];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Japanese (Windows-932)"];
+	[mItem setTitle:kMPXStringEncWin932];
 	[mItem setTag:kCFStringEncodingDOSJapanese];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Japanese (Mac)"];
+	[mItem setTitle:kMPXStringEncMacJpn];
 	[mItem setTag:kCFStringEncodingMacJapanese];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
@@ -361,28 +362,28 @@
 	[self addItem:[NSMenuItem separatorItem]];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Korean (ISO 2022)"];
+	[mItem setTitle:kMPXStringEnc2022_KR];
 	[mItem setTag:kCFStringEncodingISO_2022_KR];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Korean (EUC)"];
+	[mItem setTitle:kMPXStringEncEUC_KR];
 	[mItem setTag:kCFStringEncodingEUC_KR];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Korean (Windows-949)"];
+	[mItem setTitle:kMPXStringEncWin949];
 	[mItem setTag:kCFStringEncodingDOSKorean];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Korean (Mac)"];
+	[mItem setTitle:kMPXStringEncMacKor];
 	[mItem setTag:kCFStringEncodingMacKorean];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
@@ -391,7 +392,7 @@
 	[self addItem:[NSMenuItem separatorItem]];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"South Europe (ISO 8859-3)"];
+	[mItem setTitle:kMPXStringEnc8859_3];
 	[mItem setTag:kCFStringEncodingISOLatin3];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
@@ -400,21 +401,21 @@
 	[self addItem:[NSMenuItem separatorItem]];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Thai (ISO 8859-11)"];
+	[mItem setTitle:kMPXStringEnc8859_11];
 	[mItem setTag:kCFStringEncodingISOLatinThai];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Thai (Windows-874/TIS-620)"];
+	[mItem setTitle:kMPXStringEncWin874];
 	[mItem setTag:kCFStringEncodingDOSThai];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Thai (Mac)"];
+	[mItem setTitle:kMPXStringEncMacThai];
 	[mItem setTag:kCFStringEncodingMacThai];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
@@ -423,21 +424,21 @@
 	[self addItem:[NSMenuItem separatorItem]];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Turkish (ISO 8859-9)"];
+	[mItem setTitle:kMPXStringEnc8859_9];
 	[mItem setTag:kCFStringEncodingISOLatin5];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Turkish (Windows-1254)"];
+	[mItem setTitle:kMPXStringEncWin1254];
 	[mItem setTag:kCFStringEncodingWindowsLatin5];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Turkish (Mac)"];
+	[mItem setTitle:kMPXStringEncMacTur];
 	[mItem setTag:kCFStringEncodingMacTurkish];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
@@ -446,14 +447,14 @@
 	[self addItem:[NSMenuItem separatorItem]];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Vietnamese (Windows-1258)"];
+	[mItem setTitle:kMPXStringEncWin1258];
 	[mItem setTag:kCFStringEncodingWindowsVietnamese];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Vietnamese (Mac)"];
+	[mItem setTitle:kMPXStringEncMacViet];
 	[mItem setTag:kCFStringEncodingMacVietnamese];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
@@ -462,28 +463,28 @@
 	[self addItem:[NSMenuItem separatorItem]];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Western Europe (ISO 8859-1)"];
+	[mItem setTitle:kMPXStringEnc8859_1];
 	[mItem setTag:kCFStringEncodingISOLatin1];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Western Europe (ISO 8859-15)"];
+	[mItem setTitle:kMPXStringEnc8859_15];
 	[mItem setTag:kCFStringEncodingISOLatin9];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Western Europe (Windows-1252)"];
+	[mItem setTitle:kMPXStringEncWin1252];
 	[mItem setTag:kCFStringEncodingWindowsLatin1];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
 	[mItem release];
 	
 	mItem = [[NSMenuItem alloc] init];
-	[mItem setTitle:@"Western Europe (Mac)"];
+	[mItem setTitle:kMPXStringEncMacWestEuro];
 	[mItem setTag:kCFStringEncodingMacRoman];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
