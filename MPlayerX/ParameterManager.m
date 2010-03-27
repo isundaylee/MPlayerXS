@@ -198,8 +198,8 @@ NSString * const kPMValDemuxLavf		= @"lavf";
 		paramArray = [[NSMutableArray alloc] initWithCapacity:80];
 	}
 	
-	[paramArray addObject:kPMParDemuxer];
-	[paramArray addObject:kPMValDemuxLavf];
+	// [paramArray addObject:kPMParDemuxer];
+	// [paramArray addObject:kPMValDemuxLavf];
 	
 	[paramArray addObject:kPMParMsgLevel];
 	[paramArray addObject:kPMValMsgLevel];
