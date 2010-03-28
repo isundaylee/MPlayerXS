@@ -24,6 +24,10 @@
 #import "VideoInfo.h"
 #import "AudioInfo.h"
 
+extern NSString * const kMovieInfoKVOSubInfo;
+extern NSString * const kMovieInfoKVOAudioInfo;
+extern NSString * const kMovieInfoKVOVideoInfo;
+
 @class ParameterManager;
 
 @interface MovieInfo : NSObject

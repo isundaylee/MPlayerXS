@@ -23,7 +23,9 @@
 #import "ParameterManager.h"
 
 NSString * const kDemuxValueDefault = @"unknown";
-NSString * const kKVOSubInfo		= @"subInfo";
+NSString * const kMovieInfoKVOSubInfo		= @"subInfo";
+NSString * const kMovieInfoKVOAudioInfo		= @"audioInfo";
+NSString * const kMovieInfoKVOVideoInfo		= @"videoInfo";
 
 @implementation MovieInfo
 
@@ -83,17 +85,23 @@ NSString * const kKVOSubInfo		= @"subInfo";
 	[metaData removeAllObjects];
 
 	// 目前这两个还不需要KVO
+	[self willChangeValueForKey:kMovieInfoKVOVideoInfo];
 	[videoInfo removeAllObjects];
+	[self didChangeValueForKey:kMovieInfoKVOVideoInfo];
+	
+	[self willChangeValueForKey:kMovieInfoKVOAudioInfo];
 	[audioInfo removeAllObjects];
-
+	[self didChangeValueForKey:kMovieInfoKVOAudioInfo];
+	
+	// 比较简单的实现KVO的方式，要不会一个一个的删除，效率比较低
+	[self willChangeValueForKey:kMovieInfoKVOSubInfo];
+	[subInfo removeAllObjects];
+	[self didChangeValueForKey:kMovieInfoKVOSubInfo];
+	
 	[self setSeekable:zero];
 	[self setDemuxer:kDemuxValueDefault];
 	[self setChapters:zero];
 	[self setLength:zero];
 	
-	// 比较简单的实现KVO的方式，要不会一个一个的删除，效率比较低
-	[self willChangeValueForKey:kKVOSubInfo];
-	[subInfo removeAllObjects];
-	[self didChangeValueForKey:kKVOSubInfo];
 }
 @end
