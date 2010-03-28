@@ -41,11 +41,11 @@
 
 const char* findValidStart(const char*head, const char *end)
 {
-	if (((end - head) > 4) && (head[0] == 'A')&&(head[1] == 'N')&&(head[2] == 'S')&&(head[3] == '_')) {
-		return (head+4);
-		
-	} else if (((end - head) > 4) && (head[0] == 'M')&&(head[1] == 'P')&&(head[2] == 'X')&&(head[3] == '_')) {
-		return (head+4);
+	if (((end-head)>4) && (head[3]=='_')) {
+		if (((head[0] == 'A')&&(head[1] == 'N')&&(head[2] == 'S')) ||
+			((head[0] == 'M')&&(head[1] == 'P')&&(head[2] == 'X'))) {
+			return (head+4);
+		}
 	}
 	return NULL;
 }
