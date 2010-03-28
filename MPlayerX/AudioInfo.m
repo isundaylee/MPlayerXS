@@ -37,7 +37,7 @@
 		ID = -2;
 		language = nil;
 		codec = nil;
-		format = -1;
+		format = nil;
 		bitRate = 0;
 		sampleRate = 0;
 		channels = 0;
@@ -49,6 +49,19 @@
 {
 	[codec release];
 	[language release];
+	[format release];
+	
 	[super dealloc];
+}
+
+-(void) setInfoDataWithArray:(NSArray*)arr
+{
+	if ([arr count] == 6) {
+		[self setFormat:[arr objectAtIndex:1]];
+		[self setBitRate:[[arr objectAtIndex:2] intValue]];
+		[self setSampleRate:[[arr objectAtIndex:3] intValue]];
+		[self setChannels:[[arr objectAtIndex:4] intValue]];
+		[self setCodec:[arr objectAtIndex:5]];	
+	}	
 }
 @end

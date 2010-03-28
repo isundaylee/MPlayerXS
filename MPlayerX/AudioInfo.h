@@ -26,7 +26,7 @@
 	NSString *language;
 	
 	NSString *codec;
-	int format;
+	NSString *format;
 	int bitRate;
 	int sampleRate;
 	int channels;
@@ -35,9 +35,10 @@
 @property(retain, readwrite) NSString *language;
 
 @property(retain, readwrite) NSString *codec;
-@property(assign, readwrite) int format;
+@property(retain, readwrite) NSString *format;
 @property(assign, readwrite) int bitRate;
 @property(assign, readwrite) int sampleRate;
 @property(assign, readwrite) int channels;
 
+-(void) setInfoDataWithArray:(NSArray*)arr;
 @end
