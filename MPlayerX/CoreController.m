@@ -29,8 +29,10 @@
 #define kMITypeSubArray		(2)
 #define kMITypeSubAppend	(3)
 #define kMITypeStateChanged	(4)
-#define kMITypeVideoAppend	(5)
-#define kMITypeAudioAppend	(6)
+#define kMITypeVideoGotInfo	(5)
+#define kMITypeAudioGotInfo	(6)
+#define kMITypeAudioGotID	(7)
+#define kMITypeVideoGotID	(8)
 
 NSString * const kMPCPlayOpenedNotification		= @"kMPCPlayOpenedNotification";
 NSString * const kMPCPlayStartedNotification	= @"kMPCPlayStartedNotification";
@@ -92,6 +94,8 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 																	kKVOPropertyKeyPathState, kMPCPlayBackStartedID,
 																	kKVOPropertyKeyPathVideoInfo, kMPCVideoInfoID,
 																	kKVOPropertyKeyPathAudioInfo, kMPCAudioInfoID,
+																	kKVOPropertyKeyPathAudioInfo, kMPCAudioIDs,
+																	kKVOPropertyKeyPathVideoInfo, kMPCVideoIDs,
 																	nil];
 		typeDict = [[NSDictionary alloc] initWithObjectsAndKeys:flatValue, kMPCTimePos, 
 																flatValue, kMPCLengthID,
@@ -100,8 +104,10 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 																[NSNumber numberWithInt:kMITypeSubAppend], kMPCSubInfoAppendID,
 																flatValue, kMPCCachingPercentID,
 																[NSNumber numberWithInt:kMITypeStateChanged], kMPCPlayBackStartedID,
-																[NSNumber numberWithInt:kMITypeVideoAppend], kMPCVideoInfoID,
-																[NSNumber numberWithInt:kMITypeAudioAppend], kMPCAudioInfoID,
+																[NSNumber numberWithInt:kMITypeVideoGotInfo], kMPCVideoInfoID,
+																[NSNumber numberWithInt:kMITypeAudioGotInfo], kMPCAudioInfoID,
+																[NSNumber numberWithInt:kMITypeAudioGotID], kMPCAudioIDs,
+																[NSNumber numberWithInt:kMITypeVideoGotID], kMPCVideoIDs,
 																nil];
 		state = kMPCStoppedState;
 		
@@ -503,7 +509,6 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 	}
 }
 
-NSString * const kKVOMovieSubInfo		= @"subInfo";
 // 这个是LogAnalyzer的delegate方法，
 // 因此是运行在工作线程上的，因为这里用到了KVC和KVO
 // 有没有必要运行在主线程上？
@@ -511,45 +516,108 @@ NSString * const kKVOMovieSubInfo		= @"subInfo";
 {
 	for (NSString *key in dict) {
 		NSString *keyPath = [keyPathDict objectForKey:key];
-		id obj;
-		int stateOld;
 		
 		// NSLog(@"%@", dict);
 		if (keyPath) {
-
+			int type = [[typeDict objectForKey:key] intValue];
+			
 			//如果log里面能找到相应的key path
-			switch ([[typeDict objectForKey:key] intValue]) {
+			switch (type) {
 				case kMITypeFlatValue:
 					[self setValue:[dict objectForKey:key] forKeyPath:keyPath];
 					break;
 				case kMITypeSubArray:
 					// 这里如果直接使用KVO的话，产生的时Insert的change，效率太低
 					// 因此手动发生KVO
-					[movieInfo willChangeValueForKey:kKVOMovieSubInfo];
+					[movieInfo willChangeValueForKey:kMovieInfoKVOSubInfo];
 					[movieInfo.subInfo setArray:[[dict objectForKey:key] componentsSeparatedByString:@":"]];
-					[movieInfo didChangeValueForKey:kKVOMovieSubInfo];					
+					[movieInfo didChangeValueForKey:kMovieInfoKVOSubInfo];
 					break;
 				case kMITypeSubAppend:
+				{
 					// 会发生insert的KVO change
-					obj = [[dict objectForKey:key] componentsSeparatedByString:@":"];
+					NSArray *info = [[dict objectForKey:key] componentsSeparatedByString:@":"];
 					// NSLog(@"%@", obj);
-					[[movieInfo mutableArrayValueForKey:kKVOMovieSubInfo] addObject: [[obj objectAtIndex:0] lastPathComponent]];
+					[[movieInfo mutableArrayValueForKey:kMovieInfoKVOSubInfo] addObject: [[info objectAtIndex:0] lastPathComponent]];
 					break;
+				}
 				case kMITypeStateChanged:
+				{
 					// 目前只有在播放开始的时候才会激发这个事件，所以可以发notification
 					// 但是如果变成一般的事件，发notification要注意！！！
-					stateOld = state;
+					int stateOld = state;
 					state = [[dict objectForKey:key] intValue];
 					if (((stateOld & kMPCStateMask) == 0) && (state & kMPCStateMask)) {
 						[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayStartedNotification object:self];
 					}
 					break;
-				case kMITypeVideoAppend:
-				case kMITypeAudioAppend:
-					// 现在还没有实现KVO
-					[[self valueForKeyPath:keyPath] addObject:[[dict objectForKey:key] componentsSeparatedByString:@":"]];
-					break;
+				}
+				case kMITypeAudioGotID:
+				{
+					AudioInfo *info;
+					NSArray *idLang;
+					NSArray *IDs = [[dict objectForKey:key] componentsSeparatedByString:@":"];
+					
+					[movieInfo willChangeValueForKey:kMovieInfoKVOAudioInfo];
+					
+					for (NSString *str in IDs) {
+						idLang = [str componentsSeparatedByString:@","];
+						
+						info = [[AudioInfo alloc] init];
 
+						[info setID:[[idLang objectAtIndex:0] intValue]];
+						[info setLanguage:[idLang objectAtIndex:1]];
+						
+						[movieInfo.audioInfo addObject:info];
+						
+						[info release];
+					}
+					[movieInfo willChangeValueForKey:kMovieInfoKVOAudioInfo];
+					break;
+				}
+				case kMITypeVideoGotID:
+				{
+					VideoInfo *info;
+					NSArray *idLang;
+					NSArray *IDs = [[dict objectForKey:key] componentsSeparatedByString:@":"];
+					
+					[movieInfo willChangeValueForKey:kMovieInfoKVOVideoInfo];
+					
+					for (NSString *str in IDs) {
+						idLang = [str componentsSeparatedByString:@","];
+						
+						info = [[VideoInfo alloc] init];
+						
+						[info setID:[[idLang objectAtIndex:0] intValue]];
+						[info setLanguage:[idLang objectAtIndex:1]];
+						
+						[movieInfo.videoInfo addObject:info];
+						
+						[info release];
+					}
+					[movieInfo willChangeValueForKey:kMovieInfoKVOVideoInfo];
+					break;
+				}
+				case kMITypeVideoGotInfo:
+				case kMITypeAudioGotInfo:
+				// 现在还没有实现KVO
+				{
+					NSArray *strArr = [[dict objectForKey:key] componentsSeparatedByString:@":"];
+					int ID = [[strArr objectAtIndex:0] intValue];
+					NSArray *obj = [self valueForKeyPath:keyPath];
+					id infoToSet = nil;
+					
+					for (id info in obj) {
+						if ([info ID] == ID) {
+							infoToSet = info;
+							break;
+						}
+					}
+					if (infoToSet) {
+						[infoToSet setInfoDataWithArray:strArr];
+					}
+					break;	
+				}
 				default:
 					break;
 			}
