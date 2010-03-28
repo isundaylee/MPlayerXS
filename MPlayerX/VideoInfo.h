@@ -23,6 +23,9 @@
 
 @interface VideoInfo : NSObject
 {
+	int ID;
+	NSString *language;
+	
 	NSString *codec;
 	int format;
 	int bitRate;
@@ -31,6 +34,8 @@
 	float fps;
 	float aspect;
 }
+@property(assign, readwrite) int ID;
+@property(retain, readwrite) NSString *language;
 
 @property (retain, readwrite) NSString *codec;
 @property (assign, readwrite) int format;

@@ -23,6 +23,8 @@
 
 @implementation VideoInfo
 
+@synthesize ID;
+@synthesize language;
 @synthesize codec;
 @synthesize format;
 @synthesize bitRate;
@@ -34,6 +36,8 @@
 -(id) init
 {
 	if (self = [super init]) {
+		ID = -2;
+		language = nil;
 		codec = nil;
 		format = -1;
 		bitRate = 0;
@@ -47,6 +51,7 @@
 
 -(void) dealloc
 {
+	[language release];
 	[codec release];
 	[super dealloc];
 }
