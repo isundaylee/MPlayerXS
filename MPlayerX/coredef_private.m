@@ -57,5 +57,7 @@ NSString * const kMPCCachingPercentID	= @"CACHING";
 NSString * const kMPCPlayBackStartedID	= @"PBST";
 NSString * const kMPCAudioInfoID		= @"AUDIOINFO";
 NSString * const kMPCVideoInfoID		= @"VIDEOINFO";
+NSString * const kMPCAudioIDs			= @"AUDIO_IDS";
+NSString * const kMPCVideoIDs			= @"VDEO_IDS";
 
 NSString * const kKVOPropertyKeyPathState	= @"state";

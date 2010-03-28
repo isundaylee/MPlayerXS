@@ -58,5 +58,7 @@ extern NSString * const kMPCCachingPercentID;
 extern NSString * const kMPCPlayBackStartedID;
 extern NSString * const kMPCAudioInfoID;
 extern NSString * const kMPCVideoInfoID;
+extern NSString * const kMPCAudioIDs;
+extern NSString * const kMPCVideoIDs;
 
 extern NSString * const kKVOPropertyKeyPathState;
