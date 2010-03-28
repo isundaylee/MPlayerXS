@@ -61,6 +61,8 @@
 		8629205910C03B8F0077B63E /* vol_no.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8629205410C03B8F0077B63E /* vol_no.pdf */; };
 		862923C610C0FE130077B63E /* TimeFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 862923C510C0FE130077B63E /* TimeFormatter.m */; };
 		8629270010C1507E0077B63E /* TimeSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 862926FE10C1507E0077B63E /* TimeSliderCell.m */; };
+		8629FF52115F2874001BD30A /* AudioInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF23710BA44D100848B8E /* AudioInfo.m */; };
+		8629FF72115F2D44001BD30A /* VideoInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF25010BA451100848B8E /* VideoInfo.m */; };
 		862F149610C29B0A00F5E970 /* ShortCutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 862F149510C29B0A00F5E970 /* ShortCutManager.m */; };
 		86328DF910EF50C4003C5EE8 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 86328DF810EF50C4003C5EE8 /* dsa_pub.pem */; };
 		8634409910D66924003817B7 /* SliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8634409810D66924003817B7 /* SliderCell.m */; };
@@ -732,6 +734,8 @@
 				86FB6FC51131B42D005E95B5 /* def.m in Sources */,
 				86E7A89E1155C1740014155D /* CharsetQueryController.m in Sources */,
 				86E7A8F11155E8980014155D /* CocoaAppendix.m in Sources */,
+				8629FF52115F2874001BD30A /* AudioInfo.m in Sources */,
+				8629FF72115F2D44001BD30A /* VideoInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
