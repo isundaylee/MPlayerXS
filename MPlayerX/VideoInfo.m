@@ -39,7 +39,7 @@
 		ID = -2;
 		language = nil;
 		codec = nil;
-		format = -1;
+		format = nil;
 		bitRate = 0;
 		width = 0;
 		height = 0;
@@ -53,6 +53,21 @@
 {
 	[language release];
 	[codec release];
+	[format release];
+	
 	[super dealloc];
+}
+
+-(void) setInfoDataWithArray:(NSArray*)arr
+{
+	if ([arr count] == 8) {
+		[self setFormat:[arr objectAtIndex:1]];
+		[self setBitRate:[[arr objectAtIndex:2] intValue]];
+		[self setWidth:[[arr objectAtIndex:3] intValue]];
+		[self setHeight:[[arr objectAtIndex:4] intValue]];
+		[self setFps:[[arr objectAtIndex:5] floatValue]];
+		[self setAspect:[[arr objectAtIndex:6] floatValue]];
+		[self setCodec:[arr objectAtIndex:7]];	
+	}
 }
 @end

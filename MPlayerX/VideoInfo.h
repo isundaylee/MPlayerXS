@@ -27,7 +27,7 @@
 	NSString *language;
 	
 	NSString *codec;
-	int format;
+	NSString *format;
 	int bitRate;
 	int width;
 	int height;
@@ -38,11 +38,13 @@
 @property(retain, readwrite) NSString *language;
 
 @property (retain, readwrite) NSString *codec;
-@property (assign, readwrite) int format;
+@property (retain, readwrite) NSString *format;
 @property (assign, readwrite) int bitRate;
 @property (assign, readwrite) int width;
 @property (assign, readwrite) int height;
 @property (assign, readwrite) float fps;
 @property (assign, readwrite) float aspect;
+
+-(void) setInfoDataWithArray:(NSArray*)arr;
 
 @end
