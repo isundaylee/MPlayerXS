@@ -23,8 +23,9 @@
 
 @implementation AudioInfo
 
-@synthesize codec;
+@synthesize ID;
 @synthesize language;
+@synthesize codec;
 @synthesize format;
 @synthesize bitRate;
 @synthesize sampleRate;
@@ -33,8 +34,9 @@
 -(id) init
 {
 	if (self = [super init]) {
-		codec = nil;
+		ID = -2;
 		language = nil;
+		codec = nil;
 		format = -1;
 		bitRate = 0;
 		sampleRate = 0;

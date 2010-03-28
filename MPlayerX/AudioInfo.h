@@ -22,16 +22,19 @@
 
 @interface AudioInfo : NSObject 
 {
-	NSString *codec;
+	int ID;
 	NSString *language;
+	
+	NSString *codec;
 	int format;
 	int bitRate;
 	int sampleRate;
 	int channels;
 }
+@property(assign, readwrite) int ID;
+@property(retain, readwrite) NSString *language;
 
 @property(retain, readwrite) NSString *codec;
-@property(retain, readwrite) NSString *language;
 @property(assign, readwrite) int format;
 @property(assign, readwrite) int bitRate;
 @property(assign, readwrite) int sampleRate;
