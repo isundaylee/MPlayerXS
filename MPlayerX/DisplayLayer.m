@@ -91,8 +91,7 @@
 		SAFERELEASEOPENGLBUFFER(bufRef);
 		
 		CVReturn error;
-		//CVOpenGLTextureRef texture;
-				
+		
 		error = CVPixelBufferCreateWithBytes(NULL, fmt.width, fmt.height, fmt.pixelFormat, 
 											 bufRaw, fmt.width * ((fmt.pixelFormat == kYUVSPixelFormat)?2:4), 
 											 NULL, NULL, NULL, &bufRef);
@@ -107,17 +106,6 @@
 			SAFERELEASEOPENGLBUFFER(bufRef);
 			return NO;
 		}
-		
-		/*
-		error = CVOpenGLTextureCacheCreateTextureFromImage(NULL, cache, bufRef,  0, &texture);
-		if (error != kCVReturnSuccess) {
-			NSLog(@"texture failed");
-			SAFERELEASETEXTURECACHE(cache);
-			SAFERELEASEOPENGLBUFFER(bufRef);
-			return NO;
-		}
-		CVOpenGLTextureRelease(texture);
-		*/
 		return YES;
 	}
 	return NO;
@@ -153,19 +141,21 @@
 
 -(int) startWithWidth:(int) width height:(int) height pixelFormat:(OSType) pixelFormat aspect:(int)aspect
 {
-	[self freeLocalBuffer];
-	
-	unsigned int pixelSize = ((pixelFormat == kYUVSPixelFormat)?2:4);
-	
-	fmt.width = width;
-	fmt.height = height;
-	fmt.imageSize = pixelSize * width * height;
-	fmt.pixelFormat = pixelFormat;
-	fmt.aspect = ((CGFloat)aspect)/100.0f;
-
-	bufRaw = malloc(fmt.imageSize);
-	
-	[self buildOpenGLEnvironment];
+	@synchronized(self) {
+		[self freeLocalBuffer];
+		
+		unsigned int pixelSize = ((pixelFormat == kYUVSPixelFormat)?2:4);
+		
+		fmt.width = width;
+		fmt.height = height;
+		fmt.imageSize = pixelSize * width * height;
+		fmt.pixelFormat = pixelFormat;
+		fmt.aspect = ((CGFloat)aspect)/100.0f;
+		
+		bufRaw = malloc(fmt.imageSize);
+		
+		[self buildOpenGLEnvironment];
+	}
 	return (bufRaw)? 1:0;
 }
 
@@ -179,8 +169,10 @@
 
 -(void) stop
 {
-	[self freeLocalBuffer];
-	[self setNeedsDisplay];
+	@synchronized(self) {
+		[self freeLocalBuffer];
+		[self setNeedsDisplay];		
+	}
 }
 
 //////////////////////////////////////OpenGLLayer inherent/////////////////////////////////////
@@ -210,6 +202,9 @@
 	// 从父类得到context
 	_context = [super copyCGLContextForPixelFormat:pf];
 
+	CGLLockContext(_context);
+	CGLSetCurrentContext(_context);
+	
 	// 设定context的更新速度，默认为0，设定为1
 	CGLSetParameter(_context, kCGLCPSwapInterval, &i);
 	
@@ -224,6 +219,8 @@
 
 	[self buildOpenGLEnvironment];
 
+	CGLUnlockContext(_context);
+	
 	return _context;
 }
 
