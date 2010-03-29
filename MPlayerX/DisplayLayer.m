@@ -184,7 +184,8 @@
 - (CGLPixelFormatObj)copyCGLPixelFormatForDisplayMask:(uint32_t)mask
 {
 	CGLPixelFormatObj pf;
-	GLint num;
+	GLint num = 1;
+	
 	CGLPixelFormatAttribute attr[] = {
 		kCGLPFAAccelerated,
 		kCGLPFADisplayMask,mask,
@@ -192,6 +193,7 @@
 	};
 	
 	CGLChoosePixelFormat(attr, &pf, &num);
+	NSLog(@"pfrc:%d",CGLGetPixelFormatRetainCount(pf));
 	return pf;
 }
 
