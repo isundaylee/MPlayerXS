@@ -135,6 +135,7 @@
 	// 设定窗口的size
 	[playerWindow setContentMinSize:NSMakeSize(400, 300)];
 	[playerWindow setContentSize:NSMakeSize(400, 300)];
+	[playerWindow setCollectionBehavior:NSWindowCollectionBehaviorManaged];
 	
 	[VTController setLayer:dispLayer];
 	
