@@ -534,13 +534,10 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 					[movieInfo didChangeValueForKey:kMovieInfoKVOSubInfo];
 					break;
 				case kMITypeSubAppend:
-				{
 					// 会发生insert的KVO change
-					NSArray *info = [[dict objectForKey:key] componentsSeparatedByString:@":"];
 					// NSLog(@"%@", obj);
-					[[movieInfo mutableArrayValueForKey:kMovieInfoKVOSubInfo] addObject: [[info objectAtIndex:0] lastPathComponent]];
+					[[movieInfo mutableArrayValueForKey:kMovieInfoKVOSubInfo] addObject: [[dict objectForKey:key] lastPathComponent]];
 					break;
-				}
 				case kMITypeStateChanged:
 				{
 					// 目前只有在播放开始的时候才会激发这个事件，所以可以发notification
