@@ -948,6 +948,11 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 				updateTimer:YES];
 	}
 }
+
+-(void) gotAudioInfo:(NSArray*) ais
+{
+	
+}
 ////////////////////////////////////////////////draw myself//////////////////////////////////////////////////
 - (void)drawRect:(NSRect)dirtyRect
 {

@@ -118,6 +118,7 @@ extern NSString * const kFillScreenButtonImageUBKey;
 -(void) gotSubInfo:(NSArray*) subs changed:(int)changeKind;
 -(void) gotLastStoppedPlace:(float) tm;
 -(void) gotCachingPercent:(NSNumber*) caching;
+-(void) gotAudioInfo:(NSArray*) ais;
 
 //////////////////////////////自动隐藏相关/////////////////////////////
 -(void) showUp;
