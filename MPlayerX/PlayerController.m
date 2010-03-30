@@ -194,7 +194,11 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 			  forKeyPath:kKVOPropertyKeyPathCachingPercent
 				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
-	
+	[mplayer addObserver:self
+			  forKeyPath:kKVOPropertyKeyPathAudioInfo
+				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+				 context:NULL];
+				 
 	// 建立支持格式的Set
 	for( NSDictionary *dict in [mainBundle objectForInfoDictionaryKey:@"CFBundleDocumentTypes"]) {
 
@@ -277,6 +281,7 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 	[mplayer removeObserver:self forKeyPath:kObservedValueStringAudioDelay];
 	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathSubInfo];
 	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathCachingPercent];
+	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathAudioInfo];
 
 	[mplayer release];
 	[lastPlayedPath release];
@@ -324,6 +329,9 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 			// 得到 字幕信息
 			[controlUI gotSubInfo:[change objectForKey:NSKeyValueChangeNewKey]
 						  changed:[[change objectForKey:NSKeyValueChangeKindKey] intValue]];
+		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathAudioInfo]) {
+			// 得到音频的信息
+			[controlUI gotAudioInfo:[change objectForKey:NSKeyValueChangeNewKey];
 		}
 		return;
 	}
