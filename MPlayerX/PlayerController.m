@@ -331,7 +331,7 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 						  changed:[[change objectForKey:NSKeyValueChangeKindKey] intValue]];
 		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathAudioInfo]) {
 			// 得到音频的信息
-			[controlUI gotAudioInfo:[change objectForKey:NSKeyValueChangeNewKey];
+			[controlUI gotAudioInfo:[change objectForKey:NSKeyValueChangeNewKey]];
 		}
 		return;
 	}
