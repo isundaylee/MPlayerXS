@@ -569,7 +569,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 						
 						[info release];
 					}
-					[movieInfo willChangeValueForKey:kMovieInfoKVOAudioInfo];
+					[movieInfo didChangeValueForKey:kMovieInfoKVOAudioInfo];
 					break;
 				}
 				case kMITypeVideoGotID:
@@ -592,7 +592,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 						
 						[info release];
 					}
-					[movieInfo willChangeValueForKey:kMovieInfoKVOVideoInfo];
+					[movieInfo didChangeValueForKey:kMovieInfoKVOVideoInfo];
 					break;
 				}
 				case kMITypeVideoGotInfo:
