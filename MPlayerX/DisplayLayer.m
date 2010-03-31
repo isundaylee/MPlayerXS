@@ -25,11 +25,6 @@
 #define SAFERELEASETEXTURECACHE(x)		{if(x){CVOpenGLTextureCacheRelease(x); x=NULL;}}
 #define SAFERELEASEOPENGLBUFFER(x)		{if(x){CVOpenGLBufferRelease(x); x=NULL;}}
 
-@interface DisplayLayer (DisplayLayerInternal)
--(void) freeLocalBuffer;
--(BOOL) buildOpenGLEnvironment;
-@end
-
 @implementation DisplayLayer
 
 @synthesize fillScreen;
@@ -41,17 +36,13 @@
 		bufRaw = NULL;
 		bufRef = NULL;
 		cache = NULL;
-		_context = NULL;
-		
-		fmt.width = 0;
-		fmt.height = 0;
-		fmt.imageSize = 0;
-		fmt.pixelFormat = 0;
+
+		memset(&fmt, 0, sizeof(fmt));
 		fmt.aspect = kDisplayAscpectRatioInvalid;
-		
+
 		fillScreen = NO;
 		externalAspectRatio = kDisplayAscpectRatioInvalid;
-		
+
 		[self setDelegate:self];
 		[self setMasksToBounds:YES];
 		[self setAutoresizingMask:kCALayerWidthSizable|kCALayerHeightSizable];
@@ -66,49 +57,12 @@
 
 - (void)dealloc
 {
-	[self freeLocalBuffer];
+	SAFERELEASETEXTURECACHE(cache);
+	
+	SAFERELEASEOPENGLBUFFER(bufRef);
+	SAFEFREE(bufRaw);
 	
 	[super dealloc];
-}
-
--(void) freeLocalBuffer
-{
-	SAFERELEASETEXTURECACHE(cache);
-	SAFERELEASEOPENGLBUFFER(bufRef);
-	
-	SAFEFREE(bufRaw);
-
-	memset(&fmt, 0, sizeof(fmt));
-	fmt.aspect = kDisplayAscpectRatioInvalid;
-	// TODO 这里需不需要重置需要考虑
-	externalAspectRatio = kDisplayAscpectRatioInvalid;
-}
-
--(BOOL) buildOpenGLEnvironment
-{
-	if (bufRaw && _context) {
-		SAFERELEASETEXTURECACHE(cache);
-		SAFERELEASEOPENGLBUFFER(bufRef);
-		
-		CVReturn error;
-		
-		error = CVPixelBufferCreateWithBytes(NULL, fmt.width, fmt.height, fmt.pixelFormat, 
-											 bufRaw, fmt.width * ((fmt.pixelFormat == kYUVSPixelFormat)?2:4), 
-											 NULL, NULL, NULL, &bufRef);
-		if (error != kCVReturnSuccess) {
-			NSLog(@"buffer failed");
-			return NO;
-		}
-		
-		error = CVOpenGLTextureCacheCreate(NULL, 0, _context, CGLGetPixelFormat(_context), NULL, &cache);
-		if(error != kCVReturnSuccess) {
-			NSLog(@"textcache failed");
-			SAFERELEASEOPENGLBUFFER(bufRef);
-			return NO;
-		}
-		return YES;
-	}
-	return NO;
 }
 
 -(CIImage*) snapshot
@@ -142,7 +96,8 @@
 -(int) startWithWidth:(int) width height:(int) height pixelFormat:(OSType) pixelFormat aspect:(int)aspect
 {
 	@synchronized(self) {
-		[self freeLocalBuffer];
+		SAFERELEASEOPENGLBUFFER(bufRef);
+		SAFEFREE(bufRaw);
 		
 		unsigned int pixelSize = ((pixelFormat == kYUVSPixelFormat)?2:4);
 		
@@ -150,27 +105,41 @@
 		fmt.height = height;
 		fmt.imageSize = pixelSize * width * height;
 		fmt.pixelFormat = pixelFormat;
-		fmt.aspect = ((CGFloat)aspect)/100.0f;
+		fmt.aspect = ((CGFloat)aspect)/100.0;
 		
 		bufRaw = malloc(fmt.imageSize);
-		
-		[self buildOpenGLEnvironment];
+
+		if (bufRaw) {
+			CVReturn error = 
+				CVPixelBufferCreateWithBytes(NULL, fmt.width, fmt.height, fmt.pixelFormat, 
+											 bufRaw, fmt.width * pixelSize, 
+											 NULL, NULL, NULL, &bufRef);
+			if (error != kCVReturnSuccess) {
+				bufRef = NULL;
+				NSLog(@"buffer failed");
+			}
+		}
 	}
-	return (bufRaw)? 1:0;
+	return (bufRef)?1:0;
 }
 
 -(void) draw:(void*)imageData
 {
-	if (bufRaw) {
+	if (bufRef) {
 		fast_memcpy(bufRaw, imageData, fmt.imageSize);
-		[self setNeedsDisplay];		
+		[self setNeedsDisplay];
 	}
 }
 
 -(void) stop
 {
 	@synchronized(self) {
-		[self freeLocalBuffer];
+		SAFERELEASEOPENGLBUFFER(bufRef);		
+		SAFEFREE(bufRaw);
+
+		memset(&fmt, 0, sizeof(fmt));
+		fmt.aspect = kDisplayAscpectRatioInvalid;
+
 		[self setNeedsDisplay];		
 	}
 }
@@ -181,7 +150,7 @@
 	return NO;
 }
 
-- (CGLPixelFormatObj)copyCGLPixelFormatForDisplayMask:(uint32_t)mask
+-(CGLPixelFormatObj) copyCGLPixelFormatForDisplayMask:(uint32_t)mask
 {
 	CGLPixelFormatObj pf;
 	GLint num = 1;
@@ -197,40 +166,45 @@
 	return pf;
 }
 
-- (CGLContextObj)copyCGLContextForPixelFormat:(CGLPixelFormatObj)pf
+-(void) releaseCGLPixelFormat:(CGLPixelFormatObj)pf
+{
+	CGLReleasePixelFormat(pf);
+}
+
+-(CGLContextObj) copyCGLContextForPixelFormat:(CGLPixelFormatObj)pf
 {	
 	GLint i = 1;
 
-	// 从父类得到context
-	_context = [super copyCGLContextForPixelFormat:pf];
+	CGLContextObj ctx = [super copyCGLContextForPixelFormat:pf];
 
-	CGLLockContext(_context);
-	CGLSetCurrentContext(_context);
+	CGLLockContext(ctx);
+	//CGLSetCurrentContext(ctx);
+
+	CGLSetParameter(ctx, kCGLCPSwapInterval, &i);
 	
-	// 设定context的更新速度，默认为0，设定为1
-	CGLSetParameter(_context, kCGLCPSwapInterval, &i);
-	
-	/*// 设定这个参数会导致一些Mac crash
+	/*
 	glEnable(GL_TEXTURE_RECTANGLE_ARB);
 	glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
 	
 	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
 	*/
-	// 打开多线程支持
-	CGLEnable(_context, kCGLCEMPEngine);
-
-	[self buildOpenGLEnvironment];
-
-	CGLUnlockContext(_context);
+	CGLEnable(ctx, kCGLCEMPEngine);
 	
-	return _context;
+	SAFERELEASETEXTURECACHE(cache);
+	CVReturn error = CVOpenGLTextureCacheCreate(NULL, NULL, ctx, pf, NULL, &cache);
+	
+	CGLUnlockContext(ctx);
+	
+	if(error != kCVReturnSuccess) {
+		cache = NULL;
+		NSLog(@"create cache failed");
+	}
+	return ctx;
 }
 
 - (void)releaseCGLContext:(CGLContextObj)ctx
 {
 	SAFERELEASETEXTURECACHE(cache);
-	SAFERELEASEOPENGLBUFFER(bufRef);
-	_context = NULL;
 
 	[super releaseCGLContext:ctx];
 }
@@ -240,23 +214,18 @@
 			forLayerTime:(CFTimeInterval)timeInterval 
 			 displayTime:(const CVTimeStamp *)timeStamp
 {
-	CVOpenGLTextureRef tex;
-	CVReturn error;
-	
 	CGLLockContext(glContext);	
 	
 	CGLSetCurrentContext(glContext);
 	
-	// 清理屏幕
-	glClearColor(0, 0, 0, 0);
-	glClear(GL_COLOR_BUFFER_BIT);
+	if (bufRef) {
 	
-	if (bufRaw) {
-		// 有图就画图
-		error = CVOpenGLTextureCacheCreateTextureFromImage (NULL, cache, bufRef,  0, &tex);
+		CVOpenGLTextureRef tex;
+		
+		CVReturn error = CVOpenGLTextureCacheCreateTextureFromImage(NULL, cache, bufRef, NULL, &tex);
 		
 		if (error == kCVReturnSuccess) {
-			// 成功创建纹理
+			// draw
 			CGRect rc = self.superlayer.bounds;
 			CGFloat sAspect = [self aspectRatio];
 			
@@ -269,7 +238,7 @@
 			[self setBounds:rc];
 			
 			GLenum target = CVOpenGLTextureGetTarget(tex);
-			
+
 			glEnable(target);
 			glBindTexture(target, CVOpenGLTextureGetName(tex));
 			
@@ -285,9 +254,14 @@
 			
 			glDisable(target);
 			CVOpenGLTextureRelease(tex);
+			goto FLUSH;
 		}
 	}
-
+	
+	glClearColor(0, 0, 0, 0);
+	glClear(GL_COLOR_BUFFER_BIT);
+	
+FLUSH:
 	glFlush();
 	CGLUnlockContext(glContext);
 }

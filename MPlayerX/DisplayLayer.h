@@ -25,6 +25,8 @@
 // 这个值必须小于0，内部实际上会用0做比较
 #define kDisplayAscpectRatioInvalid		(-1)
 
+#define IsDisplayLayerAspectValid(x)	(x > 0)
+
 typedef struct {
 	size_t width;
 	size_t height;
@@ -39,7 +41,6 @@ typedef struct {
 	CVOpenGLBufferRef bufRef;
 	CVOpenGLTextureCacheRef cache;
 
-	CGLContextObj _context;
 	DisplayFormat fmt;
 	BOOL fillScreen;
 	CGFloat externalAspectRatio;
