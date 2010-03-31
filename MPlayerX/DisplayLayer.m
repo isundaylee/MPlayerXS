@@ -172,16 +172,14 @@
 }
 
 -(CGLContextObj) copyCGLContextForPixelFormat:(CGLPixelFormatObj)pf
-{	
+{
 	GLint i = 1;
 
 	CGLContextObj ctx = [super copyCGLContextForPixelFormat:pf];
 
 	CGLLockContext(ctx);
-	//CGLSetCurrentContext(ctx);
 
 	CGLSetParameter(ctx, kCGLCPSwapInterval, &i);
-	
 	/*
 	glEnable(GL_TEXTURE_RECTANGLE_ARB);
 	glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
