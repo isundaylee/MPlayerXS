@@ -214,6 +214,8 @@
 				break;
 		}
 	}
+	// do not use the playerWindow, since when fullscreen the window holds self is not playerWindow
+	[[self window] makeFirstResponder:self];
 }
 
 -(void) mouseEntered:(NSEvent *)theEvent
