@@ -40,6 +40,7 @@
 	NSArray *volumeButtonImages;
 
 	NSMenu *subListMenu;
+	NSMenu *audioListMenu;
 
 	float volStep;
 	BOOL hintTimePrsOnAbs;
@@ -140,6 +141,7 @@ extern NSString * const kFillScreenButtonImageUBKey;
 -(IBAction) changeSubScale:(id)sender;
 
 -(IBAction) stepAudios:(id)sender;
+-(IBAction) setAudioWithID:(id)sender;
 
 -(IBAction) toggleTimeTextDispMode:(id)sender;
 -(IBAction) changeSubPosBy:(id)sender;

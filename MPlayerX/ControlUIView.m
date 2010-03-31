@@ -49,7 +49,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 @interface ControlUIView (ControlUIViewInternal)
 -(void) windowHasResized:(NSNotification *)notification;
 -(void) calculateHintTime;
--(void) resetSubMenu;
+-(void) resetSubtitleMenu;
+-(void) resetAudioMenu;
 @end
 
 @implementation ControlUIView
@@ -83,6 +84,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		timeFormatter = [[TimeFormatter alloc] init];
 		floatWrapFormatter = [[FloatWrapFormatter alloc] init];
 		subListMenu = [[NSMenu alloc] initWithTitle:@"SubListMenu"];
+		audioListMenu = [[NSMenu alloc] initWithTitle:@"AudioListMenu"];
 	}
 	return self;
 }
@@ -191,7 +193,11 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 	[menuSwitchSub setSubmenu:subListMenu];
 	[subListMenu setAutoenablesItems:NO];
-	[self resetSubMenu];
+	[self resetSubtitleMenu];
+	
+	[menuSwitchAudio setSubmenu:audioListMenu];
+	[audioListMenu setAutoenablesItems:NO];
+	[self resetAudioMenu];
 	
 	[menuSubScaleInc setTag:1];
 	[menuSubScaleDec setTag:-1];
@@ -231,6 +237,10 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[subListMenu removeAllItems];
 	[subListMenu release];
 
+	[menuSwitchAudio setSubmenu:nil];
+	[audioListMenu removeAllItems];
+	[audioListMenu release];
+	
 	[fillGradient release];
 	
 	[super dealloc];
@@ -605,7 +615,10 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		[playerController setSubtitle:[sender tag]];
 		
 		for (NSMenuItem* mItem in [subListMenu itemArray]) {
-			[mItem setState:NSOffState];
+			if ([mItem state] == NSOnState) {
+				[mItem setState:NSOffState];
+				break;
+			}
 		}
 		[sender setState:NSOnState];
 		
@@ -618,9 +631,46 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 /** \warning this is a temporary implementation */
 -(IBAction) stepAudios:(id)sender
 {
-	[playerController setAudio:-1];
-	// 这个可能是mplayer的bug，当轮转一圈从各个音轨到无声在回到音轨时，声音会变到最大，所以这里再设定一次音量
-	[self setVolume:volumeSlider];
+	NSUInteger num = [audioListMenu numberOfItems];
+	
+	if (num) {
+		NSUInteger idx = 0, found = 0;
+		NSMenuItem* mItem;
+		
+		for (mItem in [audioListMenu itemArray]) {
+			if ([mItem state] == NSOnState) {
+				found = idx+1;
+				break;
+			}
+			idx++;
+		}
+		if (found >= num) {
+			found = 0;
+		}
+		[self setAudioWithID:[audioListMenu itemAtIndex:found]];
+	}
+}
+
+-(IBAction) setAudioWithID:(id)sender
+{
+	if (sender) {
+		[playerController setAudio:[sender tag]];
+		
+		// 这个可能是mplayer的bug，当轮转一圈从各个音轨到无声在回到音轨时，声音会变到最大，所以这里再设定一次音量
+		[self setVolume:volumeSlider];
+		
+		for (NSMenuItem* mItem in [audioListMenu itemArray]) {
+			if ([mItem state] == NSOnState) {
+				[mItem setState:NSOffState];
+				break;
+			}
+		}
+		[sender setState:NSOnState];
+		
+		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDAudioHint, [sender title]]
+					  owner:kOSDOwnerOther
+				updateTimer:YES];
+	}
 }
 
 -(IBAction) toggleTimeTextDispMode:(id)sender
@@ -862,7 +912,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 			updateTimer:YES];
 }
 
--(void) resetSubMenu
+-(void) resetSubtitleMenu
 {
 	[subListMenu removeAllItems];
 	
@@ -888,7 +938,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 -(void) gotSubInfo:(NSArray*) subs changed:(int)changeKind
 {
 	if (changeKind == NSKeyValueChangeSetting) {
-		[self resetSubMenu];
+		[self resetSubtitleMenu];
 	}
 	
 	if (subs && (subs != (id)[NSNull null]) && [subs count]) {
@@ -949,10 +999,40 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	}
 }
 
+-(void) resetAudioMenu
+{
+	[audioListMenu removeAllItems];
+}
+
 -(void) gotAudioInfo:(NSArray*) ais
 {
-	
+	[audioListMenu removeAllItems];
+
+	if (ais && (ais != (id)[NSNull null]) && [ais count]) {
+		
+		NSMenuItem *mItem = nil;
+		
+		for (id info in ais) {
+			mItem = [[NSMenuItem alloc] init];
+			[mItem setEnabled:YES];
+			[mItem setTarget:self];
+			[mItem setAction:@selector(setAudioWithID:)];
+			[mItem setTitle:[info description]];
+			[mItem setTag:[info ID]];
+			[mItem setState:NSOffState];
+			[audioListMenu addItem:mItem];
+			[mItem release];
+		}
+		
+		[[audioListMenu itemAtIndex:0] setState:NSOnState];
+		
+		[menuSwitchAudio setEnabled:YES];
+	} else {
+		[menuSwitchAudio setEnabled:NO];
+	}
+
 }
+
 ////////////////////////////////////////////////draw myself//////////////////////////////////////////////////
 - (void)drawRect:(NSRect)dirtyRect
 {
