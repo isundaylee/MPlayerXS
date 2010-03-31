@@ -131,12 +131,15 @@
 				switch (key)
 				{
 					case NSUpArrowFunctionKey:
+					case kSCMAudioDelayPlusShortcutKey:
 						[playerController changeAudioDelayBy:audioDelayStepTime];
 						break;
 					case NSDownArrowFunctionKey:
+					case kSCMAudioDelayMinusShortcutKey:
 						[playerController changeAudioDelayBy:-audioDelayStepTime];
 						break;
 					case NSLeftArrowFunctionKey:
+					case kSCMAudioDelayResetShortbutKey:
 						[playerController setAudioDelay:0];
 						break;
 					default:
@@ -149,12 +152,15 @@
 				switch (key)
 				{
 					case NSUpArrowFunctionKey:
+					case kSCMSubDelayPlusShortcutKey:
 						[playerController changeSubDelayBy:subDelayStepTime];
 						break;
 					case NSDownArrowFunctionKey:
+					case kSCMSubDelayMinusShortcutKey:
 						[playerController changeSubDelayBy:-subDelayStepTime];
 						break;
 					case NSLeftArrowFunctionKey:
+					case kSCMSubDelayResetShortcutKey:
 						[playerController setSubDelay:0];
 						break;
 					case kSCMFullScrnShortcutKey:
@@ -191,20 +197,9 @@
 					case kSCMPlaybackSpeedDownShortcutKey:
 						[playerController changeSpeedBy:-speedStepIncre];
 						break;
-					/*
-					case kSCMAudioDelayPlusShortcutKey:
-						[playerController changeAudioDelayBy:audioDelayStepTime];
+					case kSCMPlaybackSpeedResetShortcutKey:
+						[playerController setSpeed:1];
 						break;
-					case kSCMAudioDelayMinusShortcutKey:
-						[playerController changeAudioDelayBy:-audioDelayStepTime];
-						break;
-					case kSCMSubDelayPlusShortcutKey:
-						[playerController changeSubDelayBy:subDelayStepTime];
-						break;
-					case kSCMSubDelayMinusShortcutKey:
-						[playerController changeSubDelayBy:-subDelayStepTime];
-						break;
-					*/
 					default:
 						ret = NO;
 						break;
