@@ -123,8 +123,10 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 
 		imageData = NULL;
 		imageSize = 0;
-		sharedBufferName = nil;
+		sharedBufferName = [[NSString alloc] initWithFormat:@"MPlayerX_%X", self];
 		shMemID = -1;
+		renderConn = [[NSConnection serviceConnectionWithName:sharedBufferName rootObject:self] retain];
+		[renderConn runInNewThread];
 		
 		dispDelegate = nil;
 		
@@ -150,6 +152,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 
 -(void) dealloc
 {
+	[renderConn release];
 	[keyPathDict release];
 	[typeDict release];
 
@@ -194,9 +197,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 	
 	// 只重置与播放无关的东西
 	[movieInfo resetWithParameterManager:nil];
-	
-	SAFERELEASE(sharedBufferName);
-	
+
 	[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayStoppedNotification 
 														object:self
 													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -222,7 +223,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 - (int) startWithWidth: (bycopy int)width withHeight: (bycopy int)height withBytes: (bycopy int)bytes withAspect: (bycopy int)aspect
 {
 	// NSLog(@"start");
-	if (dispDelegate && sharedBufferName) {
+	if (dispDelegate) {
 		// 打开shmem
 		shMemID = shm_open([sharedBufferName UTF8String], O_RDONLY, S_IRUSR);
 		if (shMemID == -1) {
@@ -276,16 +277,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 	if (state != kMPCStoppedState) {
 		[self performStop];
 	}
-
-	// 如果有delegate想要图像数据，那么就建立DistantObject
-	if (dispDelegate) {
-		sharedBufferName = [[NSString alloc] initWithFormat:@"MPlayerX_%X%d", self, cnt++];
-		[[NSConnection serviceConnectionWithName:sharedBufferName rootObject:self] runInNewThread];
-	} else {
-		// 如果没有人想要图像数据，那么将这个参数设置为nil，会使得mplayer的corevideo放弃生成shmem（ParameterManager里面实现的）
-		sharedBufferName = nil;
-	}
-
+	
 	// 播放开始之前清空subConv的工作文件夹
 	[subConv clearWorkDirectory];
 	
@@ -328,7 +320,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 	
 	if ( [playerCore playMedia:moviePath 
 					  withExec:[mpPathPair objectForKey:(pm.prefer64bMPlayer)?kX86_64Key:kI386Key] 
-					withParams:[pm arrayOfParametersWithName:sharedBufferName]]
+					withParams:[pm arrayOfParametersWithName:(dispDelegate)?(sharedBufferName):(nil)]]
 	   ) {
 		state = kMPCOpenedState;
 
@@ -347,7 +339,6 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 		[rl addTimer:pollingTimer forMode:NSEventTrackingRunLoopMode];
 	} else {
 		// 如果没有成功打开媒体文件
-		SAFERELEASE(sharedBufferName);
 		[pm reset];
 	}
 }
