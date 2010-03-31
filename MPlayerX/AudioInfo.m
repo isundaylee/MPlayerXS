@@ -64,4 +64,12 @@
 		[self setCodec:[arr objectAtIndex:5]];	
 	}	
 }
+
+-(NSString*) description
+{
+	NSString *str = (language)?(language):(@"unknown");
+	
+	return [NSString stringWithFormat:@"%d: %@", ID, str];
+}
+
 @end
