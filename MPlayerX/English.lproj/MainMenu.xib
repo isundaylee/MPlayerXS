@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10C540</string>
+		<string key="IBDocument.SystemVersion">10D573</string>
 		<string key="IBDocument.InterfaceBuilderVersion">740</string>
-		<string key="IBDocument.AppKitVersion">1038.25</string>
-		<string key="IBDocument.HIToolboxVersion">458.00</string>
+		<string key="IBDocument.AppKitVersion">1038.29</string>
+		<string key="IBDocument.HIToolboxVersion">460.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">740</string>
@@ -13,7 +13,6 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="371"/>
-			<integer value="594"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -593,7 +592,7 @@
 				<string key="NSWindowContentMaxSize">{300, 377}</string>
 				<string key="NSWindowContentMinSize">{300, 377}</string>
 				<object class="NSView" key="NSWindowView" id="255223115">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -667,7 +666,6 @@ IEljb24KTWlsb8WhIEtyc21hbm92acSHA</string>
 						</object>
 					</object>
 					<string key="NSFrameSize">{300, 377}</string>
-					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{300, 396}</string>
@@ -677,7 +675,7 @@ IEljb24KTWlsb8WhIEtyc21hbm92acSHA</string>
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{358, 526}, {400, 300}}</string>
-				<int key="NSWTFlags">1954021376</int>
+				<int key="NSWTFlags">1954022400</int>
 				<string key="NSWindowTitle">MPlayerX</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
@@ -3676,6 +3674,7 @@ IEljb24KTWlsb8WhIEtyc21hbm92acSHA</string>
 							<string>changeVolumeBy:</string>
 							<string>resetAspectRatio:</string>
 							<string>seekTo:</string>
+							<string>setAudioWithID:</string>
 							<string>setSubWithID:</string>
 							<string>setVolume:</string>
 							<string>stepAudios:</string>
@@ -3691,6 +3690,7 @@ IEljb24KTWlsb8WhIEtyc21hbm92acSHA</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
