@@ -88,6 +88,8 @@
 		NSMutableDictionary *env = [[[NSProcessInfo processInfo] environment] mutableCopy];
 		[env setObject:@"1" forKey:@"DYLD_BIND_AT_LAUNCH"]; //delete the message for DYLD
 		[env setObject:@"xterm" forKey:@"TERM"]; // delete the message from mplayer about the "unknown" terminal
+		[env removeObjectForKey:@"MPLAYER_HOME"];
+		[env removeObjectForKey:@"HOME"];
 		[task setEnvironment:env];
 		[env autorelease];
 		
