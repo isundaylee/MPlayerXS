@@ -63,21 +63,18 @@
 		repeatCanceled = NO;
 		repeatCounter = 0;
 		
-		appleRemoteControl = [[AppleRemote alloc] initWithDelegate:self];		
+		appleRemoteControl = [[AppleRemote alloc] initWithDelegate:self];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(applicationWillBecomeActive:)
+													 name:NSApplicationWillBecomeActiveNotification
+												   object:NSApp];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(applicationWillResignActive:)
+													 name:NSApplicationWillResignActiveNotification
+												   object:NSApp];
 	}
 	return self;
-}
-
--(void) awakeFromNib
-{
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(applicationWillBecomeActive:)
-												 name:NSApplicationWillBecomeActiveNotification
-											   object:NSApp];
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(applicationWillResignActive:)
-												 name:NSApplicationWillResignActiveNotification
-											   object:NSApp];
 }
 
 -(void) dealloc

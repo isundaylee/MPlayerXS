@@ -56,6 +56,7 @@
 		fontSizeMax = [ud floatForKey:kUDKeyOSDFontSizeMax];
 		
 		active = NO;
+
 		autoHideTimeInterval = 0;
 		autoHideTimer = nil;
 		shouldHide = YES;
@@ -66,21 +67,17 @@
 		shadow = [[NSShadow alloc] init];
 		[shadow setShadowOffset:NSMakeSize(1.0, -1.0)];
 		[shadow setShadowColor:[NSColor blackColor]];
-		[shadow setShadowBlurRadius:8];		
+		[shadow setShadowBlurRadius:8];
+		
+		[self setAlphaValue:0];
+		[self setSelectable:NO];
+		[self setAllowsEditingTextAttributes:YES];
+		[self setDrawsBackground:NO];
+		[self setBezeled:NO];
+		
+		[self setAutoHideTimeInterval:[ud floatForKey:kUDKeyOSDAutoHideTime]];
 	}
 	return self;
-}
-
--(void) awakeFromNib
-{
-	[self setAlphaValue:0];
-
-	[self setSelectable:NO];
-	[self setAllowsEditingTextAttributes:YES];
-	[self setDrawsBackground:NO];
-	[self setBezeled:NO];
-	
-	[self setAutoHideTimeInterval:[ud floatForKey:kUDKeyOSDAutoHideTime]];
 }
 
 -(void) dealloc
