@@ -43,4 +43,7 @@
 	[im drawAtPoint:NSMakePoint([self bounds].size.width - imRect.size.width, 0) fromRect:imRect operation:NSCompositeSourceOver fraction:1];
 }
 
+- (BOOL)acceptsFirstMouse:(NSEvent *)event 
+{ return YES; }
+
 @end
