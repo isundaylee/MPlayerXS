@@ -44,7 +44,7 @@
 		externalAspectRatio = kDisplayAscpectRatioInvalid;
 
 		[self setDelegate:self];
-		[self setMasksToBounds:YES];
+		// [self setMasksToBounds:YES];
 		[self setAutoresizingMask:kCALayerWidthSizable|kCALayerHeightSizable];
 	}
 	return self;
