@@ -203,7 +203,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 																[NSNumber numberWithBool:byForce], kMPCPlayStoppedByForceKey,
 																[movieInfo.playingInfo currentTime], kMPCPlayStoppedTimeKey, nil]];
-	NSLog(@"term:%d", byForce);
+	NSLog(@"terminated:%d", byForce);
 }
 
 - (void) playerCore:(id)player outputAvailable:(NSData*)outData
@@ -315,9 +315,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 
 	// 只重置与播放有关的
 	[movieInfo.playingInfo resetWithParameterManager:pm];
-	
-	NSLog(@"%@", [[pm arrayOfParametersWithName:sharedBufferName] componentsJoinedByString:@"\n"]);
-	
+
 	if ( [playerCore playMedia:moviePath 
 					  withExec:[mpPathPair objectForKey:(pm.prefer64bMPlayer)?kX86_64Key:kI386Key] 
 					withParams:[pm arrayOfParametersWithName:(dispDelegate)?(sharedBufferName):(nil)]]

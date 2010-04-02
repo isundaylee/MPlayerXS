@@ -116,7 +116,7 @@
 											 NULL, NULL, NULL, &bufRef);
 			if (error != kCVReturnSuccess) {
 				bufRef = NULL;
-				NSLog(@"buffer failed");
+				NSLog(@"video buffer failed");
 			}
 		}
 	}
@@ -150,33 +150,15 @@
 	return NO;
 }
 
--(CGLPixelFormatObj) copyCGLPixelFormatForDisplayMask:(uint32_t)mask
-{
-	CGLPixelFormatObj pf;
-	GLint num = 1;
-	
-	CGLPixelFormatAttribute attr[] = {
-		kCGLPFAAccelerated,
-		kCGLPFADisplayMask,mask,
-		0
-	};
-	
-	CGLChoosePixelFormat(attr, &pf, &num);
-	NSLog(@"pfrc:%d",CGLGetPixelFormatRetainCount(pf));
-	return pf;
-}
-
--(void) releaseCGLPixelFormat:(CGLPixelFormatObj)pf
-{
-	CGLReleasePixelFormat(pf);
-}
-
 -(CGLContextObj) copyCGLContextForPixelFormat:(CGLPixelFormatObj)pf
 {
 	GLint i = 1;
 
 	CGLContextObj ctx = [super copyCGLContextForPixelFormat:pf];
 
+	NSLog(@"ctx:%d", (ctx != 0));
+	NSLog(@"pfrc:%d", CGLGetPixelFormatRetainCount(pf));
+	
 	CGLLockContext(ctx);
 
 	CGLSetParameter(ctx, kCGLCPSwapInterval, &i);
@@ -195,7 +177,7 @@
 	
 	if(error != kCVReturnSuccess) {
 		cache = NULL;
-		NSLog(@"create cache failed");
+		NSLog(@"video cache create failed");
 	}
 	return ctx;
 }
