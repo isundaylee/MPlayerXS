@@ -21,11 +21,12 @@
 #import <Cocoa/Cocoa.h>
 #import "TimeFormatter.h"
 
-@class RootLayerView, PlayerController, FloatWrapFormatter, ArrowTextField, ResizeIndicator, OsdText;
+@class RootLayerView, PlayerController, FloatWrapFormatter, ArrowTextField, ResizeIndicator, OsdText, TitleView;
 
 @interface ControlUIView : NSView
 {
 	NSUserDefaults *ud;
+	NSNotificationCenter *notifCenter;
 
 	NSGradient *fillGradient;
 	
@@ -66,6 +67,7 @@
 	
 	IBOutlet ResizeIndicator *rzIndicator;
 	IBOutlet OsdText *osd;
+	IBOutlet TitleView *title;
 	
 	IBOutlet NSMenuItem *menuSnapshot;
 	IBOutlet NSMenuItem *menuSwitchSub;
@@ -103,12 +105,6 @@ extern NSString * const kFillScreenButtonImageUBKey;
 -(void) displayStarted;
 -(void) displayStopped;
 
-////////////////////////////////播放相关////////////////////////////////
--(void) playBackOpened;
--(void) playBackStarted;
--(void) playBackStopped;
--(void) playBackWillStop;
-
 ////////////////////////////////KVO相关////////////////////////////////
 -(void) gotMediaLength:(NSNumber*) length;
 -(void) gotCurentTime:(NSNumber*) timePos;
@@ -117,7 +113,6 @@ extern NSString * const kFillScreenButtonImageUBKey;
 -(void) gotSubDelay:(NSNumber*) sd;
 -(void) gotAudioDelay:(NSNumber*) ad;
 -(void) gotSubInfo:(NSArray*) subs changed:(int)changeKind;
--(void) gotLastStoppedPlace:(float) tm;
 -(void) gotCachingPercent:(NSNumber*) caching;
 -(void) gotAudioInfo:(NSArray*) ais;
 

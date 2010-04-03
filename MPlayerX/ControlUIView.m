@@ -27,6 +27,7 @@
 #import "ArrowTextField.h"
 #import "ResizeIndicator.h"
 #import "OsdText.h"
+#import "TitleView.h"
 
 #define CONTROLALPHA		(1)
 #define BACKGROUNDALPHA		(0.9)
@@ -51,7 +52,12 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 -(void) calculateHintTime;
 -(void) resetSubtitleMenu;
 -(void) resetAudioMenu;
+-(void) playBackOpened:(NSNotification *)notif;
+-(void) playBackStarted:(NSNotification *)notif;
+-(void) playBackStopped:(NSNotification *)notif;
+-(void) playBackWillStop:(NSNotification *)notif;
 @end
+
 
 @implementation ControlUIView
 
@@ -76,6 +82,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 {
 	if (self = [super initWithFrame:frameRect]) {
 		ud = [NSUserDefaults standardUserDefaults];
+		notifCenter = [NSNotificationCenter defaultCenter];
 		
 		shouldHide = NO;
 		fillGradient = nil;
@@ -218,6 +225,14 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 											 selector:@selector(windowHasResized:)
 												 name:NSWindowDidResizeNotification
 											   object:[self window]];
+	[notifCenter addObserver:self selector:@selector(playBackOpened:)
+						name:kMPCPlayOpenedNotification object:playerController];
+	[notifCenter addObserver:self selector:@selector(playBackStarted:)
+						name:kMPCPlayStartedNotification object:playerController];
+	[notifCenter addObserver:self selector:@selector(playBackWillStop:)
+						name:kMPCPlayWillStopNotification object:playerController];
+	[notifCenter addObserver:self selector:@selector(playBackStopped:)
+						name:kMPCPlayStoppedNotification object:playerController];
 }
 
 -(void) dealloc
@@ -304,11 +319,12 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 {
 	// 这段代码是不能重进的，否则会不停的hidecursor
 	if ([self alphaValue] > (CONTROLALPHA-0.05)) {
-		// 得到鼠标在这个view的坐标
-		NSPoint pos = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] 
-								fromView:nil];
+		// 得到鼠标在这个window的坐标
+		NSPoint pos = [[self window] convertScreenToBase:[NSEvent mouseLocation]];
+		
 		// 如果不在这个View的话，那么就隐藏自己
-		if (!NSPointInRect(pos, self.bounds)) {
+		if ((!NSPointInRect([self  convertPoint:pos fromView:nil], self.bounds)) && 
+			(!NSPointInRect([title convertPoint:pos fromView:nil], title.bounds))) {
 			[self.animator setAlphaValue:0];
 			
 			// 如果是全屏模式也要隐藏鼠标
@@ -322,6 +338,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 				// 不是全屏的话，隐藏resizeindicator
 				// 全屏的话不管
 				[rzIndicator.animator setAlphaValue:0];
+				[title.animator setAlphaValue:0];
 			}
 		}			
 	}	
@@ -349,6 +366,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		// 不是全屏模式的话，要显示resizeindicator
 		// 全屏的时候不管
 		[rzIndicator.animator setAlphaValue:1];
+		[title.animator setAlphaValue:1];
 	}
 
 }
@@ -363,7 +381,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	switch (playerController.playerState) {
 		case kMPCStoppedState:
 			// 停止状态
-			[self playBackStopped];
+			[self playBackStopped:nil];
 			osdStr = kMPXStringOSDPlaybackStopped;
 			break;
 		case kMPCPausedState:
@@ -494,7 +512,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 			}
 			
 			// 进入全屏，强制隐藏resizeindicator
-			[rzIndicator.animator setAlphaValue:0];
+			[rzIndicator setAlphaValue:0];
+			[title setAlphaValue:0];
 			
 			[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
 			[menuToggleLockAspectRatio setEnabled:NO];
@@ -510,6 +529,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 			if ([self alphaValue] > (CONTROLALPHA-0.05)) {
 				// 如果controlUI没有隐藏，那么显示resizeindiccator
 				[rzIndicator.animator setAlphaValue:1];
+				[title.animator setAlphaValue:1];
 			}
 			
 			[menuToggleLockAspectRatio setEnabled:YES];
@@ -781,14 +801,21 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 }
 
 ////////////////////////////////////////////////playback//////////////////////////////////////////////////
--(void) playBackOpened
+-(void) playBackOpened:(NSNotification*)notif
 {
 	[osd setActive:[ud boolForKey:kUDKeyShowOSD]];
+
+	NSNumber *stopTime = [[notif userInfo] objectForKey:kMPCPlayLastStoppedTimeKey];
+	if (stopTime) {
+		[menuPlayFromLastStoppedPlace setTag: ([stopTime integerValue] * LASTSTOPPEDTIMERATIO)];
+		[menuPlayFromLastStoppedPlace setEnabled:YES];
+	} else {
+		[menuPlayFromLastStoppedPlace setEnabled:NO];		
+	}
 }
 
--(void) playBackStarted
+-(void) playBackStarted:(NSNotification*)notif
 {
-	[dispView setPlayerWindowLevel];
 	[playPauseButton setState:(playerController.playerState == kMPCPlayingState)?PlayState:PauseState];
 
 	[speedText setEnabled:YES];
@@ -798,7 +825,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuSwitchAudio setEnabled:YES];	
 }
 
--(void) playBackWillStop
+-(void) playBackWillStop:(NSNotification*)notif
 {
 	[osd setActive:NO];
 }
@@ -806,10 +833,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 /** 这个API会在两个时间点被调用，
  * 1. mplayer播放结束，不论是强制结束还是自然结束
  * 2. mplayer播放失败 */
--(void) playBackStopped
+-(void) playBackStopped:(NSNotification*)notif
 {
-	[dispView setPlayerWindowLevel];
-	
 	[playPauseButton setState:PauseState];
 
 	[timeText setStringValue:@""];
@@ -833,7 +858,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	timeTextPrsOnRmn = [ud boolForKey:kUDKeySwitchTimeTextPressOnRemain];
 }
-
 ////////////////////////////////////////////////KVO for time//////////////////////////////////////////////////
 -(void) gotMediaLength:(NSNumber*) length
 {
@@ -975,12 +999,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		[menuSubScaleInc setEnabled:NO];
 		[menuSubScaleDec setEnabled:NO];
 	}
-}
-
--(void) gotLastStoppedPlace:(float) tm
-{
-	[menuPlayFromLastStoppedPlace setTag: ((NSInteger)tm * LASTSTOPPEDTIMERATIO)];
-	[menuPlayFromLastStoppedPlace setEnabled: YES];
 }
 
 -(void) gotCachingPercent:(NSNumber*) caching
