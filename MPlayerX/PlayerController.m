@@ -80,7 +80,6 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 					   [NSNumber numberWithBool:YES], kUDKeyEnableMultiThread,
 					   [NSNumber numberWithFloat:2.0], kUDKeySubScale,
 					   [NSNumber numberWithFloat:0.1], kUDKeySubScaleStepValue,
-					   [NSNumber numberWithBool:NO], kUDKeyQuitOnClose,
 					   [NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:1.0 alpha:1.00]], kUDKeySubFontColor,
 					   [NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:0.0 alpha:0.85]], kUDKeySubFontBorderColor,
 					   [NSNumber numberWithBool:NO], kUDKeyForceIndex,
@@ -433,35 +432,23 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 								// 没有找到。说明按照当前的文件名规则并不存在相应的媒体文件
 								if (!autoSearchMediaFile) {
 									// 如果没有找到合适的播放文件
-									if ([window isVisible]) {
-										NSBeginAlertSheet(kMPXStringError, kMPXStringOK, nil, nil, window, nil, nil, nil, nil, kMPXStringCantFindMediaFile);
-									} else {
-										id alertPanel = NSGetAlertPanel(kMPXStringError, kMPXStringCantFindMediaFile, kMPXStringOK, nil, nil);
-										[NSApp runModalForWindow:alertPanel];
-										NSReleaseAlertPanel(alertPanel);
-									}
+									id alertPanel = NSGetAlertPanel(kMPXStringError, kMPXStringCantFindMediaFile, kMPXStringOK, nil, nil);
+									[NSApp runModalForWindow:alertPanel];
+									NSReleaseAlertPanel(alertPanel);
 								}
 								break;
 							}
 						} else {
 							// 否则提示
-							if ([window isVisible]) {
-								NSBeginAlertSheet(kMPXStringError, kMPXStringOK, nil, nil, window, nil, nil, nil, nil, kMPXStringFileNotSupported);
-							} else {
-								id alertPanel = NSGetAlertPanel(kMPXStringError, kMPXStringFileNotSupported, kMPXStringOK, nil, nil);
-								[NSApp runModalForWindow:alertPanel];
-								NSReleaseAlertPanel(alertPanel);
-							}
-						}
-					} else {
-						// 文件不存在
-						if ([window isVisible]) {
-							NSBeginAlertSheet(kMPXStringError, kMPXStringOK, nil, nil, window, nil, nil, nil, nil, kMPXStringFileNotExist);
-						} else {
-							id alertPanel = NSGetAlertPanel(kMPXStringError, kMPXStringFileNotExist, kMPXStringOK, nil, nil);
+							id alertPanel = NSGetAlertPanel(kMPXStringError, kMPXStringFileNotSupported, kMPXStringOK, nil, nil);
 							[NSApp runModalForWindow:alertPanel];
 							NSReleaseAlertPanel(alertPanel);
 						}
+					} else {
+						// 文件不存在
+						id alertPanel = NSGetAlertPanel(kMPXStringError, kMPXStringFileNotExist, kMPXStringOK, nil, nil);
+						[NSApp runModalForWindow:alertPanel];
+						NSReleaseAlertPanel(alertPanel);
 					}
 				} else {
 					// 如果是非本地文件
@@ -689,6 +676,13 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 }
 
 ////////////////////////////////////////////////cooperative actions with UI//////////////////////////////////////////////////
+-(void) stop
+{
+	[mplayer performStop];
+	// 窗口一旦关闭，清理lastPlayPath，则即使再次打开窗口也不会播放以前的文件
+	SAFERELEASE(lastPlayedPath);	
+}
+
 -(void) togglePlayPause
 {
 	if (mplayer.state == kMPCStoppedState) {
@@ -883,16 +877,4 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 {
 	[[SUUpdater sharedUpdater] checkForUpdatesInBackground];
 }
-////////////////////////////////////////Window Delegate////////////////////////////////////////
--(void) windowWillClose:(NSNotification *)notification
-{
-	if ([ud boolForKey:kUDKeyQuitOnClose]) {
-		[NSApp terminate:self];
-	} else {
-		[mplayer performStop];
-		// 窗口一旦关闭，清理lastPlayPath，则即使再次打开窗口也不会播放以前的文件
-		SAFERELEASE(lastPlayedPath);		
-	}
-}
-
 @end

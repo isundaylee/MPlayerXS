@@ -53,6 +53,7 @@
 -(void) setMultiThreadMode:(BOOL) mt;
 
 -(void) loadFiles:(NSArray*)files fromLocal:(BOOL)local;
+-(void) stop;
 
 -(void) togglePlayPause;	/** 返回PlayPause是否成功 */
 -(BOOL) toggleMute;			/** 返回现在的mute状态 */
