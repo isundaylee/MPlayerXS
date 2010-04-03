@@ -21,11 +21,12 @@
 #import <Cocoa/Cocoa.h>
 #import "CoreController.h"
 
-@class ControlUIView, PlayerController, ShortCutManager, DisplayLayer, OsdText, VideoTunerController;
+@class ControlUIView, PlayerController, ShortCutManager, DisplayLayer, OsdText, VideoTunerController, TitleView;
 
 @interface RootLayerView : NSView <CoreDisplayDelegate>
 {
 	NSUserDefaults *ud;
+	NSNotificationCenter *notifCenter;
 
 	NSTrackingArea *trackingArea;
 	NSBitmapImageRep *logo;
@@ -39,12 +40,16 @@
 	
 	BOOL lockAspectRatio;
 	
+	NSPoint dragMousePos;
+	BOOL dragShouldResize;
+	
 	// 在切换全屏的时候，view的window会发生变化，因此这里用一个成员变量锁定window
 	IBOutlet NSWindow *playerWindow;
 	IBOutlet ControlUIView *controlUI;
 	IBOutlet PlayerController *playerController;
 	IBOutlet ShortCutManager *shortCutManager;
 	IBOutlet VideoTunerController *VTController;
+	IBOutlet TitleView *titlebar;
 }
 
 @property (readonly) CGDirectDisplayID fullScrnDevID;

@@ -27,6 +27,7 @@
 #import "ShortCutManager.h"
 #import "OsdText.h"
 #import "VideoTunerController.h"
+#import "TitleView.h"
 
 #define kOnTopModeNormal		(0)
 #define kOnTopModeAlways		(1)
@@ -37,6 +38,12 @@
 @interface RootLayerView (RootLayerViewInternal)
 -(NSSize) calculateContentSize:(NSSize)refSize;
 -(void) adjustWindowSizeAndAspectRatio:(NSValue*) sizeVal;
+-(void) setupLayers;
+-(void) reorderSubviews;
+-(void) playBackFinalized:(NSNotification*)notif;
+-(void) playBackStopped:(NSNotification*)notif;
+-(void) playBackStarted:(NSNotification*)notif;
+-(void) playBackOpened:(NSNotification*)notif;
 @end
 
 @implementation RootLayerView
@@ -52,6 +59,8 @@
 					   kSnapshotSaveDefaultPath, kUDKeySnapshotSavePath,
 					   [NSNumber numberWithBool:NO], kUDKeyStartByFullScreen,
 					   [NSNumber numberWithBool:YES], kUDKeyFullScreenKeepOther,
+					   [NSNumber numberWithBool:NO], kUDKeyQuitOnClose,
+					   [NSNumber numberWithBool:YES], kUDKeyCloseWindowWhenStopped,
 					   nil]];
 }
 
@@ -59,7 +68,9 @@
 -(id) initWithCoder:(NSCoder *)aDecoder
 {
 	if (self = [super initWithCoder:aDecoder]) {
-		ud = [NSUserDefaults standardUserDefaults];	
+		ud = [NSUserDefaults standardUserDefaults];
+		notifCenter = [NSNotificationCenter defaultCenter];
+		
 		trackingArea = [[NSTrackingArea alloc] initWithRect:NSInsetRect([self frame], 1, 1) 
 													options:NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved | NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingAssumeInside
 													  owner:self
@@ -74,13 +85,14 @@
 							 nil];
 
 		lockAspectRatio = YES;
+		dragShouldResize = NO;
 	}
 	return self;
 }
 
 -(void) dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[notifCenter removeObserver:self];
 	
 	[self removeTrackingArea:trackingArea];
 	[trackingArea release];
@@ -91,7 +103,7 @@
 	[super dealloc];
 }
 
--(void) awakeFromNib
+-(void) setupLayers
 {
 	// 设定LayerHost，现在只Host一个Layer
 	[self setWantsLayer:YES];
@@ -118,10 +130,33 @@
 	
 	// 默认添加dispLayer
 	[root insertSublayer:dispLayer atIndex:0];
-
+	
 	// 通知DispLayer
 	[dispLayer setBounds:[root bounds]];
 	[dispLayer setPosition:CGPointMake(root.bounds.size.width/2, root.bounds.size.height/2)];
+}
+-(id<CAAction>) actionForLayer:(CALayer*)layer forKey:(NSString*)event
+{ return ((id<CAAction>)[NSNull null]); }
+
+-(void) reorderSubviews
+{
+	// 将ControlUI放在最上层以防止被覆盖
+	[controlUI retain];
+	[controlUI removeFromSuperviewWithoutNeedingDisplay];
+	[self addSubview:controlUI positioned:NSWindowAbove	relativeTo:nil];
+	[controlUI release];
+	
+	[titlebar retain];
+	[titlebar removeFromSuperviewWithoutNeedingDisplay];
+	[self addSubview:titlebar positioned:NSWindowAbove relativeTo:nil];
+	[titlebar release];
+}
+
+-(void) awakeFromNib
+{
+	[self setupLayers];
+	
+	[self reorderSubviews];
 	
 	// 通知dispView接受mplayer的渲染通知
 	[playerController setDisplayDelegateForMPlayer:self];
@@ -131,32 +166,61 @@
 	
 	// 设定可以接受Drag Files
 	[self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType,nil]];
-	
-	// 设定窗口的size
-	[playerWindow setContentMinSize:NSMakeSize(400, 300)];
-	[playerWindow setContentSize:NSMakeSize(400, 300)];
-	[playerWindow setCollectionBehavior:NSWindowCollectionBehaviorManaged];
-	
+
 	[VTController setLayer:dispLayer];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(windowHasResized:)
-												 name:NSWindowDidResizeNotification
-											   object:playerWindow];
-	// 将ControlUI放在最上层以防止被覆盖
-	[controlUI retain];
-	[controlUI removeFromSuperviewWithoutNeedingDisplay];
-	[self addSubview:controlUI positioned:NSWindowAbove	relativeTo:nil];
-	[controlUI release];
+	[notifCenter addObserver:self selector:@selector(windowHasResized:)
+						name:NSWindowDidResizeNotification object:playerWindow];
+	
+	[notifCenter addObserver:self selector:@selector(playBackOpened:)
+						name:kMPCPlayOpenedNotification object:playerController];
+	[notifCenter addObserver:self selector:@selector(playBackStarted:)
+						name:kMPCPlayStartedNotification object:playerController];
+	[notifCenter addObserver:self selector:@selector(playBackStopped:)
+						name:kMPCPlayStoppedNotification object:playerController];
+	[notifCenter addObserver:self selector:@selector(playBackFinalized:)
+						name:kMPCPlayFinalizedNotification object:playerController];
 }
--(id<CAAction>) actionForLayer:(CALayer*)layer forKey:(NSString*)event
+
+-(void) playBackFinalized:(NSNotification*)notif
 {
-	return ((id<CAAction>)[NSNull null]);
+	if ([ud boolForKey:kUDKeyCloseWindowWhenStopped] && [playerWindow isVisible]) {
+		[playerWindow orderOut:self];
+	}
+}
+
+-(void) playBackStopped:(NSNotification*)notif
+{
+	[self setPlayerWindowLevel];
+	[playerWindow setTitle:kMPCStringMPlayerX];
+}
+
+-(void) playBackStarted:(NSNotification*)notif
+{
+	[self setPlayerWindowLevel];
+
+	if ([[[notif userInfo] objectForKey:kMPCPlayStartedAudioOnlyKey] boolValue]) {
+		[playerWindow setContentSize:[playerWindow contentMinSize]];
+		[playerWindow makeKeyAndOrderFront:nil];
+	}
+}
+
+-(void) playBackOpened:(NSNotification*)notif
+{
+	NSURL *url = [[notif userInfo] objectForKey:kMPCPlayOpenedURLKey];
+	if (url) {		
+		if ([url isFileURL]) {
+			[playerWindow setTitle:[[url path] lastPathComponent]];
+		} else {
+			[playerWindow setTitle:[[url absoluteString] lastPathComponent]];
+		}
+	} else {
+		[playerWindow setTitle:kMPCStringMPlayerX];
+	}
 }
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)event 
 { return YES; }
-
 -(BOOL) acceptsFirstResponder
 { return YES; }
 
@@ -166,6 +230,16 @@
 		[controlUI showUp];
 		[controlUI updateHintTime];
 	}
+}
+
+-(void)mouseDown:(NSEvent *)theEvent
+{
+	dragMousePos = [NSEvent mouseLocation];
+	NSRect winRC = [playerWindow frame];
+	
+	dragShouldResize = ((NSMaxX(winRC) - dragMousePos.x < 16) && (dragMousePos.y - NSMinY(winRC) < 16))?YES:NO;
+	
+	NSLog(@"mouseDown");
 }
 
 - (void)mouseDragged:(NSEvent *)event
@@ -183,12 +257,42 @@
 		case 0:
 			if (![self isInFullScreenMode]) {
 				// 全屏的时候不能移动屏幕
-				NSPoint winOrg = [playerWindow frame].origin;
+				NSPoint posNow = [NSEvent mouseLocation];
+				NSPoint delta;
+				delta.x = (posNow.x - dragMousePos.x);
+				delta.y = (posNow.y - dragMousePos.y);
+				dragMousePos = posNow;
 				
-				winOrg.x += [event deltaX];
-				winOrg.y -= [event deltaY];
-				
-				[playerWindow setFrameOrigin:winOrg];
+				if (dragShouldResize) {
+					NSRect winRC = [playerWindow frame];
+					NSRect newFrame = NSMakeRect(winRC.origin.x,
+												 posNow.y, 
+												 posNow.x-winRC.origin.x,
+												 winRC.size.height + winRC.origin.y - posNow.y);
+					
+					winRC.size = [playerWindow contentRectForFrameRect:newFrame].size;
+					
+					if (displaying && lockAspectRatio) {
+						// there is video displaying
+						winRC.size = [self calculateContentSize:winRC.size];
+					} else {
+						NSSize minSize = [playerWindow contentMinSize];
+						
+						winRC.size.width = MAX(winRC.size.width, minSize.width);
+						winRC.size.height= MAX(winRC.size.height, minSize.height);
+					}
+
+					winRC.origin.y -= (winRC.size.height - [[playerWindow contentView] bounds].size.height);
+					
+					[playerWindow setFrame:[playerWindow frameRectForContentRect:winRC] display:YES];
+					NSLog(@"should resize");
+				} else {
+					NSPoint winPos = [playerWindow frame].origin;
+					winPos.x += delta.x;
+					winPos.y += delta.y;
+					[playerWindow setFrameOrigin:winPos];
+					NSLog(@"should move");
+				}
 			}
 			break;
 		default:
@@ -216,12 +320,14 @@
 	}
 	// do not use the playerWindow, since when fullscreen the window holds self is not playerWindow
 	[[self window] makeFirstResponder:self];
+	NSLog(@"mouseUp");
 }
 
 -(void) mouseEntered:(NSEvent *)theEvent
 {
 	[controlUI showUp];
 }
+
 -(void) mouseExited:(NSEvent *)theEvent
 {
 	if (![self isInFullScreenMode]) {
@@ -622,6 +728,34 @@
 	[controlUI displayStopped];
 	[playerWindow setContentResizeIncrements:NSMakeSize(1.0, 1.0)];
 	[[self layer] setContents:(id)[logo CGImage]];
+}
+
+///////////////////////////////////////////PlayerWindow delegate//////////////////////////////////////////////
+-(void) windowWillClose:(NSNotification *)notification
+{
+	if ([ud boolForKey:kUDKeyQuitOnClose]) {
+		[NSApp terminate:nil];
+	} else {
+		[playerController stop];
+	}
+}
+
+-(BOOL)windowShouldZoom:(NSWindow *)window toFrame:(NSRect)newFrame
+{
+	return (displaying && (![window isZoomed]));
+}
+
+- (NSRect)windowWillUseStandardFrame:(NSWindow *)window defaultFrame:(NSRect)newFrame
+{
+	if ((window == playerWindow)) {
+		NSRect scrnRect = [[window screen] frame];
+
+		newFrame.size = [self calculateContentSize:scrnRect.size];
+		newFrame = [window frameRectForContentRect:newFrame];
+		newFrame.origin.x = (scrnRect.size.width - newFrame.size.width)/2;
+		newFrame.origin.y = (scrnRect.size.height- newFrame.size.height)/2;
+	}
+	return newFrame;
 }
 
 @end
