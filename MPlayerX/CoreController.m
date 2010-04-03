@@ -34,14 +34,8 @@
 #define kMITypeAudioGotID	(7)
 #define kMITypeVideoGotID	(8)
 
-NSString * const kMPCPlayOpenedNotification		= @"kMPCPlayOpenedNotification";
-NSString * const kMPCPlayStartedNotification	= @"kMPCPlayStartedNotification";
-NSString * const kMPCPlayStoppedNotification	= @"kMPCPlayStoppedNotification";
-NSString * const kMPCPlayWillStopNotification	= @"kMPCPlayWillStopNotification";
-
 NSString * const kMPCPlayStoppedByForceKey		= @"kMPCPlayStoppedByForceKey";
 NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
-
 
 #define SAFERELEASE(x)			{if(x) {[x release]; x = nil;}}
 #define SAFECLOSESHM(x)			{if(x != -1) {close(x); x = -1;}}
@@ -66,6 +60,16 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 -(void) ontop;
 @end
 
+@interface CoreController (LogAnalyzerDelegate)
+-(void) logAnalyzeFinished:(NSDictionary*)dict;
+@end
+
+@interface CoreController (PlayerCoreDelegate)
+-(void) playerCore:(id)player hasTerminated:(BOOL)byForce;			/**< 通知播放任务结束 */
+-(void) playerCore:(id)player outputAvailable:(NSData*)outData;		/**< 有输出 */
+-(void) playerCore:(id)player errorHappened:(NSData*) errData;		/**< 有错误输出 */
+@end
+
 @interface CoreController (CoreControllerInternal)
 -(void) getCurrentTime:(NSTimer*)theTimer;
 @end
@@ -78,6 +82,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 @synthesize movieInfo;
 @synthesize mpPathPair;
 @synthesize la;
+@synthesize delegate;
 
 ///////////////////////////////////////////Init/Dealloc////////////////////////////////////////////////////////
 -(id) init
@@ -129,6 +134,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 		[renderConn runInNewThread];
 		
 		dispDelegate = nil;
+		delegate = nil;
 		
 		pollingTimer = nil;
 		subConv = [[SubConverter alloc] init];
@@ -152,6 +158,9 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 
 -(void) dealloc
 {
+	delegate = nil;
+	dispDelegate = nil;
+
 	[renderConn release];
 	[keyPathDict release];
 	[typeDict release];
@@ -179,10 +188,10 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 
 //////////////////////////////////////////////comunication with playerCore/////////////////////////////////////////////////////
 -(void) playerCore:(id)player hasTerminated:(BOOL) byForce
-{	
-	[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayWillStopNotification
-														object:self
-													  userInfo:nil];
+{
+	if (delegate) {
+		[delegate playebackWillStop];
+	}
 	state = kMPCStoppedState;
 
 	SAFERELEASETIMER(pollingTimer);
@@ -198,11 +207,11 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 	// 只重置与播放无关的东西
 	[movieInfo resetWithParameterManager:nil];
 
-	[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayStoppedNotification 
-														object:self
-													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-																[NSNumber numberWithBool:byForce], kMPCPlayStoppedByForceKey,
-																[movieInfo.playingInfo currentTime], kMPCPlayStoppedTimeKey, nil]];
+	if (delegate) {
+		[delegate playebackStopped:[NSDictionary dictionaryWithObjectsAndKeys:
+									[NSNumber numberWithBool:byForce], kMPCPlayStoppedByForceKey,
+									[movieInfo.playingInfo currentTime], kMPCPlayStoppedTimeKey, nil]];
+	}
 	NSLog(@"terminated:%d", byForce);
 }
 
@@ -321,8 +330,9 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 					withParams:[pm arrayOfParametersWithName:(dispDelegate)?(sharedBufferName):(nil)]]
 	   ) {
 		state = kMPCOpenedState;
-
-		[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayOpenedNotification object:self];
+		if (delegate) {
+			[delegate playebackOpened];
+		}
 		
 		// 这里需要打开Timer去Polling播放时间，然后定期发送现在的播放时间
 		pollingTimer = [[NSTimer timerWithTimeInterval:kPollingTimeForTimePos
@@ -534,7 +544,9 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 					int stateOld = state;
 					state = [[dict objectForKey:key] intValue];
 					if (((stateOld & kMPCStateMask) == 0) && (state & kMPCStateMask)) {
-						[[NSNotificationCenter defaultCenter] postNotificationName:kMPCPlayStartedNotification object:self];
+						if (delegate) {
+							[delegate playebackStarted];
+						}
 					}
 					break;
 				}

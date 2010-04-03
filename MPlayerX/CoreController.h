@@ -32,10 +32,12 @@
 -(void) stop:(id)sender;
 @end
 
-extern NSString * const kMPCPlayOpenedNotification;
-extern NSString * const kMPCPlayStartedNotification;
-extern NSString * const kMPCPlayStoppedNotification;
-extern NSString * const kMPCPlayWillStopNotification;
+@protocol CoreControllerDelegate
+-(void) playebackOpened;
+-(void) playebackStarted;
+-(void) playebackStopped:(NSDictionary*)dict;
+-(void) playebackWillStop;
+@end
 
 extern NSString * const kMPCPlayStoppedByForceKey;
 extern NSString * const kMPCPlayStoppedTimeKey;
@@ -65,6 +67,7 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 	int shMemID;
 
 	id<CoreDisplayDelegate> dispDelegate;
+	id<CoreControllerDelegate> delegate;
 	
 	NSTimer *pollingTimer;
 	
@@ -78,6 +81,7 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 @property (retain, readwrite)	ParameterManager *pm;
 @property (readonly)			LogAnalyzer *la;
 @property (assign, readwrite)	id<CoreDisplayDelegate> dispDelegate;
+@property (assign, readwrite)	id<CoreControllerDelegate> delegate;
 
 -(void) setSubConverterDelegate:(id<SubConverterDelegate>)dlgt;
 
@@ -123,15 +127,4 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 -(void) setSubScale: (float) scale;
 
 -(void) loadSubFile: (NSString*) path;
-@end
-
-
-@interface CoreController (LogAnalyzerDelegate)
--(void) logAnalyzeFinished:(NSDictionary*)dict;
-@end
-
-@interface CoreController (PlayerCoreDelegate)
--(void) playerCore:(id)player hasTerminated:(BOOL)byForce;			/**< 通知播放任务结束 */
--(void) playerCore:(id)player outputAvailable:(NSData*)outData;		/**< 有输出 */
--(void) playerCore:(id)player errorHappened:(NSData*) errData;		/**< 有错误输出 */
 @end
