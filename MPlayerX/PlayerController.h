@@ -21,9 +21,19 @@
 #import <Cocoa/Cocoa.h>
 #import "CoreController.h"
 
+extern NSString * const kMPCPlayOpenedNotification;
+extern NSString * const kMPCPlayStartedNotification;
+extern NSString * const kMPCPlayWillStopNotification;
+extern NSString * const kMPCPlayStoppedNotification;
+extern NSString * const kMPCPlayFinalizedNotification;
+
+extern NSString * const kMPCPlayOpenedURLKey;
+extern NSString * const kMPCPlayLastStoppedTimeKey;
+extern NSString * const kMPCPlayStartedAudioOnlyKey;
+
 @class ControlUIView, OpenURLController, CharsetQueryController;
 
-@interface PlayerController : NSObject <NSApplicationDelegate, SubConverterDelegate>
+@interface PlayerController : NSObject <NSApplicationDelegate, SubConverterDelegate, CoreControllerDelegate>
 {
 	NSUserDefaults *ud;
 	NSNotificationCenter *notifCenter;
