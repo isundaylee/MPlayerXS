@@ -122,3 +122,5 @@ extern NSString * const kSCMToggleLetterBoxKeyEquivalent;
 #define kSCMSubDelayPlusShortcutKey			(']')
 #define kSCMSubDelayMinusShortcutKey		('[')
 #define kSCMSubDelayResetShortcutKey		('\\')
+
+extern NSString * const kMPCStringMPlayerX;
