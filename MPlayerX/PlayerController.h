@@ -46,8 +46,7 @@ extern NSString * const kMPCPlayStartedAudioOnlyKey;
 	NSSet *supportSubFormats;
 
 	NSMutableDictionary *bookmarks;
-	
-	IBOutlet NSWindow *window;
+
 	IBOutlet ControlUIView *controlUI;
 	IBOutlet NSTextField *aboutText;
 	IBOutlet OpenURLController *openUrlController;

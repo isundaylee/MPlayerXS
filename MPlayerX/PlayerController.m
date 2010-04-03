@@ -29,6 +29,16 @@
 #import "RootLayerView.h"
 #import "CharsetQueryController.h"
 
+NSString * const kMPCPlayOpenedNotification		= @"kMPCPlayOpenedNotification";
+NSString * const kMPCPlayStartedNotification	= @"kMPCPlayStartedNotification";
+NSString * const kMPCPlayStoppedNotification	= @"kMPCPlayStoppedNotification";
+NSString * const kMPCPlayWillStopNotification	= @"kMPCPlayWillStopNotification";
+NSString * const kMPCPlayFinalizedNotification	= @"kMPCPlayFinalizedNotification";
+
+NSString * const kMPCPlayOpenedURLKey			= @"kMPCPlayOpenedURLKey";
+NSString * const kMPCPlayLastStoppedTimeKey		= @"kMPCPlayLastStoppedTimeKey";
+NSString * const kMPCPlayStartedAudioOnlyKey	= @"kMPCPlayStartedAudioOnlyKey";
+
 NSString * const kObservedValueStringSpeed		= @"movieInfo.playingInfo.speed";
 NSString * const kObservedValueStringSubDelay	= @"movieInfo.playingInfo.subDelay";
 NSString * const kObservedValueStringAudioDelay	= @"movieInfo.playingInfo.audioDelay";
@@ -36,7 +46,6 @@ NSString * const kObservedValueStringAudioDelay	= @"movieInfo.playingInfo.audioD
 NSString * const kMPCDefaultSubFontPath			= @"wqy-microhei.ttc";
 
 NSString * const kMPCFMTBookmarkPath	= @"%@/Library/Preferences/%@.bookmarks.plist";
-NSString * const kMPCStringMPlayerX		= @"MPlayerX";
 
 NSString * const kMPCMplayerNameMT		= @"mplayer-mt";
 NSString * const kMPCMplayerName		= @"mplayer";
@@ -49,11 +58,11 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 
 #define PlayerCouldAcceptCommand	(((mplayer.state) & 0x0100)!=0)
 
-@interface PlayerController (CoreControllerNotification)
--(void) mplayerOpened:(NSNotification *)notification;
--(void) mplayerStarted:(NSNotification *)notification;
--(void) mplayerStopped:(NSNotification *)notification;
--(void) mplayerWillStop:(NSNotification *)notification;
+@interface PlayerController (CoreControllerDelegate)
+-(void) playebackOpened;
+-(void) playebackStarted;
+-(void) playebackStopped:(NSDictionary*)dict;
+-(void) playebackWillStop;
 @end
 
 @interface PlayerController (PlayerControllerInternal)
@@ -89,7 +98,6 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 					   [NSNumber numberWithUnsignedInt:1], kUDKeyThreadNum,
 					   [NSNumber numberWithBool:YES], kUDKeyUseEmbeddedFonts,
 					   [NSNumber numberWithUnsignedInt:5000], kUDKeyCacheSize,
-					   [NSNumber numberWithBool:YES], kUDKeyCloseWindowWhenStopped,
 					   [NSNumber numberWithBool:YES], kUDKeyPreferIPV6,
 					   [NSNumber numberWithBool:NO], kUDKeyCachingLocal,
 					   [NSNumber numberWithUnsignedInt:kPMLetterBoxModeNotDisplay], kUDKeyLetterBoxMode,
@@ -109,6 +117,8 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 		notifCenter = [NSNotificationCenter defaultCenter];
 		
 		mplayer = [[CoreController alloc] init];
+		[mplayer setDelegate:self];
+		
 		lastPlayedPath = nil;
 		lastPlayedPathPre = nil;
 		supportVideoFormats = nil;
@@ -138,6 +148,7 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 	
 	[aboutText setStringValue:[NSString stringWithFormat: kMPXStringAboutText, [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
 	
+	/////////////////////////setup CoreController////////////////////
 	[self setMultiThreadMode:[ud boolForKey:kUDKeyEnableMultiThread]];
 	
 	// 得到字幕字体文件的路径
@@ -153,12 +164,6 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 	
 	// 决定是否使用64bit的mplayer
 	[mplayer.pm setPrefer64bMPlayer:[self shouldRun64bitMPlayer]];
-	
-	// 开始监听mplayer的开始/结束事件
-	[notifCenter addObserver:self selector:@selector(mplayerOpened:) name:kMPCPlayOpenedNotification object:mplayer];
-	[notifCenter addObserver:self selector:@selector(mplayerStarted:) name:kMPCPlayStartedNotification object:mplayer];
-	[notifCenter addObserver:self selector:@selector(mplayerWillStop:) name:kMPCPlayWillStopNotification object:mplayer];
-	[notifCenter addObserver:self selector:@selector(mplayerStopped:) name:kMPCPlayStoppedNotification object:mplayer];
 
 	// 设置监听KVO
 	[mplayer addObserver:self
@@ -197,7 +202,8 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 			  forKeyPath:kKVOPropertyKeyPathAudioInfo
 				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
-				 
+	
+	/////////////////////////setup self////////////////////
 	// 建立支持格式的Set
 	for( NSDictionary *dict in [mainBundle objectForInfoDictionaryKey:@"CFBundleDocumentTypes"]) {
 
@@ -216,22 +222,23 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 		}
 	}
 	
+	/////////////////////////setup bookmarks////////////////////
 	// 得到书签的文件名
 	NSString *lastStoppedTimePath = [NSString stringWithFormat:kMPCFMTBookmarkPath, 
 															   homeDirectory, [mainBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
-	
 	// 得到记录播放时间的dict
 	bookmarks = [[NSMutableDictionary alloc] initWithContentsOfFile:lastStoppedTimePath];
 	if (!bookmarks) {
 		// 如果文件不存在或者格式非法
 		bookmarks = [[NSMutableDictionary alloc] initWithCapacity:10];
 	}
-	
 	[openUrlController initURLList:bookmarks];
 	
+	/////////////////////////setup auto update////////////////////
 	// 设定手动更新
 	[[SUUpdater sharedUpdater] setAutomaticallyChecksForUpdates:NO];
 	
+	/////////////////////////setup subconverter////////////////////
 	NSFileManager *fm = [NSFileManager defaultManager];
 	BOOL isDir = NO;
 	NSString *workDir = [[[fm URLForDirectory:NSApplicationSupportDirectory
@@ -254,6 +261,7 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 	
 	[mplayer setSubConverterDelegate:self];
 	
+	/////////////////////////setup sleep timer////////////////////
 	// 开启Timer防止睡眠
 	NSTimer *prevSlpTimer = [NSTimer timerWithTimeInterval:20 
 													target:self
@@ -268,9 +276,6 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 
 -(void) dealloc
 {
-	// 结束监听mplayer的开始/结束事件
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
 	// 结束监听KVO
 	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathCurrentTime];
 	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathLength];
@@ -595,58 +600,49 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 }
 
 ///////////////////////////////////////MPlayer Notifications/////////////////////////////////////////////
--(void) mplayerOpened:(NSNotification *)notification
+-(void) playebackOpened
 {
-	NSString *absStr = [lastPlayedPathPre absoluteString];
-	NSString *lastComp;
-	
-	if ([lastPlayedPathPre isFileURL]) {
-		lastComp = [[lastPlayedPathPre path] lastPathComponent];
-	} else {
-		lastComp = [absStr lastPathComponent];
-	}
-	
-	[window setTitle:lastComp];
-	
-	[controlUI playBackOpened];
-	
 	// 用文件名查找有没有之前的播放记录
-	NSNumber *stopTime = [bookmarks objectForKey:absStr];
-	
+	NSNumber *stopTime = [bookmarks objectForKey:[lastPlayedPathPre absoluteString]];
+	NSDictionary *dict;
+
 	if (stopTime) {
-		// 有的话，通知controlUI
-		[controlUI gotLastStoppedPlace:[stopTime floatValue]];
+		dict = [NSDictionary dictionaryWithObjectsAndKeys:
+				lastPlayedPathPre, kMPCPlayOpenedURLKey, 
+				stopTime, kMPCPlayLastStoppedTimeKey,
+				nil];
+	} else {
+		dict = [NSDictionary dictionaryWithObjectsAndKeys: lastPlayedPathPre, kMPCPlayOpenedURLKey, nil];		
 	}
+
+	[notifCenter postNotificationName:kMPCPlayOpenedNotification object:self userInfo:dict];
 }
 
--(void) mplayerStarted:(NSNotification *)notification
+-(void) playebackStarted
 {
-	[controlUI playBackStarted];
-	
+	[notifCenter postNotificationName:kMPCPlayStartedNotification object:self 
+							 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+									   [NSNumber numberWithBool:([mplayer.movieInfo.videoInfo count] == 0)], kMPCPlayStartedAudioOnlyKey,
+									   nil]];
+
 	NSLog(@"vc:%d, ac:%d", [mplayer.movieInfo.videoInfo count], [mplayer.movieInfo.audioInfo count]);
-	if ([mplayer.movieInfo.videoInfo count] == 0) {
-		[window setContentSize:[window contentMinSize]];
-		[window makeKeyAndOrderFront:self];
-	}
 }
 
--(void) mplayerWillStop:(NSNotification *)notification
+-(void) playebackWillStop
 {
-	[controlUI playBackWillStop];
+	[notifCenter postNotificationName:kMPCPlayWillStopNotification object:self userInfo:nil];
 }
 
--(void) mplayerStopped:(NSNotification *)notification
+-(void) playebackStopped:(NSDictionary*)dict
 {	
-	BOOL stoppedByForce = [[[notification userInfo] objectForKey:kMPCPlayStoppedByForceKey] boolValue];
-	
-	[window setTitle: kMPCStringMPlayerX];
-	
-	[controlUI playBackStopped];
-	
+	BOOL stoppedByForce = [[dict objectForKey:kMPCPlayStoppedByForceKey] boolValue];
+
+	[notifCenter postNotificationName:kMPCPlayStoppedNotification object:self userInfo:nil];
+
 	if (stoppedByForce) {
 		// 如果是强制停止
 		// 用文件名做key，记录这个文件的播放时间
-		[bookmarks setObject:[[notification userInfo] objectForKey:kMPCPlayStoppedTimeKey] forKey:[lastPlayedPath absoluteString]];
+		[bookmarks setObject:[dict objectForKey:kMPCPlayStoppedTimeKey] forKey:[lastPlayedPath absoluteString]];
 	} else {
 		// 自然关闭
 		// 删除这个文件key的播放时间
@@ -669,10 +665,7 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 	// 并且重置 fillScreen状态
 	[controlUI toggleFillScreen:nil];
 	
-	// 这个要放在toggleFullScreen之后，因为toggleFullScreen函数会让window跳出来
-	if ([ud boolForKey:kUDKeyCloseWindowWhenStopped] && [window isVisible]) {
-		[window orderOut:self];
-	}
+	[notifCenter postNotificationName:kMPCPlayFinalizedNotification object:self userInfo:nil];
 }
 
 ////////////////////////////////////////////////cooperative actions with UI//////////////////////////////////////////////////
