@@ -605,7 +605,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="3445284">
 								<int key="NSCellFlags">70385217</int>
 								<int key="NSCellFlags2">1212417024</int>
-								<string type="base64-UTF8" key="NSContents">TVBsYXllclggMC45LjcKYnkgTmlsdHNoQDIwMDkKaHR0cDovL2NvZGUuZ29vZ2xlLmNvbS9wL21wbGF5
+								<string type="base64-UTF8" key="NSContents">TVBsYXllclggMC45LjcgYnkgTmlsdHNoQDIwMTAKaHR0cDovL2NvZGUuZ29vZ2xlLmNvbS9wL21wbGF5
 ZXJ4Lwp6b25neWFvLnF1QGdtYWlsLmNvbQoKVGhhbmtzIHRvCgptcGxheWVyCmh0dHA6Ly93d3cubXBs
 YXllcmhxLmh1CgpVbml2ZXJzYWxEZXRlY3RvcgpodHRwOi8vd2FrYWJhLmMzLmN4L3MvYXBwcy91bmFy
 Y2hpdmVyLmh0bWwKCkJHSFVEQXBwS2l0Cmh0dHA6Ly93d3cuYmluYXJ5bWV0aG9kLmNvbS9iZ2h1ZGFw
@@ -1122,7 +1122,7 @@ IEljb24KTWlsb8WhIEtyc21hbm92acSHA</string>
 						<object class="NSTextField" id="171470766">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">274</int>
-							<string key="NSFrame">{{17, 92}, {366, 178}}</string>
+							<string key="NSFrame">{{17, 92}, {366, 183}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<bool key="NSEnabled">YES</bool>
@@ -3394,9 +3394,9 @@ IEljb24KTWlsb8WhIEtyc21hbm92acSHA</string>
 					<integer value="1"/>
 					<string>{74, 862}</string>
 					<string>{{6, 978}, {478, 20}}</string>
-					<string>{{537, 681}, {400, 300}}</string>
+					<string>{{742, 615}, {400, 300}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{537, 681}, {400, 300}}</string>
+					<string>{{742, 615}, {400, 300}}</string>
 					<boolean value="NO"/>
 					<string>{{33, 99}, {480, 360}}</string>
 					<boolean value="YES"/>
@@ -3482,9 +3482,9 @@ IEljb24KTWlsb8WhIEtyc21hbm92acSHA</string>
 					<integer value="1"/>
 					<string>TimeSliderCell</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{766, 418}, {300, 377}}</string>
+					<string>{{771, 672}, {300, 377}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{766, 418}, {300, 377}}</string>
+					<string>{{771, 672}, {300, 377}}</string>
 					<boolean value="NO"/>
 					<boolean value="YES"/>
 					<boolean value="YES"/>
