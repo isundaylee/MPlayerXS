@@ -34,7 +34,6 @@
 									defer:flag]) {
 		[self setHasShadow:YES];
 		[self setCollectionBehavior:NSWindowCollectionBehaviorManaged];
-		//[self setMovableByWindowBackground:YES];
 
 		[self setContentMinSize:NSMakeSize(400, 300)];
 		[self setContentSize:NSMakeSize(400, 300)];
