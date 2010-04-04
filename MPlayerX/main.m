@@ -25,6 +25,8 @@ int main(int argc, char *argv[])
 	int ret;
 
 #ifdef MPX_DEBUG
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	NSString *home = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 	NSString *logDir = [[NSString alloc] initWithFormat:@"%@/Logs", home];
 	NSString *logPath = [[NSString alloc] initWithFormat:@"%@/MPlayerX.log",logDir];
@@ -44,6 +46,7 @@ int main(int argc, char *argv[])
 	FILE *logFile = freopen([logPath UTF8String], "a", stderr);
 	[logPath release];
 	[logDir release];
+	NSLog(@"=====================started=====================");
 #endif // MPX_DEBUG
 	
     ret =  NSApplicationMain(argc,  (const char **) argv);
@@ -51,6 +54,7 @@ int main(int argc, char *argv[])
 	fflush(logFile);
 	dup2(stderrRes, STDERR_FILENO);
 	fclose(logFile);
+	[pool release];
 #endif //MPX_DEBUG
 	return ret;
 }
