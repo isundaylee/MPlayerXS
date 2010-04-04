@@ -118,6 +118,11 @@
 	CGColorRef col =  CGColorCreateGenericGray(0.0, 1.0);
 	[root setBackgroundColor:col];
 	CGColorRelease(col);
+	
+	col = CGColorCreateGenericRGB(0.392, 0.643, 0.812, 0.75);
+	[root setBorderColor:col];
+	CGColorRelease(col);
+	
 	// 自动尺寸适应
 	[root setAutoresizingMask:kCALayerWidthSizable|kCALayerHeightSizable];
 	
@@ -626,9 +631,15 @@
     NSDragOperation sourceDragMask = [sender draggingSourceOperationMask];
 	
     if ( [[pboard types] containsObject:NSFilenamesPboardType] && (sourceDragMask & NSDragOperationCopy)) {
+		[[self layer] setBorderWidth:6.0];
 		return NSDragOperationCopy;
     }
     return NSDragOperationNone;
+}
+
+- (void)draggingExited:(id < NSDraggingInfo >)sender
+{
+	[[self layer] setBorderWidth:0.0];
 }
 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
@@ -638,6 +649,7 @@
 	
 	if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
 		if (sourceDragMask & NSDragOperationCopy) {
+			[[self layer] setBorderWidth:0.0];
 			[playerController loadFiles:[pboard propertyListForType:NSFilenamesPboardType] fromLocal:YES];
 		}
 	}
