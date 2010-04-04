@@ -28,7 +28,7 @@
 #define kOSDFontSizeLimitMin		(12)
 #define kOSDFontSizeLimitMax		(100)
 
-#define kOSDFontSizeRatio			(40)
+#define kOSDFontSizeRatio			(15)
 
 @implementation OsdText
 
@@ -133,7 +133,7 @@
 			
 			NSSize sz = [[self superview] bounds].size;
 			
-			float fontSize = MIN(fontSizeMax, MAX(fontSizeMin, (sz.width + sz.height) / kOSDFontSizeRatio));
+			float fontSize = MIN(fontSizeMax, MAX(fontSizeMin, sz.height / kOSDFontSizeRatio));
 			fontSize = MIN(kOSDFontSizeLimitMax, MAX(kOSDFontSizeLimitMin, fontSize));
 
 			NSFont *font = [NSFont systemFontOfSize:fontSize];
