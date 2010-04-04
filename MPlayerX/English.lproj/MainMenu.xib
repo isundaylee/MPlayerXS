@@ -1147,7 +1147,7 @@ IEljb24KTWlsb8WhIEtyc21hbm92acSHA</string>
 						<object class="NSCustomView" id="417279129">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">266</int>
-							<string key="NSFrame">{{0, 278}, {400, 23}}</string>
+							<string key="NSFrame">{{0, 277}, {400, 23}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<string key="NSClassName">TitleView</string>
@@ -3394,9 +3394,9 @@ IEljb24KTWlsb8WhIEtyc21hbm92acSHA</string>
 					<integer value="1"/>
 					<string>{74, 862}</string>
 					<string>{{6, 978}, {478, 20}}</string>
-					<string>{{742, 615}, {400, 300}}</string>
+					<string>{{690, 615}, {400, 300}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{742, 615}, {400, 300}}</string>
+					<string>{{690, 615}, {400, 300}}</string>
 					<boolean value="NO"/>
 					<string>{{33, 99}, {480, 360}}</string>
 					<boolean value="YES"/>
