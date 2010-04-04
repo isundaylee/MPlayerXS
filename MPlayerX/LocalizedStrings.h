@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#define kMPXStringAboutText				(NSLocalizedString(@"MPlayerX %@ by Niltsh@2010\nhttp://code.google.com/p/mplayerx/\nzongyao.qu@gmail.com\n\nThanks to\n\nmplayer\nhttp://www.mplayerhq.hu\n\nUniversalDetector\nhttp://wakaba.c3.cx/s/apps/unarchiver.html\n\nBGHUDAppKit\nhttp://www.binarymethod.com/bghudappkit/\n\nWenQuan MicroHei Font\nhttp://www.wenq.org\n\nApplicaton Icon by\nMilo≈° Krsmanoviƒá", @"about"))
+#define kMPXStringAboutText				(NSLocalizedString(@"MPlayerX %@ by Niltsh@2010\nhttp://code.google.com/p/mplayerx/\nzongyao.qu@gmail.com\n\nThanks to\n\nmplayer\nhttp://www.mplayerhq.hu\n\nUniversalDetector\nhttp://wakaba.c3.cx/s/apps/unarchiver.html\n\nBGHUDAppKit\nhttp://www.binarymethod.com/bghudappkit/\n\nWenQuan MicroHei Font\nhttp://www.wenq.org\n\nApplicaton Icon by\nMiloš Krsmanović", @"about"))
 #define kMPXStringError					(NSLocalizedString(@"Error", nil))
 #define kMPXStringOK					(NSLocalizedString(@"OK", nil))
 #define kMPXStringFileNotSupported		(NSLocalizedString(@"The file is not supported by MPlayerX.", nil))
