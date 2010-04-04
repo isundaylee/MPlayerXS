@@ -101,38 +101,37 @@
 	NSSize leftSize = [tbCornerLeft size];
 	NSSize rightSize = [tbCornerRight size];
 	NSSize titleSize = [self bounds].size;
-	NSRect fromRect;
 	NSPoint drawPos;
 	
 	drawPos.x = 0;
 	drawPos.y = 0;
 	
-	fromRect.origin.x = 0;
-	fromRect.origin.y = 0;
+	dirtyRect.origin.x = 0;
+	dirtyRect.origin.y = 0;
 	
-	fromRect.size = titleSize;
-	[[NSColor grayColor] set];
-	NSRectFill(fromRect);
+	//dirtyRect.size = titleSize;
+	//[[NSColor whiteColor] set];
+	//	NSRectFill(dirtyRect);
 
-	fromRect.size = leftSize;
-	[tbCornerLeft drawAtPoint:drawPos fromRect:fromRect operation:NSCompositeSourceOver fraction:1.0];
+	dirtyRect.size = leftSize;
+	[tbCornerLeft drawAtPoint:drawPos fromRect:dirtyRect operation:NSCompositeCopy fraction:1.0];
 	
 	drawPos.x = titleSize.width - rightSize.width;
-	fromRect.size = rightSize;
-	[tbCornerRight drawAtPoint:drawPos fromRect:fromRect operation:NSCompositeSourceOver fraction:1.0];
+	dirtyRect.size = rightSize;
+	[tbCornerRight drawAtPoint:drawPos fromRect:dirtyRect operation:NSCompositeCopy fraction:1.0];
 	
-	fromRect.size = [tbMiddle size];
+	dirtyRect.size = [tbMiddle size];
 	[tbMiddle drawInRect:NSMakeRect(leftSize.width, 0, titleSize.width-leftSize.width-rightSize.width, titleSize.height)
-				fromRect:fromRect
-			   operation:NSCompositeSourceOver
+				fromRect:dirtyRect
+			   operation:NSCompositeCopy
 				fraction:1.0];
 
 	if (title) {
 		NSAttributedString *t = [[NSAttributedString alloc] initWithString:title attributes:titleAttr];
-		fromRect.size = [t size];
+		dirtyRect.size = [t size];
 		
-		drawPos.x = MAX(64, (titleSize.width -fromRect.size.width)/2);
-		drawPos.y = (titleSize.height - fromRect.size.height)/2;
+		drawPos.x = MAX(64, (titleSize.width -dirtyRect.size.width)/2);
+		drawPos.y = (titleSize.height - dirtyRect.size.height)/2;
 		
 		[t drawAtPoint: drawPos];
 		[t release];
