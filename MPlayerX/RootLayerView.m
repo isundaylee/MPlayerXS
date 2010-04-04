@@ -659,11 +659,13 @@
 		[controlUI displayStarted];
 		
 		if ([ud boolForKey:kUDKeyStartByFullScreen] && (![self isInFullScreenMode])) {
-			[self performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
-													windowNumber:0 context:nil
-													  characters:kSCMFullScrnKeyEquivalent
-									 charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
-													   isARepeat:NO keyCode:0]];
+			[self performSelectorOnMainThread:@selector(performKeyEquivalent:)
+								   withObject:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
+														   windowNumber:0 context:nil
+															 characters:kSCMFullScrnKeyEquivalent
+											charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
+															  isARepeat:NO keyCode:0]
+								waitUntilDone:NO];
 		}
 		return 1;
 	}
