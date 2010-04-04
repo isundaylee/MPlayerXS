@@ -280,8 +280,6 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 //////////////////////////////////////////////playing thing/////////////////////////////////////////////////////
 -(void) playMedia: (NSString*) moviePath
 {
-	static unsigned int cnt = 1;
-
 	// 如果正在放映，那么现强制停止
 	if (state != kMPCStoppedState) {
 		[self performStop];
