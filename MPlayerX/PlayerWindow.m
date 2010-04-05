@@ -50,4 +50,14 @@
 	[titlebar setTitle:aString];
 	[titlebar setNeedsDisplay:YES];
 }
+
+-(void) performZoom:(id)sender
+{
+	[self zoom:sender];
+}
+
+-(void) performMiniaturize:(id)sender
+{
+	[self miniaturize:sender];
+}
 @end
