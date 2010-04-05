@@ -12,7 +12,6 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="595"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -601,10 +600,11 @@
 							<int key="NSvFlags">303</int>
 							<string key="NSFrame">{{0, 3}, {300, 231}}</string>
 							<reference key="NSSuperview" ref="255223115"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="3445284">
 								<int key="NSCellFlags">70385217</int>
-								<int key="NSCellFlags2">1212417024</int>
+								<int key="NSCellFlags2">1212421120</int>
 								<string type="base64-UTF8" key="NSContents">aHR0cDovL2NvZGUuZ29vZ2xlLmNvbS9wL21wbGF5ZXJ4Lwp6b25neWFvLnF1QGdtYWlsLmNvbQoKVGhh
 bmtzIHRvCgptcGxheWVyCmh0dHA6Ly93d3cubXBsYXllcmhxLmh1CgpVbml2ZXJzYWxEZXRlY3Rvcgpo
 dHRwOi8vd2FrYWJhLmMzLmN4L3MvYXBwcy91bmFyY2hpdmVyLmh0bWwKCkJHSFVEQXBwS2l0Cmh0dHA6
@@ -648,6 +648,7 @@ dHRwOi8vd3d3LndlbnEub3JnCgpBcHBsaWNhdG9uIEljb24KTWlsb8WhIEtyc21hbm92acSHA</strin
 							</object>
 							<string key="NSFrame">{{102, 261}, {96, 96}}</string>
 							<reference key="NSSuperview" ref="255223115"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="587597968">
 								<int key="NSCellFlags">130560</int>
@@ -668,10 +669,11 @@ dHRwOi8vd3d3LndlbnEub3JnCgpBcHBsaWNhdG9uIEljb24KTWlsb8WhIEtyc21hbm92acSHA</strin
 							<int key="NSvFlags">266</int>
 							<string key="NSFrame">{{0, 240}, {300, 11}}</string>
 							<reference key="NSSuperview" ref="255223115"/>
+							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="222532058">
 								<int key="NSCellFlags">68288064</int>
-								<int key="NSCellFlags2">138675200</int>
+								<int key="NSCellFlags2">138679296</int>
 								<string key="NSContents">MPlayerX 0.9.7 by Zongyao QU@2009,2010</string>
 								<reference key="NSSupport" ref="22"/>
 								<reference key="NSControlView" ref="922986103"/>
@@ -685,6 +687,7 @@ dHRwOi8vd3d3LndlbnEub3JnCgpBcHBsaWNhdG9uIEljb24KTWlsb8WhIEtyc21hbm92acSHA</strin
 					</object>
 					<string key="NSFrameSize">{300, 377}</string>
 					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{300, 396}</string>

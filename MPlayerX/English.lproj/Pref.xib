@@ -5157,6 +5157,8 @@ Zw</string>
 							<string>conInc</string>
 							<string>gmDec</string>
 							<string>gmInc</string>
+							<string>hueDec</string>
+							<string>hueInc</string>
 							<string>menuVTPanel</string>
 							<string>nrDec</string>
 							<string>nrInc</string>
@@ -5167,6 +5169,7 @@ Zw</string>
 							<string>sliderBrightness</string>
 							<string>sliderContrast</string>
 							<string>sliderGamma</string>
+							<string>sliderHue</string>
 							<string>sliderNR</string>
 							<string>sliderSaturation</string>
 							<string>sliderSharpness</string>
@@ -5180,6 +5183,8 @@ Zw</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
 							<string>NSMenuItem</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
@@ -5187,6 +5192,7 @@ Zw</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
+							<string>NSSlider</string>
 							<string>NSSlider</string>
 							<string>NSSlider</string>
 							<string>NSSlider</string>
