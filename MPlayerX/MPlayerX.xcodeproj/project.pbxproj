@@ -34,8 +34,6 @@
 		8609C25B10C693D500B102CE /* HIDRemoteControlDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 8609C25510C693D400B102CE /* HIDRemoteControlDevice.m */; };
 		8609C25D10C693D500B102CE /* RemoteControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8609C25910C693D500B102CE /* RemoteControl.m */; };
 		8609C28110C6944A00B102CE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8609C28010C6944A00B102CE /* IOKit.framework */; };
-		860E72EA111E94800022F966 /* gamma-max.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860E72E8111E947F0022F966 /* gamma-max.tiff */; };
-		860E72EB111E94800022F966 /* gamma-min.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 860E72E9111E94800022F966 /* gamma-min.tiff */; };
 		860EF90E1127BAE40015B6EE /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 860EF90D1127BAE40015B6EE /* MainMenu.xib */; };
 		860EF9101127BB050015B6EE /* Pref.xib in Resources */ = {isa = PBXBuildFile; fileRef = 860EF90F1127BB050015B6EE /* Pref.xib */; };
 		860EF9121127BB0E0015B6EE /* VideoTuner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 860EF9111127BB0E0015B6EE /* VideoTuner.xib */; };
@@ -54,6 +52,10 @@
 		8610F44B1100F329006A1447 /* toolbar_video.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8610F44A1100F329006A1447 /* toolbar_video.icns */; };
 		8610F4681100F539006A1447 /* toolbar_audio.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8610F4671100F539006A1447 /* toolbar_audio.icns */; };
 		8617287D10CFAB32003A0CE2 /* ArrowTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 8617287C10CFAB32003A0CE2 /* ArrowTextField.m */; };
+		8617DB37116A0CA40085DFBC /* gamma-max.png in Resources */ = {isa = PBXBuildFile; fileRef = 8617DB33116A0CA40085DFBC /* gamma-max.png */; };
+		8617DB38116A0CA40085DFBC /* gamma-min.png in Resources */ = {isa = PBXBuildFile; fileRef = 8617DB34116A0CA40085DFBC /* gamma-min.png */; };
+		8617DB39116A0CA40085DFBC /* hue-minus.png in Resources */ = {isa = PBXBuildFile; fileRef = 8617DB35116A0CA40085DFBC /* hue-minus.png */; };
+		8617DB3A116A0CA40085DFBC /* hue-plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 8617DB36116A0CA40085DFBC /* hue-plus.png */; };
 		861EE1EB11662BF600D16C87 /* PlayerWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 861EE1EA11662BF600D16C87 /* PlayerWindow.m */; };
 		861EE37D116718AF00D16C87 /* TitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 861EE37C116718AF00D16C87 /* TitleView.m */; };
 		861EE3F71167263300D16C87 /* titlebar-corner-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 861EE3F51167263300D16C87 /* titlebar-corner-left.png */; };
@@ -84,6 +86,7 @@
 		8661414210FA2B7E007F36DA /* SubConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8661414110FA2B7E007F36DA /* SubConverter.m */; };
 		86689CA511304163009DA72C /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 86689CA411304163009DA72C /* logo.png */; };
 		8671FAF51120456B00F7E5E5 /* doc_sub.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8671FAF41120456B00F7E5E5 /* doc_sub.icns */; };
+		867FDF351169FD2E000C71A6 /* HueSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 867FDF341169FD2E000C71A6 /* HueSliderCell.m */; };
 		86A34A0910F60F7E00AECBB2 /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86A34A0810F60F7E00AECBB2 /* UniversalDetector.framework */; };
 		86A34A2510F60FA000AECBB2 /* UniversalDetector.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 86A34A0810F60F7E00AECBB2 /* UniversalDetector.framework */; };
 		86A5E40C10C7D24D00D061C7 /* wqy-microhei.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E40B10C7D24D00D061C7 /* wqy-microhei.ttc */; };
@@ -178,8 +181,6 @@
 		8609C25810C693D400B102CE /* RemoteControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteControl.h; path = "../Apple Remote Control/RemoteControl.h"; sourceTree = SOURCE_ROOT; };
 		8609C25910C693D500B102CE /* RemoteControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemoteControl.m; path = "../Apple Remote Control/RemoteControl.m"; sourceTree = SOURCE_ROOT; };
 		8609C28010C6944A00B102CE /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		860E72E8111E947F0022F966 /* gamma-max.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "gamma-max.tiff"; sourceTree = "<group>"; };
-		860E72E9111E94800022F966 /* gamma-min.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "gamma-min.tiff"; sourceTree = "<group>"; };
 		860F671F111C561B00190BCC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/VideoTuner.xib; sourceTree = "<group>"; };
 		860F6725111C5A7D00190BCC /* VideoTunerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoTunerController.h; sourceTree = "<group>"; };
 		860F6726111C5A7D00190BCC /* VideoTunerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoTunerController.m; sourceTree = "<group>"; };
@@ -200,6 +201,10 @@
 		8610F4671100F539006A1447 /* toolbar_audio.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = toolbar_audio.icns; sourceTree = "<group>"; };
 		8617287B10CFAB32003A0CE2 /* ArrowTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrowTextField.h; sourceTree = "<group>"; };
 		8617287C10CFAB32003A0CE2 /* ArrowTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrowTextField.m; sourceTree = "<group>"; };
+		8617DB33116A0CA40085DFBC /* gamma-max.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gamma-max.png"; sourceTree = "<group>"; };
+		8617DB34116A0CA40085DFBC /* gamma-min.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gamma-min.png"; sourceTree = "<group>"; };
+		8617DB35116A0CA40085DFBC /* hue-minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hue-minus.png"; sourceTree = "<group>"; };
+		8617DB36116A0CA40085DFBC /* hue-plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hue-plus.png"; sourceTree = "<group>"; };
 		861EE1E911662BF600D16C87 /* PlayerWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerWindow.h; sourceTree = "<group>"; };
 		861EE1EA11662BF600D16C87 /* PlayerWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerWindow.m; sourceTree = "<group>"; };
 		861EE37B116718AF00D16C87 /* TitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleView.h; sourceTree = "<group>"; };
@@ -239,6 +244,8 @@
 		8661414110FA2B7E007F36DA /* SubConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubConverter.m; sourceTree = "<group>"; };
 		86689CA411304163009DA72C /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		8671FAF41120456B00F7E5E5 /* doc_sub.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = doc_sub.icns; sourceTree = "<group>"; };
+		867FDF331169FD2E000C71A6 /* HueSliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HueSliderCell.h; sourceTree = "<group>"; };
+		867FDF341169FD2E000C71A6 /* HueSliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HueSliderCell.m; sourceTree = "<group>"; };
 		868BB6B810EF598500A942B3 /* MplayerX_Update_Appcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MplayerX_Update_Appcast.xml; path = ../update/MplayerX_Update_Appcast.xml; sourceTree = SOURCE_ROOT; };
 		86A34A0810F60F7E00AECBB2 /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniversalDetector.framework; path = ../UniversalDetector/build/Release/UniversalDetector.framework; sourceTree = SOURCE_ROOT; };
 		86A5E40B10C7D24D00D061C7 /* wqy-microhei.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "wqy-microhei.ttc"; sourceTree = "<group>"; };
@@ -318,6 +325,7 @@
 				86FB6FC41131B42D005E95B5 /* def.m */,
 				86C5492310C5216600DC1511 /* PlayList.h */,
 				86C5492410C5216600DC1511 /* PlayList.m */,
+				867FDF361169FD41000C71A6 /* Video Tuner */,
 				86B99CFE10C93E4D00AB28FB /* Controllers */,
 				8609C25010C6938800B102CE /* shortcut */,
 				86F4DAD810BC3272007AE56A /* ControlUI */,
@@ -455,8 +463,10 @@
 		860F6728111C6A6E00190BCC /* VideoTuner */ = {
 			isa = PBXGroup;
 			children = (
-				860E72E8111E947F0022F966 /* gamma-max.tiff */,
-				860E72E9111E94800022F966 /* gamma-min.tiff */,
+				8617DB33116A0CA40085DFBC /* gamma-max.png */,
+				8617DB34116A0CA40085DFBC /* gamma-min.png */,
+				8617DB35116A0CA40085DFBC /* hue-minus.png */,
+				8617DB36116A0CA40085DFBC /* hue-plus.png */,
 				860F6729111C6A7E00190BCC /* brightness-max.tiff */,
 				860F672A111C6A7E00190BCC /* brightness-min.tiff */,
 				860F672B111C6A7E00190BCC /* contrast-max.tiff */,
@@ -509,6 +519,17 @@
 			name = AutoUpdate;
 			sourceTree = "<group>";
 		};
+		867FDF361169FD41000C71A6 /* Video Tuner */ = {
+			isa = PBXGroup;
+			children = (
+				860F6725111C5A7D00190BCC /* VideoTunerController.h */,
+				860F6726111C5A7D00190BCC /* VideoTunerController.m */,
+				867FDF331169FD2E000C71A6 /* HueSliderCell.h */,
+				867FDF341169FD2E000C71A6 /* HueSliderCell.m */,
+			);
+			name = "Video Tuner";
+			sourceTree = "<group>";
+		};
 		86B99CFE10C93E4D00AB28FB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -518,8 +539,6 @@
 				865AB3FC10EC82A300065E2F /* PrefController.m */,
 				86B99D0010C9418600AB28FB /* OpenURLController.h */,
 				86B99D0110C9418600AB28FB /* OpenURLController.m */,
-				860F6725111C5A7D00190BCC /* VideoTunerController.h */,
-				860F6726111C5A7D00190BCC /* VideoTunerController.m */,
 				86E7A89C1155C1740014155D /* CharsetQueryController.h */,
 				86E7A89D1155C1740014155D /* CharsetQueryController.m */,
 			);
@@ -689,13 +708,15 @@
 				860F673A111C6A7E00190BCC /* saturation-min.tiff in Resources */,
 				860F673B111C6A7E00190BCC /* sharpen-max.tiff in Resources */,
 				860F673C111C6A7E00190BCC /* sharpen-min.tiff in Resources */,
-				860E72EA111E94800022F966 /* gamma-max.tiff in Resources */,
-				860E72EB111E94800022F966 /* gamma-min.tiff in Resources */,
 				86689CA511304163009DA72C /* logo.png in Resources */,
 				86E7A8FF1155EBCD0014155D /* SubEncoding.xib in Resources */,
 				861EE3F71167263300D16C87 /* titlebar-corner-left.png in Resources */,
 				861EE3F81167263300D16C87 /* titlebar-middle.png in Resources */,
 				861EE3FE1167290A00D16C87 /* titlebar-corner-right.png in Resources */,
+				8617DB37116A0CA40085DFBC /* gamma-max.png in Resources */,
+				8617DB38116A0CA40085DFBC /* gamma-min.png in Resources */,
+				8617DB39116A0CA40085DFBC /* hue-minus.png in Resources */,
+				8617DB3A116A0CA40085DFBC /* hue-plus.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -760,6 +781,7 @@
 				8629FF72115F2D44001BD30A /* VideoInfo.m in Sources */,
 				861EE1EB11662BF600D16C87 /* PlayerWindow.m in Sources */,
 				861EE37D116718AF00D16C87 /* TitleView.m in Sources */,
+				867FDF351169FD2E000C71A6 /* HueSliderCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
