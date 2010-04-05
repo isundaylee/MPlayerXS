@@ -66,8 +66,8 @@
 		self.themeKey = @"gradientTheme";
 		hueGradient = [[NSGradient alloc] 
 					   initWithColors:[NSArray arrayWithObjects:
-									   [NSColor cyanColor], [NSColor greenColor], [NSColor yellowColor], [NSColor redColor],
-									   [NSColor magentaColor], [NSColor blueColor], [NSColor cyanColor], nil]];
+									   [NSColor cyanColor], [NSColor blueColor], [NSColor magentaColor], [NSColor redColor],
+									   [NSColor yellowColor], [NSColor greenColor], [NSColor cyanColor], nil]];
 	}
 	
 	return self;
