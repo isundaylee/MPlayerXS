@@ -124,7 +124,7 @@
 								</object>
 								<reference key="NSControlView" ref="830129517"/>
 								<int key="NSButtonFlags">138690815</int>
-								<int key="NSButtonFlags2">130</int>
+								<int key="NSButtonFlags2">66</int>
 								<object class="NSCustomResource" key="NSNormalImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">brightness-max</string>
@@ -148,7 +148,7 @@
 								<reference key="NSSupport" ref="262565370"/>
 								<reference key="NSControlView" ref="570702879"/>
 								<int key="NSButtonFlags">138690815</int>
-								<int key="NSButtonFlags2">130</int>
+								<int key="NSButtonFlags2">66</int>
 								<object class="NSCustomResource" key="NSNormalImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">brightness-min</string>
@@ -213,7 +213,7 @@
 								<reference key="NSSupport" ref="262565370"/>
 								<reference key="NSControlView" ref="238305497"/>
 								<int key="NSButtonFlags">138690815</int>
-								<int key="NSButtonFlags2">130</int>
+								<int key="NSButtonFlags2">66</int>
 								<object class="NSCustomResource" key="NSNormalImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">saturation-max</string>
@@ -237,7 +237,7 @@
 								<reference key="NSSupport" ref="262565370"/>
 								<reference key="NSControlView" ref="579277734"/>
 								<int key="NSButtonFlags">138690815</int>
-								<int key="NSButtonFlags2">130</int>
+								<int key="NSButtonFlags2">66</int>
 								<object class="NSCustomResource" key="NSNormalImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">saturation-min</string>
@@ -302,7 +302,7 @@
 								<reference key="NSSupport" ref="262565370"/>
 								<reference key="NSControlView" ref="100743752"/>
 								<int key="NSButtonFlags">138690815</int>
-								<int key="NSButtonFlags2">2</int>
+								<int key="NSButtonFlags2">130</int>
 								<object class="NSCustomResource" key="NSNormalImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">contrast-max</string>
@@ -391,7 +391,7 @@
 								<reference key="NSSupport" ref="262565370"/>
 								<reference key="NSControlView" ref="1051351875"/>
 								<int key="NSButtonFlags">138690815</int>
-								<int key="NSButtonFlags2">130</int>
+								<int key="NSButtonFlags2">66</int>
 								<object class="NSCustomResource" key="NSNormalImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">gamma-max</string>
@@ -415,7 +415,7 @@
 								<reference key="NSSupport" ref="262565370"/>
 								<reference key="NSControlView" ref="337171375"/>
 								<int key="NSButtonFlags">138690815</int>
-								<int key="NSButtonFlags2">130</int>
+								<int key="NSButtonFlags2">66</int>
 								<object class="NSCustomResource" key="NSNormalImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">gamma-min</string>
@@ -480,7 +480,7 @@
 								<reference key="NSSupport" ref="262565370"/>
 								<reference key="NSControlView" ref="977391091"/>
 								<int key="NSButtonFlags">138690815</int>
-								<int key="NSButtonFlags2">130</int>
+								<int key="NSButtonFlags2">66</int>
 								<object class="NSCustomResource" key="NSNormalImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">hue-plus</string>
@@ -504,7 +504,7 @@
 								<reference key="NSSupport" ref="262565370"/>
 								<reference key="NSControlView" ref="332382579"/>
 								<int key="NSButtonFlags">138690815</int>
-								<int key="NSButtonFlags2">130</int>
+								<int key="NSButtonFlags2">66</int>
 								<object class="NSCustomResource" key="NSNormalImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">hue-minus</string>
@@ -569,7 +569,7 @@
 								<reference key="NSSupport" ref="262565370"/>
 								<reference key="NSControlView" ref="616962687"/>
 								<int key="NSButtonFlags">138690815</int>
-								<int key="NSButtonFlags2">130</int>
+								<int key="NSButtonFlags2">66</int>
 								<object class="NSCustomResource" key="NSNormalImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">noisereduction-max</string>
@@ -593,7 +593,7 @@
 								<reference key="NSSupport" ref="262565370"/>
 								<reference key="NSControlView" ref="155019335"/>
 								<int key="NSButtonFlags">138690815</int>
-								<int key="NSButtonFlags2">130</int>
+								<int key="NSButtonFlags2">66</int>
 								<object class="NSCustomResource" key="NSNormalImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">noisereduction-min</string>
@@ -658,7 +658,7 @@
 								<reference key="NSSupport" ref="262565370"/>
 								<reference key="NSControlView" ref="162850713"/>
 								<int key="NSButtonFlags">139215103</int>
-								<int key="NSButtonFlags2">130</int>
+								<int key="NSButtonFlags2">66</int>
 								<object class="NSCustomResource" key="NSNormalImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">sharpen-max</string>
@@ -682,7 +682,7 @@
 								<reference key="NSSupport" ref="262565370"/>
 								<reference key="NSControlView" ref="1040672787"/>
 								<int key="NSButtonFlags">138690815</int>
-								<int key="NSButtonFlags2">130</int>
+								<int key="NSButtonFlags2">66</int>
 								<object class="NSCustomResource" key="NSNormalImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">sharpen-min</string>
