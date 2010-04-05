@@ -43,7 +43,7 @@ NSString * const kCILayerFilterEnabled		= @"enabled";
 {
 	[[NSUserDefaults standardUserDefaults] 
 	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-					   [NSNumber numberWithFloat:0.02], kUDKeyVideoTunerStepValue,
+					   [NSNumber numberWithFloat:0.01], kUDKeyVideoTunerStepValue,
 					   nil]];
 }
 
