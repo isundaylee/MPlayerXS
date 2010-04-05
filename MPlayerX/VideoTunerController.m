@@ -33,6 +33,7 @@ NSString * const kCILayerContrastKeyPath	= @"filters.colorFilter.inputContrast";
 NSString * const kCILayerNoiseLevelKeyPath	= @"filters.nrFilter.inputNoiseLevel";
 NSString * const kCILayerSharpnesKeyPath	= @"filters.nrFilter.inputSharpness";
 NSString * const kCILayerGammaKeyPath		= @"filters.gammaFilter.inputPower";
+NSString * const kCILayerHueAngleKeyPath	= @"filters.hueFilter.inputAngle";
 
 NSString * const kCILayerFilterEnabled		= @"enabled";
 
@@ -62,6 +63,9 @@ NSString * const kCILayerFilterEnabled		= @"enabled";
 		gammaFilter = [[CIFilter filterWithName:@"CIGammaAdjust"] retain];
 		[gammaFilter setName:@"gammaFilter"];
 		
+		hueFilter = [[CIFilter filterWithName:@"CIHueAdjust"] retain];
+		[hueFilter setName:@"hueFilter"];
+		
 		layer = nil;
 		[self resetFilters:self];
 	}
@@ -73,6 +77,7 @@ NSString * const kCILayerFilterEnabled		= @"enabled";
 	[colorFilter release];
 	[nrFilter release];
 	[gammaFilter release];
+	[hueFilter release];
 	
 	[super dealloc];
 }
@@ -97,19 +102,23 @@ NSString * const kCILayerFilterEnabled		= @"enabled";
 		[[sliderNR cell] setRepresentedObject:kCILayerNoiseLevelKeyPath];
 		[[sliderSharpness cell] setRepresentedObject:kCILayerSharpnesKeyPath];
 		[[sliderGamma cell] setRepresentedObject:kCILayerGammaKeyPath];
+		[[sliderHue cell] setRepresentedObject:kCILayerHueAngleKeyPath];
 
-		[[brInc cell] setRepresentedObject:sliderBrightness];
-		[[brDec cell] setRepresentedObject:sliderBrightness];
+		[[brInc cell]  setRepresentedObject:sliderBrightness];
+		[[brDec cell]  setRepresentedObject:sliderBrightness];
 		[[satInc cell] setRepresentedObject:sliderSaturation];
 		[[satDec cell] setRepresentedObject:sliderSaturation];
 		[[conInc cell] setRepresentedObject:sliderContrast];
 		[[conDec cell] setRepresentedObject:sliderContrast];
-		[[nrInc cell] setRepresentedObject:sliderNR];
-		[[nrDec cell] setRepresentedObject:sliderNR];
+		[[nrInc cell]  setRepresentedObject:sliderNR];
+		[[nrDec cell]  setRepresentedObject:sliderNR];
 		[[shpInc cell] setRepresentedObject:sliderSharpness];
 		[[shpDec cell] setRepresentedObject:sliderSharpness];
-		[[gmInc cell] setRepresentedObject:sliderGamma];
-		[[gmDec cell] setRepresentedObject:sliderGamma];
+		[[gmInc cell]  setRepresentedObject:sliderGamma];
+		[[gmDec cell]  setRepresentedObject:sliderGamma];
+		[[hueInc cell] setRepresentedObject:sliderHue];
+		[[hueDec cell] setRepresentedObject:sliderHue];
+		
 		
 		NSDictionary *dict;
 		double step, max, min, stepRatio;
@@ -169,7 +178,16 @@ NSString * const kCILayerFilterEnabled		= @"enabled";
 		[sliderGamma setMaxValue:max];
 		[gmInc setTag:((NSInteger)( step*kCIStepBase))];
 		[gmDec setTag:((NSInteger)(-step*kCIStepBase))];
-				
+		
+		dict = [[hueFilter attributes] objectForKey:kCIInputAngleKey];
+		min = [[dict objectForKey:kCIAttributeSliderMin] doubleValue];
+		max = [[dict objectForKey:kCIAttributeSliderMax] doubleValue];
+		step = (max - min) * stepRatio;
+		[sliderHue setMinValue:min];
+		[sliderHue setMaxValue:max];
+		[hueInc setTag:((NSInteger)( step*kCIStepBase))];
+		[hueDec setTag:((NSInteger)(-step*kCIStepBase))];
+		
 		[self resetFilters:nil];
 		
 		[VTWin setLevel:NSMainMenuWindowLevel];
@@ -199,10 +217,15 @@ NSString * const kCILayerFilterEnabled		= @"enabled";
 	attr = [gammaFilter attributes];
 	[gammaFilter setValue:[[attr objectForKey:kCIInputPowerKey] objectForKey:kCIAttributeIdentity]
 			   forKeyPath:kCIInputPowerKey];
-	
+
+	attr = [hueFilter attributes];
+	[hueFilter setValue:[[attr objectForKey:kCIInputAngleKey] objectForKey:kCIAttributeIdentity]
+			   forKeyPath:kCIInputAngleKey];
+			   
 	[colorFilter setEnabled:NO];
 	[nrFilter setEnabled:NO];
 	[gammaFilter setEnabled:NO];
+	[hueFilter setEnabled:NO];
 
 	if (nibLoaded) {
 		[sliderBrightness setDoubleValue:[[colorFilter valueForKeyPath:kCIInputBrightnessKey] doubleValue]];
@@ -211,6 +234,7 @@ NSString * const kCILayerFilterEnabled		= @"enabled";
 		[sliderNR setDoubleValue:[[nrFilter valueForKeyPath:kCIInputNoiseLevelKey] doubleValue]];
 		[sliderSharpness setDoubleValue:[[nrFilter valueForKeyPath:kCIInputSharpnessKey] doubleValue]];
 		[sliderGamma setDoubleValue:[[gammaFilter valueForKeyPath:kCIInputPowerKey] doubleValue]];
+		[sliderHue setDoubleValue:[[hueFilter valueForKeyPath:kCIInputAngleKey] doubleValue]];
 	}
 	
 	if (layer) {
@@ -224,7 +248,7 @@ NSString * const kCILayerFilterEnabled		= @"enabled";
 	if (layer) {
 		// Lazy loading
 		if (!layer.filters) {
-			[layer setFilters:[NSArray arrayWithObjects:gammaFilter, colorFilter, nrFilter, nil]];
+			[layer setFilters:[NSArray arrayWithObjects:gammaFilter, hueFilter, colorFilter, nrFilter, nil]];
 		}
 		
 		NSString *keyPath = [[sender cell] representedObject];

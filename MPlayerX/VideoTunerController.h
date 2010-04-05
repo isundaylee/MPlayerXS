@@ -27,6 +27,7 @@
 	CIFilter *colorFilter;
 	CIFilter *nrFilter;
 	CIFilter *gammaFilter;
+	CIFilter *hueFilter;
 
 	CALayer *layer;
 
@@ -37,6 +38,7 @@
 	IBOutlet NSSlider *sliderNR;
 	IBOutlet NSSlider *sliderSharpness;
 	IBOutlet NSSlider *sliderGamma;
+	IBOutlet NSSlider *sliderHue;
 	
 	IBOutlet NSButton *brInc;
 	IBOutlet NSButton *brDec;
@@ -50,6 +52,8 @@
 	IBOutlet NSButton *shpDec;
 	IBOutlet NSButton *gmInc;
 	IBOutlet NSButton *gmDec;
+	IBOutlet NSButton *hueInc;
+	IBOutlet NSButton *hueDec;
 
 	IBOutlet NSMenuItem *menuVTPanel;
 }
