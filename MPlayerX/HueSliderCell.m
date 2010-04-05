@@ -85,6 +85,10 @@
 		} else {
 			self.themeKey = @"gradientTheme";
 		}
+		hueGradient = [[NSGradient alloc] 
+					   initWithColors:[NSArray arrayWithObjects:
+									   [NSColor cyanColor], [NSColor blueColor], [NSColor magentaColor], [NSColor redColor],
+									   [NSColor yellowColor], [NSColor greenColor], [NSColor cyanColor], nil]];		
 	}
 	
 	return self;
