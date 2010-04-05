@@ -24,11 +24,7 @@
 #define kOSDAutoHideTimeInterval	(5)
 
 #define kOSDFontSizeMinDefault		(24)
-#define kOSDFontSizeMaxDefault		(50)
-#define kOSDFontSizeLimitMin		(12)
-#define kOSDFontSizeLimitMax		(100)
-
-#define kOSDFontSizeRatio			(15)
+#define kOSDFontSizeMaxDefault		(48)
 
 @implementation OsdText
 
@@ -54,6 +50,16 @@
 		
 		fontSizeMin = [ud floatForKey:kUDKeyOSDFontSizeMin];
 		fontSizeMax = [ud floatForKey:kUDKeyOSDFontSizeMax];
+
+		// mapping height of 300 px to font size Min
+		//         height of 900 px to font size Max
+		// 300 * ratio + offset = Min
+		// 900 * ratio + offset = Max
+		// so
+		// ratio  = (  Max - Min) / 600
+		// offset = (3*Min - Max) / 2
+		fontSizeRatio = (fontSizeMax - fontSizeMin) / 600.0;
+		fontSizeOffset = (3*fontSizeMin - fontSizeMax) / 2.0;
 		
 		active = NO;
 
@@ -133,8 +139,7 @@
 			
 			NSSize sz = [[self superview] bounds].size;
 			
-			float fontSize = MIN(fontSizeMax, MAX(fontSizeMin, sz.height / kOSDFontSizeRatio));
-			fontSize = MIN(kOSDFontSizeLimitMax, MAX(kOSDFontSizeLimitMin, fontSize));
+			float fontSize = MIN(fontSizeMax, MAX(fontSizeMin, (sz.height*fontSizeRatio) + fontSizeOffset));
 
 			NSFont *font = [NSFont systemFontOfSize:fontSize];
 			

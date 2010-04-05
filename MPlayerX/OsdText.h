@@ -39,6 +39,8 @@ typedef enum
 	
 	float fontSizeMax;
 	float fontSizeMin;
+	float fontSizeRatio;
+	float fontSizeOffset;
 
 	NSTimer *autoHideTimer;
 	NSTimeInterval autoHideTimeInterval;
