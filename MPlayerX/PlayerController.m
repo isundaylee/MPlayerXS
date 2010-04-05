@@ -146,7 +146,7 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 	NSBundle *mainBundle = [NSBundle mainBundle];
 	NSString *homeDirectory = NSHomeDirectory();
 	
-	[aboutText setStringValue:[NSString stringWithFormat: kMPXStringAboutText, [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
+	[aboutText setStringValue:[NSString stringWithFormat: @"MPlayerX %@ by Zongyao QU@2009,2010", [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
 	
 	/////////////////////////setup CoreController////////////////////
 	[self setMultiThreadMode:[ud boolForKey:kUDKeyEnableMultiThread]];
