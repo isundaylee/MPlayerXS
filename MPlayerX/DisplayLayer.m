@@ -99,7 +99,18 @@
 		SAFERELEASEOPENGLBUFFER(bufRef);
 		SAFEFREE(bufRaw);
 		
-		unsigned int pixelSize = ((pixelFormat == kYUVSPixelFormat)?2:4);
+		unsigned int pixelSize;
+		switch (pixelFormat) {
+			case k24RGBPixelFormat:
+				pixelSize = 3;
+				break;
+			case k32ARGBPixelFormat:
+				pixelSize = 4;
+				break;
+			default:
+				pixelSize = 2;
+				break;
+		}
 		
 		fmt.width = width;
 		fmt.height = height;

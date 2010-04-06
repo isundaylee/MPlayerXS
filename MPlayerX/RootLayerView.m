@@ -658,10 +658,7 @@
 ///////////////////////////////////!!!!!!!!!!!!!!!!这三个方法是调用在工作线程上的，如果要操作界面，那么要小心!!!!!!!!!!!!!!!!!!!!!!!!!/////////////////////////////////////////
 -(int) startWithWidth:(int) width height:(int) height pixelFormat:(OSType) pixelFormat aspect:(int) aspect from:(id)sender
 {
-	if ([dispLayer startWithWidth:width 
-						   height:height
-					  pixelFormat:pixelFormat
-						   aspect:aspect] == 1) {
+	if ([dispLayer startWithWidth:width height:height pixelFormat:pixelFormat aspect:aspect] == 1) {
 		displaying = YES;
 		
 		[VTController resetFilters:self];

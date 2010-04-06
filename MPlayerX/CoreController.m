@@ -249,11 +249,20 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 			NSLog(@"mmap Failed");
 			return 0;
 		}
-		return [dispDelegate startWithWidth:width 
-									 height:height 
-								pixelFormat:((bytes == 4)? k32ARGBPixelFormat: kYUVSPixelFormat) 
-									 aspect:aspect
-									   from:self];
+		
+		OSType pf;
+		switch (bytes) {
+			case 3:	
+				pf = k24RGBPixelFormat;
+				break;
+			case 4:
+				pf = k32ARGBPixelFormat;
+				break;
+			default:
+				pf = kYUVSPixelFormat;
+				break;
+		}
+		return [dispDelegate startWithWidth:width height:height pixelFormat:pf aspect:aspect from:self];
 	}
 	return 0;
 }
