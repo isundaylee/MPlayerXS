@@ -24,6 +24,7 @@
 #define SAFEFREE(x)						{if(x){free(x); x = NULL;}}
 #define SAFERELEASETEXTURECACHE(x)		{if(x){CVOpenGLTextureCacheRelease(x); x=NULL;}}
 #define SAFERELEASEOPENGLBUFFER(x)		{if(x){CVOpenGLBufferRelease(x); x=NULL;}}
+#define SAFERELEASETEXTURE(x)			{if(x){CVOpenGLTextureRelease(x);x=NULL;}}
 
 @implementation DisplayLayer
 
