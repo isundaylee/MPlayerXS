@@ -39,7 +39,6 @@
 		8608652F10BA55CE00459392 /* RootLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8608652D10BA55CE00459392 /* RootLayerView.m */; };
 		8608653910BA56A700459392 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8608653810BA56A700459392 /* OpenGL.framework */; };
 		8608654010BA56C100459392 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8608653F10BA56C100459392 /* QuartzCore.framework */; };
-		8608676B10BA9DA700459392 /* fast_memcpy.c in Sources */ = {isa = PBXBuildFile; fileRef = 8608676A10BA9DA700459392 /* fast_memcpy.c */; };
 		86086A5E10BAD0F400459392 /* binaries in Copy Binaries */ = {isa = PBXBuildFile; fileRef = 8608645C10BA533400459392 /* binaries */; };
 		8609C25A10C693D500B102CE /* AppleRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 8609C25310C693D400B102CE /* AppleRemote.m */; };
 		8609C25B10C693D500B102CE /* HIDRemoteControlDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 8609C25510C693D400B102CE /* HIDRemoteControlDevice.m */; };
@@ -188,8 +187,6 @@
 		8608652D10BA55CE00459392 /* RootLayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootLayerView.m; sourceTree = "<group>"; };
 		8608653810BA56A700459392 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		8608653F10BA56C100459392 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		8608676A10BA9DA700459392 /* fast_memcpy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fast_memcpy.c; sourceTree = "<group>"; };
-		8608681D10BAA02700459392 /* fast_memcpy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fast_memcpy.h; sourceTree = "<group>"; };
 		8609C03D10C676C800B102CE /* coredef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coredef.h; sourceTree = "<group>"; };
 		8609C04A10C67A2B00B102CE /* coredef_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coredef_private.h; sourceTree = "<group>"; };
 		8609C25210C693D400B102CE /* AppleRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppleRemote.h; path = "../Apple Remote Control/AppleRemote.h"; sourceTree = SOURCE_ROOT; };
@@ -443,8 +440,6 @@
 				8608652D10BA55CE00459392 /* RootLayerView.m */,
 				8608652A10BA55CE00459392 /* DisplayLayer.h */,
 				8608652B10BA55CE00459392 /* DisplayLayer.m */,
-				8608681D10BAA02700459392 /* fast_memcpy.h */,
-				8608676A10BA9DA700459392 /* fast_memcpy.c */,
 				86CA9E9C110094FE00A3CDBC /* OsdText.h */,
 				86CA9E9D110094FE00A3CDBC /* OsdText.m */,
 				861EE1E911662BF600D16C87 /* PlayerWindow.h */,
@@ -785,7 +780,6 @@
 				86CAF25110BA451100848B8E /* PlayingInfo.m in Sources */,
 				8608652E10BA55CE00459392 /* DisplayLayer.m in Sources */,
 				8608652F10BA55CE00459392 /* RootLayerView.m in Sources */,
-				8608676B10BA9DA700459392 /* fast_memcpy.c in Sources */,
 				86F4DADB10BC329F007AE56A /* ControlUIView.m in Sources */,
 				862923C610C0FE130077B63E /* TimeFormatter.m in Sources */,
 				8629270010C1507E0077B63E /* TimeSliderCell.m in Sources */,
