@@ -18,6 +18,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+typedef struct {
+	NSUInteger width;
+	NSUInteger height;
+	NSUInteger bytes;
+	OSType pixelFormat;
+	CGFloat aspect;
+}DisplayFormat;
+
 // 指定两种arch的mplayer路径时所用的key
 extern NSString * const kI386Key;
 extern NSString * const kX86_64Key;
