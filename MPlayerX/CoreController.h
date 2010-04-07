@@ -19,6 +19,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import "coredef.h"
 #import "PlayerCore.h"
 #import "ParameterManager.h"
 #import "MovieInfo.h"
@@ -27,9 +28,9 @@
 
 // the protocol for displaying the video
 @protocol CoreDisplayDelegate
--(int) startWithWidth:(int) width height:(int) height pixelFormat:(OSType) pixelFormat aspect:(int) aspect from:(id)sender;
--(void) draw:(void*)imageData from:(id)sender;
--(void) stop:(id)sender;
+-(int)  coreController:(id)sender startWithFormat:(DisplayFormat)df buffer:(char**)data total:(NSUInteger)num;
+-(void) coreController:(id)sender draw:(NSUInteger)frameNum;
+-(void) coreControllerStop:(id)sender;
 @end
 
 @protocol CoreControllerDelegate

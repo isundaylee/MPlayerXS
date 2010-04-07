@@ -20,7 +20,6 @@
 
 #import "CoreController.h"
 #import <sys/mman.h>
-#import "coredef_private.h"
 
 #define kPollingTimeForTimePos	(1)
 
@@ -39,23 +38,22 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 
 #define SAFERELEASE(x)			{if(x) {[x release]; x = nil;}}
 #define SAFECLOSESHM(x)			{if(x != -1) {close(x); x = -1;}}
-#define SAFEUNMAP(x, sz)		{if(x) {munmap(x, sz); x = NULL; sz = 0;}} 
 #define SAFERELEASETIMER(x)		{if(x) {[x invalidate]; [x release]; x = nil;}}
 
 // the Distant Protocol from mplayer binary
 @protocol MPlayerOSXVOProto
--(int) startWithWidth:(bycopy int)width withHeight:(bycopy int)height withBytes:(bycopy int)bytes withAspect:(bycopy int)aspect;
+-(int) startWithWidth:(bycopy NSUInteger)width withHeight:(bycopy NSUInteger)height withPixelFormat:(bycopy OSType)pixelFormat withAspect:(bycopy float)aspect;
 -(void) stop;
--(void) render;
+-(void) render:(bycopy NSUInteger)frameNum;
 -(void) toggleFullscreen;
 -(void) ontop;
 @end
 
 /// 内部方法声明
 @interface CoreController (MPlayerOSXVOProto)
--(int) startWithWidth:(bycopy int)width withHeight:(bycopy int)height withBytes:(bycopy int)bytes withAspect:(bycopy int)aspect;
+-(int) startWithWidth:(bycopy NSUInteger)width withHeight:(bycopy NSUInteger)height withPixelFormat:(bycopy OSType)pixelFormat withAspect:(bycopy float)aspect;
 -(void) stop;
--(void) render;
+-(void) render:(bycopy NSUInteger)frameNum;
 -(void) toggleFullscreen;
 -(void) ontop;
 @end
@@ -159,7 +157,6 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 -(void) dealloc
 {
 	delegate = nil;
-	dispDelegate = nil;
 
 	[renderConn release];
 	[keyPathDict release];
@@ -229,57 +226,71 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 }
 
 //////////////////////////////////////////////protocol for render/////////////////////////////////////////////////////
-- (int) startWithWidth: (bycopy int)width withHeight: (bycopy int)height withBytes: (bycopy int)bytes withAspect: (bycopy int)aspect
+-(int) startWithWidth:(bycopy NSUInteger)width withHeight:(bycopy NSUInteger)height withPixelFormat:(bycopy OSType)pixelFormat withAspect:(bycopy float)aspect
 {
 	// NSLog(@"start");
 	if (dispDelegate) {
+		// make the DisplayFormat
+		DisplayFormat fmt;
+
+		fmt.width  = width;
+		fmt.height = height;
+		fmt.pixelFormat = pixelFormat;
+		fmt.aspect = aspect;
+		
+		switch (pixelFormat) {
+			case kYUVSPixelFormat:
+				fmt.bytes = 2;
+				break;
+			case k24RGBPixelFormat:
+				fmt.bytes = 3;
+				break;
+			default:
+				fmt.bytes = 4;
+				break;
+		}
+		imageSize = fmt.bytes * width * height;
+		
 		// 打开shmem
 		shMemID = shm_open([sharedBufferName UTF8String], O_RDONLY, S_IRUSR);
 		if (shMemID == -1) {
 			NSLog(@"shm_open Failed!");
-			return 0;
+			return 1;
 		}
 		
-		imageSize = width* height* bytes;
-		imageData = mmap(NULL, imageSize, PROT_READ, MAP_SHARED, shMemID, 0);
-		
+		imageData = mmap(NULL, imageSize * 2, PROT_READ, MAP_SHARED, shMemID, 0);
 		if (imageData == MAP_FAILED) {
 			imageData = NULL;
 			SAFECLOSESHM(shMemID);
 			NSLog(@"mmap Failed");
-			return 0;
-		}
+			return 1;
+		}		
+		char *dataBuf[2];
+		dataBuf[0] = imageData;
+		dataBuf[1] = imageData + imageSize;
 		
-		OSType pf;
-		switch (bytes) {
-			case 3:	
-				pf = k24RGBPixelFormat;
-				break;
-			case 4:
-				pf = k32ARGBPixelFormat;
-				break;
-			default:
-				pf = kYUVSPixelFormat;
-				break;
-		}
-		return [dispDelegate startWithWidth:width height:height pixelFormat:pf aspect:aspect from:self];
+		return [dispDelegate coreController:self startWithFormat:fmt buffer:dataBuf total:2];
 	}
-	return 0;
+	return 1;
 }
 
 - (void) stop
 {
 	if (dispDelegate) {
-		[dispDelegate stop: self];
-		SAFEUNMAP(imageData, imageSize);
-		SAFECLOSESHM(shMemID);
+		[dispDelegate coreControllerStop:self];
 	}
+	if (imageData) {
+		munmap(imageData, imageSize * 2);
+		imageData = NULL;
+		imageSize = 0;
+	}
+	SAFECLOSESHM(shMemID);
 }
 
-- (void) render
+-(void) render:(bycopy NSUInteger)frameNum
 {
 	if (dispDelegate) {
-		[dispDelegate draw:imageData from:self];
+		[dispDelegate coreController:self draw:frameNum];
 	}
 }
 
