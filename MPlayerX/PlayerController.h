@@ -55,7 +55,7 @@ extern NSString * const kMPCPlayStartedAudioOnlyKey;
 
 @property (readonly) NSURL *lastPlayedPath;
 
--(void) setDisplayDelegateForMPlayer:(id<CoreDisplayDelegate>) delegate;
+-(id) setDisplayDelegateForMPlayer:(id<CoreDisplayDelegate>) delegate;
 -(int) playerState;
 -(BOOL) couldAcceptCommand;
 

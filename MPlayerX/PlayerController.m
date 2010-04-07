@@ -349,9 +349,10 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 	}
 }
 
--(void) setDisplayDelegateForMPlayer:(id<CoreDisplayDelegate>) delegate
+-(id) setDisplayDelegateForMPlayer:(id<CoreDisplayDelegate>) delegate
 {
 	[mplayer setDispDelegate:delegate];
+	return mplayer;
 }
 
 -(int) playerState
