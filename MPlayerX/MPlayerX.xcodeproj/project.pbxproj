@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		864F8616116CD07000785586 /* updateInfoPlist */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 864F861F116CD09F00785586 /* Build configuration list for PBXAggregateTarget "updateInfoPlist" */;
+			buildPhases = (
+				864F8615116CD07000785586 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = updateInfoPlist;
+			productName = updateInfoPlist;
+		};
 		86A6E0FC10EFD250001F4890 /* GetAutoUpdateInfo */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 86A6E0FF10EFD272001F4890 /* Build configuration list for PBXAggregateTarget "GetAutoUpdateInfo" */;
@@ -119,6 +130,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		864F8621116CD10200785586 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 864F8616116CD07000785586;
+			remoteInfo = updateInfoPlist;
+		};
 		86A6E10510EFD2A8001F4890 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -631,6 +649,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				864F8622116CD10200785586 /* PBXTargetDependency */,
 			);
 			name = MPlayerX;
 			productInstallPath = "$(HOME)/Applications";
@@ -660,6 +679,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				864F8616116CD07000785586 /* updateInfoPlist */,
 				8D1107260486CEB800E47090 /* MPlayerX */,
 				86A6E0FC10EFD250001F4890 /* GetAutoUpdateInfo */,
 			);
@@ -723,6 +743,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		864F8615116CD07000785586 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here\nsvnversion > ver.log\n./updateVersion ver.log MPlayerX-Info.plist\ntouch -amfc MPlayerX-Info.plist\nrm -Rf ver.log\n\nexit 0";
+		};
 		86A6E0FB10EFD250001F4890 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -788,6 +821,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		864F8622116CD10200785586 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 864F8616116CD07000785586 /* updateInfoPlist */;
+			targetProxy = 864F8621116CD10200785586 /* PBXContainerItemProxy */;
+		};
 		86A6E10610EFD2A8001F4890 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D1107260486CEB800E47090 /* MPlayerX */;
@@ -831,6 +869,27 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		864F8617116CD07000785586 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = updateInfoPlist;
+			};
+			name = Debug;
+		};
+		864F8618116CD07000785586 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = updateInfoPlist;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		86A6E0FD10EFD250001F4890 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -959,6 +1018,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		864F861F116CD09F00785586 /* Build configuration list for PBXAggregateTarget "updateInfoPlist" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				864F8617116CD07000785586 /* Debug */,
+				864F8618116CD07000785586 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		86A6E0FF10EFD272001F4890 /* Build configuration list for PBXAggregateTarget "GetAutoUpdateInfo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
