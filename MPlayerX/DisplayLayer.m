@@ -19,7 +19,6 @@
  */
 
 #import "DisplayLayer.h"
-#import "fast_memcpy.h"
 
 #define SAFEFREE(x)						{if(x){free(x); x = NULL;}}
 #define SAFERELEASETEXTURECACHE(x)		{if(x){CVOpenGLTextureCacheRelease(x); x=NULL;}}
@@ -128,7 +127,6 @@
 -(void) draw:(NSUInteger)frameNum
 {
 	frameNow = frameNum;
-	//		fast_memcpy(bufRaw, imageData, fmt.imageSize);
 	[self setNeedsDisplay];
 }
 
