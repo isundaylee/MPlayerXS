@@ -46,6 +46,12 @@
 -(void) playBackOpened:(NSNotification*)notif;
 @end
 
+@interface RootLayerView (CoreDisplayDelegate)
+-(int)  coreController:(id)sender startWithFormat:(DisplayFormat)df buffer:(char**)data total:(NSUInteger)num;
+-(void) coreController:(id)sender draw:(NSUInteger)frameNum;
+-(void) coreControllerStop:(id)sender;
+@end
+
 @implementation RootLayerView
 
 @synthesize fullScrnDevID;
@@ -656,9 +662,9 @@
 	return YES;
 }
 ///////////////////////////////////!!!!!!!!!!!!!!!!这三个方法是调用在工作线程上的，如果要操作界面，那么要小心!!!!!!!!!!!!!!!!!!!!!!!!!/////////////////////////////////////////
--(int) startWithWidth:(int) width height:(int) height pixelFormat:(OSType) pixelFormat aspect:(int) aspect from:(id)sender
+-(int)  coreController:(id)sender startWithFormat:(DisplayFormat)df buffer:(char**)data total:(NSUInteger)num
 {
-	if ([dispLayer startWithWidth:width height:height pixelFormat:pixelFormat aspect:aspect] == 1) {
+	if ([dispLayer startWithFormat:df buffer:data total:num] == 0) {
 		displaying = YES;
 		
 		[VTController resetFilters:self];
@@ -676,9 +682,9 @@
 															  isARepeat:NO keyCode:0]
 								waitUntilDone:NO];
 		}
-		return 1;
+		return 0;
 	}
-	return 0;
+	return 1;
 }
 
 -(void) adjustWindowSizeAndAspectRatio:(NSValue*) sizeVal
@@ -726,12 +732,12 @@
 	}
 }
 
--(void) draw:(void*)imageData from:(id)sender
+-(void) coreController:(id)sender draw:(NSUInteger)frameNum
 {
-	[dispLayer draw:imageData];
+	[dispLayer draw:frameNum];
 }
 
--(void) stop:(id)sender
+-(void) coreControllerStop:(id)sender
 {
 	[dispLayer stop];
 

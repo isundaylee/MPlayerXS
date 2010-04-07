@@ -63,10 +63,6 @@
 -(BOOL) toggleFullScreen;
 -(BOOL) toggleFillScreen;
 
--(int) startWithWidth:(int) width height:(int) height pixelFormat:(OSType) pixelFormat aspect:(int) aspect from:(id)sender;
--(void) draw:(void*)imageData from:(id)sender;
--(void) stop:(id)sender;
-
 -(IBAction) writeSnapshotToFile:(id)sender;
 
 @end
