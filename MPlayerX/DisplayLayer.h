@@ -21,24 +21,19 @@
 #import <Cocoa/Cocoa.h>
 #import <Quartz/Quartz.h>
 #import <OpenGL/gl.h> 
+#import "coredef.h"
 
 // 这个值必须小于0，内部实际上会用0做比较
 #define kDisplayAscpectRatioInvalid		(-1)
 
 #define IsDisplayLayerAspectValid(x)	(x > 0)
 
-typedef struct {
-	size_t width;
-	size_t height;
-	size_t imageSize;
-	OSType pixelFormat;
-	CGFloat aspect;
-}DisplayFormat;
-
 @interface DisplayLayer : CAOpenGLLayer
 {
-	void *bufRaw;
-	CVOpenGLBufferRef bufRef;
+	CVOpenGLBufferRef *bufRefs;
+	NSUInteger bufTotal;
+	NSInteger frameNow;
+	
 	CVOpenGLTextureCacheRef cache;
 
 	DisplayFormat fmt;
@@ -52,8 +47,8 @@ typedef struct {
 -(CGFloat) aspectRatio;
 -(void) setExternalAspectRatio:(CGFloat)ar;
 
--(int) startWithWidth:(int)width height:(int)height pixelFormat:(OSType)pixelFormat aspect:(int)aspect;
--(void) draw:(void*)imageData;
+-(int) startWithFormat:(DisplayFormat)displayFormat buffer:(char**)data total:(NSUInteger)num;
+-(void) draw:(NSUInteger)frameNum;
 -(void) stop;
 
 -(CIImage*) snapshot;

@@ -34,8 +34,10 @@
 - (id) init
 {
 	if (self = [super init]) {
-		bufRaw = NULL;
-		bufRef = NULL;
+		bufRefs = NULL;
+		bufTotal = 0;
+		frameNow = -1;
+
 		cache = NULL;
 
 		memset(&fmt, 0, sizeof(fmt));
@@ -60,16 +62,20 @@
 {
 	SAFERELEASETEXTURECACHE(cache);
 	
-	SAFERELEASEOPENGLBUFFER(bufRef);
-	SAFEFREE(bufRaw);
-	
+	if (bufRefs) {
+		for(;bufTotal>0;bufTotal--) {
+			SAFERELEASEOPENGLBUFFER(bufRefs[bufTotal-1]);
+		}
+		free(bufRefs);
+	}
+
 	[super dealloc];
 }
 
 -(CIImage*) snapshot
 {
-	if (bufRef) {
-		return [CIImage imageWithCVImageBuffer:bufRef];
+	if (bufRefs && (frameNow >= 0)) {
+		return [CIImage imageWithCVImageBuffer:bufRefs[frameNow]];
 	}
 	return nil;
 }
@@ -94,65 +100,55 @@
 	externalAspectRatio = (ar>0)?(ar):(kDisplayAscpectRatioInvalid);
 }
 
--(int) startWithWidth:(int) width height:(int) height pixelFormat:(OSType) pixelFormat aspect:(int)aspect
+-(int) startWithFormat:(DisplayFormat)displayFormat buffer:(char**)data total:(NSUInteger)num
 {
 	@synchronized(self) {
-		SAFERELEASEOPENGLBUFFER(bufRef);
-		SAFEFREE(bufRaw);
-		
-		unsigned int pixelSize;
-		switch (pixelFormat) {
-			case k24RGBPixelFormat:
-				pixelSize = 3;
-				break;
-			case k32ARGBPixelFormat:
-				pixelSize = 4;
-				break;
-			default:
-				pixelSize = 2;
-				break;
-		}
-		
-		fmt.width = width;
-		fmt.height = height;
-		fmt.imageSize = pixelSize * width * height;
-		fmt.pixelFormat = pixelFormat;
-		fmt.aspect = ((CGFloat)aspect)/100.0;
-		
-		bufRaw = malloc(fmt.imageSize);
+		fmt = displayFormat;
 
-		if (bufRaw) {
-			CVReturn error = 
-				CVPixelBufferCreateWithBytes(NULL, fmt.width, fmt.height, fmt.pixelFormat, 
-											 bufRaw, fmt.width * pixelSize, 
-											 NULL, NULL, NULL, &bufRef);
-			if (error != kCVReturnSuccess) {
-				bufRef = NULL;
-				NSLog(@"video buffer failed");
+		if (data && (num > 0)) {
+			CVReturn error;
+			
+			bufRefs = malloc(num * sizeof(CVOpenGLBufferRef));
+			
+			for (bufTotal=0; bufTotal<num; bufTotal++) {
+				error = CVPixelBufferCreateWithBytes(NULL, fmt.width, fmt.height, fmt.pixelFormat, 
+													 data[bufTotal], fmt.width * fmt.bytes, 
+													 NULL, NULL, NULL, &bufRefs[bufTotal]);
+				if (error != kCVReturnSuccess) {
+					[self stop];
+					NSLog(@"video buffer failed");
+					break;
+				}				
 			}
 		}
 	}
-	return (bufRef)?1:0;
+	return (bufRefs)?0:1;
 }
 
--(void) draw:(void*)imageData
+-(void) draw:(NSUInteger)frameNum
 {
-	if (bufRef) {
-		fast_memcpy(bufRaw, imageData, fmt.imageSize);
-		[self setNeedsDisplay];
-	}
+	frameNow = frameNum;
+	//		fast_memcpy(bufRaw, imageData, fmt.imageSize);
+	[self setNeedsDisplay];
 }
 
 -(void) stop
 {
 	@synchronized(self) {
-		SAFERELEASEOPENGLBUFFER(bufRef);		
-		SAFEFREE(bufRaw);
-
+		frameNow = -1;
+		
+		if (bufRefs) {
+			for(;bufTotal>0;bufTotal--) {
+				SAFERELEASEOPENGLBUFFER(bufRefs[bufTotal-1]);
+			}
+			free(bufRefs);
+			bufRefs = NULL;
+		}
+		
 		memset(&fmt, 0, sizeof(fmt));
 		fmt.aspect = kDisplayAscpectRatioInvalid;
 
-		[self setNeedsDisplay];		
+		[self setNeedsDisplay];
 	}
 }
 
@@ -210,11 +206,11 @@
 	
 	CGLSetCurrentContext(glContext);
 	
-	if (bufRef) {
+	if (bufRefs && (frameNow >= 0)) {
 	
 		CVOpenGLTextureRef tex;
 		
-		CVReturn error = CVOpenGLTextureCacheCreateTextureFromImage(NULL, cache, bufRef, NULL, &tex);
+		CVReturn error = CVOpenGLTextureCacheCreateTextureFromImage(NULL, cache, bufRefs[frameNow], NULL, &tex);
 		
 		if (error == kCVReturnSuccess) {
 			// draw
