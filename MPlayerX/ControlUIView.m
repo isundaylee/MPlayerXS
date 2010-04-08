@@ -221,10 +221,9 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	[osd setActive:NO];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(windowHasResized:)
-												 name:NSWindowDidResizeNotification
-											   object:[self window]];
+	[notifCenter addObserver:self selector:@selector(windowHasResized:)
+						name:NSWindowDidResizeNotification
+					  object:[self window]];
 	[notifCenter addObserver:self selector:@selector(playBackOpened:)
 						name:kMPCPlayOpenedNotification object:playerController];
 	[notifCenter addObserver:self selector:@selector(playBackStarted:)
@@ -241,7 +240,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		[autoHideTimer invalidate];
 	}
 
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[notifCenter removeObserver:self];
 
 	[fillScreenButtonAllImages release];
 	[volumeButtonImages release];
@@ -442,9 +441,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 -(IBAction) changeVolumeBy:(id)sender
 {
-	float delta;
-	
-	delta = ([sender isKindOfClass:[NSMenuItem class]])?([sender tag]):([sender floatValue]);
+	float delta = ([sender isKindOfClass:[NSMenuItem class]])?([sender tag]):([sender floatValue]);
 	
 	[self setVolume:[NSNumber numberWithFloat:[volumeSlider floatValue] + (delta * volStep)]];
 }

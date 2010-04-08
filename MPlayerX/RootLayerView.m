@@ -358,12 +358,12 @@
 -(void)scrollWheel:(NSEvent *)theEvent
 {
 	float x, y;
-	x = [theEvent deltaX];
-	y = [theEvent deltaY];
+	x = abs([theEvent deltaX]);
+	y = abs([theEvent deltaY]);
 	
-	if (abs(x) > (abs(y)*2)) {
+	if (x > (y*2)) {
 		
-	} else if ((abs(x)*2) < abs(y)) {
+	} else if ((x*2) < y) {
 		[controlUI changeVolumeBy:[NSNumber numberWithFloat:y*0.2]];
 	}
 }
