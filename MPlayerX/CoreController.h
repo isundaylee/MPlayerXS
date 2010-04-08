@@ -65,7 +65,7 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 	unsigned int imageSize;
 	NSString *sharedBufferName;
 	NSConnection *renderConn;
-	int shMemID;
+	// int shMemID;
 
 	id<CoreDisplayDelegate> dispDelegate;
 	id<CoreControllerDelegate> delegate;
