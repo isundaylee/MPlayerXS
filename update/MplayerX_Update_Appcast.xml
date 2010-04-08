@@ -15,9 +15,10 @@
 					<li><strong>issue 78</strong>: add []\, CMD + []\, OPT + []\ for speed, audio delay, sub delay control</li>
 					<li><strong>issue 77,82</strong>: add manual mode for subtitle encoding detection</li>
 					<li><strong>issue 81</strong>: do not load settings in ~/.mplayer/ any more</li>
-					<li><strong>issue 80</strong>: switch audio enhancement</li>
+					<li><strong>issue 80</strong>: switch audio menu enhancement</li>
 					<li>add CMD+f for fullscreen</li>
 					<li>add hue filter in VideoTuner</li>
+					<li>add drag indicator</li>
 				</ul>
 				<h3>MPlayerX 0.9.8</h3>
 				2010/03/14
