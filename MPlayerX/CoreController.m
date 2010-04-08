@@ -36,8 +36,6 @@
 NSString * const kMPCPlayStoppedByForceKey		= @"kMPCPlayStoppedByForceKey";
 NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 
-#define SAFERELEASE(x)			{if(x) {[x release]; x = nil;}}
-#define SAFECLOSESHM(x)			{if(x != -1) {close(x); x = -1;}}
 #define SAFERELEASETIMER(x)		{if(x) {[x invalidate]; [x release]; x = nil;}}
 
 // the Distant Protocol from mplayer binary
@@ -112,6 +110,9 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 																[NSNumber numberWithInt:kMITypeAudioGotID], kMPCAudioIDs,
 																[NSNumber numberWithInt:kMITypeVideoGotID], kMPCVideoIDs,
 																nil];
+		dispDelegate = nil;
+		delegate = nil;
+		
 		state = kMPCStoppedState;
 		
 		pm = [[ParameterManager alloc] init];
@@ -127,12 +128,9 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 		imageData = NULL;
 		imageSize = 0;
 		sharedBufferName = [[NSString alloc] initWithFormat:@"MPlayerX_%X", self];
-		shMemID = -1;
+		// shMemID = -1;
 		renderConn = [[NSConnection serviceConnectionWithName:sharedBufferName rootObject:self] retain];
 		[renderConn runInNewThread];
-		
-		dispDelegate = nil;
-		delegate = nil;
 		
 		pollingTimer = nil;
 		subConv = [[SubConverter alloc] init];
@@ -252,19 +250,21 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 		imageSize = fmt.bytes * width * height;
 		
 		// 打开shmem
-		shMemID = shm_open([sharedBufferName UTF8String], O_RDONLY, S_IRUSR);
+		int shMemID = shm_open([sharedBufferName UTF8String], O_RDONLY, S_IRUSR);
 		if (shMemID == -1) {
 			NSLog(@"shm_open Failed!");
 			return 1;
 		}
 		
 		imageData = mmap(NULL, imageSize * 2, PROT_READ, MAP_SHARED, shMemID, 0);
+		// whatever succeed or fail, it should be OK of close the shm
+		close(shMemID);
+		
 		if (imageData == MAP_FAILED) {
 			imageData = NULL;
-			SAFECLOSESHM(shMemID);
 			NSLog(@"mmap Failed");
 			return 1;
-		}		
+		}
 		char *dataBuf[2];
 		dataBuf[0] = imageData;
 		dataBuf[1] = imageData + imageSize;
@@ -284,7 +284,6 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 		imageData = NULL;
 		imageSize = 0;
 	}
-	SAFECLOSESHM(shMemID);
 }
 
 -(void) render:(bycopy NSUInteger)frameNum
