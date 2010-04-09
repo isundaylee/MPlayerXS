@@ -367,7 +367,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		[rzIndicator.animator setAlphaValue:1];
 		[title.animator setAlphaValue:1];
 	}
-
 }
 
 ////////////////////////////////////////////////Actions//////////////////////////////////////////////////
@@ -1045,7 +1044,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	} else {
 		[menuSwitchAudio setEnabled:NO];
 	}
-
 }
 
 ////////////////////////////////////////////////draw myself//////////////////////////////////////////////////

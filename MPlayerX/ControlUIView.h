@@ -85,18 +85,6 @@
 @property (assign, readwrite) BOOL hintTimePrsOnAbs;
 @property (assign, readwrite) BOOL timeTextPrsOnRmn;
 
--(IBAction) togglePlayPause:(id)sender;
--(IBAction) toggleMute:(id)sender;
-
--(IBAction) setVolume:(id)sender;
--(IBAction) changeVolumeBy:(id)sender;
-
--(IBAction) seekTo:(id) sender;
--(void) changeTimeBy:(float) delta;
-
--(IBAction) toggleFullScreen:(id)sender;
--(IBAction) toggleFillScreen:(id)sender;
-
 ////////////////////////////////显示相关////////////////////////////////
 extern NSString * const kFillScreenButtonImageLRKey;
 extern NSString * const kFillScreenButtonImageUBKey;
@@ -125,6 +113,18 @@ extern NSString * const kFillScreenButtonImageUBKey;
 -(void) refreshOSDSetting;
 
 //////////////////////////////其他控件相关/////////////////////////////
+-(IBAction) togglePlayPause:(id)sender;
+-(IBAction) toggleMute:(id)sender;
+
+-(IBAction) setVolume:(id)sender;
+-(IBAction) changeVolumeBy:(id)sender;
+
+-(IBAction) seekTo:(id) sender;
+-(void) changeTimeBy:(float) delta;
+
+-(IBAction) toggleFullScreen:(id)sender;
+-(IBAction) toggleFillScreen:(id)sender;
+
 -(IBAction) toggleAccessaryControls:(id)sender;
 -(IBAction) changeSpeed:(id) sender;
 -(IBAction) changeAudioDelay:(id) sender;

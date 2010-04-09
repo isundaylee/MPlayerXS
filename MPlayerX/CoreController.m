@@ -128,7 +128,6 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 		imageData = NULL;
 		imageSize = 0;
 		sharedBufferName = [[NSString alloc] initWithFormat:@"MPlayerX_%X", self];
-		// shMemID = -1;
 		renderConn = [[NSConnection serviceConnectionWithName:sharedBufferName rootObject:self] retain];
 		[renderConn runInNewThread];
 		
