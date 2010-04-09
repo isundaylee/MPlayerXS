@@ -6,9 +6,9 @@
       <description>MplayerX</description>
       <language>en</language>      
          <item>
-            <title>Version 0.9.9</title>
+            <title>Version 0.9.8</title>
 			<description><![CDATA[
-				<h3>MPlayerX 0.9.9</h3>
+				<h3>MPlayerX 0.9.8</h3>
 				2010/XX/XX
 				<ul>
 					<li><strong>issue 42</strong>: titlebar-less</li>
@@ -97,13 +97,13 @@
 					<li>add change subtitle size while playing</li>
 				</ul>
             ]]></description>
-            <pubDate>Sun, 14 Mar 2010 13:27:37 +0900</pubDate>
+            <pubDate>Fri, 09 Apr 2010 21:19:02 +0900</pubDate>
             <enclosure url="http://mplayerx.googlecode.com/svn/releases/MPlayerX.zip"
-					   sparkle:version="0.9.8"
+					   sparkle:version="694"
 					   sparkle:shortVersionString="0.9.8"
-					   length="17713879"
+					   length="17717232"
 					   type="application/octet-stream"
-					   sparkle:dsaSignature="MC0CFQCiUAwe4K2SDO4M2Valf9Ck6x4UjgIUPozaSwtb98blu0VbkQoG3J+c300=" />
+					   sparkle:dsaSignature="MCwCFDGMTRmqodYZ1hF69PetW6SZAJKVAhRC/E62hJdehbhdD+GZpZ+Ye9V+FQ==" />
          </item>
    </channel>
 </rss>
