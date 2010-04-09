@@ -749,7 +749,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# shell script goes here\nsvnversion > ver.log\n./updateVersion ver.log MPlayerX-Info.plist\ntouch -amfc MPlayerX-Info.plist\nrm -Rf ver.log\n\nexit 0";
+			shellScript = "# shell script goes here\nsvnversion ../ > ver.log\n./updateVersion ver.log MPlayerX-Info.plist\ntouch -amfc MPlayerX-Info.plist\nrm -Rf ver.log\n\nexit 0";
 		};
 		86A6E0FB10EFD250001F4890 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
