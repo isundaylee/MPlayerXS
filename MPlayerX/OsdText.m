@@ -110,7 +110,7 @@
 											  selector:@selector(tryToHide)
 											  userInfo:nil
 											   repeats:YES];
-		NSRunLoop *rl = [NSRunLoop currentRunLoop];
+		NSRunLoop *rl = [NSRunLoop mainRunLoop];
 		[rl addTimer:autoHideTimer forMode:NSDefaultRunLoopMode];
 		[rl addTimer:autoHideTimer forMode:NSModalPanelRunLoopMode];
 		[rl addTimer:autoHideTimer forMode:NSEventTrackingRunLoopMode];

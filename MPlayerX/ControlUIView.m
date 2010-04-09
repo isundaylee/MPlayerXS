@@ -307,10 +307,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 											  selector:@selector(tryToHide)
 											  userInfo:nil
 											   repeats:YES];
-		NSRunLoop *rl = [NSRunLoop currentRunLoop];
-		[rl addTimer:autoHideTimer forMode:NSDefaultRunLoopMode];
-		[rl addTimer:autoHideTimer forMode:NSModalPanelRunLoopMode];
-		[rl addTimer:autoHideTimer forMode:NSEventTrackingRunLoopMode];
+		[[NSRunLoop mainRunLoop] addTimer:autoHideTimer forMode:NSDefaultRunLoopMode];
 	}
 }
 
