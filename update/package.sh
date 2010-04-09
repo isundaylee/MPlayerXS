@@ -25,14 +25,8 @@ echo
 
 ##########get the signature#########
 echo "Sign:"
-security find-generic-password -g -s "MPlayerX Private Key" 1>/dev/null | ruby parsePriKey.rb | sed 's/\\012/\n/g' > key.txt
-openssl dgst -sha1 -binary "./MPlayerX.zip" | openssl dgst -dss1 -sign key.txt | openssl enc -base64
-#cat ../../../a.txt | ruby parsePriKey.rb | sed 's/\\012/\n/g' > key.txt
-#openssl dgst -sha1 -binary "./MPlayerX.zip" | openssl dgst -dss1 -sign key.txt | openssl enc -base64
-
-echo "diff:"
-diff key.txt "../Sparkle.framework/Extras/Signing Tools/dsa_priv.pem"
-rm -Rf key.txt
+openssl dgst -sha1 -binary "./MPlayerX.zip" | (security find-generic-password -g -s "MPlayerX Private Key" 1>/dev/null | ruby parsePriKey.rb | sed 's/\\012/\n/g' | openssl dgst -dss1 -sign) | openssl enc -base64
+#openssl dgst -sha1 -binary "./MPlayerX.zip" | (cat ../../../a.txt | ruby parsePriKey.rb | sed 's/\\012/\n/g' | openssl dgst -dss1 -sign) | openssl enc -base64
 
 ######### ruby "../Sparkle.framework/Extras/Signing Tools/sign_update.rb" "./MPlayerX.zip" "../Sparkle.framework/Extras/Signing Tools/dsa_priv.pem"
 
