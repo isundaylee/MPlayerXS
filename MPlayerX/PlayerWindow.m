@@ -32,14 +32,27 @@
 								styleMask:NSBorderlessWindowMask
 								  backing:bufferingType
 									defer:flag]) {
-		[self setHasShadow:YES];
-		[self setCollectionBehavior:NSWindowCollectionBehaviorManaged];
-
-		[self setContentMinSize:NSMakeSize(400, 300)];
-		[self setContentSize:NSMakeSize(400, 300)];
 	}
 	return self;
 }
+
+-(void) awakeFromNib
+{
+	// this function has bug 
+	// [self center];
+	[self setHasShadow:YES];
+	[self setCollectionBehavior:NSWindowCollectionBehaviorManaged];
+	
+	[self setContentMinSize:NSMakeSize(400, 300)];
+	[self setContentSize:NSMakeSize(400, 300)];
+
+	NSRect scrnRC = [[self screen] frame];
+	NSRect winRC  = [self frame];
+	winRC.origin.x = (scrnRC.size.width - winRC.size.width) / 2;
+	winRC.origin.y = (scrnRC.size.height-winRC.size.height) / 2;
+	[self setFrameOrigin:winRC.origin];
+}
+
 -(BOOL) canBecomeKeyWindow
 { return YES;}
 -(BOOL) canBecomeMainWindow
