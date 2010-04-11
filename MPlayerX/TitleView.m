@@ -46,14 +46,6 @@
 		frame.origin.y = 1;
 		trackArea = nil;
 		// [self addTrackingArea:trackArea];
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(applicationWillBecomeActive:)
-													 name:NSApplicationWillBecomeActiveNotification
-												   object:NSApp];
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(applicationWillResignActive:)
-													 name:NSApplicationWillResignActiveNotification
-												   object:NSApp];
     }
     return self;
 }
@@ -61,6 +53,8 @@
 -(void) dealloc
 {
 	// [self removeTrackingArea:trackArea];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[trackArea release];
 	
 	[title release];
@@ -94,6 +88,15 @@
 	tbCornerLeft = [[NSImage imageNamed:@"titlebar-corner-left.png"] retain];
 	tbCornerRight= [[NSImage imageNamed:@"titlebar-corner-right.png"] retain];
 	tbMiddle = [[NSImage imageNamed:@"titlebar-middle.png"] retain];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(windowDidBecomKey:)
+												 name:NSWindowDidBecomeKeyNotification
+											   object:[self window]];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(windowDidResignKey:)
+												 name:NSWindowDidResignKeyNotification
+											   object:[self window]];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -139,14 +142,14 @@
 }
 
 
--(void) applicationWillBecomeActive:(NSNotification*) notif
+-(void) windowDidBecomKey:(NSNotification*) notif
 {
 	[closeButton setEnabled:YES];
 	[miniButton setEnabled:YES];
 	[zoomButton setEnabled:YES];
 }
 
--(void) applicationWillResignActive:(NSNotification*) notif
+-(void) windowDidResignKey:(NSNotification*) notif
 {
 	[closeButton setEnabled:NO];
 	[miniButton setEnabled:NO];
