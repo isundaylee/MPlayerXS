@@ -73,4 +73,9 @@
 {
 	[self miniaturize:sender];
 }
+
+-(void) performClose:(id)sender
+{
+	[self close];
+}
 @end
