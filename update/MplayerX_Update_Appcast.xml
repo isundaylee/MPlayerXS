@@ -6,12 +6,12 @@
       <description>MplayerX</description>
       <language>en</language>      
          <item>
-            <title>Version 0.9.8</title>
+            <title>Version 0.9.9</title>
 			<description><![CDATA[
-				<h3>MPlayerX 0.9.8</h3>
-				2010/XX/XX
+				<h3>MPlayerX 0.9.9</h3>
+				2010/04/26
 				<ul>
-					<li><strong>issue 42</strong>: titlebar-less</li>
+					<li><strong>issue 42</strong>: titlebarless</li>
 					<li><strong>issue 78</strong>: add []\, CMD + []\, OPT + []\ for speed, audio delay, sub delay control, ↑↓← are still working</li>
 					<li><strong>issue 77,82</strong>: add manual mode for subtitle encoding detection, when MPlayerX is not sure about the text encoding</li>
 					<li><strong>issue 81</strong>: do not load settings in ~/.mplayer/ any more</li>
@@ -20,6 +20,7 @@
 					<li>add CMD+f for fullscreen</li>
 					<li>add hue filter in VideoTuner</li>
 					<li>add drag indicator</li>
+					<li>libass update to 0.9.9</li>
 				</ul>
 				<h3>MPlayerX 0.9.8</h3>
 				2010/03/14
@@ -97,13 +98,13 @@
 					<li>add change subtitle size while playing</li>
 				</ul>
             ]]></description>
-            <pubDate>Fri, 09 Apr 2010 21:19:02 +0900</pubDate>
+            <pubDate>Mon, 26 Apr 2010 16:37:56 +0900</pubDate>
             <enclosure url="http://mplayerx.googlecode.com/svn/releases/MPlayerX.zip"
-					   sparkle:version="694"
-					   sparkle:shortVersionString="0.9.8"
-					   length="17717232"
+					   sparkle:version="710"
+					   sparkle:shortVersionString="0.9.9"
+					   length="17487395"
 					   type="application/octet-stream"
-					   sparkle:dsaSignature="MCwCFDGMTRmqodYZ1hF69PetW6SZAJKVAhRC/E62hJdehbhdD+GZpZ+Ye9V+FQ==" />
+					   sparkle:dsaSignature="MC0CFAiNpOZKEeXsk/FYJVPMKP8NWet7AhUAgpJ3UDtq93wzU12oE2bfi8HgabQ=" />
          </item>
    </channel>
 </rss>
