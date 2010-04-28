@@ -1124,7 +1124,7 @@ dHRwOi8vd3d3LndlbnEub3JnCgpBcHBsaWNhdG9uIEljb24KTWlsb8WhIEtyc21hbm92acSHA</strin
 									</object>
 								</object>
 							</object>
-							<string key="NSFrame">{{20, 20}, {360, 64}}</string>
+							<string key="NSFrame">{{20, 4}, {360, 64}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<string key="NSClassName">ControlUIView</string>
