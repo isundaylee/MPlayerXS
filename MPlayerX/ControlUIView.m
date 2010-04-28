@@ -1110,11 +1110,11 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 {
 	[hintTime.animator setAlphaValue:0];
 	
-	NSRect frm = self.frame;
-	NSRect contBounds = [self superview].bounds;
+	// NSRect frm = self.frame;
+	// NSRect contBounds = [self superview].bounds;
 	
-	frm.origin.y = MIN(frm.origin.y, contBounds.size.height-frm.size.height);
-	[self setFrame:frm];
+	// frm.origin.y = MIN(frm.origin.y, contBounds.size.height-frm.size.height);
+	// [self setFrame:frm];
 	
 	// 这里是为了让字体大小符合窗口大小
 	[osd setStringValue:nil owner:osd.owner updateTimer:NO];
