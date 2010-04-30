@@ -180,9 +180,6 @@
 
 	[VTController setLayer:dispLayer];
 	
-	[notifCenter addObserver:self selector:@selector(windowHasResized:)
-						name:NSWindowDidResizeNotification object:playerWindow];
-	
 	[notifCenter addObserver:self selector:@selector(playBackOpened:)
 						name:kMPCPlayOpenedNotification object:playerController];
 	[notifCenter addObserver:self selector:@selector(playBackStarted:)
@@ -393,14 +390,6 @@
 	[self adjustWindowSizeAndAspectRatio:[NSValue valueWithSize:[[playerWindow contentView] bounds].size]];
 }
 
--(void) windowHasResized:(NSNotification *)notification
-{
-	if (!lockAspectRatio) {
-		// 如果没有锁住aspect ratio
-		NSSize sz = [self bounds].size;
-		[dispLayer setExternalAspectRatio:(sz.width/sz.height)];
-	}
-}
 
 -(NSSize) calculateContentSize:(NSSize)refSize
 {
@@ -773,6 +762,15 @@
 		newFrame.origin.y = (scrnRect.size.height- newFrame.size.height)/2;
 	}
 	return newFrame;
+}
+
+-(void) windowDidResize:(NSNotification *)notification
+{
+	if (!lockAspectRatio) {
+		// 如果没有锁住aspect ratio
+		NSSize sz = [self bounds].size;
+		[dispLayer setExternalAspectRatio:(sz.width/sz.height)];
+	}
 }
 
 @end
