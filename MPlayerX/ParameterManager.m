@@ -64,7 +64,6 @@ NSString * const kPMParSubFontAutoScale	= @"-subfont-autoscale";
 NSString * const kPMVal1				= @"1";
 NSString * const kPMParEmbeddedFonts	= @"-embeddedfonts";
 NSString * const kPMParNoEmbeddedFonts	= @"-noembeddedfonts";
-NSString * const kPMParNoFontConfig		= @"-nofontconfig";
 NSString * const kPMParLavdopts			= @"-lavdopts";
 NSString * const kPMFMTThreads			= @"threads=%d";
 NSString * const kPMParAss				= @"-ass";
@@ -300,7 +299,6 @@ NSString * const kPMValDemuxLavf		= @"lavf";
 		[paramArray addObject:kPMParEmbeddedFonts];
 	} else {
 		[paramArray addObject:kPMParNoEmbeddedFonts];
-		[paramArray addObject:kPMParNoFontConfig];
 	}
 
 		
