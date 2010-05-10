@@ -63,6 +63,7 @@
 	BOOL useEmbeddedFonts;
 	BOOL preferIPV6;
 	BOOL pauseAtStart;
+	BOOL overlapSub;
 }
 
 @property (assign, readwrite) SUBFILE_NAMERULE subNameRule;
@@ -87,6 +88,7 @@
 @property (assign, readwrite) unsigned int letterBoxMode;
 @property (assign, readwrite) float letterBoxHeight;
 @property (assign, readwrite) BOOL pauseAtStart;
+@property (assign, readwrite) BOOL overlapSub;
 
 -(void) setSubFontColor:(NSColor*)col;
 -(void) setSubFontBorderColor:(NSColor*)col;

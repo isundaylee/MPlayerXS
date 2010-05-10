@@ -84,6 +84,7 @@ NSString * const kPMParHWAC3			= @"hwac3,a52,";
 NSString * const kPMParSTPause			= @"-stpause";
 NSString * const kPMParDemuxer			= @"-demuxer";
 NSString * const kPMValDemuxLavf		= @"lavf";
+NSString * const kPMParOverlapSub		= @"-overlapsub";
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
@@ -113,6 +114,7 @@ NSString * const kPMValDemuxLavf		= @"lavf";
 @synthesize letterBoxMode;
 @synthesize letterBoxHeight;
 @synthesize pauseAtStart;
+@synthesize overlapSub;
 
 #pragma mark Init/Dealloc
 -(id) init
@@ -156,6 +158,7 @@ NSString * const kPMValDemuxLavf		= @"lavf";
 		letterBoxMode = kPMLetterBoxModeNotDisplay;
 		letterBoxHeight = 0.1;
 		pauseAtStart = NO;
+		overlapSub = NO;
 	}
 	return self;
 }
@@ -300,8 +303,11 @@ NSString * const kPMValDemuxLavf		= @"lavf";
 	} else {
 		[paramArray addObject:kPMParNoEmbeddedFonts];
 	}
-
-		
+	
+	if (overlapSub) {
+		[paramArray addObject:kPMParOverlapSub];
+	}
+	
 	[paramArray addObject:kPMParLavdopts];
 	[paramArray addObject:[NSString stringWithFormat: kPMFMTThreads, threads]];
 
