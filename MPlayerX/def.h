@@ -69,6 +69,7 @@ extern NSString * const kUDKeyPlayWhenOpened;
 extern NSString * const kUDKeyTextSubtitleCharsetConfidenceThresh;
 extern NSString * const kUDKeyTextSubtitleCharsetManual;
 extern NSString * const kUDKeyTextSubtitleCharsetFallback;
+extern NSString * const kUDKeyOverlapSub;
 
 extern NSString * const kUDKeyDebugEnableOpenURL;
 extern NSString * const kUDKeySelectedPrefView;

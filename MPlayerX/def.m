@@ -66,6 +66,7 @@ NSString * const kUDKeyVideoTunerStepValue	= @"VideoTunerStepValue";
 NSString * const kUDKeyARKeyRepeatTimeInterval		= @"ARKeyRepeatTimeInterval";
 NSString * const kUDKeyARKeyRepeatTimeIntervalLong	= @"ARKeyRepeatTimeIntervalLong";
 NSString * const kUDKeyPlayWhenOpened		= @"PlayWhenOpened";
+NSString * const kUDKeyOverlapSub			= @"OverlapSub";
 
 NSString * const kUDKeyDebugEnableOpenURL	= @"DebugEnableOpenURL";
 NSString * const kUDKeySelectedPrefView		= @"SelectedPrefView";
