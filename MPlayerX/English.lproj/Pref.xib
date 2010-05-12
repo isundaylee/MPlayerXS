@@ -1503,9 +1503,9 @@ Z2dsZSBiZXR3ZWVuIGVsYXBzZWQvcmVtYWluaW5nIHRpbWU</string>
 											<string key="NSKeyEquivalent"/>
 											<int key="NSPeriodicDelay">400</int>
 											<int key="NSPeriodicInterval">75</int>
-											<object class="NSMenuItem" key="NSMenuItem" id="520889224">
+											<object class="NSMenuItem" key="NSMenuItem" id="731227661">
 												<reference key="NSMenu" ref="593750199"/>
-												<string key="NSTitle">No letterbox</string>
+												<string key="NSTitle">Bottom only</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -1520,10 +1520,9 @@ Z2dsZSBiZXR3ZWVuIGVsYXBzZWQvcmVtYWluaW5nIHRpbWU</string>
 												<string key="NSTitle">OtherViews</string>
 												<object class="NSMutableArray" key="NSMenuItems">
 													<bool key="EncodedWithXMLCoder">YES</bool>
-													<reference ref="520889224"/>
-													<object class="NSMenuItem" id="731227661">
+													<object class="NSMenuItem" id="520889224">
 														<reference key="NSMenu" ref="593750199"/>
-														<string key="NSTitle">bottom only</string>
+														<string key="NSTitle">No letterbox</string>
 														<string key="NSKeyEquiv"/>
 														<int key="NSKeyEquivModMask">1048576</int>
 														<int key="NSMnemonicLoc">2147483647</int>
@@ -1532,9 +1531,20 @@ Z2dsZSBiZXR3ZWVuIGVsYXBzZWQvcmVtYWluaW5nIHRpbWU</string>
 														<string key="NSAction">_popUpItemAction:</string>
 														<reference key="NSTarget" ref="108904135"/>
 													</object>
+													<reference ref="731227661"/>
+													<object class="NSMenuItem" id="929375743">
+														<reference key="NSMenu" ref="593750199"/>
+														<string key="NSTitle">Top only</string>
+														<string key="NSKeyEquiv"/>
+														<int key="NSMnemonicLoc">2147483647</int>
+														<reference key="NSOnImage" ref="321644239"/>
+														<reference key="NSMixedImage" ref="647357972"/>
+														<string key="NSAction">_popUpItemAction:</string>
+														<reference key="NSTarget" ref="108904135"/>
+													</object>
 													<object class="NSMenuItem" id="273249384">
 														<reference key="NSMenu" ref="593750199"/>
-														<string key="NSTitle">top + bottom</string>
+														<string key="NSTitle">Top + Bottom</string>
 														<string key="NSKeyEquiv"/>
 														<int key="NSKeyEquivModMask">1048576</int>
 														<int key="NSMnemonicLoc">2147483647</int>
@@ -1546,6 +1556,7 @@ Z2dsZSBiZXR3ZWVuIGVsYXBzZWQvcmVtYWluaW5nIHRpbWU</string>
 												</object>
 												<reference key="NSMenuFont" ref="472449914"/>
 											</object>
+											<int key="NSSelectedIndex">1</int>
 											<int key="NSPreferredEdge">1</int>
 											<bool key="NSUsesItemFromMenu">YES</bool>
 											<bool key="NSAltersState">YES</bool>
@@ -4129,6 +4140,7 @@ c2UgdGhlIHBsYXliYWNrIGNsdXR0ZXJlZCB3aGVuIHNlZWtpbmcuA</string>
 							<reference ref="273249384"/>
 							<reference ref="731227661"/>
 							<reference ref="520889224"/>
+							<reference ref="929375743"/>
 						</object>
 						<reference key="parent" ref="108904135"/>
 					</object>
@@ -4344,6 +4356,11 @@ c2UgdGhlIHBsYXliYWNrIGNsdXR0ZXJlZCB3aGVuIHNlZWtpbmcuA</string>
 						<reference key="object" ref="186079949"/>
 						<reference key="parent" ref="759675541"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">354</int>
+						<reference key="object" ref="929375743"/>
+						<reference key="parent" ref="593750199"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -4512,6 +4529,7 @@ c2UgdGhlIHBsYXliYWNrIGNsdXR0ZXJlZCB3aGVuIHNlZWtpbmcuA</string>
 					<string>348.IBPluginDependency</string>
 					<string>349.IBPluginDependency</string>
 					<string>350.IBPluginDependency</string>
+					<string>354.IBPluginDependency</string>
 					<string>39.IBPluginDependency</string>
 					<string>4.IBEditorWindowLastContentRect</string>
 					<string>4.IBPluginDependency</string>
@@ -4676,7 +4694,7 @@ Zw</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{479, 559}, {177, 63}}</string>
+					<string>{{482, 589}, {177, 83}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4710,6 +4728,7 @@ Zw</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{754, 579}, {183, 4}}</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4761,7 +4780,7 @@ Zw</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">353</int>
+			<int key="maxID">354</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
