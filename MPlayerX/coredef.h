@@ -40,7 +40,8 @@ typedef enum
 // letterBox显示模式
 #define kPMLetterBoxModeNotDisplay	(0)
 #define kPMLetterBoxModeBottomOnly	(1)
-#define kPMLetterBoxModeBoth		(2)
+#define kPMLetterBoxModeTopOnly		(2)
+#define kPMLetterBoxModeBoth		(3)
 
 // KVO观测的属性的KeyPath
 extern NSString * const kKVOPropertyKeyPathCurrentTime;

@@ -333,10 +333,12 @@ NSString * const kPMParOverlapSub		= @"-overlapsub";
 			// 字幕显示在letterBox里
 			[paramArray addObject:kPMParAssUsesMargin];
 			
-			[paramArray addObject:kPMParAssBottomMargin];
-			[paramArray addObject:[NSString stringWithFormat:kPMFMTFloat2, letterBoxHeight]];
+			if ((letterBoxMode == kPMLetterBoxModeBoth) || (letterBoxMode == kPMLetterBoxModeBottomOnly)) {
+				[paramArray addObject:kPMParAssBottomMargin];
+				[paramArray addObject:[NSString stringWithFormat:kPMFMTFloat2, letterBoxHeight]];
+			}
 			
-			if (letterBoxMode == kPMLetterBoxModeBoth) {
+			if ((letterBoxMode == kPMLetterBoxModeBoth) || (letterBoxMode == kPMLetterBoxModeTopOnly)) {
 				// 还要显示top margin
 				[paramArray addObject:kPMParAssTopMargin];
 				[paramArray addObject:[NSString stringWithFormat: kPMFMTFloat2, letterBoxHeight]];
