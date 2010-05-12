@@ -88,7 +88,7 @@ NSString * const kPMParOverlapSub		= @"-overlapsub";
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
-#define kSubScaleNoAss		(4.0)
+#define kSubScaleNoAss		(8.0)
 
 @implementation ParameterManager
 
