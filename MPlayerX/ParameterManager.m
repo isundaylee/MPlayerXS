@@ -135,7 +135,7 @@ NSString * const kPMParOverlapSub		= @"-overlapsub";
 		assEnabled = YES;
 		frontColor = 0xFFFFFF00; //RRGGBBAA
 		borderColor = 0x0000000F; //RRGGBBAA
-		assForceStyle = [NSString stringWithString:@"BorderStyle=1,Outline=1,Fontsize=12,MarginV=2"];
+		assForceStyle = [NSString stringWithString:@"BorderStyle=1,Outline=1,MarginV=2"];
 		
 		prefer64bMPlayer = YES;
 		guessSubCP = YES;
