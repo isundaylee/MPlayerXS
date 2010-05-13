@@ -104,7 +104,7 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 					   [NSNumber numberWithUnsignedInt:kPMLetterBoxModeBottomOnly], kUDKeyLetterBoxModeAlt,
 					   [NSNumber numberWithFloat:0.1], kUDKeyLetterBoxHeight,
 					   [NSNumber numberWithBool:YES], kUDKeyPlayWhenOpened,
-					   [NSNumber numberWithBool:NO], kUDKeyOverlapSub,
+					   [NSNumber numberWithBool:YES], kUDKeyOverlapSub,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
