@@ -352,6 +352,14 @@
 	}
 }
 
+-(void) cancelOperation:(id)sender
+{
+	if ([self isInFullScreenMode]) {
+		// when pressing Escape, exit fullscreen if being fullscreen
+		[controlUI toggleFullScreen:nil];
+	}
+}
+
 -(void)scrollWheel:(NSEvent *)theEvent
 {
 	float x, y;
