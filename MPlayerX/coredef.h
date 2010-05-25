@@ -49,6 +49,7 @@ extern NSString * const kKVOPropertyKeyPathLength;
 extern NSString * const kKVOPropertyKeyPathSeekable;
 extern NSString * const kKVOPropertyKeyPathSubInfo;
 extern NSString * const kKVOPropertyKeyPathCachingPercent;
+extern NSString * const kKVOPropertyKeyPathDemuxer;
 
 extern NSString * const kKVOPropertyKeyPathVideoInfo;
 extern NSString * const kKVOPropertyKeyPathAudioInfo;

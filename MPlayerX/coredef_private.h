@@ -60,5 +60,6 @@ extern NSString * const kMPCAudioInfoID;
 extern NSString * const kMPCVideoInfoID;
 extern NSString * const kMPCAudioIDs;
 extern NSString * const kMPCVideoIDs;
+extern NSString * const kMPCDemuxerID;
 
 extern NSString * const kKVOPropertyKeyPathState;

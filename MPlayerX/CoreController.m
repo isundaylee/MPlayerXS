@@ -97,6 +97,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 																	kKVOPropertyKeyPathAudioInfo, kMPCAudioInfoID,
 																	kKVOPropertyKeyPathAudioInfo, kMPCAudioIDs,
 																	kKVOPropertyKeyPathVideoInfo, kMPCVideoIDs,
+																	kKVOPropertyKeyPathDemuxer, kMPCDemuxerID,
 																	nil];
 		typeDict = [[NSDictionary alloc] initWithObjectsAndKeys:flatValue, kMPCTimePos, 
 																flatValue, kMPCLengthID,
@@ -109,6 +110,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 																[NSNumber numberWithInt:kMITypeAudioGotInfo], kMPCAudioInfoID,
 																[NSNumber numberWithInt:kMITypeAudioGotID], kMPCAudioIDs,
 																[NSNumber numberWithInt:kMITypeVideoGotID], kMPCVideoIDs,
+																flatValue, kMPCDemuxerID,
 																nil];
 		dispDelegate = nil;
 		delegate = nil;
