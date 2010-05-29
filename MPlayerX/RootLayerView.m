@@ -85,7 +85,7 @@
 		shouldResize = NO;
 		dispLayer = [[DisplayLayer alloc] init];
 		displaying = NO;
-		fullScreenOptions = [[NSDictionary alloc] initWithObjectsAndKeys:
+		fullScreenOptions = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 							 [NSNumber numberWithInt:NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions,
 							 [NSNumber numberWithBool:![ud boolForKey:kUDKeyFullScreenKeepOther]], NSFullScreenModeAllScreens,
 							 nil];
@@ -533,11 +533,8 @@
 
 -(void) refreshFullscreenMode
 {
-	[fullScreenOptions release];
-	fullScreenOptions = [[NSDictionary alloc] initWithObjectsAndKeys:
-						 [NSNumber numberWithInt:NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions,
-						 [NSNumber numberWithBool:![ud boolForKey:kUDKeyFullScreenKeepOther]], NSFullScreenModeAllScreens,
-						 nil];	
+	[fullScreenOptions setObject:[NSNumber numberWithBool:![ud boolForKey:kUDKeyFullScreenKeepOther]] 
+						  forKey:NSFullScreenModeAllScreens];
 }
 
 -(BOOL) toggleFullScreen
@@ -584,6 +581,14 @@
 		// 得到window目前所在的screen
 		NSScreen *chosenScreen = [playerWindow screen];
 		
+		if (chosenScreen == [[NSScreen screens] objectAtIndex:0]) {
+			// if the main screen
+			[fullScreenOptions setObject:[NSNumber numberWithInt:NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar]
+								  forKey:NSFullScreenModeApplicationPresentationOptions];
+		} else {
+			[fullScreenOptions removeObjectForKey:NSFullScreenModeApplicationPresentationOptions];
+		}
+
 		[self enterFullScreenMode:chosenScreen withOptions:fullScreenOptions];
 		
 		fullScrnDevID = [[[chosenScreen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];

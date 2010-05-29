@@ -35,7 +35,7 @@
 	DisplayLayer *dispLayer;
 	
 	BOOL displaying;
-	NSDictionary *fullScreenOptions;
+	NSMutableDictionary *fullScreenOptions;
 	CGDirectDisplayID fullScrnDevID;
 	
 	BOOL lockAspectRatio;
