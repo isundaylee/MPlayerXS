@@ -22,11 +22,15 @@
 
 @class ParameterManager;
 
+#define kPIAudioIDInvalid	(-1)
+#define kPIVideoIDInvalid	(-1)
+
 @interface PlayingInfo : NSObject 
 {
 	unsigned char	currentChapter;
 	NSNumber		*currentTime;
-	unsigned char	currentAudio;
+	int				currentAudioID;
+	int				currentVideoID;
 	unsigned char	currentSub;
 	
 	float volume;
@@ -42,7 +46,8 @@
 
 @property(assign, readwrite) unsigned char	currentChapter;
 @property(retain, readwrite) NSNumber		*currentTime;
-@property(assign, readwrite) unsigned char	currentAudio;
+@property(assign, readwrite) int			currentAudioID;
+@property(assign, readwrite) int			currentVideoID;
 @property(assign, readwrite) unsigned char	currentSub;
 
 @property(assign, readwrite) float volume;
