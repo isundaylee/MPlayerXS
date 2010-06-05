@@ -85,6 +85,8 @@
 @property (assign, readwrite) BOOL hintTimePrsOnAbs;
 @property (assign, readwrite) BOOL timeTextPrsOnRmn;
 
+-(void) displayMediaInfo;
+
 ////////////////////////////////显示相关////////////////////////////////
 extern NSString * const kFillScreenButtonImageLRKey;
 extern NSString * const kFillScreenButtonImageUBKey;

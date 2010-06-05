@@ -290,6 +290,70 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	}
 }
 
+-(void) displayMediaInfo
+{
+	MovieInfo *mi = [playerController mediaInfo];
+	
+	NSMutableString *dispStr = [[NSMutableString alloc] initWithCapacity:60];
+	
+	if (mi) {
+		int currentID;
+		
+		[dispStr appendFormat:@"Dmx: %@\n", [mi demuxer]];
+
+		currentID = [mi.playingInfo currentVideoID];
+		
+		if (currentID != kPIVideoIDInvalid) {
+			VideoInfo *vi = nil;
+			
+			for(VideoInfo *info in [mi videoInfo]) {
+				if ([info ID] == currentID) {
+					vi = info;
+					break;
+				}
+			}
+			if (vi) {
+				if ([vi bitRate] < 1) {
+					[dispStr appendFormat:@"Video: %@, %d×%d, %.1ffps\n",
+					 [vi format],
+					 [vi width],
+					 [vi height],
+					 ((float)[vi fps])];					
+				} else {
+					[dispStr appendFormat:@"Video: %@, %d×%d, %.1fkbps, %.1ffps\n",
+					 [vi format],
+					 [vi width],
+					 [vi height],
+					 ((float)[vi bitRate])/1000.0f,
+					 ((float)[vi fps])];					
+				}
+			}
+		}
+
+		currentID = [mi.playingInfo currentAudioID];
+		
+		if (currentID != kPIAudioIDInvalid) {
+			AudioInfo *ai = nil;
+			
+			for(AudioInfo *info in [mi audioInfo]) {
+				if ([info ID] == currentID) {
+					ai = info;
+					break;
+				}
+			}
+			if (ai) {
+				[dispStr appendFormat:@"Audio: %@, %.1fkbps, %.1fkHz, %d channels",
+				 [ai format],
+				 ((float)[ai bitRate])/1000.0f,
+				 ((float)[ai sampleRate])/1000.0f,
+				 [ai channels]];
+			}
+		}
+		[osd setStringValue:dispStr owner:kOSDOwnerMediaInfo updateTimer:YES];
+	}
+	[dispStr release];
+}
+
 ////////////////////////////////////////////////AutoHideThings//////////////////////////////////////////////////
 -(void) refreshAutoHideTimer
 {
@@ -820,6 +884,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 -(void) playBackWillStop:(NSNotification*)notif
 {
+	[osd setStringValue:@"" owner:kOSDOwnerOther updateTimer:YES];
 	[osd setActive:NO];
 }
 
