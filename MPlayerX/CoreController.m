@@ -631,7 +631,19 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 					}
 					if (infoToSet) {
 						[infoToSet setInfoDataWithArray:strArr];
+						if (type == kMITypeAudioGotInfo) {
+							[movieInfo.playingInfo setCurrentAudioID:ID];
+						} else {
+							[movieInfo.playingInfo setCurrentVideoID:ID];
+						}
+					} else {
+						if (type == kMITypeAudioGotInfo) {
+							[movieInfo.playingInfo setCurrentAudioID:kPIAudioIDInvalid];
+						} else {
+							[movieInfo.playingInfo setCurrentVideoID:kPIVideoIDInvalid];
+						}
 					}
+
 					break;	
 				}
 				default:
