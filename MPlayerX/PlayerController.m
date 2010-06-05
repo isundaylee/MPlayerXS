@@ -368,6 +368,11 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 	return PlayerCouldAcceptCommand;
 }
 
+-(id) mediaInfo
+{
+	return [mplayer movieInfo];
+}
+
 -(NSString*) subConverter:(SubConverter*)subConv detectedFile:(NSString*)path ofCharsetName:(NSString*)charsetName confidence:(float)confidence
 {
 	NSString *ret = nil;

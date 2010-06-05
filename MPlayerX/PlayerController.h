@@ -59,6 +59,7 @@ extern NSString * const kMPCPlayStartedAudioOnlyKey;
 -(int) playerState;
 -(BOOL) couldAcceptCommand;
 
+-(id) mediaInfo;
 -(void) setMultiThreadMode:(BOOL) mt;
 
 -(void) loadFiles:(NSArray*)files fromLocal:(BOOL)local;
