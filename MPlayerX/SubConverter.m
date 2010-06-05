@@ -182,29 +182,32 @@ NSString * const kWorkDirSubDir = @"Subs";
 	// 文件夹路径
 	NSString *directoryPath = [moviePath stringByDeletingLastPathComponent];
 	// 播放文件名称
-	NSString *movieName = [[moviePath lastPathComponent] stringByDeletingPathExtension];
+	NSString *movieName = [[[moviePath lastPathComponent] stringByDeletingPathExtension] lowercaseString];
 	
 	NSDirectoryEnumerator *directoryEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:directoryPath];
 	
 	// 遍历播放文件所在的目录
 	for (NSString *path in directoryEnumerator)
 	{
-		// TODO 这里需要检查path是文件名还是 路径名
+		// the lower case of the sub path
+		NSString *caseName = [[path stringByDeletingPathExtension] lowercaseString];
+
 		NSDictionary *fileAttr = [directoryEnumerator fileAttributes];
 		
-		if ([fileAttr objectForKey:NSFileType] == NSFileTypeDirectory) { //不遍历子目录
+		if ([fileAttr objectForKey:NSFileType] == NSFileTypeDirectory) {
+			//不遍历子目录
 			[directoryEnumerator skipDescendants];
 			
 		} else if ([[fileAttr objectForKey:NSFileType] isEqualToString: NSFileTypeRegular]) {
 			// 如果是普通文件
 			switch (nameRule) {
 				case kSubFileNameRuleExactMatch:
-					if (![movieName isEqualToString:[path stringByDeletingPathExtension]]) continue; // exact match
+					if (![movieName isEqualToString:caseName]) continue; // exact match
 					break;
 				case kSubFileNameRuleAny:
 					break; // any sub file is OK
 				case kSubFileNameRuleContain:
-					if ([path rangeOfString: movieName].location == NSNotFound) continue; // contain the movieName
+					if ([caseName rangeOfString: movieName].location == NSNotFound) continue; // contain the movieName
 					break;
 				default:
 					continue;
