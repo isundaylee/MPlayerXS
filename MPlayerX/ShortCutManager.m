@@ -197,6 +197,9 @@
 					case kSCMPlaybackSpeedResetShortcutKey:
 						[playerController setSpeed:1];
 						break;
+					case kSCMDisplayMediaInfoShortCutKey:
+						[controlUI displayMediaInfo];
+						break;
 					default:
 						ret = NO;
 						break;
