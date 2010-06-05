@@ -292,6 +292,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 -(void) displayMediaInfo
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	MovieInfo *mi = [playerController mediaInfo];
 	
 	NSMutableString *dispStr = [[NSMutableString alloc] initWithCapacity:60];
@@ -342,8 +344,35 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 				}
 			}
 			if (ai) {
+				
+				// This is a hack
+				// mplayer will not always output the string format for audio/video format property
+				// this is a temp list for known value
+				NSString *format = [ai format];
+				
+				if (([format characterAtIndex:0] == '0') && ([format characterAtIndex:1] == 'x' )) {
+					switch ([[format substringFromIndex:2] intValue]) {
+						case 2000:
+							format = @"AC-3";
+							break;
+						case 2001:
+							format = @"DTS";
+							break;
+						case 55:
+							format = @"MPEG-3";
+							break;
+						case 1:
+						case 6:
+						case 7:
+							format = @"PCM";
+							break;
+						default:
+							break;
+					}
+				}
+
 				[dispStr appendFormat:kMPXStringOSDMediaInfoAudioInfo,
-				 [ai format],
+				 [format uppercaseString],
 				 ((float)[ai bitRate])/1000.0f,
 				 ((float)[ai sampleRate])/1000.0f,
 				 [ai channels]];
@@ -352,6 +381,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		[osd setStringValue:dispStr owner:kOSDOwnerMediaInfo updateTimer:YES];
 	}
 	[dispStr release];
+	[pool release];
 }
 
 ////////////////////////////////////////////////AutoHideThings//////////////////////////////////////////////////
