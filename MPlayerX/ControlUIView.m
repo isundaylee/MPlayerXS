@@ -315,15 +315,34 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 				}
 			}
 			if (vi) {
+				NSString *format = [vi format];
+				
+				if (([format characterAtIndex:0] == '0') && ([format characterAtIndex:1] == 'x' )) {
+					switch ([[format substringFromIndex:2] intValue]) {
+						case 10000001:
+							format = @"MPEG-1";
+							break;
+						case 10000002:
+							format = @"MPEG-2";
+							break;
+						case 10000005:
+							format = @"H264";
+							break;
+						default:
+							break;
+					}
+				}
+				format = [format uppercaseString];
+
 				if ([vi bitRate] < 1) {
 					[dispStr appendFormat:kMPXStringOSDMediaInfoVideoInfoNoBPS,
-					 [vi format],
+					 format,
 					 [vi width],
 					 [vi height],
 					 ((float)[vi fps])];					
 				} else {
 					[dispStr appendFormat:kMPXStringOSDMediaInfoVideoInfo,
-					 [vi format],
+					 format,
 					 [vi width],
 					 [vi height],
 					 ((float)[vi bitRate])/1000.0f,
@@ -361,18 +380,27 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 						case 55:
 							format = @"MPEG-3";
 							break;
+						case 50:
+							format = @"MPEG-1/2";
+							break;
 						case 1:
 						case 6:
 						case 7:
 							format = @"PCM";
 							break;
+						case 161:
+						case 162:
+						case 163:
+							format = @"WMA";
+							break;
 						default:
 							break;
 					}
 				}
-
+				format = [format uppercaseString];
+				
 				[dispStr appendFormat:kMPXStringOSDMediaInfoAudioInfo,
-				 [format uppercaseString],
+				 format,
 				 ((float)[ai bitRate])/1000.0f,
 				 ((float)[ai sampleRate])/1000.0f,
 				 [ai channels]];
