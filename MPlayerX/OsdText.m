@@ -60,7 +60,7 @@
 		// offset = (3*Min - Max) / 2
 		fontSizeRatio = (fontSizeMax - fontSizeMin) / 600.0;
 		fontSizeOffset = (3*fontSizeMin - fontSizeMax) / 2.0;
-		
+
 		active = NO;
 
 		autoHideTimeInterval = 0;
@@ -140,6 +140,9 @@
 			NSSize sz = [[self superview] bounds].size;
 			
 			float fontSize = MIN(fontSizeMax, MAX(fontSizeMin, (sz.height*fontSizeRatio) + fontSizeOffset));
+			if (ow == kOSDOwnerMediaInfo) {
+				fontSize *= 0.7;
+			}
 
 			NSFont *font = [NSFont systemFontOfSize:fontSize];
 			

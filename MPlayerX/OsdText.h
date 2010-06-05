@@ -23,7 +23,8 @@
 typedef enum
 {
 	kOSDOwnerTime = 1,
-	kOSDOwnerOther = 2
+	kOSDOwnerOther = 2,
+	kOSDOwnerMediaInfo = 3
 } OSDOWNER;
 
 @interface OsdText : NSTextField
