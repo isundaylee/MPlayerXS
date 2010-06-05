@@ -299,7 +299,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	if (mi) {
 		int currentID;
 		
-		[dispStr appendFormat:@"Dmx: %@\n", [mi demuxer]];
+		[dispStr appendFormat:kMPXStringOSDMediaInfoDemuxer, [mi demuxer]];
 
 		currentID = [mi.playingInfo currentVideoID];
 		
@@ -314,13 +314,13 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 			}
 			if (vi) {
 				if ([vi bitRate] < 1) {
-					[dispStr appendFormat:@"Video: %@, %d×%d, %.1ffps\n",
+					[dispStr appendFormat:kMPXStringOSDMediaInfoVideoInfoNoBPS,
 					 [vi format],
 					 [vi width],
 					 [vi height],
 					 ((float)[vi fps])];					
 				} else {
-					[dispStr appendFormat:@"Video: %@, %d×%d, %.1fkbps, %.1ffps\n",
+					[dispStr appendFormat:kMPXStringOSDMediaInfoVideoInfo,
 					 [vi format],
 					 [vi width],
 					 [vi height],
@@ -342,7 +342,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 				}
 			}
 			if (ai) {
-				[dispStr appendFormat:@"Audio: %@, %.1fkbps, %.1fkHz, %d channels",
+				[dispStr appendFormat:kMPXStringOSDMediaInfoAudioInfo,
 				 [ai format],
 				 ((float)[ai bitRate])/1000.0f,
 				 ((float)[ai sampleRate])/1000.0f,
@@ -733,8 +733,14 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	if (sender) {
 		[playerController setAudio:[sender tag]];
 		
+		// This is a hack
+		// since I have to reset the volume when switch audio
+		// so I should disable OSD when set volume
+		BOOL oldAct = [osd isActive];
+		[osd setActive:NO];
 		// 这个可能是mplayer的bug，当轮转一圈从各个音轨到无声在回到音轨时，声音会变到最大，所以这里再设定一次音量
 		[self setVolume:volumeSlider];
+		[osd setActive:oldAct];
 		
 		for (NSMenuItem* mItem in [audioListMenu itemArray]) {
 			if ([mItem state] == NSOnState) {
