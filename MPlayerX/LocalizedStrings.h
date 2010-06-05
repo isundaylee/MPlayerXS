@@ -56,7 +56,7 @@
 #define kMPXStringURLPanelClearMenu		(NSLocalizedString(@"Clear Menu...", @"open url panel"))
 #define kMPXStringSubEncQueryResult		(NSLocalizedString(@"Detected file:\t%@\nEncoding:\t\t%@\nconfidence:\t%2.1f%%", @"SubEncoding"))
 
-#define kMPXStringOSDMediaInfoDemuxer			(NSLocalizedString(@"Dmx: %@\n", @"OSD hint media info"))
+#define kMPXStringOSDMediaInfoDemuxer			(NSLocalizedString(@"Demuxer: %@\n", @"OSD hint media info"))
 #define kMPXStringOSDMediaInfoVideoInfoNoBPS	(NSLocalizedString(@"Video: %@, %d×%d, %.1ffps\n", @"OSD hint media info"))
 #define kMPXStringOSDMediaInfoVideoInfo			(NSLocalizedString(@"Video: %@, %d×%d, %.1fkbps, %.1ffps\n", @"OSD hint media info"))
 #define kMPXStringOSDMediaInfoAudioInfo			(NSLocalizedString(@"Audio: %@, %.1fkbps, %.1fkHz, %d channels", @"OSD hint media info"))
