@@ -126,4 +126,6 @@ extern NSString * const kSCMToggleLetterBoxKeyEquivalent;
 
 #define kSCMDisplayMediaInfoShortCutKey		('i')
 
+#define kSCMDeleteFileShortCutKey			(NSDeleteCharacter)
+
 extern NSString * const kMPCStringMPlayerX;

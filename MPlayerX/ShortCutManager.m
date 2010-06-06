@@ -168,6 +168,17 @@
 															charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
 																			  isARepeat:NO keyCode:0]];
 						break;
+					case kSCMDeleteFileShortCutKey:
+					{
+						NSURL *path = [[playerController lastPlayedPath] retain];
+						
+						if (path && [path isFileURL]) {
+							[playerController stop];
+							[[NSWorkspace sharedWorkspace] recycleURLs:[NSArray arrayWithObject:path] completionHandler:nil];
+						}
+						[path release];
+						break;
+					}
 					default:
 						ret = NO;
 						break;
