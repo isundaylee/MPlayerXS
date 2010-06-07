@@ -301,7 +301,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	if (mi) {
 		int currentID;
 		
-		[dispStr appendFormat:kMPXStringOSDMediaInfoDemuxer, [mi demuxer]];
+		[dispStr appendFormat:kMPXStringOSDMediaInfoDemuxer, [[mi demuxer] uppercaseString]];
 
 		currentID = [mi.playingInfo currentVideoID];
 		
