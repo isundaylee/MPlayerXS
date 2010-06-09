@@ -70,11 +70,13 @@ extern NSString * const kUDKeyTextSubtitleCharsetConfidenceThresh;
 extern NSString * const kUDKeyTextSubtitleCharsetManual;
 extern NSString * const kUDKeyTextSubtitleCharsetFallback;
 extern NSString * const kUDKeyOverlapSub;
+extern NSString * const kUDKeyRtspOverHttp;
 
 extern NSString * const kUDKeyDebugEnableOpenURL;
 extern NSString * const kUDKeySelectedPrefView;
 extern NSString * const kUDKeyHelpURL;
 extern NSString * const kUDKeyCloseWindowWhenStopped;
+extern NSString * const kUDKeyFFMpegHandleStream;
 
 #define kSCMSwitchTimeHintKeyModifierMask	(NSFunctionKeyMask)
 

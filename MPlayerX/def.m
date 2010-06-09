@@ -67,6 +67,8 @@ NSString * const kUDKeyARKeyRepeatTimeInterval		= @"ARKeyRepeatTimeInterval";
 NSString * const kUDKeyARKeyRepeatTimeIntervalLong	= @"ARKeyRepeatTimeIntervalLong";
 NSString * const kUDKeyPlayWhenOpened		= @"PlayWhenOpened";
 NSString * const kUDKeyOverlapSub			= @"OverlapSub";
+NSString * const kUDKeyRtspOverHttp			= @"RtspOverHttp";
+NSString * const kUDKeyFFMpegHandleStream	= @"FFMpegHandleStream";
 
 NSString * const kUDKeyDebugEnableOpenURL	= @"DebugEnableOpenURL";
 NSString * const kUDKeySelectedPrefView		= @"SelectedPrefView";
