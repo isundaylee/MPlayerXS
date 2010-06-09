@@ -185,6 +185,13 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 //////////////////////////////////////////////comunication with playerCore/////////////////////////////////////////////////////
 -(void) playerCore:(id)player hasTerminated:(BOOL) byForce
 {
+	// if mplayer is crashed, it may not call stop to stop display
+	// and stop always happens before mplayer really exit
+	// so imageData is there means stop is forgotten
+	if (imageData) {
+		[self stop];
+	}
+	
 	if (delegate) {
 		[delegate playebackWillStop];
 	}
