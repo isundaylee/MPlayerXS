@@ -85,6 +85,7 @@ NSString * const kPMParSTPause			= @"-stpause";
 NSString * const kPMParDemuxer			= @"-demuxer";
 NSString * const kPMValDemuxLavf		= @"lavf";
 NSString * const kPMParOverlapSub		= @"-overlapsub";
+NSString * const kPMParRtspOverHttp		= @"-rtsp-stream-over-http";
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
@@ -115,6 +116,7 @@ NSString * const kPMParOverlapSub		= @"-overlapsub";
 @synthesize letterBoxHeight;
 @synthesize pauseAtStart;
 @synthesize overlapSub;
+@synthesize rtspOverHttp;
 
 #pragma mark Init/Dealloc
 -(id) init
@@ -159,6 +161,7 @@ NSString * const kPMParOverlapSub		= @"-overlapsub";
 		letterBoxHeight = 0.1;
 		pauseAtStart = NO;
 		overlapSub = NO;
+		rtspOverHttp = NO;
 	}
 	return self;
 }
@@ -232,6 +235,10 @@ NSString * const kPMParOverlapSub		= @"-overlapsub";
 		[paramArray addObject:kPMParIPV6];
 	} else {
 		[paramArray addObject:kPMParIPV4];
+	}
+	
+	if (rtspOverHttp) {
+		[paramArray addObject:kPMParRtspOverHttp];
 	}
 	
 	[paramArray addObject:kPMParOsdLevel];
@@ -375,6 +382,8 @@ NSString * const kPMParOverlapSub		= @"-overlapsub";
 	if (pauseAtStart) {
 		[paramArray addObject:kPMParSTPause];
 	}
+	
+	// NSLog(@"%@", [paramArray componentsJoinedByString:@" "]);
 	
 	return paramArray;
 }

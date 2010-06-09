@@ -64,6 +64,7 @@
 	BOOL preferIPV6;
 	BOOL pauseAtStart;
 	BOOL overlapSub;
+	BOOL rtspOverHttp;
 }
 
 @property (assign, readwrite) SUBFILE_NAMERULE subNameRule;
@@ -89,6 +90,7 @@
 @property (assign, readwrite) float letterBoxHeight;
 @property (assign, readwrite) BOOL pauseAtStart;
 @property (assign, readwrite) BOOL overlapSub;
+@property (assign, readwrite) BOOL rtspOverHttp;
 
 -(void) setSubFontColor:(NSColor*)col;
 -(void) setSubFontBorderColor:(NSColor*)col;
