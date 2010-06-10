@@ -62,6 +62,9 @@
 #define kMPXStringOSDMediaInfoVideoInfo			(NSLocalizedString(@"Video: %@, %d×%d, %.1fkbps, %.1ffps\n", @"OSD hint media info"))
 #define kMPXStringOSDMediaInfoAudioInfo			(NSLocalizedString(@"Audio: %@, %.1fkbps, %.1fkHz, %d channels", @"OSD hint media info"))
 
+#define kMPXStringUseFFMpegHandleStream			(NSLocalizedString(@"⌘-OK: Use FFMpeg to handle the stream", @"OpenURL Panel"))
+#define kMPXStringUseMPlayerHandleStream		(NSLocalizedString(@"⌘-OK: Use MPlayer to handle the stream", @"OpenURL Panel"))
+
 #define kMPXStringTextSubEncAskMe	(NSLocalizedString(@"Ask me", @"preference"))
 
 #define kMPXStringEncUTF8			(NSLocalizedString(@"Unicode (UTF-8)", @"Text Enc"))
