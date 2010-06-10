@@ -553,6 +553,8 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 
 	[mplayer playMedia:path];
 
+	// NSLog(@"%@", path);
+	
 	SAFERELEASE(lastPlayedPath);
 	lastPlayedPath = lastPlayedPathPre;
 	lastPlayedPathPre = nil;
