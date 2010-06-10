@@ -52,6 +52,8 @@ NSString * const kMPCMplayerName		= @"mplayer";
 NSString * const kMPCFMTMplayerPathM32	= @"binaries/m32/%@";
 NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 
+NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
+
 #define kThreadsNumMax	(8)
 
 #define SAFERELEASE(x)		{if(x) {[x release];x = nil;}}
@@ -81,30 +83,34 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 
 +(void) initialize
 {
+	NSNumber *boolYes = [NSNumber numberWithBool:YES];
+	NSNumber *boolNo  = [NSNumber numberWithBool:NO];
+	
 	[[NSUserDefaults standardUserDefaults] 
 	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-					   [NSNumber numberWithBool:YES], kUDKeyAutoPlayNext,
+					   boolYes, kUDKeyAutoPlayNext,
 					   kMPCDefaultSubFontPath, kUDKeySubFontPath,
-					   [NSNumber numberWithBool:YES], kUDKeyPrefer64bitMPlayer,
-					   [NSNumber numberWithBool:YES], kUDKeyEnableMultiThread,
+					   boolYes, kUDKeyPrefer64bitMPlayer,
+					   boolYes, kUDKeyEnableMultiThread,
 					   [NSNumber numberWithFloat:1.0], kUDKeySubScale,
 					   [NSNumber numberWithFloat:0.1], kUDKeySubScaleStepValue,
 					   [NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:1.0 alpha:1.00]], kUDKeySubFontColor,
 					   [NSArchiver archivedDataWithRootObject:[NSColor colorWithCalibratedWhite:0.0 alpha:0.85]], kUDKeySubFontBorderColor,
-					   [NSNumber numberWithBool:NO], kUDKeyForceIndex,
+					   boolNo, kUDKeyForceIndex,
 					   [NSNumber numberWithUnsignedInt:kSubFileNameRuleContain], kUDKeySubFileNameRule,
-					   [NSNumber numberWithBool:NO], kUDKeyDTSPassThrough,
-					   [NSNumber numberWithBool:NO], kUDKeyAC3PassThrough,
+					   boolNo, kUDKeyDTSPassThrough,
+					   boolNo, kUDKeyAC3PassThrough,
 					   [NSNumber numberWithUnsignedInt:1], kUDKeyThreadNum,
-					   [NSNumber numberWithBool:YES], kUDKeyUseEmbeddedFonts,
+					   boolYes, kUDKeyUseEmbeddedFonts,
 					   [NSNumber numberWithUnsignedInt:5000], kUDKeyCacheSize,
-					   [NSNumber numberWithBool:YES], kUDKeyPreferIPV6,
-					   [NSNumber numberWithBool:NO], kUDKeyCachingLocal,
+					   boolYes, kUDKeyPreferIPV6,
+					   boolNo, kUDKeyCachingLocal,
 					   [NSNumber numberWithUnsignedInt:kPMLetterBoxModeNotDisplay], kUDKeyLetterBoxMode,
 					   [NSNumber numberWithUnsignedInt:kPMLetterBoxModeBottomOnly], kUDKeyLetterBoxModeAlt,
 					   [NSNumber numberWithFloat:0.1], kUDKeyLetterBoxHeight,
-					   [NSNumber numberWithBool:YES], kUDKeyPlayWhenOpened,
-					   [NSNumber numberWithBool:YES], kUDKeyOverlapSub,
+					   boolYes, kUDKeyPlayWhenOpened,
+					   boolYes, kUDKeyOverlapSub,
+					   boolYes, kUDKeyRtspOverHttp,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
@@ -503,21 +509,29 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 	lastPlayedPathPre = [[url absoluteURL] retain];
 	
 	if ([url isFileURL]) {
+		// local files
 		path = [url path];
 
 		[mplayer.pm setCache:([ud boolForKey:kUDKeyCachingLocal])?([ud integerForKey:kUDKeyCacheSize]):(0)];
+		[mplayer.pm setRtspOverHttp:NO];
 		
 		// 将文件加入Recent Menu里，只能加入本地文件
 		[[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:url];
 
 	} else {
+		// network stream
 		path = [url absoluteString];
 		
 		[mplayer.pm setCache:[ud integerForKey:kUDKeyCacheSize]];
 		[mplayer.pm setPreferIPV6:[ud boolForKey:kUDKeyPreferIPV6]];
+		[mplayer.pm setRtspOverHttp:[ud boolForKey:kUDKeyRtspOverHttp]];
 		
 		// 将URL加入OpenURLController
 		[openUrlController addUrl:path];
+		
+		if ([ud boolForKey:kUDKeyFFMpegHandleStream]) {
+			path = [kMPCFFMpegProtoHead stringByAppendingString:path];
+		}
 	}
 
 	[mplayer playMedia:path];
@@ -866,8 +880,7 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 
 -(NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication *)sender
 {
-	[mplayer performStop];
-	SAFERELEASE(lastPlayedPath);
+	[self stop];
 
 	[ud synchronize];
 
