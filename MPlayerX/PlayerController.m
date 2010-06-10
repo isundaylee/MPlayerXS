@@ -317,7 +317,6 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 {
 	// it is a bad design since the strong coupling for controlUI and PlayerController
 	if (object == mplayer) {
-		
 		/*
 		[notifCenter postNotificationName:kMPCPlayInfoUpdatedNotification
 								   object:self
