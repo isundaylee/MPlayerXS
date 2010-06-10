@@ -943,7 +943,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[subDelayText setEnabled:YES];
 	[audioDelayText setEnabled:YES];
 	
-	[menuSwitchAudio setEnabled:YES];	
+	[menuSwitchAudio setEnabled:YES];
 }
 
 -(void) playBackWillStop:(NSNotification*)notif
@@ -1200,8 +1200,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	NSPoint pt = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
 	NSRect frm = timeSlider.frame;
 
-	// if timeSlider is disabled, which means it is not seekable
-	// but if the length of the media is available, we should display the hintTime
+	// if the media is not seekable, timeSlider is disabled
+	// but if the length of the media is available, we should display the hintTime, whether it is seekable or not
 	if (NSPointInRect(pt, frm) && ([timeSlider maxValue] > 0)) {
 		// 如果鼠标在timeSlider中
 		// 更新时间
@@ -1240,12 +1240,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 -(void) windowHasResized:(NSNotification *)notification
 {
 	[hintTime.animator setAlphaValue:0];
-	
-	// NSRect frm = self.frame;
-	// NSRect contBounds = [self superview].bounds;
-	
-	// frm.origin.y = MIN(frm.origin.y, contBounds.size.height-frm.size.height);
-	// [self setFrame:frm];
 	
 	// 这里是为了让字体大小符合窗口大小
 	[osd setStringValue:nil owner:osd.owner updateTimer:NO];
