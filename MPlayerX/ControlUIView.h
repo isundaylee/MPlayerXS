@@ -42,6 +42,7 @@
 
 	NSMenu *subListMenu;
 	NSMenu *audioListMenu;
+	NSMenu *videoListMenu;
 
 	float volStep;
 	BOOL hintTimePrsOnAbs;
@@ -80,6 +81,7 @@
 	IBOutlet NSMenuItem *menuToggleLockAspectRatio;
 	IBOutlet NSMenuItem *menuResetLockAspectRatio;
 	IBOutlet NSMenuItem *menuToggleLetterBox;
+	IBOutlet NSMenuItem *menuSwitchVideo;
 }
 
 @property (assign, readwrite) BOOL hintTimePrsOnAbs;
@@ -105,6 +107,7 @@ extern NSString * const kFillScreenButtonImageUBKey;
 -(void) gotSubInfo:(NSArray*) subs changed:(int)changeKind;
 -(void) gotCachingPercent:(NSNumber*) caching;
 -(void) gotAudioInfo:(NSArray*) ais;
+-(void) gotVideoInfo:(NSArray*) vis;
 
 //////////////////////////////自动隐藏相关/////////////////////////////
 -(void) showUp;
@@ -139,6 +142,9 @@ extern NSString * const kFillScreenButtonImageUBKey;
 
 -(IBAction) stepAudios:(id)sender;
 -(IBAction) setAudioWithID:(id)sender;
+
+-(IBAction) stepVideos:(id)sender;
+-(IBAction) setVideoWithID:(id)sender;
 
 -(IBAction) toggleTimeTextDispMode:(id)sender;
 -(IBAction) changeSubPosBy:(id)sender;

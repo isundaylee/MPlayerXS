@@ -52,6 +52,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 -(void) calculateHintTime;
 -(void) resetSubtitleMenu;
 -(void) resetAudioMenu;
+-(void) resetVideoMenu;
 -(void) playBackOpened:(NSNotification *)notif;
 -(void) playBackStarted:(NSNotification *)notif;
 -(void) playBackStopped:(NSNotification *)notif;
@@ -92,6 +93,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		floatWrapFormatter = [[FloatWrapFormatter alloc] init];
 		subListMenu = [[NSMenu alloc] initWithTitle:@"SubListMenu"];
 		audioListMenu = [[NSMenu alloc] initWithTitle:@"AudioListMenu"];
+		videoListMenu = [[NSMenu alloc] initWithTitle:@"VideoListMenu"];
 	}
 	return self;
 }
@@ -118,7 +120,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[toggleAcceButton setKeyEquivalent:kSCMAcceControlKeyEquivalent];
 
 	[menuSnapshot setKeyEquivalent:kSCMSnapShotKeyEquivalent];
-	[menuSwitchSub setKeyEquivalent:kSCMSwitchSubKeyEquivalent];
 	
 	[menuSubScaleInc setKeyEquivalentModifierMask:kSCMSubScaleIncreaseKeyEquivalentModifierFlagMask];
 	[menuSubScaleInc setKeyEquivalent:kSCMSubScaleIncreaseKeyEquivalent];
@@ -128,7 +129,9 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuPlayFromLastStoppedPlace setKeyEquivalent:kSCMPlayFromLastStoppedKeyEquivalent];
 	[menuPlayFromLastStoppedPlace setKeyEquivalentModifierMask:kSCMPlayFromLastStoppedKeyEquivalentModifierFlagMask];
 	
+	[menuSwitchSub setKeyEquivalent:kSCMSwitchSubKeyEquivalent];
 	[menuSwitchAudio setKeyEquivalent:kSCMSwitchAudioKeyEquivalent];
+	[menuSwitchVideo setKeyEquivalent:kSCMSwitchVideoKeyEquivalent];
 
 	[menuVolInc setKeyEquivalent:kSCMVolumeUpKeyEquivalent];
 	[menuVolDec setKeyEquivalent:kSCMVolumeDownKeyEquivalent];
@@ -206,6 +209,10 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[audioListMenu setAutoenablesItems:NO];
 	[self resetAudioMenu];
 	
+	[menuSwitchVideo setSubmenu:videoListMenu];
+	[videoListMenu setAutoenablesItems:NO];
+	[self resetVideoMenu];
+	
 	[menuSubScaleInc setTag:1];
 	[menuSubScaleDec setTag:-1];
 	
@@ -248,12 +255,13 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[floatWrapFormatter release];
 	
 	[menuSwitchSub setSubmenu:nil];
-	[subListMenu removeAllItems];
 	[subListMenu release];
 
 	[menuSwitchAudio setSubmenu:nil];
-	[audioListMenu removeAllItems];
 	[audioListMenu release];
+	
+	[menuSwitchVideo setSubmenu:nil];
+	[videoListMenu release];
 	
 	[fillGradient release];
 	
@@ -814,6 +822,48 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	}
 }
 
+-(IBAction) stepVideos:(id)sender
+{
+	NSUInteger num = [videoListMenu numberOfItems];
+	
+	if (num) {
+		NSUInteger idx = 0, found = 0;
+		NSMenuItem* mItem;
+
+		for (mItem in [videoListMenu itemArray]) {
+			if ([mItem state] == NSOnState) {
+				found = idx+1;
+				break;
+			}
+			idx++;
+		}
+		if (found >= num) {
+			found = 0;
+		}
+		[self setVideoWithID:[videoListMenu itemAtIndex:found]];
+	}
+}
+
+-(IBAction) setVideoWithID:(id)sender
+{
+	if (sender) {
+		[playerController setVideo:[sender tag]];
+		
+		for (NSMenuItem* mItem in [videoListMenu itemArray]) {
+			if ([mItem state] == NSOnState) {
+				[mItem setState:NSOffState];
+				break;
+			}
+		}
+		[sender setState:NSOnState];
+		
+		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDVideoHint, [sender title]]
+					  owner:kOSDOwnerOther
+				updateTimer:YES];
+	}
+}
+
+
 -(IBAction) toggleTimeTextDispMode:(id)sender
 {
 	timeTextPrsOnRmn = !timeTextPrsOnRmn;
@@ -944,6 +994,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[audioDelayText setEnabled:YES];
 	
 	[menuSwitchAudio setEnabled:YES];
+	[menuSwitchVideo setEnabled:YES];
 }
 
 -(void) playBackWillStop:(NSNotification*)notif
@@ -974,6 +1025,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	[menuSwitchAudio setEnabled:NO];
 	[menuSwitchSub setEnabled:NO];
+	[menuSwitchVideo setEnabled:NO];
+	
 	[menuSubScaleInc setEnabled:NO];
 	[menuSubScaleDec setEnabled:NO];
 	[menuPlayFromLastStoppedPlace setEnabled:NO];
@@ -1172,6 +1225,38 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	}
 }
 
+-(void) resetVideoMenu
+{
+	[videoListMenu removeAllItems];
+}
+
+-(void) gotVideoInfo:(NSArray*) vis
+{
+	[videoListMenu removeAllItems];
+	
+	if (vis && (vis != (id)[NSNull null]) && [vis count]) {
+		
+		NSMenuItem *mItem = nil;
+		
+		for (id info in vis) {
+			mItem = [[NSMenuItem alloc] init];
+			[mItem setEnabled:YES];
+			[mItem setTarget:self];
+			[mItem setAction:@selector(setVideoWithID:)];
+			[mItem setTitle:[info description]];
+			[mItem setTag:[info ID]];
+			[mItem setState:NSOffState];
+			[videoListMenu addItem:mItem];
+			[mItem release];
+		}
+		
+		[[videoListMenu itemAtIndex:0] setState:NSOnState];
+		
+		[menuSwitchVideo setEnabled:YES];
+	} else {
+		[menuSwitchVideo setEnabled:NO];
+	}
+}
 ////////////////////////////////////////////////draw myself//////////////////////////////////////////////////
 - (void)drawRect:(NSRect)dirtyRect
 {
