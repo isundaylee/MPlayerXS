@@ -545,8 +545,8 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 		
 		// 将URL加入OpenURLController
 		[openUrlController addUrl:path];
-		
-		if ([ud boolForKey:kUDKeyFFMpegHandleStream]) {
+
+		if ([ud boolForKey:kUDKeyFFMpegHandleStream] != ([NSEvent modifierFlags]==kSCMFFMpegHandleStreamShortCurKey)) {
 			path = [kMPCFFMpegProtoHead stringByAppendingString:path];
 		}
 	}
