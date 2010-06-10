@@ -86,6 +86,8 @@ extern NSString * const kMPCPlayStartedAudioOnlyKey;
 -(void) setAudio:(int) audioID;
 -(void) setAudioBalance:(float)bal;
 
+-(void) setVideo:(int) videoID;
+
 -(void) loadSubFile:(NSString*)subPath;
 
 -(IBAction) openFile:(id) sender;

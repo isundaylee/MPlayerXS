@@ -821,6 +821,11 @@ NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 	[mplayer setBalance:bal];
 }
 
+-(void) setVideo:(int) videoID
+{
+	[mplayer setVideo:videoID];
+}
+
 -(void) loadSubFile:(NSString*)subPath
 {
 	[mplayer loadSubFile:subPath];
