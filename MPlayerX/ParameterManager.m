@@ -86,6 +86,8 @@ NSString * const kPMParDemuxer			= @"-demuxer";
 NSString * const kPMValDemuxLavf		= @"lavf";
 NSString * const kPMParOverlapSub		= @"-overlapsub";
 NSString * const kPMParRtspOverHttp		= @"-rtsp-stream-over-http";
+NSString * const kPMParMsgCharset		= @"-msgcharset";
+NSString * const kPMValMsgCharset		= @"noconv";
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
@@ -211,6 +213,9 @@ NSString * const kPMParRtspOverHttp		= @"-rtsp-stream-over-http";
 	[paramArray addObject:kPMParMsgLevel];
 	[paramArray addObject:kPMValMsgLevel];
 	
+	[paramArray addObject:kPMParMsgCharset];
+	[paramArray addObject:kPMValMsgCharset];
+
 	[paramArray addObject:kPMParAutoSync];
 	[paramArray addObject:[NSString stringWithFormat: kPMFMTInt, autoSync]];
 	
