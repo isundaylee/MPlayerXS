@@ -130,4 +130,5 @@ extern NSString * const kSCMToggleLetterBoxKeyEquivalent;
 
 #define kSCMDeleteFileShortCutKey			(NSDeleteCharacter)
 
+#define kSCMFFMpegHandleStreamShortCurKey	(NSCommandKeyMask)
 extern NSString * const kMPCStringMPlayerX;
