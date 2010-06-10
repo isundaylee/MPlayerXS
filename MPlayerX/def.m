@@ -21,6 +21,7 @@
 #import <Cocoa/Cocoa.h>
 #import "coredef.h"
 
+////////////////////////////UserDefaults defination/////////////////////////////////
 NSString * const kUDKeyVolume				= @"volume";
 NSString * const kUDKeyOnTopMode			= @"OnTopMode";
 NSString * const kUDKeyCtrlUIAutoHideTime	= @"CtrlUIAutoHideTime";
@@ -78,6 +79,7 @@ NSString * const kUDKeyTextSubtitleCharsetConfidenceThresh	= @"TextSubCharsetCon
 NSString * const kUDKeyTextSubtitleCharsetManual	= @"TextSubCharsetManual";
 NSString * const kUDKeyTextSubtitleCharsetFallback	= @"TextSubCharsetFallback";
 
+/////////////////////////////////short keys defination/////////////////////////////////
 NSString * const kSCMVolumeUpKeyEquivalent		= @"=";
 NSString * const kSCMVolumeDownKeyEquivalent	= @"-";
 NSString * const kSCMSwitchAudioKeyEquivalent	= @"a";
@@ -88,6 +90,7 @@ NSString * const kSCMPlayPauseKeyEquivalent		= @" ";
 NSString * const kSCMFullScrnKeyEquivalent		= @"f";
 NSString * const kSCMFillScrnKeyEquivalent		= @"F";
 NSString * const kSCMAcceControlKeyEquivalent	= @"c";
+NSString * const kSCMSwitchVideoKeyEquivalent	= @"v";
 
 NSString * const kSCMSubScaleIncreaseKeyEquivalent		= @"=";
 NSString * const kSCMSubScaleDecreaseKeyEquivalent		= @"-";

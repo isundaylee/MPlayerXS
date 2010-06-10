@@ -20,7 +20,7 @@
 
 #import "coredef.h"
 
-// UserDefaults定义
+////////////////////////////UserDefaults defination/////////////////////////////////
 extern NSString * const kUDKeyVolume;
 extern NSString * const kUDKeyOnTopMode;
 extern NSString * const kUDKeyCtrlUIAutoHideTime;
@@ -78,6 +78,7 @@ extern NSString * const kUDKeyHelpURL;
 extern NSString * const kUDKeyCloseWindowWhenStopped;
 extern NSString * const kUDKeyFFMpegHandleStream;
 
+/////////////////////////////////short keys defination/////////////////////////////////
 #define kSCMSwitchTimeHintKeyModifierMask	(NSFunctionKeyMask)
 
 extern NSString * const kSCMVolumeUpKeyEquivalent;
@@ -87,6 +88,8 @@ extern NSString * const kSCMSwitchSubKeyEquivalent;
 extern NSString * const kSCMSnapShotKeyEquivalent;
 extern NSString * const kSCMMuteKeyEquivalent;
 extern NSString * const kSCMPlayPauseKeyEquivalent;
+extern NSString * const kSCMSwitchVideoKeyEquivalent;
+
 extern NSString * const kSCMFullScrnKeyEquivalent;
 #define kSCMFullScrnShortcutKey		('f')
 
