@@ -28,6 +28,7 @@
 	
 	IBOutlet NSPanel *openURLPanel;
 	IBOutlet NSComboBox *urlBox;
+	IBOutlet NSTextField *cmdOptionalText;
 }
 
 -(IBAction) openURL:(id) sender;

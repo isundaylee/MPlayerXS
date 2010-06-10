@@ -87,12 +87,16 @@ NSString * const kStringURLSchemaRtsp	= @"rtsp";
 
 -(IBAction) openURL:(id) sender
 {
+	// since this is a modal method, it is safe to set the cmdOptionalText
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyFFMpegHandleStream]) {
+		[cmdOptionalText setStringValue:kMPXStringUseMPlayerHandleStream];
+	} else {
+		[cmdOptionalText setStringValue:kMPXStringUseFFMpegHandleStream];
+	}
+
 	if ([NSApp runModalForWindow:openURLPanel] == NSFileHandlingPanelOKButton) {
 		NSString *urlString = [urlBox stringValue];
-		
-		[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:([NSEvent modifierFlags]==kSCMFFMpegHandleStreamShortCurKey)]
-												  forKey:kUDKeyFFMpegHandleStream];
-		
+
 		// 现在mplayer的在线播放的功能不是很稳定，经常freeze，因此先禁用这个功能
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyDebugEnableOpenURL]) {
 			[playerController loadFiles:[NSArray arrayWithObject:urlString] fromLocal:NO];
