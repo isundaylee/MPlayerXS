@@ -12,7 +12,6 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="628"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -601,7 +600,7 @@
 				<string key="NSWindowContentMaxSize">{280, 336}</string>
 				<string key="NSWindowContentMinSize">{280, 336}</string>
 				<object class="NSView" key="NSWindowView" id="255223115">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -610,7 +609,6 @@
 							<int key="NSvFlags">303</int>
 							<string key="NSFrame">{{0, 149}, {278, 44}}</string>
 							<reference key="NSSuperview" ref="255223115"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="3445284">
 								<int key="NSCellFlags">69336577</int>
@@ -658,7 +656,6 @@ bmtzIHRvA</string>
 							</object>
 							<string key="NSFrame">{{91, 220}, {96, 96}}</string>
 							<reference key="NSSuperview" ref="255223115"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="587597968">
 								<int key="NSCellFlags">130560</int>
@@ -679,7 +676,6 @@ bmtzIHRvA</string>
 							<int key="NSvFlags">266</int>
 							<string key="NSFrame">{{0, 201}, {278, 11}}</string>
 							<reference key="NSSuperview" ref="255223115"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="222532058">
 								<int key="NSCellFlags">68288064</int>
@@ -700,7 +696,6 @@ bmtzIHRvA</string>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{15, 20}, {250, 121}}</string>
 							<reference key="NSSuperview" ref="255223115"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="1036984193">
 								<int key="NSCellFlags">-2078147071</int>
@@ -726,8 +721,6 @@ ICBTaW1wbGlmaWVkIENoaW5lc2UgLSBhbmFraW4gKHpoZW5nQG1hY2lkZWEuY29tKQ</string>
 						</object>
 					</object>
 					<string key="NSFrameSize">{280, 336}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{280, 355}</string>
@@ -1240,7 +1233,7 @@ ICBTaW1wbGlmaWVkIENoaW5lc2UgLSBhbmFraW4gKHpoZW5nQG1hY2lkZWEuY29tKQ</string>
 				<string key="NSWindowContentMaxSize">{500, 92}</string>
 				<string key="NSWindowContentMinSize">{500, 92}</string>
 				<object class="NSView" key="NSWindowView" id="77567990">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1404,12 +1397,12 @@ ICBTaW1wbGlmaWVkIENoaW5lc2UgLSBhbmFraW4gKHpoZW5nQG1hY2lkZWEuY29tKQ</string>
 						<object class="NSTextField" id="968896216">
 							<reference key="NSNextResponder" ref="77567990"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{18, 11}, {220, 14}}</string>
+							<string key="NSFrame">{{18, 11}, {254, 14}}</string>
 							<reference key="NSSuperview" ref="77567990"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="423930580">
-								<int key="NSCellFlags">68288064</int>
-								<int key="NSCellFlags2">272761856</int>
+								<int key="NSCellFlags">67239424</int>
+								<int key="NSCellFlags2">4329472</int>
 								<string key="NSContents">⌘-OK: Use ffmpeg to handle the stream</string>
 								<reference key="NSSupport" ref="26"/>
 								<reference key="NSControlView" ref="968896216"/>
@@ -1419,7 +1412,6 @@ ICBTaW1wbGlmaWVkIENoaW5lc2UgLSBhbmFraW4gKHpoZW5nQG1hY2lkZWEuY29tKQ</string>
 						</object>
 					</object>
 					<string key="NSFrameSize">{500, 92}</string>
-					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{500, 114}</string>
@@ -2310,6 +2302,14 @@ ICBTaW1wbGlmaWVkIENoaW5lc2UgLSBhbmFraW4gKHpoZW5nQG1hY2lkZWEuY29tKQ</string>
 						<reference key="destination" ref="164921386"/>
 					</object>
 					<int key="connectionID">938</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">cmdOptionalText</string>
+						<reference key="source" ref="492182815"/>
+						<reference key="destination" ref="968896216"/>
+					</object>
+					<int key="connectionID">941</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3795,7 +3795,7 @@ ICBTaW1wbGlmaWVkIENoaW5lc2UgLSBhbmFraW4gKHpoZW5nQG1hY2lkZWEuY29tKQ</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">940</int>
+			<int key="maxID">941</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4016,12 +4016,14 @@ ICBTaW1wbGlmaWVkIENoaW5lc2UgLSBhbmFraW4gKHpoZW5nQG1hY2lkZWEuY29tKQ</string>
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>cmdOptionalText</string>
 							<string>openURLPanel</string>
 							<string>playerController</string>
 							<string>urlBox</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSTextField</string>
 							<string>NSPanel</string>
 							<string>PlayerController</string>
 							<string>NSComboBox</string>
