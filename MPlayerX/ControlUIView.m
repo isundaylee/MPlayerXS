@@ -1012,7 +1012,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	// 即使timeSlider被禁用也可以显示时间
 	[timeSlider setFloatValue:time];
 	
-	if ([timeSlider isEnabled]) {
+	if (length > 0) {
 		[self calculateHintTime];
 	}
 	
@@ -1200,7 +1200,9 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	NSPoint pt = [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
 	NSRect frm = timeSlider.frame;
 
-	if (NSPointInRect(pt, frm) && [timeSlider isEnabled]) {
+	// if timeSlider is disabled, which means it is not seekable
+	// but if the length of the media is available, we should display the hintTime
+	if (NSPointInRect(pt, frm) && ([timeSlider maxValue] > 0)) {
 		// 如果鼠标在timeSlider中
 		// 更新时间
 		[self calculateHintTime];
