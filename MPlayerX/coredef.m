@@ -31,6 +31,9 @@ NSString * const kKVOPropertyKeyPathSeekable		= @"movieInfo.seekable";
 NSString * const kKVOPropertyKeyPathSubInfo			= @"movieInfo.subInfo";
 NSString * const kKVOPropertyKeyPathCachingPercent	= @"movieInfo.playingInfo.cachingPercent";
 NSString * const kKVOPropertyKeyPathDemuxer			= @"movieInfo.demuxer";
+NSString * const kKVOPropertyKeyPathSpeed			= @"movieInfo.playingInfo.speed";
+NSString * const kKVOPropertyKeyPathSubDelay		= @"movieInfo.playingInfo.subDelay";
+NSString * const kKVOPropertyKeyPathAudioDelay		= @"movieInfo.playingInfo.audioDelay";
 
 NSString * const kKVOPropertyKeyPathVideoInfo		= @"movieInfo.videoInfo";
 NSString * const kKVOPropertyKeyPathAudioInfo		= @"movieInfo.audioInfo";
