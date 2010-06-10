@@ -115,6 +115,8 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 
 -(void) setAudio: (int) audioID;
 
+-(void) setVideo: (int) videoID;
+
 -(void) setSub: (int) subID;
 
 /** 成功发送的话，playingInfo的subDelay属性会被更新 */

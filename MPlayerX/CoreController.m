@@ -36,6 +36,9 @@
 NSString * const kMPCPlayStoppedByForceKey		= @"kMPCPlayStoppedByForceKey";
 NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 
+NSString * const kCmdStringFMTFloat		= @"%@ %@ %f\n";
+NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
+
 #define SAFERELEASETIMER(x)		{if(x) {[x invalidate]; [x release]; x = nil;}}
 
 // the Distant Protocol from mplayer binary
@@ -423,9 +426,6 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 	}
 }
 
-NSString * const kCmdStringFMTFloat		= @"%@ %@ %f\n";
-NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
-
 -(void) setSpeed: (float) speed
 {
 	speed = MAX(speed, 0.1);
@@ -488,7 +488,12 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 
 -(void) setAudio: (int) audioID
 {
-	[playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTInteger, kMPCSetPropertyPreFixPauseKeep, kMPCSwitchAudio, audioID]];	
+	[playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTInteger, kMPCSetPropertyPreFixPauseKeep, kMPCSwitchAudio, audioID]];
+}
+
+-(void) setVideo: (int) videoID
+{
+	[playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTInteger, kMPCSetPropertyPreFixPauseKeep, kMPCSwitchVideo, videoID]];
 }
 
 -(void) setSub: (int) subID
