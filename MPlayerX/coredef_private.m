@@ -47,6 +47,7 @@ NSString * const kMPCSubDelay			= @"sub_delay";
 NSString * const kMPCSubPos				= @"sub_pos";
 NSString * const kMPCSubScale			= @"sub_scale";
 NSString * const kMPCSubLoad			= @"sub_load";
+NSString * const kMPCSwitchVideo		= @"switch_video";
 
 // 有ID结尾的是 只用来做属性字符串的
 NSString * const kMPCLengthID			= @"LENGTH";

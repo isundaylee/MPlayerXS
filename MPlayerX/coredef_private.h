@@ -48,6 +48,7 @@ extern NSString * const kMPCSubDelay;
 extern NSString * const kMPCSubPos;
 extern NSString * const kMPCSubScale;
 extern NSString * const kMPCSubLoad;
+extern NSString * const kMPCSwitchVideo;
 
 // 有ID结尾的是 只用来做属性字符串的
 extern NSString * const kMPCLengthID;
