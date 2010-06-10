@@ -29,19 +29,20 @@
 #import "RootLayerView.h"
 #import "CharsetQueryController.h"
 
-NSString * const kMPCPlayOpenedNotification		= @"kMPCPlayOpenedNotification";
-NSString * const kMPCPlayStartedNotification	= @"kMPCPlayStartedNotification";
-NSString * const kMPCPlayStoppedNotification	= @"kMPCPlayStoppedNotification";
-NSString * const kMPCPlayWillStopNotification	= @"kMPCPlayWillStopNotification";
-NSString * const kMPCPlayFinalizedNotification	= @"kMPCPlayFinalizedNotification";
+NSString * const kMPCPlayOpenedNotification			= @"kMPCPlayOpenedNotification";
+NSString * const kMPCPlayOpenedURLKey				= @"kMPCPlayOpenedURLKey";
+NSString * const kMPCPlayLastStoppedTimeKey			= @"kMPCPlayLastStoppedTimeKey";
 
-NSString * const kMPCPlayOpenedURLKey			= @"kMPCPlayOpenedURLKey";
-NSString * const kMPCPlayLastStoppedTimeKey		= @"kMPCPlayLastStoppedTimeKey";
-NSString * const kMPCPlayStartedAudioOnlyKey	= @"kMPCPlayStartedAudioOnlyKey";
+NSString * const kMPCPlayStartedNotification		= @"kMPCPlayStartedNotification";
+NSString * const kMPCPlayStartedAudioOnlyKey		= @"kMPCPlayStartedAudioOnlyKey";
 
-NSString * const kObservedValueStringSpeed		= @"movieInfo.playingInfo.speed";
-NSString * const kObservedValueStringSubDelay	= @"movieInfo.playingInfo.subDelay";
-NSString * const kObservedValueStringAudioDelay	= @"movieInfo.playingInfo.audioDelay";
+NSString * const kMPCPlayStoppedNotification		= @"kMPCPlayStoppedNotification";
+NSString * const kMPCPlayWillStopNotification		= @"kMPCPlayWillStopNotification";
+NSString * const kMPCPlayFinalizedNotification		= @"kMPCPlayFinalizedNotification";
+
+NSString * const kMPCPlayInfoUpdatedNotification	= @"kMPCPlayInfoUpdatedNotification";
+NSString * const kMPCPlayInfoUpdatedKeyPathKey		= @"kMPCPlayInfoUpdatedKeyPathKey";
+NSString * const kMPCPlayInfoUpdatedChangeDictKey	= @"kMPCPlayInfoUpdatedChangeDictKey";
 
 NSString * const kMPCDefaultSubFontPath			= @"wqy-microhei.ttc";
 
@@ -188,15 +189,15 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 	[mplayer addObserver:self
-			  forKeyPath:kObservedValueStringSpeed
+			  forKeyPath:kKVOPropertyKeyPathSpeed
 				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 	[mplayer addObserver:self
-			  forKeyPath:kObservedValueStringSubDelay
+			  forKeyPath:kKVOPropertyKeyPathSubDelay
 				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 	[mplayer addObserver:self
-			  forKeyPath:kObservedValueStringAudioDelay
+			  forKeyPath:kKVOPropertyKeyPathAudioDelay
 				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 	[mplayer addObserver:self
@@ -209,6 +210,10 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 				 context:NULL];
 	[mplayer addObserver:self
 			  forKeyPath:kKVOPropertyKeyPathAudioInfo
+				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+				 context:NULL];
+	[mplayer addObserver:self
+			  forKeyPath:kKVOPropertyKeyPathVideoInfo
 				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 				 context:NULL];
 	
@@ -289,12 +294,13 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathCurrentTime];
 	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathLength];
 	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathSeekable];
-	[mplayer removeObserver:self forKeyPath:kObservedValueStringSpeed];
-	[mplayer removeObserver:self forKeyPath:kObservedValueStringSubDelay];
-	[mplayer removeObserver:self forKeyPath:kObservedValueStringAudioDelay];
+	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathSpeed];
+	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathSubDelay];
+	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathAudioDelay];
 	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathSubInfo];
 	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathCachingPercent];
 	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathAudioInfo];
+	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathVideoInfo];
 
 	[mplayer release];
 	[lastPlayedPath release];
@@ -309,20 +315,29 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
+	// it is a bad design since the strong coupling for controlUI and PlayerController
 	if (object == mplayer) {
+		
+		/*
+		[notifCenter postNotificationName:kMPCPlayInfoUpdatedNotification
+								   object:self
+								 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+										   keyPath, kMPCPlayInfoUpdatedKeyPathKey,
+										   change, kMPCPlayInfoUpdatedChangeDictKey, nil]];
+		*/
 		if ([keyPath isEqualToString:kKVOPropertyKeyPathCurrentTime]) {
 			// 得到现在的播放时间
 			[controlUI gotCurentTime:[change objectForKey:NSKeyValueChangeNewKey]];
 			
-		} else if ([keyPath isEqualToString:kObservedValueStringSpeed]) {
+		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathSpeed]) {
 			// 得到播放速度
 			[controlUI gotSpeed:[change objectForKey:NSKeyValueChangeNewKey]];
 			
-		} else if ([keyPath isEqualToString:kObservedValueStringSubDelay]) {
+		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathSubDelay]) {
 			// 得到 字幕延迟
 			[controlUI gotSubDelay:[change objectForKey:NSKeyValueChangeNewKey]];
 			
-		} else if ([keyPath isEqualToString:kObservedValueStringAudioDelay]) {
+		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathAudioDelay]) {
 			// 得到 声音延迟
 			[controlUI gotAudioDelay:[change objectForKey:NSKeyValueChangeNewKey]];
 			
@@ -345,6 +360,9 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathAudioInfo]) {
 			// 得到音频的信息
 			[controlUI gotAudioInfo:[change objectForKey:NSKeyValueChangeNewKey]];
+		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathVideoInfo]) {
+			// got the video info
+			[controlUI gotVideoInfo:[change objectForKey:NSKeyValueChangeNewKey]];
 		}
 		return;
 	}

@@ -21,15 +21,22 @@
 #import <Cocoa/Cocoa.h>
 #import "CoreController.h"
 
+///////////////////////////Notifications///////////////////////////
 extern NSString * const kMPCPlayOpenedNotification;
+extern NSString * const kMPCPlayOpenedURLKey;
+extern NSString * const kMPCPlayLastStoppedTimeKey;
+//-----------------------------------------------------------------
 extern NSString * const kMPCPlayStartedNotification;
+extern NSString * const kMPCPlayStartedAudioOnlyKey;
+//-----------------------------------------------------------------
 extern NSString * const kMPCPlayWillStopNotification;
 extern NSString * const kMPCPlayStoppedNotification;
 extern NSString * const kMPCPlayFinalizedNotification;
+//-----------------------------------------------------------------
+extern NSString * const kMPCPlayInfoUpdatedNotification;
+extern NSString * const kMPCPlayInfoUpdatedKeyPathKey;
+extern NSString * const kMPCPlayInfoUpdatedChangeDictKey;
 
-extern NSString * const kMPCPlayOpenedURLKey;
-extern NSString * const kMPCPlayLastStoppedTimeKey;
-extern NSString * const kMPCPlayStartedAudioOnlyKey;
 
 @class ControlUIView, OpenURLController, CharsetQueryController;
 
