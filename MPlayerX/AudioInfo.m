@@ -56,7 +56,7 @@
 
 -(void) setInfoDataWithArray:(NSArray*)arr
 {
-	if ([arr count] == 6) {
+	if ([arr count] >= 6) {
 		[self setFormat:[arr objectAtIndex:1]];
 		[self setBitRate:[[arr objectAtIndex:2] intValue]];
 		[self setSampleRate:[[arr objectAtIndex:3] intValue]];

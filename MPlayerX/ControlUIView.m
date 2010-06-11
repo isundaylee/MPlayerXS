@@ -98,21 +98,13 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	return self;
 }
 
--(void) loadButtonImages
+- (void)awakeFromNib
 {
-	// 初始化音量大小图标
-	volumeButtonImages = [[NSArray alloc] initWithObjects:	[NSImage imageNamed:@"vol_no"], [NSImage imageNamed:@"vol_low"],
-															[NSImage imageNamed:@"vol_mid"], [NSImage imageNamed:@"vol_high"],
-															nil];
-	// fillScreenButton初期化
-	fillScreenButtonAllImages =  [[NSDictionary alloc] initWithObjectsAndKeys: 
-								  [NSArray arrayWithObjects:[NSImage imageNamed:@"fillscreen_lr"], [NSImage imageNamed:@"exitfillscreen_lr"], nil], kFillScreenButtonImageLRKey,
-								  [NSArray arrayWithObjects:[NSImage imageNamed:@"fillscreen_ub"], [NSImage imageNamed:@"exitfillscreen_ub"], nil], kFillScreenButtonImageUBKey, 
-								  nil];
-}
-
--(void) setKeyEquivalents
-{
+	// 自身的设定
+	[self setAlphaValue:CONTROLALPHA];
+	[self refreshBackgroundAlpha];
+	
+	//----------------- set KeyEquivalents --------------------------
 	[volumeButton setKeyEquivalent:kSCMMuteKeyEquivalent];
 	[playPauseButton setKeyEquivalent:kSCMPlayPauseKeyEquivalent];
 	[fullScreenButton setKeyEquivalent:kSCMFullScrnKeyEquivalent];
@@ -142,16 +134,17 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuResetLockAspectRatio setKeyEquivalentModifierMask:kSCMResetLockAspectRatioKeyEquivalentModifierFlagMask];
 	
 	[menuToggleLetterBox setKeyEquivalent:kSCMToggleLetterBoxKeyEquivalent];
-}
 
-- (void)awakeFromNib
-{
-	// 自身的设定
-	[self setAlphaValue:CONTROLALPHA];
-	[self refreshBackgroundAlpha];
-	
-	[self setKeyEquivalents];
-	[self loadButtonImages];
+	//----------------- load Images --------------------------
+	// 初始化音量大小图标
+	volumeButtonImages = [[NSArray alloc] initWithObjects:	[NSImage imageNamed:@"vol_no"], [NSImage imageNamed:@"vol_low"],
+															[NSImage imageNamed:@"vol_mid"], [NSImage imageNamed:@"vol_high"],
+															nil];
+	// fillScreenButton初期化
+	fillScreenButtonAllImages =  [[NSDictionary alloc] initWithObjectsAndKeys: 
+								  [NSArray arrayWithObjects:[NSImage imageNamed:@"fillscreen_lr"], [NSImage imageNamed:@"exitfillscreen_lr"], nil], kFillScreenButtonImageLRKey,
+								  [NSArray arrayWithObjects:[NSImage imageNamed:@"fillscreen_ub"], [NSImage imageNamed:@"exitfillscreen_ub"], nil], kFillScreenButtonImageUBKey, 
+								  nil];
 
 	// 自动隐藏设定
 	[self refreshAutoHideTimer];
@@ -160,18 +153,18 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[volumeSlider setFloatValue:[ud floatForKey:kUDKeyVolume]];
 	[self setVolume:volumeSlider];
 	// 只有拖拽和按下鼠标的时候触发事件
+	// Mask mouseup event
 	[[volumeSlider cell] sendActionOn:NSLeftMouseDownMask|NSLeftMouseDraggedMask];
 
+	// set Volume menu
 	[menuVolInc setEnabled:YES];
-	[menuVolInc setTag:1];
-	
+	[menuVolInc setTag:1];	
 	[menuVolDec setEnabled:YES];
 	[menuVolDec setTag:-1];
-
+	
 	volStep = [ud floatForKey:kUDKeyVolumeStep];
 
 	// 初始化时间显示slider和text
-	
 	[[timeText cell] setFormatter:timeFormatter];
 	[timeText setStringValue:@""];
 	[timeSlider setEnabled:NO];
@@ -180,13 +173,14 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	// 只有拖拽和按下鼠标的时候触发事件
 	[[timeSlider cell] sendActionOn:NSLeftMouseDownMask|NSLeftMouseDraggedMask];
 
+	// set Time hint text
 	[hintTime setAlphaValue:0];
 	[[hintTime cell] setFormatter:timeFormatter];
 	[hintTime setStringValue:@""];
 
 	// 初始状态是hide
 	[fullScreenButton setHidden: YES];
-	
+
 	[fillScreenButton setHidden: YES];	
 	NSArray *fillScrnBtnModeImages = [fillScreenButtonAllImages objectForKey:kFillScreenButtonImageUBKey];
 	[fillScreenButton setImage: [fillScrnBtnModeImages objectAtIndex:0]];
@@ -201,6 +195,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[subDelayText setStepValue:[ud floatForKey:kUDKeySubDelayStepTime]];
 	[audioDelayText setStepValue:[ud floatForKey:kUDKeyAudioDelayStepTime]];
 
+	// set list for sub/audio/video menu
 	[menuSwitchSub setSubmenu:subListMenu];
 	[subListMenu setAutoenablesItems:NO];
 	[self resetSubtitleMenu];
@@ -1055,7 +1050,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	if ((length > 0) && 
 		((([NSEvent modifierFlags] == kSCMSwitchTimeHintKeyModifierMask)?YES:NO) == timeTextPrsOnRmn)) {
 		// 如果有时间的长度，并且按键和设定相符合的时候，显示remain时间
-		[timeText setIntValue:time - [timeSlider maxValue] - 0.5];
+		[timeText setIntValue:time - length - 0.5];
 		
 	} else {
 		// 没有得到电影的长度，只显示现在的时间

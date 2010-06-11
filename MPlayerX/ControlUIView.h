@@ -28,22 +28,26 @@
 	NSUserDefaults *ud;
 	NSNotificationCenter *notifCenter;
 
-	NSGradient *fillGradient;
+	// button images
+	NSDictionary *fillScreenButtonAllImages;
+	NSArray *volumeButtonImages;
 	
+	NSGradient *fillGradient;
+
+	// formatters
 	TimeFormatter *timeFormatter;
 	FloatWrapFormatter *floatWrapFormatter;
 
+	// autohide things
 	NSTimeInterval autoHideTimeInterval;
 	BOOL shouldHide;
 	NSTimer *autoHideTimer;
 
-	NSDictionary *fillScreenButtonAllImages;
-	NSArray *volumeButtonImages;
-
+	// list for sub/audio/video
 	NSMenu *subListMenu;
 	NSMenu *audioListMenu;
 	NSMenu *videoListMenu;
-
+		
 	float volStep;
 	BOOL hintTimePrsOnAbs;
 	BOOL timeTextPrsOnRmn;

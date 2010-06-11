@@ -52,8 +52,10 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 
 @interface CoreController : NSObject <PlayerCoreDelegate, LogAnalyzerDelegate>
 {
+	// state
 	int state;
 
+	// basic components
 	MovieInfo *movieInfo;
 	LogAnalyzer *la;
 	ParameterManager *pm;
@@ -61,11 +63,13 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 	NSDictionary *mpPathPair;
 	SubConverter *subConv;
 
+	// render things
 	void *imageData;
 	unsigned int imageSize;
 	NSString *sharedBufferName;
 	NSConnection *renderConn;
 
+	// delegates
 	id<CoreDisplayDelegate> dispDelegate;
 	id<CoreControllerDelegate> delegate;
 	

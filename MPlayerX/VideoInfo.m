@@ -60,7 +60,7 @@
 
 -(void) setInfoDataWithArray:(NSArray*)arr
 {
-	if ([arr count] == 8) {
+	if ([arr count] >= 8) {
 		[self setFormat:[arr objectAtIndex:1]];
 		[self setBitRate:[[arr objectAtIndex:2] intValue]];
 		[self setWidth:[[arr objectAtIndex:3] intValue]];

@@ -54,6 +54,7 @@
 		nibLoaded = YES;
 	}
 	
+	// prepare the hint text
 	[outputText setStringValue:[NSString stringWithFormat:kMPXStringSubEncQueryResult, [path lastPathComponent], charsetName, conf*100.0]];
 	
 	CFStringEncoding ce = CFStringConvertIANACharSetNameToEncoding((CFStringRef)charsetName);
@@ -72,12 +73,14 @@
 
 -(IBAction) confirmed:(id)sender
 {
+	// return the Encoding value
 	[NSApp stopModalWithCode:[[charsetListPopup selectedItem] tag]];
 	[encodingWindow orderOut:self];
 }
 
 -(IBAction) canceled:(id)sender
 {
+	// return invalid Encoding value
 	[NSApp stopModalWithCode:kCFStringEncodingInvalidId];
 	[encodingWindow orderOut:self];
 }

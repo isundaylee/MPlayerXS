@@ -126,6 +126,8 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 		la = [[LogAnalyzer alloc] initWithDelegate:self];
 		[movieInfo resetWithParameterManager:pm];
 		
+		subConv = [[SubConverter alloc] init];
+		
 		playerCore = [[PlayerCore alloc] init];
 		[playerCore setDelegate:self];
 		mpPathPair = nil;
@@ -137,7 +139,6 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 		[renderConn runInNewThread];
 		
 		pollingTimer = nil;
-		subConv = [[SubConverter alloc] init];
 	}
 	return self;
 }

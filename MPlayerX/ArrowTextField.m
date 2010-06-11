@@ -35,6 +35,7 @@
 
 -(BOOL) textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector
 {
+	// When use up/down arrow, to step the value
 	if (aSelector == @selector(moveUp:)) {
 		[self setFloatValue: [self floatValue] + stepValue];
 		[self.target performSelector: self.action withObject: self];
