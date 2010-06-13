@@ -79,7 +79,6 @@ NSString * const kUDKeyTextSubtitleCharsetConfidenceThresh	= @"TextSubCharsetCon
 NSString * const kUDKeyTextSubtitleCharsetManual	= @"TextSubCharsetManual";
 NSString * const kUDKeyTextSubtitleCharsetFallback	= @"TextSubCharsetFallback";
 NSString * const kUDKeyResizeStep			= @"ResizeStep";
-NSString * const kUDKeyResizeStepUpLimit	= @"ResizeStepUpLimit";
 
 /////////////////////////////////short keys defination/////////////////////////////////
 NSString * const kSCMVolumeUpKeyEquivalent		= @"=";

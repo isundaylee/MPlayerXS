@@ -78,7 +78,6 @@ extern NSString * const kUDKeyHelpURL;
 extern NSString * const kUDKeyCloseWindowWhenStopped;
 extern NSString * const kUDKeyFFMpegHandleStream;
 extern NSString * const kUDKeyResizeStep;
-extern NSString * const kUDKeyResizeStepUpLimit;
 
 /////////////////////////////////short keys defination/////////////////////////////////
 #define kSCMSwitchTimeHintKeyModifierMask	(NSFunctionKeyMask)
