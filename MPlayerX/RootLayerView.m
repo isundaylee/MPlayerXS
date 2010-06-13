@@ -718,9 +718,15 @@
 		
 		NSPoint pos = [playerWindow frame].origin;
 		NSSize orgSz = [[playerWindow contentView] bounds].size;
-		
+
 		pos.x += (orgSz.width - sz.width)  / 2;
 		pos.y += (orgSz.height - sz.height)/ 2;
+
+		// would not let the monitor screen cut the window
+		NSRect screenRc = [[playerWindow screen] visibleFrame];
+		
+		pos.x = MAX(screenRc.origin.x, MIN(pos.x, screenRc.origin.x + screenRc.size.width - sz.width));
+		pos.y = MAX(screenRc.origin.y, MIN(pos.y, screenRc.origin.y + screenRc.size.height- sz.height));
 		
 		[playerWindow setFrameOrigin:pos];
 		
