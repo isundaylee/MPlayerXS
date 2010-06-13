@@ -37,6 +37,7 @@
 
 @interface RootLayerView (RootLayerViewInternal)
 -(NSSize) calculateContentSize:(NSSize)refSize;
+-(NSPoint) calculatePlayerWindowPosition:(NSSize) winSize;
 -(void) adjustWindowSizeAndAspectRatio:(NSValue*) sizeVal;
 -(void) setupLayers;
 -(void) reorderSubviews;
@@ -551,11 +552,7 @@
 			shouldResize = NO;
 			NSSize sz = [self calculateContentSize:[[playerWindow contentView] bounds].size];
 			
-			NSPoint pos = [playerWindow frame].origin;
-			NSSize orgSz = [[playerWindow contentView] bounds].size;
-			
-			pos.x += (orgSz.width - sz.width)  / 2;
-			pos.y += (orgSz.height - sz.height)/ 2;
+			NSPoint pos = [self calculatePlayerWindowPosition:sz];
 			
 			[playerWindow setFrameOrigin:pos];
 
@@ -716,28 +713,34 @@
 		// 如果没有在全屏
 		sz = [self calculateContentSize:[sizeVal sizeValue]];
 		
-		NSPoint pos = [playerWindow frame].origin;
-		NSSize orgSz = [[playerWindow contentView] bounds].size;
-
-		pos.x += (orgSz.width - sz.width)  / 2;
-		pos.y += (orgSz.height - sz.height)/ 2;
-
-		// would not let the monitor screen cut the window
-		NSRect screenRc = [[playerWindow screen] visibleFrame];
-		
-		pos.x = MAX(screenRc.origin.x, MIN(pos.x, screenRc.origin.x + screenRc.size.width - sz.width));
-		pos.y = MAX(screenRc.origin.y, MIN(pos.y, screenRc.origin.y + screenRc.size.height- sz.height));
+		NSPoint pos = [self calculatePlayerWindowPosition:sz];
 		
 		[playerWindow setFrameOrigin:pos];
-		
 		[playerWindow setContentSize:sz];
 		[playerWindow setContentAspectRatio:sz];
-	
+		
 		if (![playerWindow isVisible]) {
 			[[self layer] setContents:nil];
 			[playerWindow makeKeyAndOrderFront:self];
 		}
 	}
+}
+
+-(NSPoint) calculatePlayerWindowPosition:(NSSize) winSize
+{
+	NSPoint pos = [playerWindow frame].origin;
+	NSSize orgSz = [[playerWindow contentView] bounds].size;
+	
+	pos.x += (orgSz.width - winSize.width)  / 2;
+	pos.y += (orgSz.height - winSize.height)/ 2;
+	
+	// would not let the monitor screen cut the window
+	NSRect screenRc = [[playerWindow screen] visibleFrame];
+	
+	pos.x = MAX(screenRc.origin.x, MIN(pos.x, screenRc.origin.x + screenRc.size.width - winSize.width));
+	pos.y = MAX(screenRc.origin.y, MIN(pos.y, screenRc.origin.y + screenRc.size.height- winSize.height));
+	
+	return pos;
 }
 
 -(void) coreController:(id)sender draw:(NSUInteger)frameNum
