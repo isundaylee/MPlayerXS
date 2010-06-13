@@ -76,6 +76,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 					   [NSNumber numberWithBool:YES], kUDKeySwitchTimeTextPressOnRemain,
 					   [NSNumber numberWithFloat:BACKGROUNDALPHA], kUDKeyCtrlUIBackGroundAlpha,
 					   [NSNumber numberWithBool:YES], kUDKeyShowOSD,
+					   [NSNumber numberWithFloat:0.1], kUDKeyResizeStep,
 					   nil]];
 }
 
@@ -940,6 +941,14 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	}
 }
 
+-(IBAction) stepWindowSize:(id)sender
+{
+	if ([sender isKindOfClass:[NSMenuItem class]]) {
+		float step = [sender tag] * [ud floatForKey:kUDKeyResizeStep];
+		
+		[dispView changeWindowSizeBy:NSMakeSize(step, step)];
+	}
+}
 ////////////////////////////////////////////////FullscreenThings//////////////////////////////////////////////////
 -(void) setFillScreenMode:(NSString*)modeKey state:(NSInteger) state
 {
