@@ -37,7 +37,7 @@
 
 @interface RootLayerView (RootLayerViewInternal)
 -(NSSize) calculateContentSize:(NSSize)refSize;
--(NSPoint) calculatePlayerWindowPosition:(NSSize) winSize;
+-(NSPoint) calculatePlayerWindowPosition:(NSSize)winSize;
 -(void) adjustWindowSizeAndAspectRatio:(NSValue*) sizeVal;
 -(void) setupLayers;
 -(void) reorderSubviews;
@@ -437,32 +437,7 @@
 
 -(void) magnifyWithEvent:(NSEvent *)event
 {
-	if (![self isInFullScreenMode]) {
-		// 得到能够放大的最大frame
-		NSRect rcLimit = [[playerWindow screen] visibleFrame];
-		// 得到现在的content的size，要保持比例
-		NSSize sz = [[playerWindow contentView] bounds].size;
-		
-		NSRect rcWin = [playerWindow frame];
-		
-		// 得到需要缩放的content的size
-		rcWin.size.height = sz.height * ([event magnification] +1.0);
-		rcWin.size.width = sz.width * ([event magnification] +1.0);
-		
-		rcWin.size = [self calculateContentSize:rcWin.size];
-		
-		// 保持中心不变反算出窗口的
-		rcWin.origin.x -= ((rcWin.size.width - sz.width)/2);
-		rcWin.origin.y -= ((rcWin.size.height-sz.height)/2);
-		
-		rcWin = [playerWindow frameRectForContentRect:rcWin];
-
-		if ((rcWin.origin.y + rcWin.size.height) > (rcLimit.origin.y + rcLimit.size.height)) {
-			// 如果y方向超出了屏幕范围
-			rcWin.origin.y = rcLimit.origin.y + rcLimit.size.height - rcWin.size.height;
-		}
-		[playerWindow setFrame:rcWin display:YES];
-	}
+	[self changeWindowSizeBy:NSMakeSize([event magnification], [event magnification]) animate:NO];
 }
 
 -(void) swipeWithEvent:(NSEvent *)event
@@ -532,6 +507,28 @@
 	}
 }
 
+-(void) changeWindowSizeBy:(NSSize)delta animate:(BOOL)animate
+{
+	if (![self isInFullScreenMode]) {
+		// only works in non-fullscreen mode
+		NSSize sz;
+		
+		sz = [[playerWindow contentView] bounds].size;
+
+		sz.width  += delta.width  * sz.width;
+		sz.height += delta.height * sz.height;
+		
+		sz = [self calculateContentSize:sz];
+		
+		NSPoint pos = [self calculatePlayerWindowPosition:sz];
+		
+		NSRect rc = NSMakeRect(pos.x, pos.y, sz.width, sz.height);
+		rc = [playerWindow frameRectForContentRect:rc];
+
+		[playerWindow setFrame:rc display:YES animate:animate];		
+	}
+}
+
 -(void) refreshFullscreenMode
 {
 	[fullScreenOptions setObject:[NSNumber numberWithBool:![ud boolForKey:kUDKeyFullScreenKeepOther]] 
@@ -554,9 +551,10 @@
 			
 			NSPoint pos = [self calculatePlayerWindowPosition:sz];
 			
-			[playerWindow setFrameOrigin:pos];
+			NSRect rc = NSMakeRect(pos.x, pos.y, sz.width, sz.height);
+			rc = [playerWindow frameRectForContentRect:rc];
 
-			[playerWindow setContentSize:sz];
+			[playerWindow setFrame:rc display:YES];
 			[playerWindow setContentAspectRatio:sz];			
 		}
 
@@ -715,8 +713,10 @@
 		
 		NSPoint pos = [self calculatePlayerWindowPosition:sz];
 		
-		[playerWindow setFrameOrigin:pos];
-		[playerWindow setContentSize:sz];
+		NSRect rc = NSMakeRect(pos.x, pos.y, sz.width, sz.height);
+		rc = [playerWindow frameRectForContentRect:rc];
+		
+		[playerWindow setFrame:rc display:YES];
 		[playerWindow setContentAspectRatio:sz];
 		
 		if (![playerWindow isVisible]) {
@@ -736,7 +736,7 @@
 	
 	// would not let the monitor screen cut the window
 	NSRect screenRc = [[playerWindow screen] visibleFrame];
-	
+		
 	pos.x = MAX(screenRc.origin.x, MIN(pos.x, screenRc.origin.x + screenRc.size.width - winSize.width));
 	pos.y = MAX(screenRc.origin.y, MIN(pos.y, screenRc.origin.y + screenRc.size.height- winSize.height));
 	

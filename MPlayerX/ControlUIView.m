@@ -946,7 +946,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	if ([sender isKindOfClass:[NSMenuItem class]]) {
 		float step = [sender tag] * [ud floatForKey:kUDKeyResizeStep];
 		
-		[dispView changeWindowSizeBy:NSMakeSize(step, step)];
+		[dispView changeWindowSizeBy:NSMakeSize(step, step) animate:YES];
 	}
 }
 ////////////////////////////////////////////////FullscreenThings//////////////////////////////////////////////////
