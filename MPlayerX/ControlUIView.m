@@ -134,6 +134,11 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuResetLockAspectRatio setKeyEquivalentModifierMask:kSCMResetLockAspectRatioKeyEquivalentModifierFlagMask];
 	
 	[menuToggleLetterBox setKeyEquivalent:kSCMToggleLetterBoxKeyEquivalent];
+	
+	[menuSizeInc setKeyEquivalentModifierMask:kSCMWindowSizeIncKeyEquivalentModifierFlagMask];
+	[menuSizeDec setKeyEquivalentModifierMask:kSCMWindowSizeDecKeyEquivalentModifierFlagMask];
+	[menuSizeInc setKeyEquivalent:kSCMWindowSizeIncKeyEquivalent];
+	[menuSizeDec setKeyEquivalent:kSCMWindowSizeDecKeyEquivalent];
 
 	//----------------- load Images --------------------------
 	// 初始化音量大小图标
@@ -210,6 +215,9 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	[menuSubScaleInc setTag:1];
 	[menuSubScaleDec setTag:-1];
+	
+	[menuSizeInc setTag:1];
+	[menuSizeDec setTag:-1];
 	
 	hintTimePrsOnAbs = [ud boolForKey:kUDKeySwitchTimeHintPressOnAbusolute];
 	timeTextPrsOnRmn = [ud boolForKey:kUDKeySwitchTimeTextPressOnRemain];

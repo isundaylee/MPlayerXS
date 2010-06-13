@@ -86,6 +86,8 @@
 	IBOutlet NSMenuItem *menuResetLockAspectRatio;
 	IBOutlet NSMenuItem *menuToggleLetterBox;
 	IBOutlet NSMenuItem *menuSwitchVideo;
+	IBOutlet NSMenuItem *menuSizeInc;
+	IBOutlet NSMenuItem *menuSizeDec;
 }
 
 @property (assign, readwrite) BOOL hintTimePrsOnAbs;
