@@ -77,6 +77,8 @@ extern NSString * const kUDKeySelectedPrefView;
 extern NSString * const kUDKeyHelpURL;
 extern NSString * const kUDKeyCloseWindowWhenStopped;
 extern NSString * const kUDKeyFFMpegHandleStream;
+extern NSString * const kUDKeyResizeStep;
+extern NSString * const kUDKeyResizeStepUpLimit;
 
 /////////////////////////////////short keys defination/////////////////////////////////
 #define kSCMSwitchTimeHintKeyModifierMask	(NSFunctionKeyMask)
@@ -134,4 +136,10 @@ extern NSString * const kSCMToggleLetterBoxKeyEquivalent;
 #define kSCMDeleteFileShortCutKey			(NSDeleteCharacter)
 
 #define kSCMFFMpegHandleStreamShortCurKey	(NSCommandKeyMask)
+
+extern NSString * const kSCMWindowSizeIncKeyEquivalent;
+#define kSCMWindowSizeIncKeyEquivalentModifierFlagMask	(NSCommandKeyMask|NSShiftKeyMask)
+extern NSString * const kSCMWindowSizeDecKeyEquivalent;
+#define kSCMWindowSizeDecKeyEquivalentModifierFlagMask	(NSCommandKeyMask|NSShiftKeyMask)
+
 extern NSString * const kMPCStringMPlayerX;

@@ -78,6 +78,8 @@ NSString * const kUDKeyCloseWindowWhenStopped				= @"CloseOnStopped";
 NSString * const kUDKeyTextSubtitleCharsetConfidenceThresh	= @"TextSubCharsetConfidenceThresh";
 NSString * const kUDKeyTextSubtitleCharsetManual	= @"TextSubCharsetManual";
 NSString * const kUDKeyTextSubtitleCharsetFallback	= @"TextSubCharsetFallback";
+NSString * const kUDKeyResizeStep			= @"ResizeStep";
+NSString * const kUDKeyResizeStepUpLimit	= @"ResizeStepUpLimit";
 
 /////////////////////////////////short keys defination/////////////////////////////////
 NSString * const kSCMVolumeUpKeyEquivalent		= @"=";
@@ -104,5 +106,8 @@ NSString * const kSCMResetLockAspectRatioKeyEquivalent	= @"r";
 NSString * const kSCMVideoTunerPanelKeyEquivalent		= @"v";
 
 NSString * const kSCMToggleLetterBoxKeyEquivalent		= @"l";
+
+NSString * const kSCMWindowSizeIncKeyEquivalent			= @"=";
+NSString * const kSCMWindowSizeDecKeyEquivalent			= @"-";
 
 NSString * const kMPCStringMPlayerX		= @"MPlayerX";
