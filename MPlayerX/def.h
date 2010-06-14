@@ -73,6 +73,7 @@ extern NSString * const kUDKeyOverlapSub;
 extern NSString * const kUDKeyRtspOverHttp;
 extern NSString * const kUDKeyFFMpegHandleStream;
 extern NSString * const kUDKeyPinPMode;
+extern NSString * const kUDKeyMixToStereoMode;
 
 extern NSString * const kUDKeyDebugEnableOpenURL;
 extern NSString * const kUDKeySelectedPrefView;

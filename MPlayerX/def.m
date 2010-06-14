@@ -74,6 +74,7 @@ NSString * const kUDKeyOverlapSub			= @"OverlapSub";
 NSString * const kUDKeyRtspOverHttp			= @"RtspOverHttp";
 NSString * const kUDKeyFFMpegHandleStream	= @"FFMpegHandleStream";
 NSString * const kUDKeyPinPMode				= @"PinPMode";
+NSString * const kUDKeyMixToStereoMode		= @"MixToSterMode";
 
 NSString * const kUDKeyDebugEnableOpenURL		= @"DebugEnableOpenURL";
 NSString * const kUDKeySelectedPrefView			= @"SelectedPrefView";
