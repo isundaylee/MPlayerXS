@@ -1081,9 +1081,9 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	// 如果不继续播放，或者没有下一个播放文件，那么退出全屏
 	// 这个时候的显示状态displaying是NO
 	// 因此，如果是全屏的话，会退出全屏，如果不是全屏的话，也不会进入全屏
-	[controlUI toggleFullScreen:nil];
+	[self toggleFullScreen:nil];
 	// 并且重置 fillScreen状态
-	[controlUI toggleFillScreen:nil];
+	[self toggleFillScreen:nil];
 	
 	if ([ud boolForKey:kUDKeyCloseWindowWhenStopped]) {
 		[dispView hidePlayerWindow];
@@ -1092,8 +1092,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 -(void) playInfoUpdated:(NSNotification*)notif
 {
-	NSString *keyPath = [[notif userInfo] kMPCPlayInfoUpdatedKeyPathKey];
-	NSDictionary *change = [[notif userInfo] kMPCPlayInfoUpdatedChangeDictKey];
+	NSString *keyPath = [[notif userInfo] objectForKey:kMPCPlayInfoUpdatedKeyPathKey];
+	NSDictionary *change = [[notif userInfo] objectForKey:kMPCPlayInfoUpdatedChangeDictKey];
 	
 	if ([keyPath isEqualToString:kKVOPropertyKeyPathCurrentTime]) {
 		// 得到现在的播放时间
