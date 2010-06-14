@@ -58,6 +58,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 -(void) playBackStopped:(NSNotification*)notif;
 -(void) playBackWillStop:(NSNotification*)notif;
 -(void) playInfoUpdated:(NSNotification*)notif;
+-(void) playBackFinalized:(NSNotification*)notif;
 
 -(void) gotCurentTime:(NSNumber*) timePos;
 -(void) gotSpeed:(NSNumber*) speed;
@@ -89,6 +90,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 					   [NSNumber numberWithFloat:BACKGROUNDALPHA], kUDKeyCtrlUIBackGroundAlpha,
 					   [NSNumber numberWithBool:YES], kUDKeyShowOSD,
 					   [NSNumber numberWithFloat:0.1], kUDKeyResizeStep,
+					   [NSNumber numberWithBool:YES], kUDKeyCloseWindowWhenStopped,
 					   nil]];
 }
 
@@ -261,6 +263,9 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 						name:kMPCPlayWillStopNotification object:playerController];
 	[notifCenter addObserver:self selector:@selector(playBackStopped:)
 						name:kMPCPlayStoppedNotification object:playerController];
+	[notifCenter addObserver:self selector:@selector(playBackFinalized:)
+						name:kMPCPlayFinalizedNotification object:playerController];
+
 	[notifCenter addObserver:self selector:@selector(playInfoUpdated:)
 						name:kMPCPlayInfoUpdatedNotification object:playerController];
 	
@@ -270,11 +275,11 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 -(void) dealloc
 {
+	[notifCenter removeObserver:self];
+	
 	if (autoHideTimer) {
 		[autoHideTimer invalidate];
 	}
-
-	[notifCenter removeObserver:self];
 
 	[fillScreenButtonAllImages release];
 	[volumeButtonImages release];
@@ -893,7 +898,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	}
 }
 
-
 -(IBAction) toggleTimeTextDispMode:(id)sender
 {
 	timeTextPrsOnRmn = !timeTextPrsOnRmn;
@@ -1072,6 +1076,20 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	timeTextPrsOnRmn = [ud boolForKey:kUDKeySwitchTimeTextPressOnRemain];
 }
 
+-(void) playBackFinalized:(NSNotification*)notif
+{
+	// 如果不继续播放，或者没有下一个播放文件，那么退出全屏
+	// 这个时候的显示状态displaying是NO
+	// 因此，如果是全屏的话，会退出全屏，如果不是全屏的话，也不会进入全屏
+	[controlUI toggleFullScreen:nil];
+	// 并且重置 fillScreen状态
+	[controlUI toggleFillScreen:nil];
+	
+	if ([ud boolForKey:kUDKeyCloseWindowWhenStopped]) {
+		[dispView hidePlayerWindow];
+	}
+}
+
 -(void) playInfoUpdated:(NSNotification*)notif
 {
 	NSString *keyPath = [[notif userInfo] kMPCPlayInfoUpdatedKeyPathKey];
@@ -1109,9 +1127,11 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		// 得到 字幕信息
 		[self gotSubInfo:[change objectForKey:NSKeyValueChangeNewKey]
 					  changed:[[change objectForKey:NSKeyValueChangeKindKey] intValue]];
+	
 	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathAudioInfo]) {
 		// 得到音频的信息
 		[self gotAudioInfo:[change objectForKey:NSKeyValueChangeNewKey]];
+		
 	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathVideoInfo]) {
 		// got the video info
 		[self gotVideoInfo:[change objectForKey:NSKeyValueChangeNewKey]];

@@ -59,11 +59,13 @@
 
 -(void) resetAspectRatio;
 -(void) setPlayerWindowLevel;
+-(void) hidePlayerWindow;
 
 -(BOOL) toggleFullScreen;
 -(BOOL) toggleFillScreen;
 
--(IBAction) writeSnapshotToFile:(id)sender;
 -(void) changeWindowSizeBy:(NSSize)delta animate:(BOOL)animate;
+
+-(IBAction) writeSnapshotToFile:(id)sender;
 
 @end

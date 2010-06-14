@@ -21,12 +21,10 @@
 #import "def.h"
 #import "LocalizedStrings.h"
 #import "PlayerController.h"
-#import "ControlUIView.h"
 #import "PlayList.h"
 #import <sys/sysctl.h>
 #import <Sparkle/Sparkle.h>
 #import "OpenURLController.h"
-#import "RootLayerView.h"
 #import "CharsetQueryController.h"
 
 NSString * const kMPCPlayOpenedNotification			= @"kMPCPlayOpenedNotification";
@@ -324,7 +322,6 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	// it is a bad design since the strong coupling for controlUI and PlayerController
 	if (object == mplayer) {
 		[notifCenter postNotificationName:kMPCPlayInfoUpdatedNotification object:self
 								 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -667,14 +664,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 			[self loadFiles:[NSArray arrayWithObject:nextPath] fromLocal:YES];
 			return;
 		}
-	}
-	// 如果不继续播放，或者没有下一个播放文件，那么退出全屏
-	// 这个时候的显示状态displaying是NO
-	// 因此，如果是全屏的话，会退出全屏，如果不是全屏的话，也不会进入全屏
-	[controlUI toggleFullScreen:nil];
-	// 并且重置 fillScreen状态
-	[controlUI toggleFillScreen:nil];
-	
+	}	
 	[notifCenter postNotificationName:kMPCPlayFinalizedNotification object:self userInfo:nil];
 }
 

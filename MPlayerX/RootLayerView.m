@@ -41,7 +41,7 @@
 -(void) adjustWindowSizeAndAspectRatio:(NSValue*) sizeVal;
 -(void) setupLayers;
 -(void) reorderSubviews;
--(void) playBackFinalized:(NSNotification*)notif;
+
 -(void) playBackStopped:(NSNotification*)notif;
 -(void) playBackStarted:(NSNotification*)notif;
 -(void) playBackOpened:(NSNotification*)notif;
@@ -67,7 +67,6 @@
 					   [NSNumber numberWithBool:NO], kUDKeyStartByFullScreen,
 					   [NSNumber numberWithBool:YES], kUDKeyFullScreenKeepOther,
 					   [NSNumber numberWithBool:NO], kUDKeyQuitOnClose,
-					   [NSNumber numberWithBool:YES], kUDKeyCloseWindowWhenStopped,
 					   nil]];
 }
 
@@ -187,15 +186,11 @@
 						name:kMPCPlayStartedNotification object:playerController];
 	[notifCenter addObserver:self selector:@selector(playBackStopped:)
 						name:kMPCPlayStoppedNotification object:playerController];
-	[notifCenter addObserver:self selector:@selector(playBackFinalized:)
-						name:kMPCPlayFinalizedNotification object:playerController];
 }
 
--(void) playBackFinalized:(NSNotification*)notif
+-(void) hidePlayerWindow
 {
-	if ([ud boolForKey:kUDKeyCloseWindowWhenStopped] && [playerWindow isVisible]) {
-		[playerWindow orderOut:self];
-	}
+	[playerWindow orderOut:self];
 }
 
 -(void) playBackStopped:(NSNotification*)notif
