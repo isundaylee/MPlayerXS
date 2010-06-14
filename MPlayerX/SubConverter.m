@@ -194,7 +194,7 @@ NSString * const kWorkDirSubDir = @"Subs";
 
 		NSDictionary *fileAttr = [directoryEnumerator fileAttributes];
 		
-		if ([fileAttr objectForKey:NSFileType] == NSFileTypeDirectory) {
+		if ([[fileAttr objectForKey:NSFileType] isEqualToString:NSFileTypeDirectory]) {
 			//不遍历子目录
 			[directoryEnumerator skipDescendants];
 			
