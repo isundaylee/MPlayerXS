@@ -110,6 +110,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 					   boolYes, kUDKeyPlayWhenOpened,
 					   boolYes, kUDKeyOverlapSub,
 					   boolYes, kUDKeyRtspOverHttp,
+					   [NSNumber numberWithUnsignedInt:kPMMixDTS5_1ToStereo], kUDKeyMixToStereoMode,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
@@ -485,7 +486,8 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	[mplayer.pm setLetterBoxHeight:[ud floatForKey:kUDKeyLetterBoxHeight]];
 	[mplayer.pm setPauseAtStart:![ud boolForKey:kUDKeyPlayWhenOpened]];
 	[mplayer.pm setOverlapSub:[ud boolForKey:kUDKeyOverlapSub]];
-
+	[mplayer.pm setMixToStereo:[ud integerForKey:kUDKeyMixToStereoMode]];
+	 
 	// 这里必须要retain，否则如果用lastPlayedPath作为参数传入的话会有问题
 	lastPlayedPathPre = [[url absoluteURL] retain];
 	
