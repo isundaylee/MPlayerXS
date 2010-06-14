@@ -168,6 +168,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuVolDec setEnabled:YES];
 	[menuVolDec setTag:-1];
 	
+	// set Volume step
 	volStep = [ud floatForKey:kUDKeyVolumeStep];
 
 	// 初始化时间显示slider和text
@@ -187,12 +188,14 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	// 初始状态是hide
 	[fullScreenButton setHidden: YES];
 
+	// set fillscreen button status and image
 	[fillScreenButton setHidden: YES];	
 	NSArray *fillScrnBtnModeImages = [fillScreenButtonAllImages objectForKey:kFillScreenButtonImageUBKey];
 	[fillScreenButton setImage: [fillScrnBtnModeImages objectAtIndex:0]];
 	[fillScreenButton setAlternateImage:[fillScrnBtnModeImages objectAtIndex:1]];
 	[fillScreenButton setState: NSOffState];
 	
+	// set fomatter and step
 	[[speedText cell] setFormatter:floatWrapFormatter];
 	[[subDelayText cell] setFormatter:floatWrapFormatter];
 	[[audioDelayText cell] setFormatter:floatWrapFormatter];
@@ -536,11 +539,13 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 {
 	BOOL mute = [playerController toggleMute];
 
+	// set buttons and menu status
 	[volumeButton setState:(mute)?NSOnState:NSOffState];
 	[volumeSlider setEnabled:!mute];
 	[menuVolInc setEnabled:!mute];
 	[menuVolDec setEnabled:!mute];
 	
+	// update OSD
 	[osd setStringValue:(mute)?(kMPXStringOSDMuteON):(kMPXStringOSDMuteOFF)
 				  owner:kOSDOwnerOther
 			updateTimer:YES];
@@ -554,6 +559,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		float vol = [sender floatValue];
 		vol = [playerController setVolume:vol];
 		
+		// update buttons status
 		[volumeSlider setFloatValue: vol];
 		
 		double max = [volumeSlider maxValue];
@@ -563,6 +569,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		// 将音量作为UserDefaults存储
 		[ud setFloat:vol forKey:kUDKeyVolume];
 		
+		// update OSD
 		[osd setStringValue:[NSString stringWithFormat:kMPXStringOSDVolumeHint, vol]
 					  owner:kOSDOwnerOther
 				updateTimer:YES];
@@ -775,7 +782,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	}
 }
 
-/** \warning this is a temporary implementation */
 -(IBAction) stepAudios:(id)sender
 {
 	NSUInteger num = [audioListMenu numberOfItems];
