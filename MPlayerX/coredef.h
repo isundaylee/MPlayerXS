@@ -43,6 +43,11 @@ typedef enum
 #define kPMLetterBoxModeTopOnly		(2)
 #define kPMLetterBoxModeBoth		(3)
 
+// DTS Remix mode
+#define kPMMixToStereoNO		(0)
+#define kPMMixDTS5_1ToStereo	(1)
+
+
 // KVO观测的属性的KeyPath
 extern NSString * const kKVOPropertyKeyPathCurrentTime;
 extern NSString * const kKVOPropertyKeyPathLength;

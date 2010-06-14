@@ -65,7 +65,7 @@
 	BOOL pauseAtStart;
 	BOOL overlapSub;
 	BOOL rtspOverHttp;
-	BOOL mixToStereo;
+	unsigned int mixToStereo;
 }
 
 @property (assign, readwrite) SUBFILE_NAMERULE subNameRule;
@@ -92,7 +92,7 @@
 @property (assign, readwrite) BOOL pauseAtStart;
 @property (assign, readwrite) BOOL overlapSub;
 @property (assign, readwrite) BOOL rtspOverHttp;
-@property (assign, readwrite) BOOL mixToStereo;
+@property (assign, readwrite) unsigned int mixToStereo;
 
 -(void) setSubFontColor:(NSColor*)col;
 -(void) setSubFontBorderColor:(NSColor*)col;

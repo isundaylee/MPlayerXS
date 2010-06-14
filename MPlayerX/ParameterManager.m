@@ -167,7 +167,7 @@ NSString * const kPMValPan6To2			= @"pan=2:1:0:0:1:1:0:0:1:0.5:0.5:1:1";
 		pauseAtStart = NO;
 		overlapSub = NO;
 		rtspOverHttp = NO;
-		mixToStereo = YES;
+		mixToStereo = kPMMixDTS5_1ToStereo;
 	}
 	return self;
 }
@@ -386,11 +386,15 @@ NSString * const kPMValPan6To2			= @"pan=2:1:0:0:1:1:0:0:1:0.5:0.5:1:1";
 			passStr = [passStr stringByAppendingString:kPMParHWAC3];
 		}
 		[paramArray addObject:passStr];
-	}
-	
-	if (mixToStereo) {
+	} else if (mixToStereo != kPMMixToStereoNO) {
+		// if no DD, it is possible to use
 		[paramArray addObject:kPMParAF];
-		[paramArray addObject:kPMValPan6To2];
+		switch (mixToStereo) {
+			case kPMMixDTS5_1ToStereo:
+			default:
+				[paramArray addObject:kPMValPan6To2];
+				break;
+		}
 	}
 
 	if (pauseAtStart) {
