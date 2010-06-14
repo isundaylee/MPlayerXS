@@ -66,19 +66,20 @@ NSString * const kUDKeyLetterBoxHeight		= @"LetterBoxHeight";
 NSString * const kUDKeyVideoTunerStepValue	= @"VideoTunerStepValue";
 NSString * const kUDKeyARKeyRepeatTimeInterval		= @"ARKeyRepeatTimeInterval";
 NSString * const kUDKeyARKeyRepeatTimeIntervalLong	= @"ARKeyRepeatTimeIntervalLong";
-NSString * const kUDKeyPlayWhenOpened		= @"PlayWhenOpened";
+NSString * const kUDKeyPlayWhenOpened				= @"PlayWhenOpened";
+NSString * const kUDKeyTextSubtitleCharsetConfidenceThresh	= @"TextSubCharsetConfidenceThresh";
+NSString * const kUDKeyTextSubtitleCharsetManual			= @"TextSubCharsetManual";
+NSString * const kUDKeyTextSubtitleCharsetFallback			= @"TextSubCharsetFallback";
 NSString * const kUDKeyOverlapSub			= @"OverlapSub";
 NSString * const kUDKeyRtspOverHttp			= @"RtspOverHttp";
 NSString * const kUDKeyFFMpegHandleStream	= @"FFMpegHandleStream";
+NSString * const kUDKeyPinPMode				= @"PinPMode";
 
-NSString * const kUDKeyDebugEnableOpenURL	= @"DebugEnableOpenURL";
-NSString * const kUDKeySelectedPrefView		= @"SelectedPrefView";
-NSString * const kUDKeyHelpURL				= @"HelpURL";
-NSString * const kUDKeyCloseWindowWhenStopped				= @"CloseOnStopped";
-NSString * const kUDKeyTextSubtitleCharsetConfidenceThresh	= @"TextSubCharsetConfidenceThresh";
-NSString * const kUDKeyTextSubtitleCharsetManual	= @"TextSubCharsetManual";
-NSString * const kUDKeyTextSubtitleCharsetFallback	= @"TextSubCharsetFallback";
-NSString * const kUDKeyResizeStep			= @"ResizeStep";
+NSString * const kUDKeyDebugEnableOpenURL		= @"DebugEnableOpenURL";
+NSString * const kUDKeySelectedPrefView			= @"SelectedPrefView";
+NSString * const kUDKeyHelpURL					= @"HelpURL";
+NSString * const kUDKeyCloseWindowWhenStopped	= @"CloseOnStopped";
+NSString * const kUDKeyResizeStep				= @"ResizeStep";
 
 /////////////////////////////////short keys defination/////////////////////////////////
 NSString * const kSCMVolumeUpKeyEquivalent		= @"=";
