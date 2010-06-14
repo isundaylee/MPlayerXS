@@ -48,15 +48,27 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 #define PauseState	(NSOffState)
 
 @interface ControlUIView (ControlUIViewInternal)
--(void) windowHasResized:(NSNotification *)notification;
+-(void) windowHasResized:(NSNotification*)notification;
 -(void) calculateHintTime;
 -(void) resetSubtitleMenu;
 -(void) resetAudioMenu;
 -(void) resetVideoMenu;
--(void) playBackOpened:(NSNotification *)notif;
--(void) playBackStarted:(NSNotification *)notif;
--(void) playBackStopped:(NSNotification *)notif;
--(void) playBackWillStop:(NSNotification *)notif;
+-(void) playBackOpened:(NSNotification*)notif;
+-(void) playBackStarted:(NSNotification*)notif;
+-(void) playBackStopped:(NSNotification*)notif;
+-(void) playBackWillStop:(NSNotification*)notif;
+-(void) playInfoUpdated:(NSNotification*)notif;
+
+-(void) gotCurentTime:(NSNumber*) timePos;
+-(void) gotSpeed:(NSNumber*) speed;
+-(void) gotSubDelay:(NSNumber*) sd;
+-(void) gotAudioDelay:(NSNumber*) ad;
+-(void) gotMediaLength:(NSNumber*) length;
+-(void) gotSeekableState:(NSNumber*) seekable;
+-(void) gotSubInfo:(NSArray*) subs changed:(int)changeKind;
+-(void) gotCachingPercent:(NSNumber*) caching;
+-(void) gotAudioInfo:(NSArray*) ais;
+-(void) gotVideoInfo:(NSArray*) vis;
 @end
 
 
@@ -217,6 +229,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[videoListMenu setAutoenablesItems:NO];
 	[self resetVideoMenu];
 	
+	// set menuItem tags
 	[menuSubScaleInc setTag:1];
 	[menuSubScaleDec setTag:-1];
 	
@@ -226,18 +239,20 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	hintTimePrsOnAbs = [ud boolForKey:kUDKeySwitchTimeHintPressOnAbusolute];
 	timeTextPrsOnRmn = [ud boolForKey:kUDKeySwitchTimeTextPressOnRemain];
 	
+	// set menu status
 	[menuToggleLockAspectRatio setEnabled:NO];
 	[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
 	[menuResetLockAspectRatio setAlternate:YES];
 	
 	[menuToggleLetterBox setTitle:([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay)?(kMPXStringMenuShowLetterBox):
 																										 (kMPXStringMenuHideLetterBox)];
-	
+	// set OSD active status
 	[osd setActive:NO];
 	
 	[notifCenter addObserver:self selector:@selector(windowHasResized:)
 						name:NSWindowDidResizeNotification
 					  object:[self window]];
+	
 	[notifCenter addObserver:self selector:@selector(playBackOpened:)
 						name:kMPCPlayOpenedNotification object:playerController];
 	[notifCenter addObserver:self selector:@selector(playBackStarted:)
@@ -246,6 +261,11 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 						name:kMPCPlayWillStopNotification object:playerController];
 	[notifCenter addObserver:self selector:@selector(playBackStopped:)
 						name:kMPCPlayStoppedNotification object:playerController];
+	[notifCenter addObserver:self selector:@selector(playInfoUpdated:)
+						name:kMPCPlayInfoUpdatedNotification object:playerController];
+	
+	// this functioin must be called after the Notification is setuped
+	[playerController setupKVO];
 }
 
 -(void) dealloc
@@ -1050,6 +1070,52 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuPlayFromLastStoppedPlace setEnabled:NO];
 	
 	timeTextPrsOnRmn = [ud boolForKey:kUDKeySwitchTimeTextPressOnRemain];
+}
+
+-(void) playInfoUpdated:(NSNotification*)notif
+{
+	NSString *keyPath = [[notif userInfo] kMPCPlayInfoUpdatedKeyPathKey];
+	NSDictionary *change = [[notif userInfo] kMPCPlayInfoUpdatedChangeDictKey];
+	
+	if ([keyPath isEqualToString:kKVOPropertyKeyPathCurrentTime]) {
+		// 得到现在的播放时间
+		[self gotCurentTime:[change objectForKey:NSKeyValueChangeNewKey]];
+		
+	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathSpeed]) {
+		// 得到播放速度
+		[self gotSpeed:[change objectForKey:NSKeyValueChangeNewKey]];
+		
+	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathSubDelay]) {
+		// 得到 字幕延迟
+		[self gotSubDelay:[change objectForKey:NSKeyValueChangeNewKey]];
+		
+	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathAudioDelay]) {
+		// 得到 声音延迟
+		[self gotAudioDelay:[change objectForKey:NSKeyValueChangeNewKey]];
+		
+	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathLength]){
+		// 得到媒体文件的长度
+		[self gotMediaLength:[change objectForKey:NSKeyValueChangeNewKey]];
+		
+	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathSeekable]) {
+		// 得到 能否跳跃
+		[self gotSeekableState:[change objectForKey:NSKeyValueChangeNewKey]];
+		
+	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathCachingPercent]) {
+		// 得到目前的caching percent
+		[self gotCachingPercent:[change objectForKey:NSKeyValueChangeNewKey]];
+		
+	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathSubInfo]) {
+		// 得到 字幕信息
+		[self gotSubInfo:[change objectForKey:NSKeyValueChangeNewKey]
+					  changed:[[change objectForKey:NSKeyValueChangeKindKey] intValue]];
+	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathAudioInfo]) {
+		// 得到音频的信息
+		[self gotAudioInfo:[change objectForKey:NSKeyValueChangeNewKey]];
+	} else if ([keyPath isEqualToString:kKVOPropertyKeyPathVideoInfo]) {
+		// got the video info
+		[self gotVideoInfo:[change objectForKey:NSKeyValueChangeNewKey]];
+	}
 }
 ////////////////////////////////////////////////KVO for time//////////////////////////////////////////////////
 -(void) gotMediaLength:(NSNumber*) length

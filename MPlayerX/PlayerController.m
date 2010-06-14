@@ -133,6 +133,8 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 		supportAudioFormats = nil;
 		supportSubFormats = nil;
 		bookmarks = nil;
+		
+		kvoSetuped = NO;
 	}
 	return self;
 }
@@ -146,6 +148,53 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 		return [ud boolForKey:kUDKeyPrefer64bitMPlayer];
 	
 	return NO;
+}
+
+-(void) setupKVO
+{
+	if (!kvoSetuped) {
+		[mplayer addObserver:self
+				  forKeyPath:kKVOPropertyKeyPathLength
+					 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+					 context:NULL];
+		[mplayer addObserver:self
+				  forKeyPath:kKVOPropertyKeyPathCurrentTime
+					 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+					 context:NULL];
+		[mplayer addObserver:self
+				  forKeyPath:kKVOPropertyKeyPathSeekable
+					 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+					 context:NULL];
+		[mplayer addObserver:self
+				  forKeyPath:kKVOPropertyKeyPathSpeed
+					 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+					 context:NULL];
+		[mplayer addObserver:self
+				  forKeyPath:kKVOPropertyKeyPathSubDelay
+					 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+					 context:NULL];
+		[mplayer addObserver:self
+				  forKeyPath:kKVOPropertyKeyPathAudioDelay
+					 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+					 context:NULL];
+		[mplayer addObserver:self
+				  forKeyPath:kKVOPropertyKeyPathSubInfo
+					 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+					 context:NULL];
+		[mplayer addObserver:self
+				  forKeyPath:kKVOPropertyKeyPathCachingPercent
+					 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+					 context:NULL];
+		[mplayer addObserver:self
+				  forKeyPath:kKVOPropertyKeyPathAudioInfo
+					 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+					 context:NULL];
+		[mplayer addObserver:self
+				  forKeyPath:kKVOPropertyKeyPathVideoInfo
+					 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+					 context:NULL];
+		kvoSetuped = YES;	
+	}
 }
 
 -(void) awakeFromNib
@@ -175,48 +224,6 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	// 决定是否使用64bit的mplayer
 	[mplayer.pm setPrefer64bMPlayer:[self shouldRun64bitMPlayer]];
 
-	// 设置监听KVO
-	[mplayer addObserver:self
-			  forKeyPath:kKVOPropertyKeyPathLength
-				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
-				 context:NULL];
-	[mplayer addObserver:self
-			  forKeyPath:kKVOPropertyKeyPathCurrentTime
-				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
-				 context:NULL];
-	[mplayer addObserver:self
-			  forKeyPath:kKVOPropertyKeyPathSeekable
-				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
-				 context:NULL];
-	[mplayer addObserver:self
-			  forKeyPath:kKVOPropertyKeyPathSpeed
-				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
-				 context:NULL];
-	[mplayer addObserver:self
-			  forKeyPath:kKVOPropertyKeyPathSubDelay
-				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
-				 context:NULL];
-	[mplayer addObserver:self
-			  forKeyPath:kKVOPropertyKeyPathAudioDelay
-				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
-				 context:NULL];
-	[mplayer addObserver:self
-			  forKeyPath:kKVOPropertyKeyPathSubInfo
-				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
-				 context:NULL];
-	[mplayer addObserver:self
-			  forKeyPath:kKVOPropertyKeyPathCachingPercent
-				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
-				 context:NULL];
-	[mplayer addObserver:self
-			  forKeyPath:kKVOPropertyKeyPathAudioInfo
-				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
-				 context:NULL];
-	[mplayer addObserver:self
-			  forKeyPath:kKVOPropertyKeyPathVideoInfo
-				 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
-				 context:NULL];
-	
 	/////////////////////////setup self////////////////////
 	// 建立支持格式的Set
 	for( NSDictionary *dict in [mainBundle objectForInfoDictionaryKey:@"CFBundleDocumentTypes"]) {
@@ -290,17 +297,19 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 
 -(void) dealloc
 {
-	// 结束监听KVO
-	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathCurrentTime];
-	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathLength];
-	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathSeekable];
-	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathSpeed];
-	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathSubDelay];
-	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathAudioDelay];
-	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathSubInfo];
-	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathCachingPercent];
-	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathAudioInfo];
-	[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathVideoInfo];
+	if (kvoSetuped) {
+		[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathCurrentTime];
+		[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathLength];
+		[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathSeekable];
+		[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathSpeed];
+		[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathSubDelay];
+		[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathAudioDelay];
+		[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathSubInfo];
+		[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathCachingPercent];
+		[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathAudioInfo];
+		[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathVideoInfo];
+		kvoSetuped = NO;
+	}
 
 	[mplayer release];
 	[lastPlayedPath release];
@@ -317,52 +326,10 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 {
 	// it is a bad design since the strong coupling for controlUI and PlayerController
 	if (object == mplayer) {
-		/*
-		[notifCenter postNotificationName:kMPCPlayInfoUpdatedNotification
-								   object:self
+		[notifCenter postNotificationName:kMPCPlayInfoUpdatedNotification object:self
 								 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 										   keyPath, kMPCPlayInfoUpdatedKeyPathKey,
 										   change, kMPCPlayInfoUpdatedChangeDictKey, nil]];
-		*/
-		if ([keyPath isEqualToString:kKVOPropertyKeyPathCurrentTime]) {
-			// 得到现在的播放时间
-			[controlUI gotCurentTime:[change objectForKey:NSKeyValueChangeNewKey]];
-			
-		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathSpeed]) {
-			// 得到播放速度
-			[controlUI gotSpeed:[change objectForKey:NSKeyValueChangeNewKey]];
-			
-		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathSubDelay]) {
-			// 得到 字幕延迟
-			[controlUI gotSubDelay:[change objectForKey:NSKeyValueChangeNewKey]];
-			
-		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathAudioDelay]) {
-			// 得到 声音延迟
-			[controlUI gotAudioDelay:[change objectForKey:NSKeyValueChangeNewKey]];
-			
-		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathLength]){
-			// 得到媒体文件的长度
-			[controlUI gotMediaLength:[change objectForKey:NSKeyValueChangeNewKey]];
-			
-		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathSeekable]) {
-			// 得到 能否跳跃
-			[controlUI gotSeekableState:[change objectForKey:NSKeyValueChangeNewKey]];
-			
-		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathCachingPercent]) {
-			// 得到目前的caching percent
-			[controlUI gotCachingPercent:[change objectForKey:NSKeyValueChangeNewKey]];
-			
-		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathSubInfo]) {
-			// 得到 字幕信息
-			[controlUI gotSubInfo:[change objectForKey:NSKeyValueChangeNewKey]
-						  changed:[[change objectForKey:NSKeyValueChangeKindKey] intValue]];
-		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathAudioInfo]) {
-			// 得到音频的信息
-			[controlUI gotAudioInfo:[change objectForKey:NSKeyValueChangeNewKey]];
-		} else if ([keyPath isEqualToString:kKVOPropertyKeyPathVideoInfo]) {
-			// got the video info
-			[controlUI gotVideoInfo:[change objectForKey:NSKeyValueChangeNewKey]];
-		}
 		return;
 	}
 	[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -585,7 +552,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 		NSDictionary *fileAttr = [directoryEnumerator fileAttributes];
 		NSString *ext = [[mediaFile pathExtension] lowercaseString];
 		
-		if ([fileAttr objectForKey:NSFileType] == NSFileTypeDirectory) {
+		if ([[fileAttr objectForKey:NSFileType] isEqualToString:NSFileTypeDirectory]) {
 			//不遍历子目录
 			[directoryEnumerator skipDescendants];
 

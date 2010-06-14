@@ -103,18 +103,6 @@ extern NSString * const kFillScreenButtonImageUBKey;
 -(void) displayStarted;
 -(void) displayStopped;
 
-////////////////////////////////KVO相关////////////////////////////////
--(void) gotMediaLength:(NSNumber*) length;
--(void) gotCurentTime:(NSNumber*) timePos;
--(void) gotSeekableState:(NSNumber*) seekable;
--(void) gotSpeed:(NSNumber*) speed;
--(void) gotSubDelay:(NSNumber*) sd;
--(void) gotAudioDelay:(NSNumber*) ad;
--(void) gotSubInfo:(NSArray*) subs changed:(int)changeKind;
--(void) gotCachingPercent:(NSNumber*) caching;
--(void) gotAudioInfo:(NSArray*) ais;
--(void) gotVideoInfo:(NSArray*) vis;
-
 //////////////////////////////自动隐藏相关/////////////////////////////
 -(void) showUp;
 -(void) updateHintTime;

@@ -53,6 +53,8 @@ extern NSString * const kMPCPlayInfoUpdatedChangeDictKey;
 	NSSet *supportSubFormats;
 
 	NSMutableDictionary *bookmarks;
+	
+	BOOL kvoSetuped;
 
 	IBOutlet ControlUIView *controlUI;
 	IBOutlet NSTextField *aboutText;
@@ -61,6 +63,8 @@ extern NSString * const kMPCPlayInfoUpdatedChangeDictKey;
 }
 
 @property (readonly) NSURL *lastPlayedPath;
+
+-(void) setupKVO;
 
 -(id) setDisplayDelegateForMPlayer:(id<CoreDisplayDelegate>) delegate;
 -(int) playerState;
@@ -89,10 +93,10 @@ extern NSString * const kMPCPlayInfoUpdatedChangeDictKey;
 -(float) setSpeed:(float) spd;
 -(float) setSubDelay:(float) sd;
 -(float) setAudioDelay:(float) ad;
--(void) setSubtitle:(int) subID;
--(void) setAudio:(int) audioID;
 -(void) setAudioBalance:(float)bal;
 
+-(void) setSubtitle:(int) subID;
+-(void) setAudio:(int) audioID;
 -(void) setVideo:(int) videoID;
 
 -(void) loadSubFile:(NSString*)subPath;
