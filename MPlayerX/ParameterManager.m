@@ -88,6 +88,8 @@ NSString * const kPMParOverlapSub		= @"-overlapsub";
 NSString * const kPMParRtspOverHttp		= @"-rtsp-stream-over-http";
 NSString * const kPMParMsgCharset		= @"-msgcharset";
 NSString * const kPMValMsgCharset		= @"noconv";
+NSString * const kPMParAF				= @"-af";
+NSString * const kPMValPan6To2			= @"pan=2:1:0:0:1:1:0:0:1:0.5:0.5:1:1";
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
@@ -119,6 +121,7 @@ NSString * const kPMValMsgCharset		= @"noconv";
 @synthesize pauseAtStart;
 @synthesize overlapSub;
 @synthesize rtspOverHttp;
+@synthesize mixToStereo;
 
 #pragma mark Init/Dealloc
 -(id) init
@@ -164,6 +167,7 @@ NSString * const kPMValMsgCharset		= @"noconv";
 		pauseAtStart = NO;
 		overlapSub = NO;
 		rtspOverHttp = NO;
+		mixToStereo = YES;
 	}
 	return self;
 }
@@ -384,6 +388,11 @@ NSString * const kPMValMsgCharset		= @"noconv";
 		[paramArray addObject:passStr];
 	}
 	
+	if (mixToStereo) {
+		[paramArray addObject:kPMParAF];
+		[paramArray addObject:kPMValPan6To2];
+	}
+
 	if (pauseAtStart) {
 		[paramArray addObject:kPMParSTPause];
 	}
