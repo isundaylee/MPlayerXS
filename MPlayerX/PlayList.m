@@ -99,7 +99,7 @@ NSArray* findLastDigitPart(NSString *name)
 				}
 			}
 		}
-		[pool release];
+		[pool drain];
 	}
 	
 	return [nextPath autorelease];

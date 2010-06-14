@@ -503,7 +503,7 @@
 			[imData writeToFile:savePath atomically:YES];
 			[imRep release];
 		}
-		[pool release];
+		[pool drain];
 	}
 }
 

@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 	fflush(logFile);
 	dup2(stderrRes, STDERR_FILENO);
 	fclose(logFile);
-	[pool release];
+	[pool drain];
 #endif //MPX_DEBUG
 	return ret;
 }

@@ -421,7 +421,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		[osd setStringValue:dispStr owner:kOSDOwnerMediaInfo updateTimer:YES];
 	}
 	[dispStr release];
-	[pool release];
+	[pool drain];
 }
 
 ////////////////////////////////////////////////AutoHideThings//////////////////////////////////////////////////

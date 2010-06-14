@@ -494,7 +494,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 				}				
 			}
 		}
-		[pool release];
+		[pool drain];
 	}
 }
 
@@ -612,7 +612,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 			break;
 		}
 	}
-	[pool release];
+	[pool drain];
 	return [mediaURL autorelease];
 }
 

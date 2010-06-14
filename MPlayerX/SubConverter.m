@@ -162,7 +162,7 @@ NSString * const kWorkDirSubDir = @"Subs";
 			}
 		}
 	}
-	[pool release];
+	[pool drain];
 	
 	return [newSubs autorelease];
 }
@@ -243,7 +243,7 @@ NSString * const kWorkDirSubDir = @"Subs";
 			}
 		}
 	}
-	[pool release];
+	[pool drain];
 
 	if (vobPath && (*vobPath)) {
 		[*vobPath autorelease];

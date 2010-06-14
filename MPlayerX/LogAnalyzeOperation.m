@@ -104,7 +104,7 @@ const char* findNextReturnMark(const char *head, const char *end, const char **s
 			}
 			dataHead = retMark +1;		
 		}
-		[pool release];
+		[pool drain];
 	}
 }
 @end
