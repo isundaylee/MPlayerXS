@@ -130,7 +130,7 @@ NSString * const kPMValPan6To2			= @"pan=2:1:0:0:1:1:0:0:1:0.5:0.5:1:1";
 	{
 		paramArray = nil;
 		autoSync = 30;
-		frameDrop = YES;
+		frameDrop = NO;
 		osdLevel = 0;
 		subNameRule = kSubFileNameRuleContain;
 		// 默认禁用-font
@@ -401,7 +401,7 @@ NSString * const kPMValPan6To2			= @"pan=2:1:0:0:1:1:0:0:1:0.5:0.5:1:1";
 		[paramArray addObject:kPMParSTPause];
 	}
 	
-	// NSLog(@"%@", [paramArray componentsJoinedByString:@"\n"]);
+	// NSLog(@"%@", [paramArray componentsJoinedByString:@" "]);
 	
 	return paramArray;
 }
