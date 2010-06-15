@@ -38,7 +38,7 @@
 @interface RootLayerView (RootLayerViewInternal)
 -(NSSize) calculateContentSize:(NSSize)refSize;
 -(NSPoint) calculatePlayerWindowPosition:(NSSize)winSize;
--(void) adjustWindowSizeAndAspectRatio:(NSValue*) sizeVal;
+-(void) adjustWindowSizeAndAspectRatio:(NSSize) sizeVal;
 -(void) setupLayers;
 -(void) reorderSubviews;
 
@@ -92,6 +92,7 @@
 
 		lockAspectRatio = YES;
 		dragShouldResize = NO;
+		firstDisplay = YES;
 	}
 	return self;
 }
@@ -195,6 +196,7 @@
 
 -(void) playBackStopped:(NSNotification*)notif
 {
+	firstDisplay = YES;
 	[self setPlayerWindowLevel];
 	[playerWindow setTitle:kMPCStringMPlayerX];
 }
@@ -391,7 +393,7 @@
 	// 如果是全屏，playerWindow是否还拥有rootLayerView不知道
 	// 但是全屏的时候并不会立即调整窗口的大小，而是会等推出全屏的时候再调整
 	// 如果不是全屏，那么根据现在的size得到最合适的size
-	[self adjustWindowSizeAndAspectRatio:[NSValue valueWithSize:[[playerWindow contentView] bounds].size]];
+	[self adjustWindowSizeAndAspectRatio:[[playerWindow contentView] bounds].size];
 }
 
 
@@ -657,29 +659,40 @@
 -(int)  coreController:(id)sender startWithFormat:(DisplayFormat)df buffer:(char**)data total:(NSUInteger)num
 {
 	if ([dispLayer startWithFormat:df buffer:data total:num] == 0) {
+		
 		displaying = YES;
-		
-		[VTController resetFilters:self];
 
-		[self performSelectorOnMainThread:@selector(adjustWindowSizeAndAspectRatio:) withObject:[NSValue valueWithSize:NSMakeSize(-1, -1)] waitUntilDone:YES];
+		[self performSelectorOnMainThread:@selector(prepareForStartingDisplay) withObject:nil waitUntilDone:YES];
 
-		[controlUI displayStarted];
-		
-		if ([ud boolForKey:kUDKeyStartByFullScreen] && (![self isInFullScreenMode])) {
-			[self performSelectorOnMainThread:@selector(performKeyEquivalent:)
-								   withObject:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
-														   windowNumber:0 context:nil
-															 characters:kSCMFullScrnKeyEquivalent
-											charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
-															  isARepeat:NO keyCode:0]
-								waitUntilDone:NO];
-		}
 		return 0;
 	}
 	return 1;
 }
 
--(void) adjustWindowSizeAndAspectRatio:(NSValue*) sizeVal
+-(void) prepareForStartingDisplay
+{
+	if (firstDisplay) {
+		firstDisplay = NO;
+		
+		[VTController resetFilters:self];
+		
+		[self adjustWindowSizeAndAspectRatio:NSMakeSize(-1, -1)];
+		
+		[controlUI displayStarted];
+		
+		if ([ud boolForKey:kUDKeyStartByFullScreen] && (![self isInFullScreenMode])) {
+			[controlUI performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
+														 windowNumber:0 context:nil
+														   characters:kSCMFullScrnKeyEquivalent
+										  charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
+															isARepeat:NO keyCode:0]];
+		}
+	} else {
+		[controlUI displayStarted];
+	}
+}
+
+-(void) adjustWindowSizeAndAspectRatio:(NSSize) sizeVal
 {
 	NSSize sz;
 
@@ -704,7 +717,7 @@
 							   state:([dispLayer fillScreen])?NSOnState:NSOffState];
 	} else {
 		// 如果没有在全屏
-		sz = [self calculateContentSize:[sizeVal sizeValue]];
+		sz = [self calculateContentSize:sizeVal];
 		
 		NSPoint pos = [self calculatePlayerWindowPosition:sz];
 		
