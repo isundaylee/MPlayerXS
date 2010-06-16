@@ -445,7 +445,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 -(float) setTimePos: (float) time
 {
 	time = MAX(time, 0);
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTFloat, kMPCSetPropertyPreFixPauseKeep, kMPCTimePos, time]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTFloat, kMPCPausingKeepForce, kMPCSeekCmd, time - [movieInfo.playingInfo.currentTime floatValue]]]) {
 		[movieInfo.playingInfo setCurrentTime:[NSNumber numberWithFloat:time]];
 		return time;
 	}
