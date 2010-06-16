@@ -56,50 +56,84 @@ NSArray* findLastDigitPart(NSString *name)
 {
 	[[NSUserDefaults standardUserDefaults] 
 	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-					   [NSNumber numberWithBool:NO], kUDKeyAPNFuzzy,
+					   [NSNumber numberWithBool:YES], kUDKeyAPNFuzzy,
 					   nil]];
 }
 
 +(NSString*) AutoSearchNextMoviePathFrom:(NSString*)path inFormats:(NSSet*)exts
 {
 	NSString *nextPath = nil;
-	NSMutableArray *filesCandidates = nil;
+	BOOL fuzzySearch = [[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyAPNFuzzy];
 	
 	if (path) {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		NSRange digitRange;
-		NSString *idxNext;
+		
+		NSMutableArray *filesCandidates = nil;
+		NSRange digitRange, lastRange;
+		NSString *idxNext, *fileNamePrefix = nil;
 		BOOL isDir;
+		int i = 0;
 		// 得到文件的名字，没有后缀
 		NSString *movieName = [[path lastPathComponent] stringByDeletingPathExtension];
 		// directory path
 		NSString *dirPath = [path stringByDeletingLastPathComponent];
-		
 		// 找到数字开头的index
 		NSArray *digitRangeArray = findLastDigitPart(movieName);
+		
+		lastRange.length = 0;
+		lastRange.location = NSNotFound;
 		
 		for (NSValue *val in digitRangeArray) {
 			digitRange = [val rangeValue];
 			
-			// 如果文件后面有数字的话
-			if (digitRange.length) {
-				// 得到下一个想要播放的文件的index
-				idxNext = [NSString stringWithFormat:@"%d", [[movieName substringWithRange:digitRange] integerValue] + 1];
-				NSUInteger idxNextLen = [idxNext length];
-				
-				// 如果这个index的长度比上一个短，说明有padding
-				if (idxNextLen < digitRange.length) {
-					digitRange.location += (digitRange.length-idxNextLen);
-					digitRange.length = idxNextLen;
+			// 得到下一个想要播放的文件的index
+			idxNext = [NSString stringWithFormat:@"%d", [[movieName substringWithRange:digitRange] integerValue] + 1];
+			NSUInteger idxNextLen = [idxNext length];
+			// 如果这个index的长度比上一个短，说明有padding
+			if (idxNextLen < digitRange.length) {
+				digitRange.location += (digitRange.length-idxNextLen);
+				digitRange.length = idxNextLen;
+			}
+			
+			for (i = 0; i < 3; ++i) {
+				switch (i) {
+					case 0:
+						if (lastRange.length > 1) {
+							NSInteger digitLast = digitRange.location+digitRange.length;
+							NSString *fmt = [NSString stringWithFormat:@"%%@%%@%%@%%0%dd",lastRange.length];
+							fileNamePrefix = [NSString stringWithFormat:fmt,
+											  [movieName substringToIndex:digitRange.location],
+											  idxNext,
+											  [movieName substringWithRange:NSMakeRange(digitLast, lastRange.location-digitLast)],
+											  1];
+							// NSLog(@"%@", fileNamePrefix);
+						} else {
+							continue;
+						}
+						break;
+					case 1:
+						if (lastRange.length > 0) {
+							NSInteger digitLast = digitRange.location+digitRange.length;
+							
+							fileNamePrefix = [NSString stringWithFormat:@"%@%@%@1",
+											  [movieName substringToIndex:digitRange.location],
+											  idxNext,
+											  [movieName substringWithRange:NSMakeRange(digitLast, lastRange.location-digitLast)]];
+							// NSLog(@"%@", fileNamePrefix);
+						} else {
+							continue;
+						}
+						break;
+					default:
+						fileNamePrefix = [[movieName substringToIndex:digitRange.location] stringByAppendingString:idxNext];
+						// NSLog(@"%@", fileNamePrefix);
+						break;
 				}
-				
-				NSString *fileNamePrefix = [[movieName substringToIndex:digitRange.location] stringByAppendingString:idxNext];
-				
-				if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyAPNFuzzy]) {
+				if (fuzzySearch) {
 					// fuzzy matching
 					if (!filesCandidates) {
 						// lazy load
-						filesCandidates = [[NSMutableArray alloc] initWithCapacity:20];
+						filesCandidates = [NSMutableArray arrayWithCapacity:20];
 						
 						NSDirectoryEnumerator *directoryEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:dirPath];
 						
@@ -145,15 +179,13 @@ NSArray* findLastDigitPart(NSString *name)
 					} else {
 						goto ExitLoop;
 					}
-				}
+				}				
 			}
+			lastRange = digitRange;
 		}
 ExitLoop:
 		[pool drain];
-	}
-	
-	[filesCandidates release];
-	
+	}	
 	return [nextPath autorelease];
 }
 @end
