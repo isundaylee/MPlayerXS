@@ -51,9 +51,18 @@ NSArray* findLastDigitPart(NSString *name)
 
 @implementation PlayList
 
-+(NSString*) AutoSearchNextMoviePathFrom:(NSString*) path
++(void) initialize
+{
+	[[NSUserDefaults standardUserDefaults] 
+	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+					   [NSNumber numberWithBool:NO], kUDKeyAPNFuzzy,
+					   nil]];
+}
+
++(NSString*) AutoSearchNextMoviePathFrom:(NSString*)path inFormats:(NSSet*)exts
 {
 	NSString *nextPath = nil;
+	NSMutableArray *filesCandidates = nil;
 	
 	if (path) {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -62,6 +71,8 @@ NSArray* findLastDigitPart(NSString *name)
 		BOOL isDir;
 		// 得到文件的名字，没有后缀
 		NSString *movieName = [[path lastPathComponent] stringByDeletingPathExtension];
+		// directory path
+		NSString *dirPath = [path stringByDeletingLastPathComponent];
 		
 		// 找到数字开头的index
 		NSArray *digitRangeArray = findLastDigitPart(movieName);
@@ -81,26 +92,66 @@ NSArray* findLastDigitPart(NSString *name)
 					digitRange.length = idxNextLen;
 				}
 				
-				nextPath = [[NSString alloc] initWithFormat:@"%@/%@%@%@.%@",
-							[path stringByDeletingLastPathComponent],
-							[movieName substringToIndex:digitRange.location],
-							idxNext,
-							[movieName substringFromIndex:digitRange.location+digitRange.length],
-							[path pathExtension]];
+				NSString *fileNamePrefix = [[movieName substringToIndex:digitRange.location] stringByAppendingString:idxNext];
 				
-				// NSLog(@"Next File:%@", nextPath);
-				
-				isDir = YES;
-				if ((![[NSFileManager defaultManager] fileExistsAtPath:nextPath  isDirectory:&isDir]) || isDir) {
-					[nextPath release];
-					nextPath = nil;
+				if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyAPNFuzzy]) {
+					// fuzzy matching
+					if (!filesCandidates) {
+						// lazy load
+						filesCandidates = [[NSMutableArray alloc] initWithCapacity:20];
+						
+						NSDirectoryEnumerator *directoryEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:dirPath];
+						
+						for (NSString *file in directoryEnumerator) {
+							// enum the folder
+							NSDictionary *fileAttr = [directoryEnumerator fileAttributes];
+							
+							if ([[fileAttr objectForKey:NSFileType] isEqualToString:NSFileTypeDirectory]) {
+								// skip all sub-folders
+								[directoryEnumerator skipDescendants];
+								
+							} else if ([[fileAttr objectForKey:NSFileType] isEqualToString: NSFileTypeRegular] &&
+									   [exts containsObject:[[file pathExtension] lowercaseString]]) {
+								// the normal file and the file extension is OK
+								[filesCandidates addObject:file];
+							}
+						}
+					}
+					
+					NSRange rng;
+					for (NSString *name in filesCandidates) {
+						rng = [name rangeOfString:fileNamePrefix options:NSCaseInsensitiveSearch|NSAnchoredSearch];
+						if (rng.length != 0) {
+							// found the name
+							nextPath = [[dirPath stringByAppendingPathComponent:name] retain];
+							goto ExitLoop;
+						}
+					}
 				} else {
-					break;
+					// exactly matching
+					nextPath = [[NSString alloc] initWithFormat:@"%@/%@%@.%@",
+								dirPath,
+								fileNamePrefix,
+								[movieName substringFromIndex:digitRange.location+digitRange.length],
+								[path pathExtension]];
+					
+					// NSLog(@"Next File:%@", nextPath);
+					
+					isDir = YES;
+					if ((![[NSFileManager defaultManager] fileExistsAtPath:nextPath  isDirectory:&isDir]) || isDir) {
+						[nextPath release];
+						nextPath = nil;
+					} else {
+						goto ExitLoop;
+					}
 				}
 			}
 		}
+ExitLoop:
 		[pool drain];
 	}
+	
+	[filesCandidates release];
 	
 	return [nextPath autorelease];
 }

@@ -25,6 +25,6 @@
 }
 
 
-+ (NSString*) AutoSearchNextMoviePathFrom:(NSString*) path;
++ (NSString*) AutoSearchNextMoviePathFrom:(NSString*)path inFormats:(NSSet*)exts;
 
 @end
