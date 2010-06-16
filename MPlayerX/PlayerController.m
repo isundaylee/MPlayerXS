@@ -663,7 +663,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 		//如果不是本地文件，肯定返回nil
 		NSString *nextPath = 
 			[PlayList AutoSearchNextMoviePathFrom:[lastPlayedPath path] 
-										inFormats:[[self supportVideoFormats] setByAddingObjectsFromSet:[self supportAudioFormats]]];
+										inFormats:[supportVideoFormats setByAddingObjectsFromSet:supportAudioFormats]];
 		if (nextPath != nil) {
 			[self loadFiles:[NSArray arrayWithObject:nextPath] fromLocal:YES];
 			return;

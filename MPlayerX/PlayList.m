@@ -19,6 +19,7 @@
  */
 
 #import "PlayList.h"
+#import "def.h"
 
 NSArray* findLastDigitPart(NSString *name)
 {
