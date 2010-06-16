@@ -25,10 +25,12 @@
 NSString * const kMPCTogglePauseCmd		= @"pause\n";
 NSString * const kMPCFrameStepCmd		= @"frame_step\n";
 NSString * const kMPCSubSelectCmd		= @"sub_select\n";
+NSString * const kMPCSeekCmd			= @"seek";
 
 NSString * const kMPCGetPropertyPreFix	= @"get_property";
 NSString * const kMPCSetPropertyPreFix	= @"set_property";
 NSString * const kMPCSetPropertyPreFixPauseKeep	= @"pausing_keep_force set_property";
+NSString * const kMPCPausingKeepForce	= @"pausing_keep_force";
 
 ////////////////////////////////////////////////////////////////////
 // 没有ID结尾的是 命令字符串 和 属性字符串 有可能是公用的
