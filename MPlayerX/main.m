@@ -20,6 +20,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+#undef MPX_DEBUG
 int main(int argc, char *argv[])
 {
 	int ret;
