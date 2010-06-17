@@ -724,8 +724,8 @@ bmtzIHRvA</string>
 L3dha2FiYS5jMy5jeC9zL2FwcHMvdW5hcmNoaXZlci5odG1sCiAgQkdIVURBcHBLaXQgLSBodHRwOi8v
 d3d3LmJpbmFyeW1ldGhvZC5jb20vCiAgV2VuUXVhbiBNaWNyb0hlaSBGb250IC0gaHR0cDovL3d3dy53
 ZW5xLm9yZwoKQXBwbGljYXRvbiBJY29uOgogIE1pbG/FoSBLcnNtYW5vdmnEhwoKVHJhbnNsYXRpb24K
-ICBTaW1wbGlmaWVkIENoaW5lc2UgLSBhbmFraW4gKHpoZW5nQG1hY2lkZWEuY29tKQogIFBvcnR1Z3Vl
-c2UgLSBTw6lyZ2lvIE1pcmFuZGE</string>
+ICBTaW1wbGlmaWVkIENoaW5lc2UgLSBBbmFraW5+TWFjQG1hY2lkZWEuY29tCiAgUG9ydHVndWVzZSAt
+IFPDqXJnaW8gTWlyYW5kYQ</string>
 								<reference key="NSSupport" ref="22"/>
 								<reference key="NSControlView" ref="207460897"/>
 								<object class="NSColor" key="NSBackgroundColor" id="212435590">
@@ -3697,9 +3697,9 @@ c2UgLSBTw6lyZ2lvIE1pcmFuZGE</string>
 					<integer value="1"/>
 					<string>TimeSliderCell</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{467, 598}, {280, 347}}</string>
+					<string>{{639, 503}, {280, 347}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{467, 598}, {280, 347}}</string>
+					<string>{{639, 503}, {280, 347}}</string>
 					<boolean value="NO"/>
 					<boolean value="YES"/>
 					<boolean value="YES"/>
