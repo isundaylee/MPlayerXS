@@ -541,7 +541,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	// 文件夹路径
 	NSString *directoryPath = [path stringByDeletingLastPathComponent];
 	// 字幕文件名称
-	NSString *subName = [[path lastPathComponent] stringByDeletingPathExtension];
+	NSString *subName = [[[path lastPathComponent] stringByDeletingPathExtension] lowercaseString];
 
 	NSDirectoryEnumerator *directoryEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:directoryPath];
 
@@ -559,7 +559,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 		} else if ([[fileAttr objectForKey:NSFileType] isEqualToString: NSFileTypeRegular] &&
 					([supportVideoFormats containsObject:ext] || [supportAudioFormats containsObject:ext])) {
 			// 如果是正常文件，并且是媒体文件
-			NSString *mediaName = [mediaFile stringByDeletingPathExtension];
+			NSString *mediaName = [[mediaFile stringByDeletingPathExtension] lowercaseString];
 			
 			switch (nameRule) {
 				case kSubFileNameRuleExactMatch:
