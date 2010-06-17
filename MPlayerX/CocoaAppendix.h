@@ -27,3 +27,7 @@
 @interface NSColor (MPXAdditional)
 -(uint32) convertToHex;
 @end
+
+@interface NSString (MPXAdditional)
+-(unsigned int)hexValue;
+@end

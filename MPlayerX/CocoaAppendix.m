@@ -491,3 +491,32 @@
 	[mItem release];	
 }
 @end
+
+@implementation NSString (MPXAdditional)
+
+-(unsigned int)hexValue
+{
+	const char *pst = [self UTF8String];
+	unsigned int res = 0;
+	
+	if ((*pst == '0') && ((pst[1] == 'x') || (pst[1] == 'X'))) {
+		pst += 2;
+	}
+	while (*pst) {
+		res <<= 4;
+		if ((*pst >= '0') && (*pst <= '9')) {
+			res += (*pst - '0');
+		} else if ((*pst >= 'a') && (*pst <= 'f')) {
+			res += (*pst - 'a' + 10);
+		} else if ((*pst >= 'A') && (*pst <= 'F')) {
+			res += (*pst - 'A' + 10);
+		} else {
+			res = 0;
+			break;
+		}
+		++pst;
+	}
+	return res;
+}
+@end
+
