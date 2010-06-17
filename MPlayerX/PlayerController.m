@@ -47,7 +47,7 @@ NSString * const kMPCDefaultSubFontPath			= @"wqy-microhei.ttc";
 NSString * const kMPCFMTBookmarkPath	= @"%@/Library/Preferences/%@.bookmarks.plist";
 
 NSString * const kMPCMplayerNameMT		= @"mplayer-mt";
-NSString * const kMPCMplayerName		= @"mplayer";
+NSString * const kMPCMplayerName		= @"mplayer-mt";
 NSString * const kMPCFMTMplayerPathM32	= @"binaries/m32/%@";
 NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 
