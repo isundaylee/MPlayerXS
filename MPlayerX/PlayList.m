@@ -119,8 +119,18 @@ NSArray* findLastDigitPart(NSString *name)
 						}
 						break;
 					default:
-						fileNamePrefix = [[movieName substringToIndex:digitRange.location] stringByAppendingString:idxNext];
-						nonFuzzySuffixPos = digitRange.location + digitRange.length;
+						if (lastRange.length > 0) {
+							digitLast = digitRange.location + digitRange.length;
+							fileNamePrefix = [NSString stringWithFormat:@"%@%@%@", 
+											  [movieName substringToIndex:digitRange.location],
+											  idxNext,
+											  [movieName substringWithRange:NSMakeRange(digitLast, lastRange.location-digitLast+lastRange.length)]];
+							nonFuzzySuffixPos = lastRange.location + lastRange.length;
+						} else {
+							fileNamePrefix = [[movieName substringToIndex:digitRange.location] stringByAppendingString:idxNext];
+							nonFuzzySuffixPos = digitRange.location + digitRange.length;
+						}
+
 						// NSLog(@"%@", fileNamePrefix);
 						break;
 				}
