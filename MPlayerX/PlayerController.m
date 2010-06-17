@@ -47,7 +47,7 @@ NSString * const kMPCDefaultSubFontPath			= @"wqy-microhei.ttc";
 NSString * const kMPCFMTBookmarkPath	= @"%@/Library/Preferences/%@.bookmarks.plist";
 
 NSString * const kMPCMplayerNameMT		= @"mplayer-mt";
-NSString * const kMPCMplayerName		= @"mplayer-mt";
+NSString * const kMPCMplayerName		= @"mplayer";
 NSString * const kMPCFMTMplayerPathM32	= @"binaries/m32/%@";
 NSString * const kMPCFMTMplayerPathX64	= @"binaries/x86_64/%@";
 
@@ -589,7 +589,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	NSString *mplayerName;
 	unsigned int threadNum;
 	
-	if (mt) {
+	if (/*mt*/1) {
 		// 使用多线程
 		threadNum = MIN(kThreadsNumMax, MAX(2,[ud integerForKey:kUDKeyThreadNum]));
 		mplayerName = kMPCMplayerNameMT;
