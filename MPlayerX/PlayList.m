@@ -52,14 +52,6 @@ NSArray* findLastDigitPart(NSString *name)
 
 @implementation PlayList
 
-+(void) initialize
-{
-	[[NSUserDefaults standardUserDefaults] 
-	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-					   [NSNumber numberWithBool:YES], kUDKeyAPNFuzzy,
-					   nil]];
-}
-
 +(NSString*) AutoSearchNextMoviePathFrom:(NSString*)path inFormats:(NSSet*)exts
 {
 	NSString *nextPath = nil;
