@@ -324,8 +324,10 @@ NSString * const kPMValPan6To2			= @"pan=2:1:0:0:1:1:0:0:1:0.5:0.5:1:1";
 		[paramArray addObject:kPMParOverlapSub];
 	}
 	
-	[paramArray addObject:kPMParLavdopts];
-	[paramArray addObject:[NSString stringWithFormat: kPMFMTThreads, threads]];
+	if (threads > 1) {
+		[paramArray addObject:kPMParLavdopts];
+		[paramArray addObject:[NSString stringWithFormat: kPMFMTThreads, threads]];		
+	}
 
 	if (assEnabled) {
 		[paramArray addObject:kPMParAss];
@@ -401,7 +403,7 @@ NSString * const kPMValPan6To2			= @"pan=2:1:0:0:1:1:0:0:1:0.5:0.5:1:1";
 		[paramArray addObject:kPMParSTPause];
 	}
 	
-	// NSLog(@"%@", [paramArray componentsJoinedByString:@" "]);
+	// NSLog(@"%@", [paramArray componentsJoinedByString:@"\n"]);
 	
 	return paramArray;
 }
