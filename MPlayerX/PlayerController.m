@@ -592,7 +592,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	
 	if (/*mt*/1) {
 		// 使用多线程
-		threadNum = MIN(kThreadsNumMax, MAX(2,[ud integerForKey:kUDKeyThreadNum]));
+		threadNum = MIN(kThreadsNumMax, MAX(1,[ud integerForKey:kUDKeyThreadNum]));
 		mplayerName = kMPCMplayerNameMT;
 	} else {
 		threadNum = MIN(kThreadsNumMax, MAX(1,[ud integerForKey:kUDKeyThreadNum]));
