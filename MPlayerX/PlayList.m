@@ -90,6 +90,7 @@ NSArray* findLastDigitPart(NSString *name)
 			for (i = 0; i < 3; ++i) {
 				switch (i) {
 					case 0:
+						// match the with the padding 0001
 						if (lastRange.length > 1) {
 							digitLast = digitRange.location+digitRange.length;
 							NSString *fmt = [NSString stringWithFormat:@"%%@%%@%%@%%0%dd",lastRange.length];
@@ -105,6 +106,7 @@ NSArray* findLastDigitPart(NSString *name)
 						}
 						break;
 					case 1:
+						// match the un padding 1
 						if (lastRange.length > 0) {
 							digitLast = digitRange.location+digitRange.length;
 							
@@ -119,6 +121,7 @@ NSArray* findLastDigitPart(NSString *name)
 						}
 						break;
 					default:
+						// match the increment +1
 						if (lastRange.length > 0) {
 							digitLast = digitRange.location + digitRange.length;
 							fileNamePrefix = [NSString stringWithFormat:@"%@%@%@", 
