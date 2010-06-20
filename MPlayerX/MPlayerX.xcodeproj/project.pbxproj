@@ -640,6 +640,7 @@
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				86086A7410BAD11C00459392 /* Copy Binaries */,
 				86CAF21E10BA438D00848B8E /* Copy Frameworks */,
+				86FD7D9811CE4961001726FD /* Localizations */,
 			);
 			buildRules = (
 			);
@@ -763,6 +764,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# shell script goes here\ncd ../update\n./package.sh > out.txt\nopen out.txt";
+		};
+		86FD7D9811CE4961001726FD /* Localizations */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Localizations;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\ncd ../update\nexport MPXVER=$(ruby getVerNum.rb ${TARGET_BUILD_DIR}/${FULL_PRODUCT_NAME})\n\ncd ../../localization/trunk/localization/${MPXVER}\n\necho ${MPXVER}\n\nmake\n\ncp -R ./results/* ${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/";
 		};
 /* End PBXShellScriptBuildPhase section */
 
