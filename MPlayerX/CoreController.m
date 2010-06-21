@@ -542,7 +542,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 -(void) setLetterBox:(BOOL) renderSubInLB top:(float) topRatio bottom:(float)bottomRatio
 {
 	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f %f %d", 
-								   kMPCPausingKeepForce, kMPCAssMargin, bottomRatio, topRatio, renderSubInLB]]
+								   kMPCPausingKeepForce, kMPCAssMargin, bottomRatio, topRatio, renderSubInLB]];
 }
 
 // 这个是LogAnalyzer的delegate方法，
