@@ -541,7 +541,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 
 -(void) setLetterBox:(BOOL) renderSubInLB top:(float) topRatio bottom:(float)bottomRatio
 {
-	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f %f %d", 
+	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f %f %d\n", 
 								   kMPCPausingKeepForce, kMPCAssMargin, bottomRatio, topRatio, renderSubInLB]];
 }
 
