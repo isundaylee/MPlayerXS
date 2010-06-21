@@ -27,12 +27,12 @@ extern NSString * const kMPCTogglePauseCmd;
 extern NSString * const kMPCFrameStepCmd;
 extern NSString * const kMPCSubSelectCmd;
 extern NSString * const kMPCSeekCmd;
+extern NSString * const kMPCAssMargin;
 
 extern NSString * const kMPCGetPropertyPreFix;
 extern NSString * const kMPCSetPropertyPreFix;
 extern NSString * const kMPCSetPropertyPreFixPauseKeep;
 extern NSString * const kMPCPausingKeepForce;
-
 
 ////////////////////////////////////////////////////////////////////
 // 没有ID结尾的是 命令字符串 和 属性字符串 有可能是公用的

@@ -133,4 +133,6 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 -(void) setSubScale: (float) scale;
 
 -(void) loadSubFile: (NSString*) path;
+
+-(void) setLetterBox:(BOOL) renderSubInLB top:(float) topRatio bottom:(float)bottomRatio;
 @end

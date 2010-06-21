@@ -26,6 +26,7 @@ NSString * const kMPCTogglePauseCmd		= @"pause\n";
 NSString * const kMPCFrameStepCmd		= @"frame_step\n";
 NSString * const kMPCSubSelectCmd		= @"sub_select\n";
 NSString * const kMPCSeekCmd			= @"seek";
+NSString * const kMPCAssMargin			= @"ass_margin";
 
 NSString * const kMPCGetPropertyPreFix	= @"get_property";
 NSString * const kMPCSetPropertyPreFix	= @"set_property";

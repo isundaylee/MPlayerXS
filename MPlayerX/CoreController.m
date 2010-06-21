@@ -539,6 +539,12 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 	}
 }
 
+-(void) setLetterBox:(BOOL) renderSubInLB top:(float) topRatio bottom:(float)bottomRatio
+{
+	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %f %f %d", 
+								   kMPCPausingKeepForce, kMPCAssMargin, bottomRatio, topRatio, renderSubInLB]]
+}
+
 // 这个是LogAnalyzer的delegate方法，
 // 因此是运行在工作线程上的，因为这里用到了KVC和KVO
 // 有没有必要运行在主线程上？
