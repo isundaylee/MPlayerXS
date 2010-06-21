@@ -825,6 +825,14 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 {
 	[mplayer loadSubFile:subPath];
 }
+
+-(void) setLetterBox:(BOOL) renderSubInLB top:(float) topRatio bottom:(float)bottomRatio
+{
+	if (PlayerCouldAcceptCommand) {
+		[mplayer setLetterBox:renderSubInLB top:topRatio bottom:bottomRatio];
+	}
+}
+
 /////////////////////////////////////Actions//////////////////////////////////////
 -(IBAction) openFile:(id) sender
 {
