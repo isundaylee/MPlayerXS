@@ -81,17 +81,22 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 +(void) initialize
 {
+	NSNumber *boolYES = [NSNumber numberWithBool:YES];
+	NSNumber *boolNo  = [NSNumber numberWithBool:NO];
+	
 	[[NSUserDefaults standardUserDefaults] 
 	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 					   [NSNumber numberWithFloat:100], kUDKeyVolume,
 					   [NSNumber numberWithDouble:AUTOHIDETIMEINTERNAL], kUDKeyCtrlUIAutoHideTime,
-					   [NSNumber numberWithBool:NO], kUDKeySwitchTimeHintPressOnAbusolute,
+					   boolNo, kUDKeySwitchTimeHintPressOnAbusolute,
 					   [NSNumber numberWithFloat:10], kUDKeyVolumeStep,
-					   [NSNumber numberWithBool:YES], kUDKeySwitchTimeTextPressOnRemain,
+					   boolYES, kUDKeySwitchTimeTextPressOnRemain,
 					   [NSNumber numberWithFloat:BACKGROUNDALPHA], kUDKeyCtrlUIBackGroundAlpha,
-					   [NSNumber numberWithBool:YES], kUDKeyShowOSD,
+					   boolYES, kUDKeyShowOSD,
 					   [NSNumber numberWithFloat:0.1], kUDKeyResizeStep,
-					   [NSNumber numberWithBool:YES], kUDKeyCloseWindowWhenStopped,
+					   boolYES, kUDKeyCloseWindowWhenStopped,
+					   boolYES, kUDKeyAlwaysShowLBInFullScr,
+					   boolYES, kUDKeyAutoLBHeightInFullScr,
 					   nil]];
 }
 
