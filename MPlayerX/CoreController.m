@@ -545,6 +545,22 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 								   kMPCPausingKeepForce, kMPCAssMargin, bottomRatio, topRatio, renderSubInLB]];
 }
 
+-(void) setEqualizer:(NSArray*)amps
+{
+	// delete the previous filter
+	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@\n", kMPCAfDelCmd, kMPCEqualizer]];
+	
+	if (amps && ([amps count]>0)) {
+		NSMutableString *str = [[NSMutableString alloc] initWithCapacity:40];
+		
+		for (id amp in amps) {
+			[str appendFormat:@":%f", [amp floatValue]];
+		}
+		[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@=%@\n", kMPCAfAddCmd, kMPCEqualizer, [str substringFromIndex:1]]];
+		[str release];
+	}
+}
+
 // 这个是LogAnalyzer的delegate方法，
 // 因此是运行在工作线程上的，因为这里用到了KVC和KVO
 // 有没有必要运行在主线程上？
