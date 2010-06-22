@@ -27,6 +27,8 @@ NSString * const kMPCFrameStepCmd		= @"frame_step\n";
 NSString * const kMPCSubSelectCmd		= @"sub_select\n";
 NSString * const kMPCSeekCmd			= @"seek";
 NSString * const kMPCAssMargin			= @"ass_margin";
+NSString * const kMPCAfAddCmd			= @"af_add";
+NSString * const kMPCAfDelCmd			= @"af_del";
 
 NSString * const kMPCGetPropertyPreFix	= @"get_property";
 NSString * const kMPCSetPropertyPreFix	= @"set_property";
@@ -51,6 +53,7 @@ NSString * const kMPCSubPos				= @"sub_pos";
 NSString * const kMPCSubScale			= @"sub_scale";
 NSString * const kMPCSubLoad			= @"sub_load";
 NSString * const kMPCSwitchVideo		= @"switch_video";
+NSString * const kMPCEqualizer			= @"equalizer";
 
 // 有ID结尾的是 只用来做属性字符串的
 NSString * const kMPCLengthID			= @"LENGTH";

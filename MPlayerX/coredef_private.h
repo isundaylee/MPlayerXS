@@ -28,6 +28,8 @@ extern NSString * const kMPCFrameStepCmd;
 extern NSString * const kMPCSubSelectCmd;
 extern NSString * const kMPCSeekCmd;
 extern NSString * const kMPCAssMargin;
+extern NSString * const kMPCAfAddCmd;
+extern NSString * const kMPCAfDelCmd;
 
 extern NSString * const kMPCGetPropertyPreFix;
 extern NSString * const kMPCSetPropertyPreFix;
@@ -52,6 +54,7 @@ extern NSString * const kMPCSubPos;
 extern NSString * const kMPCSubScale;
 extern NSString * const kMPCSubLoad;
 extern NSString * const kMPCSwitchVideo;
+extern NSString * const kMPCEqualizer;
 
 // 有ID结尾的是 只用来做属性字符串的
 extern NSString * const kMPCLengthID;
