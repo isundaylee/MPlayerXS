@@ -75,6 +75,8 @@ extern NSString * const kUDKeyRtspOverHttp;
 extern NSString * const kUDKeyFFMpegHandleStream;
 extern NSString * const kUDKeyPinPMode;
 extern NSString * const kUDKeyMixToStereoMode;
+extern NSString * const kUDKeyAlwaysShowLBInFullScr;
+extern NSString * const kUDKeyAutoLBHeightInFullScr;
 
 extern NSString * const kUDKeyDebugEnableOpenURL;
 extern NSString * const kUDKeySelectedPrefView;
