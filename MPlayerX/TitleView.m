@@ -133,7 +133,7 @@
 		NSAttributedString *t = [[NSAttributedString alloc] initWithString:title attributes:titleAttr];
 		dirtyRect.size = [t size];
 		
-		drawPos.x = MAX(64, (titleSize.width -dirtyRect.size.width)/2);
+		drawPos.x = MAX(70, (titleSize.width -dirtyRect.size.width)/2);
 		drawPos.y = (titleSize.height - dirtyRect.size.height)/2;
 		
 		[t drawAtPoint: drawPos];
