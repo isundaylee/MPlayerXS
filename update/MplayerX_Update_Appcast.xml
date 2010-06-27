@@ -18,6 +18,8 @@
 					<li>Core: fixed playback stucks, if switch between hi-jack and speaker.(issue 46)</li>
 					<li>Core: add switch video.(issue 117)</li>
 					<li>Core: playback hiccups when seeking(issue 119)</li>
+					<li>Core: fixed subtitle outline render error for some special characters</li>
+					<li>Core: add support webm format</li>
 					<li>Pref: overlapsub added.(issue 104)</li>
 					<li>Pref: subtitle font size now use 100% as the default value.(issue 97)</li>
 					<li>Pref: transfer rtsp stream over http(I'm not sure if it's very useful, but with this ON, I could see the WWDC2010 keynote with MPlayerX)</li>
