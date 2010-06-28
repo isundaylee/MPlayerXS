@@ -57,7 +57,7 @@
 	// prepare the hint text
 	[outputText setStringValue:[NSString stringWithFormat:kMPXStringSubEncQueryResult, [path lastPathComponent], charsetName, conf*100.0]];
 	
-	CFStringEncoding ce = CFStringConvertIANACharSetNameToEncoding((CFStringRef)charsetName);
+	CFStringEncoding ce = (charsetName)?(CFStringConvertIANACharSetNameToEncoding((CFStringRef)charsetName)):(kCFStringEncodingInvalidId);
 	
 	if (ce != kCFStringEncodingInvalidId) {
 		// 如果charset的返回值是合法的
