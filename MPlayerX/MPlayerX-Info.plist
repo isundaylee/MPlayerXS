@@ -79,6 +79,7 @@
 				<string>rv</string>
 				<string>swf</string>
 				<string>ts</string>
+				<string>tp</string>
 				<string>vc1</string>
 				<string>vcd</string>
 				<string>vfw</string>
@@ -205,7 +206,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>849</string>
+	<string>852</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>NSMainNibFile</key>
