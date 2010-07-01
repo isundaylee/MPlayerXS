@@ -76,9 +76,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 @implementation ControlUIView
 
-@synthesize hintTimePrsOnAbs;
-@synthesize timeTextPrsOnRmn;
-
 +(void) initialize
 {
 	NSNumber *boolYES = [NSNumber numberWithBool:YES];
@@ -89,8 +86,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 					   [NSNumber numberWithFloat:100], kUDKeyVolume,
 					   [NSNumber numberWithDouble:AUTOHIDETIMEINTERNAL], kUDKeyCtrlUIAutoHideTime,
 					   boolNo, kUDKeySwitchTimeHintPressOnAbusolute,
+					   boolNo, kUDKeyTimeTextAltTotal,
 					   [NSNumber numberWithFloat:10], kUDKeyVolumeStep,
-					   boolYES, kUDKeySwitchTimeTextPressOnRemain,
 					   [NSNumber numberWithFloat:BACKGROUNDALPHA], kUDKeyCtrlUIBackGroundAlpha,
 					   boolYES, kUDKeyShowOSD,
 					   [NSNumber numberWithFloat:0.1], kUDKeyResizeStep,
@@ -194,6 +191,9 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	// 初始化时间显示slider和text
 	[[timeText cell] setFormatter:timeFormatter];
 	[timeText setStringValue:@""];
+	[[timeTextAlt cell] setFormatter:timeFormatter];
+	[timeTextAlt setStringValue:@""];
+	
 	[timeSlider setEnabled:NO];
 	[timeSlider setMaxValue:0];
 	[timeSlider setMinValue:-1];
@@ -243,10 +243,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	[menuSizeInc setTag:1];
 	[menuSizeDec setTag:-1];
-	
-	hintTimePrsOnAbs = [ud boolForKey:kUDKeySwitchTimeHintPressOnAbusolute];
-	timeTextPrsOnRmn = [ud boolForKey:kUDKeySwitchTimeTextPressOnRemain];
-	
+
 	// set menu status
 	[menuToggleLockAspectRatio setEnabled:NO];
 	[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
@@ -904,11 +901,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	}
 }
 
--(IBAction) toggleTimeTextDispMode:(id)sender
-{
-	timeTextPrsOnRmn = !timeTextPrsOnRmn;
-}
-
 -(IBAction) changeSubPosBy:(id)sender
 {
 	if (sender) {
@@ -1059,6 +1051,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[playPauseButton setState:PauseState];
 
 	[timeText setStringValue:@""];
+	[timeTextAlt setStringValue:@""];
 	[timeSlider setFloatValue:-1];
 	
 	// 由于mplayer无法静音开始，因此每次都要回到非静音状态
@@ -1078,8 +1071,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuSubScaleInc setEnabled:NO];
 	[menuSubScaleDec setEnabled:NO];
 	[menuPlayFromLastStoppedPlace setEnabled:NO];
-	
-	timeTextPrsOnRmn = [ud boolForKey:kUDKeySwitchTimeTextPressOnRemain];
 }
 
 -(void) playBackFinalized:(NSNotification*)notif
@@ -1146,9 +1137,18 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 ////////////////////////////////////////////////KVO for time//////////////////////////////////////////////////
 -(void) gotMediaLength:(NSNumber*) length
 {
-	if ([length floatValue] > 0) {
-		[timeSlider setMaxValue:[length doubleValue]];
+	float len = [length floatValue];
+	
+	if (len > 0) {
+		[timeSlider setMaxValue:len];
 		[timeSlider setMinValue:0];
+		if ([ud boolForKey:kUDKeyTimeTextAltTotal]) {
+			// diplay total time
+			[timeTextAlt setIntValue:len + 0.5]; 
+		} else {
+			// display remain time
+			[timeTextAlt setIntValue:-len-0.5];
+		}
 	} else {
 		[timeSlider setEnabled:NO];
 		[timeSlider setMaxValue:0];
@@ -1162,16 +1162,16 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	float time = [timePos floatValue];
 	double length = [timeSlider maxValue];
 
-	if ((length > 0) && 
-		((([NSEvent modifierFlags] == kSCMSwitchTimeHintKeyModifierMask)?YES:NO) == timeTextPrsOnRmn)) {
-		// 如果有时间的长度，并且按键和设定相符合的时候，显示remain时间
-		[timeText setIntValue:time - length - 0.5];
-		
-	} else {
-		// 没有得到电影的长度，只显示现在的时间
-		[timeText setIntValue:time + 0.5];
+	if (length > 0) {
+		if ([ud boolForKey:kUDKeyTimeTextAltTotal]) {
+			[timeTextAlt setIntValue:length + 0.5];
+		} else {
+			// display remaining time
+			[timeTextAlt setIntValue:time - length - 0.5];
+		}
 	}
-	
+
+	[timeText setIntValue:time + 0.5];
 	// 即使timeSlider被禁用也可以显示时间
 	[timeSlider setFloatValue:time];
 	
@@ -1381,7 +1381,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	float timeDisp = ((pt.x-frm.origin.x) * [timeSlider maxValue])/ frm.size.width;;
 
-	if ((([NSEvent modifierFlags] == kSCMSwitchTimeHintKeyModifierMask)?YES:NO) != hintTimePrsOnAbs) {
+	if ((([NSEvent modifierFlags] == kSCMSwitchTimeHintKeyModifierMask)?YES:NO) != 
+		[ud boolForKey:kUDKeySwitchTimeHintPressOnAbusolute]) {
 		// 如果没有按Fn，显示时间差
 		// 否则显示绝对时间
 		timeDisp -= [timeSlider floatValue];

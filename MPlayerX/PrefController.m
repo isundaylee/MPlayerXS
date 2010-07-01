@@ -150,16 +150,6 @@ NSString * const PrefToolbarItemIdNetwork	= @"TBINetwork";
 	[dispView setPlayerWindowLevel];
 }
 
-- (IBAction)hintTimeModeChanged:(id)sender
-{
-	[controlUI setHintTimePrsOnAbs:[ud boolForKey:kUDKeySwitchTimeHintPressOnAbusolute]];
-}
-
-- (IBAction)timeTextModeChanged:(id)sender
-{
-	[controlUI setTimeTextPrsOnRmn:[ud boolForKey:kUDKeySwitchTimeTextPressOnRemain]];
-}
-
 -(IBAction) controlUIAppearanceChanged:(id)sender
 {
 	[controlUI refreshAutoHideTimer];

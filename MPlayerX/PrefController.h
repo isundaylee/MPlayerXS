@@ -49,8 +49,6 @@
 
 -(IBAction) multiThreadChanged:(id)sender;
 -(IBAction) onTopModeChanged:(id)sender;
--(IBAction) hintTimeModeChanged:(id)sender;
--(IBAction) timeTextModeChanged:(id)sender;
 -(IBAction) controlUIAppearanceChanged:(id)sender;
 -(IBAction) osdSetChanged:(id)sender;
 -(IBAction) checkCacheFormat:(id)sender;

@@ -49,8 +49,6 @@
 	NSMenu *videoListMenu;
 		
 	float volStep;
-	BOOL hintTimePrsOnAbs;
-	BOOL timeTextPrsOnRmn;
 
 	IBOutlet PlayerController *playerController;
 	IBOutlet RootLayerView *dispView;
@@ -60,6 +58,8 @@
 	IBOutlet NSButton *volumeButton;
 	IBOutlet NSSlider *volumeSlider;
 	IBOutlet NSTextField *timeText;
+	IBOutlet NSTextField *timeTextAlt;
+	
 	IBOutlet NSSlider *timeSlider;
 	IBOutlet NSTextField *hintTime;
 	
@@ -89,9 +89,6 @@
 	IBOutlet NSMenuItem *menuSizeInc;
 	IBOutlet NSMenuItem *menuSizeDec;
 }
-
-@property (assign, readwrite) BOOL hintTimePrsOnAbs;
-@property (assign, readwrite) BOOL timeTextPrsOnRmn;
 
 -(void) displayMediaInfo;
 
@@ -140,7 +137,6 @@ extern NSString * const kFillScreenButtonImageUBKey;
 -(IBAction) stepVideos:(id)sender;
 -(IBAction) setVideoWithID:(id)sender;
 
--(IBAction) toggleTimeTextDispMode:(id)sender;
 -(IBAction) changeSubPosBy:(id)sender;
 -(IBAction) changeAudioBalanceBy:(id)sender;
 
