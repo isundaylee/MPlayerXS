@@ -46,9 +46,9 @@
 	if (hour != 0) {
 		return [formatString stringByAppendingFormat:@"%d:%02d:%02d", hour, minute, sec];		
 	} else if (minute != 0) {
-		return [formatString stringByAppendingFormat:@"%d:%02d", minute, sec];
+		return [formatString stringByAppendingFormat:@"00:%02d:%02d", minute, sec];
 	} else {
-		return [formatString stringByAppendingFormat:@"%d\"", sec];
+		return [formatString stringByAppendingFormat:@"00:00:%02d", sec];
 	}
 }
 
