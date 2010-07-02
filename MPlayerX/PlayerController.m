@@ -833,6 +833,12 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	}
 }
 
+-(void) setEqualizer:(NSArray*) amps
+{
+	if (PlayerCouldAcceptCommand) {
+		[mplayer setEqualizer:amps];
+	}
+}
 /////////////////////////////////////Actions//////////////////////////////////////
 -(IBAction) openFile:(id) sender
 {

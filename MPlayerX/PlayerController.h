@@ -100,6 +100,7 @@ extern NSString * const kMPCPlayInfoUpdatedChangeDictKey;
 -(void) setVideo:(int) videoID;
 
 -(void) setLetterBox:(BOOL) renderSubInLB top:(float) topRatio bottom:(float)bottomRatio;
+-(void) setEqualizer:(NSArray*) amps;
 
 -(void) loadSubFile:(NSString*)subPath;
 
