@@ -33,4 +33,5 @@
 }
 
 -(IBAction) showUI:(id)sender;
+-(IBAction) setEqualizer:(id)sender;
 @end
