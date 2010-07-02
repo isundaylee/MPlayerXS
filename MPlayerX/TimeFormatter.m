@@ -32,24 +32,18 @@
 	
 	if (time < 0) {
 		time = -time;
-		formatString = @"-";
+		formatString = @"-%02d:%02d:%02d";
 	} else {
-		formatString = @"";
+		formatString = @"%02d:%02d:%02d";
 	}
 
 	sec = time % 60;
-	time = (time -sec) / 60;
+	time = (time - sec) / 60;
 	
 	minute = time % 60;
 	hour = (time - minute) / 60;
-	
-	if (hour != 0) {
-		return [formatString stringByAppendingFormat:@"%d:%02d:%02d", hour, minute, sec];		
-	} else if (minute != 0) {
-		return [formatString stringByAppendingFormat:@"00:%02d:%02d", minute, sec];
-	} else {
-		return [formatString stringByAppendingFormat:@"00:00:%02d", sec];
-	}
+
+	return [NSString stringWithFormat:formatString, hour, minute, sec];
 }
 
 - (BOOL)getObjectValue:(out id *)obj forString:(NSString *)string errorDescription:(out NSString **)error
