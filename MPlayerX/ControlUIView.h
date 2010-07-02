@@ -88,9 +88,8 @@
 	IBOutlet NSMenuItem *menuSwitchVideo;
 	IBOutlet NSMenuItem *menuSizeInc;
 	IBOutlet NSMenuItem *menuSizeDec;
+	IBOutlet NSMenuItem *menuShowMediaInfo;
 }
-
--(void) displayMediaInfo;
 
 ////////////////////////////////显示相关////////////////////////////////
 extern NSString * const kFillScreenButtonImageLRKey;
@@ -146,5 +145,7 @@ extern NSString * const kFillScreenButtonImageUBKey;
 -(IBAction) toggleLetterBox:(id)sender;
 
 -(IBAction) stepWindowSize:(id)sender;
+
+-(IBAction) showMediaInfo:(id)sender;
 
 @end

@@ -135,8 +135,6 @@ extern NSString * const kSCMToggleLetterBoxKeyEquivalent;
 #define kSCMSubDelayMinusShortcutKey		('[')
 #define kSCMSubDelayResetShortcutKey		('\\')
 
-#define kSCMDisplayMediaInfoShortCutKey		('i')
-
 #define kSCMDeleteFileShortCutKey			(NSDeleteCharacter)
 
 #define kSCMFFMpegHandleStreamShortCurKey	(NSCommandKeyMask)
@@ -145,5 +143,7 @@ extern NSString * const kSCMWindowSizeIncKeyEquivalent;
 #define kSCMWindowSizeIncKeyEquivalentModifierFlagMask	(NSCommandKeyMask|NSShiftKeyMask)
 extern NSString * const kSCMWindowSizeDecKeyEquivalent;
 #define kSCMWindowSizeDecKeyEquivalentModifierFlagMask	(NSCommandKeyMask|NSShiftKeyMask)
+
+extern NSString * const kSCMShowMediaInfoKeyEquivalent;
 
 extern NSString * const kMPCStringMPlayerX;

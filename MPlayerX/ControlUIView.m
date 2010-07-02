@@ -157,6 +157,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuSizeDec setKeyEquivalentModifierMask:kSCMWindowSizeDecKeyEquivalentModifierFlagMask];
 	[menuSizeInc setKeyEquivalent:kSCMWindowSizeIncKeyEquivalent];
 	[menuSizeDec setKeyEquivalent:kSCMWindowSizeDecKeyEquivalent];
+	
+	[menuShowMediaInfo setKeyEquivalent:kSCMShowMediaInfoKeyEquivalent];
 
 	//----------------- load Images --------------------------
 	// 初始化音量大小图标
@@ -251,6 +253,9 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	[menuToggleLetterBox setTitle:([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay)?(kMPXStringMenuShowLetterBox):
 																										 (kMPXStringMenuHideLetterBox)];
+
+	[menuShowMediaInfo setEnabled:NO];
+	
 	// set OSD active status
 	[osd setActive:NO];
 	
@@ -333,7 +338,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	}
 }
 
--(void) displayMediaInfo
+-(void) showMediaInfo:(id)sender
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
@@ -1035,6 +1040,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	[menuSwitchAudio setEnabled:YES];
 	[menuSwitchVideo setEnabled:YES];
+	
+	[menuShowMediaInfo setEnabled:YES];
 }
 
 -(void) playBackWillStop:(NSNotification*)notif
@@ -1071,6 +1078,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuSubScaleInc setEnabled:NO];
 	[menuSubScaleDec setEnabled:NO];
 	[menuPlayFromLastStoppedPlace setEnabled:NO];
+	
+	[menuShowMediaInfo setEnabled:NO];
 }
 
 -(void) playBackFinalized:(NSNotification*)notif

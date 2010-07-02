@@ -114,4 +114,6 @@ NSString * const kSCMToggleLetterBoxKeyEquivalent		= @"l";
 NSString * const kSCMWindowSizeIncKeyEquivalent			= @"=";
 NSString * const kSCMWindowSizeDecKeyEquivalent			= @"-";
 
+NSString * const kSCMShowMediaInfoKeyEquivalent			= @"i";
+
 NSString * const kMPCStringMPlayerX		= @"MPlayerX";
