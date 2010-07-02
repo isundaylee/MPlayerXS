@@ -12,7 +12,6 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="540"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -546,6 +545,14 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
+								<object class="NSMenuItem" id="253562615">
+									<reference key="NSMenu" ref="835318025"/>
+									<string key="NSTitle">Show Media Info</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
 								<object class="NSMenuItem" id="902432428">
 									<reference key="NSMenu" ref="835318025"/>
 									<string key="NSTitle">Video Tuner</string>
@@ -755,7 +762,7 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<string key="NSWindowContentMinSize">{400, 300}</string>
 				<object class="NSView" key="NSWindowView" id="439893737">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1228,7 +1235,6 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 						</object>
 					</object>
 					<string key="NSFrameSize">{400, 300}</string>
-					<reference key="NSSuperview"/>
 					<bool key="NSViewIsLayerTreeHost">YES</bool>
 					<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				</object>
@@ -2358,6 +2364,22 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 					</object>
 					<int key="connectionID">952</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">showMediaInfo:</string>
+						<reference key="source" ref="85098728"/>
+						<reference key="destination" ref="253562615"/>
+					</object>
+					<int key="connectionID">954</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">menuShowMediaInfo</string>
+						<reference key="source" ref="85098728"/>
+						<reference key="destination" ref="253562615"/>
+					</object>
+					<int key="connectionID">955</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -2772,6 +2794,7 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 							<reference ref="299356726"/>
 							<reference ref="842366553"/>
 							<reference ref="902432428"/>
+							<reference ref="253562615"/>
 						</object>
 						<reference key="parent" ref="713487014"/>
 					</object>
@@ -3326,6 +3349,11 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 						<reference key="object" ref="703727324"/>
 						<reference key="parent" ref="694480288"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">953</int>
+						<reference key="object" ref="253562615"/>
+						<reference key="parent" ref="835318025"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -3553,6 +3581,7 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 					<string>943.IBPluginDependency</string>
 					<string>950.IBPluginDependency</string>
 					<string>951.IBPluginDependency</string>
+					<string>953.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3595,11 +3624,11 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{592, 813}, {194, 103}}</string>
+					<string>{{694, 366}, {194, 123}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{{525, 802}, {197, 73}}</string>
-					<string>{{623, 590}, {392, 20}}</string>
+					<string>{{434, 489}, {392, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{74, 862}</string>
@@ -3787,7 +3816,7 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{806, 267}, {244, 323}}</string>
+					<string>{{617, 166}, {244, 323}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3840,6 +3869,7 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -3858,7 +3888,7 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">952</int>
+			<int key="maxID">955</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3927,6 +3957,7 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 							<string>setSubWithID:</string>
 							<string>setVideoWithID:</string>
 							<string>setVolume:</string>
+							<string>showMediaInfo:</string>
 							<string>stepAudios:</string>
 							<string>stepSubtitles:</string>
 							<string>stepVideos:</string>
@@ -3965,6 +3996,7 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
+							<string>id</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
@@ -3979,6 +4011,7 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 							<string>hintTime</string>
 							<string>menuPlayFromLastStoppedPlace</string>
 							<string>menuResetLockAspectRatio</string>
+							<string>menuShowMediaInfo</string>
 							<string>menuSizeDec</string>
 							<string>menuSizeInc</string>
 							<string>menuSnapshot</string>
@@ -4013,6 +4046,7 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSTextField</string>
+							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
