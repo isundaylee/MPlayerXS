@@ -62,7 +62,7 @@
 
 -(IBAction) setEqualizer:(id)sender
 {
-	[playerContrller setEqualizer:[sender cells]];
+	[playerController setEqualizer:[sender cells]];
 }
 
 -(void) playBackWillStop:(NSNotification*)notif

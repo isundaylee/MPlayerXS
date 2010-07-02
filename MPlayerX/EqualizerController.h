@@ -26,7 +26,7 @@
 {
 	BOOL nibLoaded;
 	
-	IBOutlet PlayerController *playerContrller;
+	IBOutlet PlayerController *playerController;
 	
 	IBOutlet NSPanel *EQPanel;
 	IBOutlet NSMenuItem *menuEQPanel;
