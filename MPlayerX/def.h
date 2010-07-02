@@ -146,4 +146,7 @@ extern NSString * const kSCMWindowSizeDecKeyEquivalent;
 
 extern NSString * const kSCMShowMediaInfoKeyEquivalent;
 
+extern NSString * const kSCMEqualizerPanelKeyEquivalent;
+#define kSCMEqualizerPanelKeyEquivalentModifierFlagMask		(NSCommandKeyMask)
+
 extern NSString * const kMPCStringMPlayerX;

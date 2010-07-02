@@ -29,6 +29,7 @@
 #import "OsdText.h"
 #import "TitleView.h"
 #import "CocoaAppendix.h"
+#import "TimeFormatter.h"
 
 #define CONTROLALPHA		(1)
 #define BACKGROUNDALPHA		(0.9)

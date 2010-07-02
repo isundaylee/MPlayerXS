@@ -19,9 +19,8 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "TimeFormatter.h"
 
-@class RootLayerView, PlayerController, FloatWrapFormatter, ArrowTextField, ResizeIndicator, OsdText, TitleView;
+@class RootLayerView, PlayerController, FloatWrapFormatter, ArrowTextField, ResizeIndicator, OsdText, TitleView, TimeFormatter;
 
 @interface ControlUIView : NSView
 {

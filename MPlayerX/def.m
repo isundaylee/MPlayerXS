@@ -116,4 +116,6 @@ NSString * const kSCMWindowSizeDecKeyEquivalent			= @"-";
 
 NSString * const kSCMShowMediaInfoKeyEquivalent			= @"i";
 
+NSString * const kSCMEqualizerPanelKeyEquivalent		= @"e";
+
 NSString * const kMPCStringMPlayerX		= @"MPlayerX";
