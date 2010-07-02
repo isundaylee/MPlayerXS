@@ -349,12 +349,15 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	if (mi) {
 		int currentID;
+		BOOL showOSD = NO;
 		
 		[dispStr appendFormat:kMPXStringOSDMediaInfoDemuxer, [[mi demuxer] uppercaseString]];
 
 		currentID = [mi.playingInfo currentVideoID];
 		
 		if (currentID != kPIVideoIDInvalid) {
+			showOSD = YES;
+			
 			VideoInfo *vi = nil;
 			
 			for(VideoInfo *info in [mi videoInfo]) {
@@ -401,6 +404,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		currentID = [mi.playingInfo currentAudioID];
 		
 		if (currentID != kPIAudioIDInvalid) {
+			showOSD = YES;
+			
 			AudioInfo *ai = nil;
 			
 			for(AudioInfo *info in [mi audioInfo]) {
@@ -455,7 +460,9 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 				 [ai channels]];
 			}
 		}
-		[osd setStringValue:dispStr owner:kOSDOwnerMediaInfo updateTimer:YES];
+		if (showOSD) {
+			[osd setStringValue:dispStr owner:kOSDOwnerMediaInfo updateTimer:YES];			
+		}
 	}
 	[dispStr release];
 	[pool drain];
