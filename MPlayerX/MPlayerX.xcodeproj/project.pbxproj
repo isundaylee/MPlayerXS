@@ -95,6 +95,9 @@
 		865AB3FD10EC82A300065E2F /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 865AB3FC10EC82A300065E2F /* PrefController.m */; };
 		8661414210FA2B7E007F36DA /* SubConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8661414110FA2B7E007F36DA /* SubConverter.m */; };
 		86689CA511304163009DA72C /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 86689CA411304163009DA72C /* logo.png */; };
+		866CCEA511DCDB5F00032F96 /* BGHUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 866CCEA411DCDB5F00032F96 /* BGHUDButtonCell.m */; };
+		866CCF5511DE378300032F96 /* EqualizerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 866CCF5411DE378300032F96 /* EqualizerController.m */; };
+		866CCFAC11DE3EAB00032F96 /* Equalizer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 866CCFAB11DE3EAB00032F96 /* Equalizer.xib */; };
 		8671FAF51120456B00F7E5E5 /* doc_sub.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8671FAF41120456B00F7E5E5 /* doc_sub.icns */; };
 		867FDF351169FD2E000C71A6 /* HueSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 867FDF341169FD2E000C71A6 /* HueSliderCell.m */; };
 		86A34A0910F60F7E00AECBB2 /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86A34A0810F60F7E00AECBB2 /* UniversalDetector.framework */; };
@@ -258,6 +261,11 @@
 		8661414010FA2B7E007F36DA /* SubConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = SubConverter.h; sourceTree = "<group>"; };
 		8661414110FA2B7E007F36DA /* SubConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 2; path = SubConverter.m; sourceTree = "<group>"; };
 		86689CA411304163009DA72C /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		866CCEA311DCDB5F00032F96 /* BGHUDButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGHUDButtonCell.h; sourceTree = "<group>"; };
+		866CCEA411DCDB5F00032F96 /* BGHUDButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGHUDButtonCell.m; sourceTree = "<group>"; };
+		866CCF5311DE378300032F96 /* EqualizerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EqualizerController.h; sourceTree = "<group>"; };
+		866CCF5411DE378300032F96 /* EqualizerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EqualizerController.m; sourceTree = "<group>"; };
+		866CCFA811DE3E8200032F96 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Equalizer.xib; sourceTree = "<group>"; };
 		8671FAF41120456B00F7E5E5 /* doc_sub.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = doc_sub.icns; sourceTree = "<group>"; };
 		867FDF331169FD2E000C71A6 /* HueSliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = HueSliderCell.h; sourceTree = "<group>"; };
 		867FDF341169FD2E000C71A6 /* HueSliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 2; path = HueSliderCell.m; sourceTree = "<group>"; };
@@ -415,6 +423,7 @@
 				860EF90F1127BB050015B6EE /* Pref.xib */,
 				860EF9111127BB0E0015B6EE /* VideoTuner.xib */,
 				86E7A8FE1155EBCD0014155D /* SubEncoding.xib */,
+				866CCFAB11DE3EAB00032F96 /* Equalizer.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -535,6 +544,8 @@
 		867FDF361169FD41000C71A6 /* Video Tuner */ = {
 			isa = PBXGroup;
 			children = (
+				866CCEA311DCDB5F00032F96 /* BGHUDButtonCell.h */,
+				866CCEA411DCDB5F00032F96 /* BGHUDButtonCell.m */,
 				860F6725111C5A7D00190BCC /* VideoTunerController.h */,
 				860F6726111C5A7D00190BCC /* VideoTunerController.m */,
 				867FDF331169FD2E000C71A6 /* HueSliderCell.h */,
@@ -546,6 +557,8 @@
 		86B99CFE10C93E4D00AB28FB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				866CCF5311DE378300032F96 /* EqualizerController.h */,
+				866CCF5411DE378300032F96 /* EqualizerController.m */,
 				86E34BC010FF42B10004C4E7 /* PlayerController.h */,
 				86E34BC110FF42B10004C4E7 /* PlayerController.m */,
 				865AB3FB10EC82A300065E2F /* PrefController.h */,
@@ -735,6 +748,7 @@
 				8617DB38116A0CA40085DFBC /* gamma-min.png in Resources */,
 				8617DB39116A0CA40085DFBC /* hue-minus.png in Resources */,
 				8617DB3A116A0CA40085DFBC /* hue-plus.png in Resources */,
+				866CCFAC11DE3EAB00032F96 /* Equalizer.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -779,7 +793,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\ncd ../update\nexport MPXVER=$(ruby getVerNum.rb ${TARGET_BUILD_DIR}/${FULL_PRODUCT_NAME})\n\ncd ../../localization/trunk/localization/${MPXVER}\n\necho ${MPXVER}\n\nmake\n\ncp -R ./results/* ${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/";
+			shellScript = "#!/bin/sh\n\ncd ../update\nexport MPXVER=$(ruby getVerNum.rb ${TARGET_BUILD_DIR}/${FULL_PRODUCT_NAME})\n\ncd ../../localization/trunk/localization/${MPXVER}\n\necho ${MPXVER}\n\nmake\n\n# cp -R ./results/* ${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -826,6 +840,8 @@
 				861EE1EB11662BF600D16C87 /* PlayerWindow.m in Sources */,
 				861EE37D116718AF00D16C87 /* TitleView.m in Sources */,
 				867FDF351169FD2E000C71A6 /* HueSliderCell.m in Sources */,
+				866CCEA511DCDB5F00032F96 /* BGHUDButtonCell.m in Sources */,
+				866CCF5511DE378300032F96 /* EqualizerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -867,6 +883,14 @@
 				860F671F111C561B00190BCC /* English */,
 			);
 			name = VideoTuner.xib;
+			sourceTree = "<group>";
+		};
+		866CCFAB11DE3EAB00032F96 /* Equalizer.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				866CCFA811DE3E8200032F96 /* English */,
+			);
+			name = Equalizer.xib;
 			sourceTree = "<group>";
 		};
 		86E7A8FE1155EBCD0014155D /* SubEncoding.xib */ = {
