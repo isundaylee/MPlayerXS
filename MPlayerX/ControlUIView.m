@@ -461,7 +461,10 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 			}
 		}
 		if (showOSD) {
-			[osd setStringValue:dispStr owner:kOSDOwnerMediaInfo updateTimer:YES];			
+			BOOL actOld = [osd isActive];
+			[osd setActive:YES];
+			[osd setStringValue:dispStr owner:kOSDOwnerMediaInfo updateTimer:YES];
+			[osd setActive:actOld];
 		}
 	}
 	[dispStr release];
