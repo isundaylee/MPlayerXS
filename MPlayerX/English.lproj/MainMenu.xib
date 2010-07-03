@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="24"/>
+			<integer value="627"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1253,24 +1253,24 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 				<string key="NSFrameAutosaveName">MPXPlayerWindow</string>
 			</object>
 			<object class="NSWindowTemplate" id="446319615">
-				<int key="NSWindowStyleMask">3</int>
+				<int key="NSWindowStyleMask">1</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{204, 898}, {500, 92}}</string>
+				<string key="NSWindowRect">{{204, 896}, {500, 94}}</string>
 				<int key="NSWTFlags">1685586944</int>
 				<string key="NSWindowTitle">Open URL</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
-				<string key="NSWindowContentMaxSize">{500, 92}</string>
-				<string key="NSWindowContentMinSize">{500, 92}</string>
+				<string key="NSWindowContentMaxSize">{500, 94}</string>
+				<string key="NSWindowContentMinSize">{500, 94}</string>
 				<object class="NSView" key="NSWindowView" id="77567990">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSTextField" id="532294819">
 							<reference key="NSNextResponder" ref="77567990"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{17, 52}, {71, 17}}</string>
+							<string key="NSFrame">{{17, 54}, {71, 17}}</string>
 							<reference key="NSSuperview" ref="77567990"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="186577716">
@@ -1294,7 +1294,7 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 						<object class="NSButton" id="505954479">
 							<reference key="NSNextResponder" ref="77567990"/>
 							<int key="NSvFlags">289</int>
-							<string key="NSFrame">{{294, 12}, {96, 32}}</string>
+							<string key="NSFrame">{{294, 14}, {96, 32}}</string>
 							<reference key="NSSuperview" ref="77567990"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="1034873959">
@@ -1314,7 +1314,7 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 						<object class="NSButton" id="1062052436">
 							<reference key="NSNextResponder" ref="77567990"/>
 							<int key="NSvFlags">289</int>
-							<string key="NSFrame">{{390, 12}, {96, 32}}</string>
+							<string key="NSFrame">{{390, 14}, {96, 32}}</string>
 							<reference key="NSSuperview" ref="77567990"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="638429671">
@@ -1334,7 +1334,7 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 						<object class="NSComboBox" id="818454281">
 							<reference key="NSNextResponder" ref="77567990"/>
 							<int key="NSvFlags">266</int>
-							<string key="NSFrame">{{95, 48}, {388, 26}}</string>
+							<string key="NSFrame">{{95, 50}, {388, 26}}</string>
 							<reference key="NSSuperview" ref="77567990"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSComboBoxCell" key="NSCell" id="524065192">
@@ -1427,7 +1427,7 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 						<object class="NSTextField" id="968896216">
 							<reference key="NSNextResponder" ref="77567990"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{18, 11}, {254, 14}}</string>
+							<string key="NSFrame">{{18, 20}, {254, 14}}</string>
 							<reference key="NSSuperview" ref="77567990"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="423930580">
@@ -1441,11 +1441,12 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 							</object>
 						</object>
 					</object>
-					<string key="NSFrameSize">{500, 92}</string>
+					<string key="NSFrameSize">{500, 94}</string>
+					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
-				<string key="NSMinSize">{500, 114}</string>
-				<string key="NSMaxSize">{500, 114}</string>
+				<string key="NSMinSize">{500, 116}</string>
+				<string key="NSMaxSize">{500, 116}</string>
 			</object>
 			<object class="NSCustomObject" id="976324537">
 				<string key="NSClassName">PlayerController</string>
@@ -3779,14 +3780,14 @@ IFPDqXJnaW8gTWlyYW5kYQ</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{503, 725}, {500, 92}}</string>
+					<string>{{475, 727}, {500, 94}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{503, 725}, {500, 92}}</string>
+					<string>{{475, 727}, {500, 94}}</string>
 					<boolean value="NO"/>
 					<boolean value="YES"/>
 					<boolean value="YES"/>
-					<string>{500, 92}</string>
-					<string>{500, 92}</string>
+					<string>{500, 94}</string>
+					<string>{500, 94}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
