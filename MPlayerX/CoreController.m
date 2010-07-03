@@ -569,9 +569,9 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 		if (chSrc == 1) {
 			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@=2:1:1\n", kMPCAfAddCmd, kMPCPan]];
 		} else if (chSrc == 6) {
-			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@=2:1:0:0:1:1:0:0:1:0.5:0.5:1:1\n", kMPCAfAddCmd, kMPCPan]];
+			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@=2:1:0:0:1:1:0:0:1:1:1:1:1\n", kMPCAfAddCmd, kMPCPan]];
 		} else if (chSrc == 8) {
-			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@=2:1:0:0:1:1:0:0:1:1:0:0:1:0.5:0.5:1:1\n", kMPCAfAddCmd, kMPCPan]];
+			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@=2:1:0:0:1:1:0:0:1:1:0:0:1:1:1:1:1\n", kMPCAfAddCmd, kMPCPan]];
 		}
 	}
 }
