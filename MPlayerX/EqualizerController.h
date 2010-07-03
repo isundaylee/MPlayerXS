@@ -30,8 +30,11 @@
 	
 	IBOutlet NSPanel *EQPanel;
 	IBOutlet NSMenuItem *menuEQPanel;
+	IBOutlet NSMatrix *EQBars;
 }
 
 -(IBAction) showUI:(id)sender;
 -(IBAction) setEqualizer:(id)sender;
+-(IBAction) resetEqualizer:(id)sender;
+
 @end

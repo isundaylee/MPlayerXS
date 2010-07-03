@@ -23,7 +23,7 @@
 #import "PlayerController.h"
 
 @interface EqualizerController (Internal)
--(void) playBackWillStop:(NSNotification*)notif;
+-(void) playBackStarted:(NSNotification*)notif;
 @end
 
 @implementation EqualizerController
@@ -46,28 +46,40 @@
 	if (!nibLoaded) {
 		[menuEQPanel setKeyEquivalent:kSCMEqualizerPanelKeyEquivalent];
 		[menuEQPanel setKeyEquivalentModifierMask:kSCMEqualizerPanelKeyEquivalentModifierFlagMask];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playBackStarted:)
+													 name:kMPCPlayStartedNotification object:playerController];
 	}
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playBackWillStop:)
-												 name:kMPCPlayWillStopNotification object:playerController];
-
 }
 
 -(IBAction) showUI:(id)sender
 {
 	if (!nibLoaded) {
 		nibLoaded = YES;
+		[NSBundle loadNibNamed:@"Equalizer" owner:self];
+		[self resetEqualizer:nil];
+		[EQPanel setLevel:NSMainMenuWindowLevel];
 	}
+	[EQPanel makeKeyAndOrderFront:self];
 }
 
 -(IBAction) setEqualizer:(id)sender
 {
-	[playerController setEqualizer:[sender cells]];
+	[playerController setEqualizer:[EQBars cells]];
 }
 
--(void) playBackWillStop:(NSNotification*)notif
+-(IBAction) resetEqualizer:(id)sender
 {
+	[playerController setEqualizer:nil];
 	
+	for (id bar in [EQBars cells]) {
+		[bar setFloatValue:0.0f];
+	}
+}
+
+-(void) playBackStarted:(NSNotification*)notif
+{
+	[self resetEqualizer:nil];
 }
 
 @end
