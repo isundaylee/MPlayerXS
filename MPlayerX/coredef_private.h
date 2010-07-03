@@ -55,6 +55,7 @@ extern NSString * const kMPCSubScale;
 extern NSString * const kMPCSubLoad;
 extern NSString * const kMPCSwitchVideo;
 extern NSString * const kMPCEqualizer;
+extern NSString * const kMPCPan;
 
 // 有ID结尾的是 只用来做属性字符串的
 extern NSString * const kMPCLengthID;

@@ -54,6 +54,7 @@ NSString * const kMPCSubScale			= @"sub_scale";
 NSString * const kMPCSubLoad			= @"sub_load";
 NSString * const kMPCSwitchVideo		= @"switch_video";
 NSString * const kMPCEqualizer			= @"equalizer";
+NSString * const kMPCPan				= @"pan";
 
 // 有ID结尾的是 只用来做属性字符串的
 NSString * const kMPCLengthID			= @"LENGTH";
