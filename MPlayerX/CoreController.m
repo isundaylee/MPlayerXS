@@ -561,6 +561,21 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 	}
 }
 
+-(void) mapAudioChannelsFrom:(NSInteger)chSrc to:(NSInteger) chDst
+{
+	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@\n", kMPCAfDelCmd, kMPCPan]];
+	
+	if (chDst == 2) {
+		if (chSrc == 1) {
+			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@=2:1:1\n", kMPCAfAddCmd, kMPCPan]];
+		} else if (chSrc == 6) {
+			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@=2:1:0:0:1:1:0:0:1:0.5:0.5:1:1\n", kMPCAfAddCmd, kMPCPan]];
+		} else if (chSrc == 8) {
+			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@=2:1:0:0:1:1:0:0:1:1:0:0:1:0.5:0.5:1:1\n", kMPCAfAddCmd, kMPCPan]];
+		}
+	}
+}
+
 // 这个是LogAnalyzer的delegate方法，
 // 因此是运行在工作线程上的，因为这里用到了KVC和KVO
 // 有没有必要运行在主线程上？
@@ -597,6 +612,25 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 					int stateOld = state;
 					state = [[dict objectForKey:key] intValue];
 					if (((stateOld & kMPCStateMask) == 0) && (state & kMPCStateMask)) {
+						
+						if (!([pm ac3Pass] || [pm dtsPass]) && ([pm mixToStereo] != kPMMixToStereoNO)) {
+							
+							int currentID = [movieInfo.playingInfo currentAudioID];
+							
+							if (currentID != kPIAudioIDInvalid) {
+								AudioInfo *ai = nil;
+								for(AudioInfo *info in [movieInfo audioInfo]) {
+									if ([info ID] == currentID) {
+										ai = info;
+										break;
+									}
+								}
+								if (ai) {
+									[self mapAudioChannelsFrom:[ai channels] to:2];
+								}
+							}
+						}
+						
 						if (delegate) {
 							[delegate playebackStarted];
 						}
