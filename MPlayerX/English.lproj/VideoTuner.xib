@@ -737,7 +737,7 @@
 						<object class="NSButton" id="194107108">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">269</int>
-							<string key="NSFrame">{{206, 18}, {55, 19}}</string>
+							<string key="NSFrame">{{232, 18}, {72, 19}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<bool key="NSViewCanDrawConcurrently">YES</bool>
 							<bool key="NSEnabled">YES</bool>
@@ -748,7 +748,7 @@
 								<object class="NSFont" key="NSSupport">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">12</double>
-									<int key="NSfFlags">4883</int>
+									<int key="NSfFlags">16</int>
 								</object>
 								<reference key="NSControlView" ref="194107108"/>
 								<int key="NSButtonFlags">-2038152961</int>
@@ -1587,9 +1587,9 @@
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
-				<string key="1.IBEditorWindowLastContentRect">{{138, 720}, {439, 284}}</string>
+				<string key="1.IBEditorWindowLastContentRect">{{340, 720}, {439, 284}}</string>
 				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="1.IBWindowTemplateEditedContentRect">{{138, 720}, {439, 284}}</string>
+				<string key="1.IBWindowTemplateEditedContentRect">{{340, 720}, {439, 284}}</string>
 				<boolean value="NO" key="1.NSWindowTemplate.visibleAtLaunch"/>
 				<string key="1.WindowOrigin">{196, 240}</string>
 				<string key="1.editorWindowContentRectSynchronizationRect">{{202, 428}, {480, 270}}</string>
