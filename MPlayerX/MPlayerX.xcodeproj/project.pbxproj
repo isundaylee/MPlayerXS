@@ -348,9 +348,9 @@
 				86FB6FC41131B42D005E95B5 /* def.m */,
 				86C5492310C5216600DC1511 /* PlayList.h */,
 				86C5492410C5216600DC1511 /* PlayList.m */,
-				867FDF361169FD41000C71A6 /* Video Tuner */,
 				86B99CFE10C93E4D00AB28FB /* Controllers */,
 				8609C25010C6938800B102CE /* shortcut */,
+				866CD1C811DF490300032F96 /* UI components */,
 				86F4DAD810BC3272007AE56A /* ControlUI */,
 				8608652910BA557700459392 /* Display */,
 				86CAF22310BA447900848B8E /* PlayerCore */,
@@ -565,22 +565,32 @@
 			name = other;
 			sourceTree = "<group>";
 		};
-		867FDF361169FD41000C71A6 /* Video Tuner */ = {
+		866CD1C811DF490300032F96 /* UI components */ = {
 			isa = PBXGroup;
 			children = (
-				866CCEA311DCDB5F00032F96 /* BGHUDButtonCell.h */,
-				866CCEA411DCDB5F00032F96 /* BGHUDButtonCell.m */,
-				860F6725111C5A7D00190BCC /* VideoTunerController.h */,
-				860F6726111C5A7D00190BCC /* VideoTunerController.m */,
 				867FDF331169FD2E000C71A6 /* HueSliderCell.h */,
 				867FDF341169FD2E000C71A6 /* HueSliderCell.m */,
+				866CCEA311DCDB5F00032F96 /* BGHUDButtonCell.h */,
+				866CCEA411DCDB5F00032F96 /* BGHUDButtonCell.m */,
+				8617287B10CFAB32003A0CE2 /* ArrowTextField.h */,
+				8617287C10CFAB32003A0CE2 /* ArrowTextField.m */,
+				862923C410C0FE130077B63E /* TimeFormatter.h */,
+				862923C510C0FE130077B63E /* TimeFormatter.m */,
+				8654807D10CBB231009438A4 /* FloatWrapFormatter.h */,
+				8654807E10CBB231009438A4 /* FloatWrapFormatter.m */,
+				862926FF10C1507E0077B63E /* TimeSliderCell.h */,
+				862926FE10C1507E0077B63E /* TimeSliderCell.m */,
+				8634409510D66901003817B7 /* SliderCell.h */,
+				8634409810D66924003817B7 /* SliderCell.m */,
 			);
-			name = "Video Tuner";
+			name = "UI components";
 			sourceTree = "<group>";
 		};
 		86B99CFE10C93E4D00AB28FB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				860F6725111C5A7D00190BCC /* VideoTunerController.h */,
+				860F6726111C5A7D00190BCC /* VideoTunerController.m */,
 				866CCF5311DE378300032F96 /* EqualizerController.h */,
 				866CCF5411DE378300032F96 /* EqualizerController.m */,
 				86E34BC010FF42B10004C4E7 /* PlayerController.h */,
@@ -651,18 +661,8 @@
 			children = (
 				86F4DAD910BC329F007AE56A /* ControlUIView.h */,
 				86F4DADA10BC329F007AE56A /* ControlUIView.m */,
-				8617287B10CFAB32003A0CE2 /* ArrowTextField.h */,
-				8617287C10CFAB32003A0CE2 /* ArrowTextField.m */,
-				862923C410C0FE130077B63E /* TimeFormatter.h */,
-				862923C510C0FE130077B63E /* TimeFormatter.m */,
-				8654807D10CBB231009438A4 /* FloatWrapFormatter.h */,
-				8654807E10CBB231009438A4 /* FloatWrapFormatter.m */,
 				86D10C1110F4A29A000B573F /* ResizeIndicator.h */,
 				86D10C1210F4A29A000B573F /* ResizeIndicator.m */,
-				862926FF10C1507E0077B63E /* TimeSliderCell.h */,
-				862926FE10C1507E0077B63E /* TimeSliderCell.m */,
-				8634409510D66901003817B7 /* SliderCell.h */,
-				8634409810D66924003817B7 /* SliderCell.m */,
 			);
 			name = ControlUI;
 			sourceTree = "<group>";
