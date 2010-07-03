@@ -554,7 +554,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 		NSMutableString *str = [[NSMutableString alloc] initWithCapacity:40];
 		
 		for (id amp in amps) {
-			[str appendFormat:@":%f", [amp floatValue]];
+			[str appendFormat:@":%.2f", [amp floatValue]];
 		}
 		[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@=%@\n", kMPCAfAddCmd, kMPCEqualizer, [str substringFromIndex:1]]];
 		[str release];
