@@ -88,8 +88,6 @@ NSString * const kPMParOverlapSub		= @"-overlapsub";
 NSString * const kPMParRtspOverHttp		= @"-rtsp-stream-over-http";
 NSString * const kPMParMsgCharset		= @"-msgcharset";
 NSString * const kPMValMsgCharset		= @"noconv";
-NSString * const kPMParAF				= @"-af";
-NSString * const kPMValPan6To2			= @"pan=2:1:0:0:1:1:0:0:1:0.5:0.5:1:1";
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
@@ -388,15 +386,6 @@ NSString * const kPMValPan6To2			= @"pan=2:1:0:0:1:1:0:0:1:0.5:0.5:1:1";
 			passStr = [passStr stringByAppendingString:kPMParHWAC3];
 		}
 		[paramArray addObject:passStr];
-	} else if (mixToStereo != kPMMixToStereoNO) {
-		// if no DD, it is possible to use
-		[paramArray addObject:kPMParAF];
-		switch (mixToStereo) {
-			case kPMMixDTS5_1ToStereo:
-			default:
-				[paramArray addObject:kPMValPan6To2];
-				break;
-		}
 	}
 
 	if (pauseAtStart) {
