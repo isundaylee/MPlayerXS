@@ -36,8 +36,7 @@ NSString * const kStringURLSchemaRtsp	= @"rtsp";
 {
 	[[NSUserDefaults standardUserDefaults] registerDefaults:
 	 [NSDictionary dictionaryWithObjectsAndKeys:
-	  [NSNumber numberWithBool:YES], kUDKeyDebugEnableOpenURL,
-	  [NSNumber numberWithBool:NO], kUDKeyFFMpegHandleStream,
+	  [NSNumber numberWithBool:YES], kUDKeyFFMpegHandleStream,
 	  nil]];
 }
 
@@ -95,12 +94,8 @@ NSString * const kStringURLSchemaRtsp	= @"rtsp";
 	}
 
 	if ([NSApp runModalForWindow:openURLPanel] == NSFileHandlingPanelOKButton) {
-		NSString *urlString = [urlBox stringValue];
-
 		// 现在mplayer的在线播放的功能不是很稳定，经常freeze，因此先禁用这个功能
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyDebugEnableOpenURL]) {
-			[playerController loadFiles:[NSArray arrayWithObject:urlString] fromLocal:NO];
-		}
+		[playerController loadFiles:[NSArray arrayWithObject:[urlBox stringValue]] fromLocal:NO];
 	}
 }
 

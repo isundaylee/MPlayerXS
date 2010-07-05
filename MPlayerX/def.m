@@ -79,7 +79,6 @@ NSString * const kUDKeyMixToStereoMode			= @"MixToSterMode";
 NSString * const kUDKeyAlwaysShowLBInFullScr	= @"AlwaysShowLBInFullScr";
 NSString * const kUDKeyAutoLBHeightInFullScr	= @"AutoLBHeightInFullScr";
 
-NSString * const kUDKeyDebugEnableOpenURL		= @"DebugEnableOpenURL";
 NSString * const kUDKeySelectedPrefView			= @"SelectedPrefView";
 NSString * const kUDKeyHelpURL					= @"HelpURL";
 NSString * const kUDKeyCloseWindowWhenStopped	= @"CloseOnStopped";
