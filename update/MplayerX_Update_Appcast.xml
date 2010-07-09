@@ -13,26 +13,28 @@
 				<ul>
 					<li>Core: only use ffmpeg-mt, disable single thread mplayer</li>
 					<li>Core: respect embedded fonts now.(issue 98)</li>
-					<li>Core: Theora codec added, ogv format added.(issue 100)</li>
+					<li>Core: added Theora codec, added ogv format.(issue 100)</li>
 					<li>Core: fixed aspect ratio troubles in some m4v files.(issue 103, ffmpeg's bug actually)</li>
 					<li>Core: fixed playback stucks, if switch between hi-jack and speaker.(issue 46)</li>
-					<li>Core: add switch video.(issue 117)</li>
-					<li>Core: playback hiccups when seeking(issue 119)</li>
+					<li>Core: added switch video.(issue 117)</li>
+					<li>Core: fixed playback hiccups when seeking(issue 119)</li>
 					<li>Core: fixed subtitle outline render error for some special characters</li>
-					<li>Core: add support webm format</li>
-					<li>Pref: overlapsub added.(issue 104)</li>
-					<li>Pref: subtitle font size now use 100% as the default value.(issue 97)</li>
-					<li>Pref: transfer rtsp stream over http(I'm not sure if it's very useful, but with this ON, I could see the WWDC2010 keynote with MPlayerX)</li>
-					<li>Pref: add use FFMpeg to handle the stream</li>
-					<li>Pref: add Mix DTS 5.1 to Stereo</li>
-					<li>Pref: add Fuzzy search for Auto Play Next</li>
-					<li>UI: add Escape to exit fullscreen.(issue 111)</li>
-					<li>UI: menubar and dock should not autohide when fullscreen on the secondary display.(issue 92)</li>
-					<li>UI: press i to display media info.(issue 112)</li>
+					<li>Core: added webm format</li>
+					<li>Core: added tp format</li>
+					<li>Core: added Equalizer</li>
+					<li>Core: fixed crashing when loading blank subtitle files</li>
+					<li>Pref: added overlapsub.(issue 104)</li>
+					<li>Pref: fixed subtitle font size now use 100% as the default value.(issue 97)</li>
+					<li>Pref: added transfer rtsp stream over http(I'm not sure if it's very useful, but with this ON, I could see the WWDC2010 keynote with MPlayerX)</li>
+					<li>Pref: added use FFMpeg to handle the stream</li>
+					<li>Pref: added Mix DTS 5.1 to Stereo</li>
+					<li>Pref: added Fuzzy search for Auto Play Next</li>
+					<li>UI: added Escape to exit fullscreen.(issue 111)</li>
+					<li>UI: menubar and dock would not autohide when fullscreen on the secondary display.(issue 92)</li>
+					<li>UI: added pressing i to display media info.(issue 112)</li>
 					<li>UI: sub load to ignore the lower/upper case in the file name</li>
-					<li>UI: add Command + Delete to trash the playing file</li>
-					<li>UI: add Command + Shift + =/- to increase/decrease the window size</li>
-					<li>little UI tweaks</li>
+					<li>UI: added Command + Delete to trash the playing file</li>
+					<li>UI: added Command + Shift + =/- to increase/decrease the window size</li>
 					<h4>Known Issue</h4>
 						<li>switch beteween minijack and speakers, audio goes to mute(pause and play will fix it)</li>
 						<li>DD for AC3, DTS does not work normally</li>
