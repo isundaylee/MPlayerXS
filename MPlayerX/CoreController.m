@@ -548,7 +548,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 -(void) setEqualizer:(NSArray*)amps
 {
 	// delete the previous filter
-	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@\n", kMPCAfDelCmd, kMPCEqualizer]];
+	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@\n", kMPCPausingKeepForce, kMPCAfDelCmd, kMPCEqualizer]];
 	
 	if (amps && ([amps count]>0)) {
 		NSMutableString *str = [[NSMutableString alloc] initWithCapacity:40];
@@ -556,22 +556,22 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 		for (id amp in amps) {
 			[str appendFormat:@":%.2f", [amp floatValue]];
 		}
-		[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@=%@\n", kMPCAfAddCmd, kMPCEqualizer, [str substringFromIndex:1]]];
+		[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@=%@\n", kMPCPausingKeepForce, kMPCAfAddCmd, kMPCEqualizer, [str substringFromIndex:1]]];
 		[str release];
 	}
 }
 
 -(void) mapAudioChannelsFrom:(NSInteger)chSrc to:(NSInteger) chDst
 {
-	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@\n", kMPCAfDelCmd, kMPCPan]];
+	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@\n", kMPCPausingKeepForce, kMPCAfDelCmd, kMPCPan]];
 	
 	if (chDst == 2) {
 		if (chSrc == 1) {
-			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@=2:1:1\n", kMPCAfAddCmd, kMPCPan]];
+			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@=2:1:1\n", kMPCPausingKeepForce, kMPCAfAddCmd, kMPCPan]];
 		} else if (chSrc == 6) {
-			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@=2:1:0:0:1:1:0:0:1:1:1:1:1\n", kMPCAfAddCmd, kMPCPan]];
+			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@=2:1:0:0:1:1:0:0:1:1:1:1:1\n", kMPCPausingKeepForce, kMPCAfAddCmd, kMPCPan]];
 		} else if (chSrc == 8) {
-			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@=2:1:0:0:1:1:0:0:1:1:0:0:1:1:1:1:1\n", kMPCAfAddCmd, kMPCPan]];
+			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@=2:1:0:0:1:1:0:0:1:1:0:0:1:1:1:1:1\n", kMPCPausingKeepForce, kMPCAfAddCmd, kMPCPan]];
 		}
 	}
 }
