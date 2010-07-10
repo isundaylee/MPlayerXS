@@ -60,7 +60,7 @@
 		[self resetEqualizer:nil];
 		[EQPanel setLevel:NSMainMenuWindowLevel];
 	}
-	[EQPanel makeKeyAndOrderFront:self];
+	[EQPanel orderFront:self];
 }
 
 -(IBAction) setEqualizer:(id)sender

@@ -133,7 +133,6 @@ NSArray* findLastDigitPart(NSString *name)
 							fileNamePrefix = [[movieName substringToIndex:digitRange.location] stringByAppendingString:idxNext];
 							nonFuzzySuffixPos = digitRange.location + digitRange.length;
 						}
-
 						// NSLog(@"%@", fileNamePrefix);
 						break;
 				}
@@ -177,9 +176,7 @@ NSArray* findLastDigitPart(NSString *name)
 								fileNamePrefix,
 								[movieName substringFromIndex:nonFuzzySuffixPos],
 								[path pathExtension]];
-					
 					// NSLog(@"Next File:%@", nextPath);
-					
 					isDir = YES;
 					if ((![[NSFileManager defaultManager] fileExistsAtPath:nextPath  isDirectory:&isDir]) || isDir) {
 						[nextPath release];

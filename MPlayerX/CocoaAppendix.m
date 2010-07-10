@@ -38,6 +38,8 @@
 {
 	NSMenuItem *mItem;
 	
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	mItem = [[NSMenuItem alloc] init];
 	[mItem setTitle:kMPXStringEncUTF8];
 	[mItem setTag:kCFStringEncodingUTF8];
@@ -488,7 +490,9 @@
 	[mItem setTag:kCFStringEncodingMacRoman];
 	[mItem setEnabled:YES];
 	[self addItem:mItem];
-	[mItem release];	
+	[mItem release];
+	
+	[pool drain];
 }
 @end
 

@@ -118,8 +118,7 @@ NSString * const kCILayerFilterEnabled		= @"enabled";
 		[[gmDec cell]  setRepresentedObject:sliderGamma];
 		[[hueInc cell] setRepresentedObject:sliderHue];
 		[[hueDec cell] setRepresentedObject:sliderHue];
-		
-		
+
 		NSDictionary *dict;
 		double step, max, min, stepRatio;
 		
@@ -193,7 +192,7 @@ NSString * const kCILayerFilterEnabled		= @"enabled";
 		[VTWin setLevel:NSMainMenuWindowLevel];
 	}
 
-	[VTWin makeKeyAndOrderFront:self];
+	[VTWin orderFront:self];
 }
 
 -(void) resetFilters:(id)sender
@@ -207,7 +206,7 @@ NSString * const kCILayerFilterEnabled		= @"enabled";
 			   forKeyPath:kCIInputSaturationKey];
 	[colorFilter setValue:[[attr objectForKey:kCIInputContrastKey] objectForKey:kCIAttributeIdentity]
 			   forKeyPath:kCIInputContrastKey];
-	
+
 	attr = [nrFilter attributes];
 	[nrFilter setValue:[[attr objectForKey:kCIInputNoiseLevelKey] objectForKey:kCIAttributeIdentity]
 			forKeyPath:kCIInputNoiseLevelKey];
