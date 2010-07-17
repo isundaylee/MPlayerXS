@@ -22,6 +22,7 @@
 					<li>Core: added webm format</li>
 					<li>Core: added tp format</li>
 					<li>Core: added Equalizer</li>
+					<li>Core: Universal Charset Detector sync with firefox 3.6.4</li>
 					<li>Core: fixed crashing when loading blank subtitle files</li>
 					<li>Pref: added overlapsub.(issue 104)</li>
 					<li>Pref: fixed subtitle font size now use 100% as the default value.(issue 97)</li>
