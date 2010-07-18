@@ -31,6 +31,7 @@
 					<li>Pref: added use FFMpeg to handle the stream</li>
 					<li>Pref: added Mix DTS 5.1 to Stereo</li>
 					<li>Pref: added Fuzzy search for Auto Play Next</li>
+					<li>UI: added Simplified Chinese</li>
 					<li>UI: added Escape to exit fullscreen.(issue 111)</li>
 					<li>UI: menubar and dock would not autohide when fullscreen on the secondary display.(issue 92)</li>
 					<li>UI: added pressing i to display media info.(issue 112)</li>
@@ -130,13 +131,13 @@
 					<li>add change subtitle size while playing</li>
 				</ul>
             ]]></description>
-            <pubDate>Mon, 26 Apr 2010 16:37:56 +0900</pubDate>
+            <pubDate>Mon, 19 Jul 2010 01:42:02 +0900</pubDate>
             <enclosure url="http://mplayerx.googlecode.com/svn/releases/MPlayerX.zip"
-					   sparkle:version="710"
-					   sparkle:shortVersionString="0.9.9"
-					   length="17487395"
+					   sparkle:version="893"
+					   sparkle:shortVersionString="1.0.0"
+					   length="12417277"
 					   type="application/octet-stream"
-					   sparkle:dsaSignature="MC0CFAiNpOZKEeXsk/FYJVPMKP8NWet7AhUAgpJ3UDtq93wzU12oE2bfi8HgabQ=" />
+					   sparkle:dsaSignature="MC0CFG7aLnlheOnWRVob+DyAlLjKgEAxAhUAtzzFP297xlHTuw43xstZmiqAXlw=" />
          </item>
    </channel>
 </rss>

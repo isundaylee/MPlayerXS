@@ -6,8 +6,41 @@
       <description>MplayerX</description>
       <language>en</language>      
          <item>
-            <title>Version 0.9.9</title>
+            <title>Version 1.0.0</title>
 			<description><![CDATA[
+				<h3>MPlayerX 1.0.0</h3>
+				2010/07/19
+				<ul>
+					<li>Core: only use ffmpeg-mt, disable single thread mplayer</li>
+					<li>Core: respect embedded fonts now.(issue 98)</li>
+					<li>Core: added Theora codec, added ogv format.(issue 100)</li>
+					<li>Core: fixed aspect ratio troubles in some m4v files.(issue 103, ffmpeg's bug actually)</li>
+					<li>Core: fixed playback stucks, if switch between hi-jack and speaker.(issue 46)</li>
+					<li>Core: added switch video.(issue 117)</li>
+					<li>Core: fixed playback hiccups when seeking(issue 119)</li>
+					<li>Core: fixed subtitle outline render error for some special characters</li>
+					<li>Core: added webm format</li>
+					<li>Core: added tp format</li>
+					<li>Core: added Equalizer</li>
+					<li>Core: Universal Charset Detector sync with firefox 3.6.4</li>
+					<li>Core: fixed crashing when loading blank subtitle files</li>
+					<li>Core: switch beteween minijack and speakers, audio goes to mute</li>
+					<li>Pref: added overlapsub.(issue 104)</li>
+					<li>Pref: fixed subtitle font size now use 100% as the default value.(issue 97)</li>
+					<li>Pref: added transfer rtsp stream over http(I'm not sure if it's very useful, but with this ON, I could see the WWDC2010 keynote with MPlayerX)</li>
+					<li>Pref: added use FFMpeg to handle the stream</li>
+					<li>Pref: added Mix DTS 5.1 to Stereo</li>
+					<li>Pref: added Fuzzy search for Auto Play Next</li>
+					<li>UI: added Simplified Chinese</li>
+					<li>UI: added Escape to exit fullscreen.(issue 111)</li>
+					<li>UI: menubar and dock would not autohide when fullscreen on the secondary display.(issue 92)</li>
+					<li>UI: added pressing i to display media info.(issue 112)</li>
+					<li>UI: sub load to ignore the lower/upper case in the file name</li>
+					<li>UI: added Command + Delete to trash the playing file</li>
+					<li>UI: added Command + Shift + =/- to increase/decrease the window size</li>
+					<h4>Known Issue</h4>
+						<li>DD for AC3, DTS does not work normally</li>
+				</ul>
 				<h3>MPlayerX 0.9.9</h3>
 				2010/04/26
 				<ul>
@@ -98,13 +131,13 @@
 					<li>add change subtitle size while playing</li>
 				</ul>
             ]]></description>
-            <pubDate>Mon, 26 Apr 2010 16:37:56 +0900</pubDate>
+            <pubDate>Mon, 19 Jul 2010 01:42:02 +0900</pubDate>
             <enclosure url="http://mplayerx.googlecode.com/svn/releases/MPlayerX.zip"
-					   sparkle:version="710"
-					   sparkle:shortVersionString="0.9.9"
-					   length="17487395"
+					   sparkle:version="893"
+					   sparkle:shortVersionString="1.0.0"
+					   length="12417277"
 					   type="application/octet-stream"
-					   sparkle:dsaSignature="MC0CFAiNpOZKEeXsk/FYJVPMKP8NWet7AhUAgpJ3UDtq93wzU12oE2bfi8HgabQ=" />
+					   sparkle:dsaSignature="MC0CFG7aLnlheOnWRVob+DyAlLjKgEAxAhUAtzzFP297xlHTuw43xstZmiqAXlw=" />
          </item>
    </channel>
 </rss>
