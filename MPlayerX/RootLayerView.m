@@ -45,6 +45,8 @@
 -(void) playBackStopped:(NSNotification*)notif;
 -(void) playBackStarted:(NSNotification*)notif;
 -(void) playBackOpened:(NSNotification*)notif;
+-(void) applicationDidBecomeActive:(NSNotification*)notif;
+-(void) applicationDidResignActive:(NSNotification*)notif;
 @end
 
 @interface RootLayerView (CoreDisplayDelegate)
@@ -88,8 +90,8 @@
 		fullScreenOptions = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 							 [NSNumber numberWithInt:NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions,
 							 [NSNumber numberWithBool:![ud boolForKey:kUDKeyFullScreenKeepOther]], NSFullScreenModeAllScreens,
+							 [NSNumber numberWithInt:NSTornOffMenuWindowLevel], NSFullScreenModeWindowLevel,
 							 nil];
-
 		lockAspectRatio = YES;
 		dragShouldResize = NO;
 		firstDisplay = YES;
@@ -187,6 +189,10 @@
 						name:kMPCPlayStartedNotification object:playerController];
 	[notifCenter addObserver:self selector:@selector(playBackStopped:)
 						name:kMPCPlayStoppedNotification object:playerController];
+	[notifCenter addObserver:self selector:@selector(applicationDidBecomeActive:)
+						name:NSApplicationDidBecomeActiveNotification object:[NSApplication sharedApplication]];
+	[notifCenter addObserver:self selector:@selector(applicationDidResignActive:)
+						name:NSApplicationDidResignActiveNotification object:[NSApplication sharedApplication]];
 }
 
 -(void) hidePlayerWindow
@@ -564,9 +570,6 @@
 		// 应该进入全屏
 		// 只有在显示图像的时候才能进入全屏
 		
-		// 进入全屏前，将window强制设定为普通mode，否则之后程序切换就无法正常
-		[playerWindow setLevel:NSNormalWindowLevel];
-		
 		// 强制Lock Aspect Ratio
 		[self setLockAspectRatio:YES];
 
@@ -592,8 +595,6 @@
 		[controlUI setFillScreenMode:(((sz.height * [dispLayer aspectRatio]) >= sz.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
 							   state:([dispLayer fillScreen])?NSOnState:NSOffState];
 		[playerWindow orderOut:self];
-		// 这里不需要调用
-		// [self setPlayerWindowLevel];
 	} else {
 		return NO;
 	}
@@ -612,16 +613,15 @@
 
 -(void) setPlayerWindowLevel
 {
-	if (![self isInFullScreenMode]) {
-		int onTopMode = [ud integerForKey:kUDKeyOnTopMode];
-
-		if ((onTopMode == kOnTopModeAlways) || 
-			((onTopMode == kOnTopModePlaying) && (playerController.playerState == kMPCPlayingState))
-			) {
-			[playerWindow setLevel: NSTornOffMenuWindowLevel];
-		} else {
-			[playerWindow setLevel: NSNormalWindowLevel];
-		}
+	// in window mode
+	int onTopMode = [ud integerForKey:kUDKeyOnTopMode];
+	BOOL fullscr = [self isInFullScreenMode];
+	
+	if ((((onTopMode == kOnTopModeAlways)||((onTopMode == kOnTopModePlaying) && (playerController.playerState == kMPCPlayingState)))&&(!fullscr)) ||
+		([[NSApplication sharedApplication] isActive] && fullscr)) {
+		[[self window] setLevel: NSTornOffMenuWindowLevel];
+	} else {
+		[[self window] setLevel: NSNormalWindowLevel];
 	}
 }
 ///////////////////////////////////for dragging/////////////////////////////////////////
@@ -765,7 +765,16 @@
 	[playerWindow setContentResizeIncrements:NSMakeSize(1.0, 1.0)];
 	[[self layer] setContents:(id)[logo CGImage]];
 }
+////////////////////////////Application Notification////////////////////////////
+-(void) applicationDidBecomeActive:(NSNotification*)notif
+{
+	[self setPlayerWindowLevel];
+}
 
+-(void) applicationDidResignActive:(NSNotification*)notif
+{
+	[self setPlayerWindowLevel];
+}
 ///////////////////////////////////////////PlayerWindow delegate//////////////////////////////////////////////
 -(void) windowWillClose:(NSNotification *)notification
 {
