@@ -83,7 +83,7 @@ NSString * const kPMParHWDTS			= @"hwdts,";
 NSString * const kPMParHWAC3			= @"hwac3,a52,";
 NSString * const kPMParSTPause			= @"-stpause";
 NSString * const kPMParDemuxer			= @"-demuxer";
-NSString * const kPMValDemuxLavf		= @"lavf";
+NSString * const kPMValDemuxFFMpeg		= @"lavf";
 NSString * const kPMParOverlapSub		= @"-overlapsub";
 NSString * const kPMParRtspOverHttp		= @"-rtsp-stream-over-http";
 NSString * const kPMParMsgCharset		= @"-msgcharset";
@@ -120,6 +120,7 @@ NSString * const kPMValMsgCharset		= @"noconv";
 @synthesize overlapSub;
 @synthesize rtspOverHttp;
 @synthesize mixToStereo;
+@synthesize demuxer;
 
 #pragma mark Init/Dealloc
 -(id) init
@@ -166,6 +167,7 @@ NSString * const kPMValMsgCharset		= @"noconv";
 		overlapSub = NO;
 		rtspOverHttp = NO;
 		mixToStereo = kPMMixDTS5_1ToStereo;
+		demuxer = nil;
 	}
 	return self;
 }
@@ -209,8 +211,10 @@ NSString * const kPMValMsgCharset		= @"noconv";
 		paramArray = [[NSMutableArray alloc] initWithCapacity:80];
 	}
 	
-	// [paramArray addObject:kPMParDemuxer];
-	// [paramArray addObject:kPMValDemuxLavf];
+	if (demuxer) {
+		[paramArray addObject:kPMParDemuxer];
+		[paramArray addObject:demuxer];
+	}
 	
 	[paramArray addObject:kPMParMsgLevel];
 	[paramArray addObject:kPMValMsgLevel];

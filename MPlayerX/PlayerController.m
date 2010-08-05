@@ -518,6 +518,18 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////
+	// hack always try to use ffmpeg as the demuxer
+	// !! except real media
+	NSString *ext = [[path pathExtension] lowercaseString];
+	if ([ext isEqualToString:@"rm"] || [ext isEqualToString:@"rmvb"] ||
+		[ext isEqualToString:@"ra"] || [ext isEqualToString:@"ram"]) {
+		[mplayer.pm setDemuxer:nil];
+	} else {
+		[mplayer.pm setDemuxer:kPMValDemuxFFMpeg];
+	}
+	////////////////////////////////////////////////////////////////////
+
 	[mplayer playMedia:path];
 
 	// NSLog(@"%@", path);

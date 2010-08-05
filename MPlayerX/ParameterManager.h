@@ -21,6 +21,8 @@
 #import <Cocoa/Cocoa.h>
 #import "coredef_private.h"
 
+extern NSString * const kPMValDemuxFFMpeg;
+
 @interface ParameterManager : NSObject 
 {
 	NSMutableArray *paramArray;
@@ -66,6 +68,7 @@
 	BOOL overlapSub;
 	BOOL rtspOverHttp;
 	unsigned int mixToStereo;
+	NSString *demuxer;
 }
 
 @property (assign, readwrite) SUBFILE_NAMERULE subNameRule;
@@ -93,6 +96,7 @@
 @property (assign, readwrite) BOOL overlapSub;
 @property (assign, readwrite) BOOL rtspOverHttp;
 @property (assign, readwrite) unsigned int mixToStereo;
+@property (retain, readwrite) NSString *demuxer;
 
 -(void) setSubFontColor:(NSColor*)col;
 -(void) setSubFontBorderColor:(NSColor*)col;
