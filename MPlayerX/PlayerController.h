@@ -80,6 +80,7 @@ extern NSString * const kMPCPlayInfoUpdatedChangeDictKey;
 -(BOOL) toggleMute;			/** 返回现在的mute状态 */
 -(float) setVolume:(float) vol;	/** 返回现在的音量 */
 -(float) seekTo:(float) time;	/** 返回现在要去的时间 */
+-(void) frameStep;
 
 -(float) changeTimeBy:(float) delta;  /** 返回现在的时间值 */
 -(float) changeSpeedBy:(float) delta; /** 返回现在的速度值 */

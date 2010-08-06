@@ -188,7 +188,11 @@
 				switch (key)
 				{
 					case NSRightArrowFunctionKey:
-						[controlUI changeTimeBy:seekStepTimeLR];
+						if ([playerController playerState] == kMPCPausedState) {
+							[playerController frameStep];
+						} else {
+							[controlUI changeTimeBy:seekStepTimeLR];
+						}
 						break;
 					case NSLeftArrowFunctionKey:
 						[controlUI changeTimeBy:-seekStepTimeLR];

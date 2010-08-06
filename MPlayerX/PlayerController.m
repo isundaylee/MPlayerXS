@@ -707,6 +707,11 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	}
 }
 
+-(void) frameStep
+{
+	[mplayer frameStep:1];
+}
+
 -(BOOL) toggleMute
 {
 	return (PlayerCouldAcceptCommand)? ([mplayer setMute:!mplayer.movieInfo.playingInfo.mute]):NO;
