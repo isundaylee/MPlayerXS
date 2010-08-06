@@ -427,6 +427,17 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 	}
 }
 
+-(void) frameStep:(NSInteger)frameNum
+{
+	if (state == kMPCPlayingState) {
+		[self togglePause];
+	}
+	
+	if (state == kMPCPausedState) {
+		[playerCore sendStringCommand:kMPCFrameStepCmd];
+	}
+}
+
 -(void) setSpeed: (float) speed
 {
 	speed = MAX(speed, 0.1);

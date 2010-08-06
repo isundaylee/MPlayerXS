@@ -95,6 +95,8 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 -(void) performStop;
 -(void) togglePause;
 
+-(void) frameStep:(NSInteger)frameNum;
+
 /** 成功发送的话，playingInfo的speed属性会被更新 */
 -(void) setSpeed: (float) speed;
 
