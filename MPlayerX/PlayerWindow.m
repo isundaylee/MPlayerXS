@@ -43,8 +43,8 @@
 	[self setHasShadow:YES];
 	[self setCollectionBehavior:NSWindowCollectionBehaviorManaged];
 	
-	[self setContentMinSize:NSMakeSize(400, 300)];
-	[self setContentSize:NSMakeSize(400, 300)];
+	[self setContentMinSize:NSMakeSize(480, 360)];
+	[self setContentSize:NSMakeSize(480, 360)];
 
 	NSRect scrnRC = [[self screen] frame];
 	NSRect winRC  = [self frame];
