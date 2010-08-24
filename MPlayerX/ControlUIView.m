@@ -100,7 +100,9 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 -(id) initWithFrame:(NSRect)frameRect
 {
-	if (self = [super initWithFrame:frameRect]) {
+	self = [super initWithFrame:frameRect];
+	
+	if (self) {
 		ud = [NSUserDefaults standardUserDefaults];
 		notifCenter = [NSNotificationCenter defaultCenter];
 		

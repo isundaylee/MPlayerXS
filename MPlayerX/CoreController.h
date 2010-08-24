@@ -80,7 +80,7 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 }
 
 @property (readonly)			int state;
-@property (retain, readwrite)	NSDictionary *mpPathPair;
+@property (retain, readwrite, nonatomic)	NSDictionary *mpPathPair;
 @property (readonly)			MovieInfo *movieInfo;
 @property (retain, readwrite)	ParameterManager *pm;
 @property (readonly)			LogAnalyzer *la;

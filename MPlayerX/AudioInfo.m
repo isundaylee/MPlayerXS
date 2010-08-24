@@ -33,7 +33,9 @@
 
 -(id) init
 {
-	if (self = [super init]) {
+	self = [super init];
+
+	if (self) {
 		ID = -2;
 		language = nil;
 		codec = nil;

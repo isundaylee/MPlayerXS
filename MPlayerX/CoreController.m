@@ -86,7 +86,9 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 ///////////////////////////////////////////Init/Dealloc////////////////////////////////////////////////////////
 -(id) init
 {
-	if (self = [super init]) {
+	self = [super init];
+	
+	if (self) {
 		NSNumber *flatValue = [NSNumber numberWithInt:kMITypeFlatValue];
 		
 		keyPathDict = [[NSDictionary alloc] initWithObjectsAndKeys:	kKVOPropertyKeyPathCurrentTime, kMPCTimePos, 

@@ -32,7 +32,9 @@
 //////////////////////////////////////Init/Dealloc/////////////////////////////////////
 - (id) init
 {
-	if (self = [super init]) {
+	self = [super init];
+	
+	if (self) {
 		bufRefs = NULL;
 		bufTotal = 0;
 		frameNow = -1;
