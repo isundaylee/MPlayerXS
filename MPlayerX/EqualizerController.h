@@ -25,12 +25,22 @@
 @interface EqualizerController : NSObject
 {
 	BOOL nibLoaded;
+	NSArray *bars;
 	
 	IBOutlet PlayerController *playerController;
 	
 	IBOutlet NSPanel *EQPanel;
 	IBOutlet NSMenuItem *menuEQPanel;
-	IBOutlet NSMatrix *EQBars;
+	IBOutlet NSSlider *sli30;
+	IBOutlet NSSlider *sli60;
+	IBOutlet NSSlider *sli125;
+	IBOutlet NSSlider *sli250;
+	IBOutlet NSSlider *sli500;
+	IBOutlet NSSlider *sli1k;
+	IBOutlet NSSlider *sli2k;
+	IBOutlet NSSlider *sli4k;
+	IBOutlet NSSlider *sli8k;
+	IBOutlet NSSlider *sli16k;
 }
 
 -(IBAction) showUI:(id)sender;

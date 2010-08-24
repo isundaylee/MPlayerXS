@@ -30,14 +30,18 @@
 
 -(id) init
 {
-	if (self = [super init]) {
+	self = [super init];
+	
+	if (self) {
 		nibLoaded = NO;
+		bars = nil;
 	}
 	return self;
 }
 
 -(void) dealloc
-{	
+{
+	[bars release];
 	[super dealloc];
 }
 
@@ -57,6 +61,8 @@
 	if (!nibLoaded) {
 		nibLoaded = YES;
 		[NSBundle loadNibNamed:@"Equalizer" owner:self];
+		bars = [[NSArray alloc] initWithObjects:sli30,sli60,sli125,sli250,sli500,sli1k,sli2k,sli4k,sli8k,sli16k,nil];
+		
 		[self resetEqualizer:nil];
 		[EQPanel setLevel:NSMainMenuWindowLevel];
 	}
@@ -65,14 +71,14 @@
 
 -(IBAction) setEqualizer:(id)sender
 {
-	[playerController setEqualizer:[EQBars cells]];
+	[playerController setEqualizer:bars];
 }
 
 -(IBAction) resetEqualizer:(id)sender
 {
 	[playerController setEqualizer:nil];
 	
-	for (id bar in [EQBars cells]) {
+	for (id bar in bars) {
 		[bar setFloatValue:0.0f];
 	}
 }
