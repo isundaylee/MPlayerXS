@@ -28,7 +28,9 @@
 #pragma mark Init/Dealloc
 -(id) init 
 {
-	if (self = [super init]) {
+	self = [super init];
+	
+	if (self) {
 		delegate = nil;
 		task = nil;
 		runningModes = [[NSArray alloc] initWithObjects:NSDefaultRunLoopMode, NSModalPanelRunLoopMode, NSEventTrackingRunLoopMode, nil];

@@ -75,7 +75,9 @@
 #pragma mark Init/Dealloc
 -(id) initWithCoder:(NSCoder *)aDecoder
 {
-	if (self = [super initWithCoder:aDecoder]) {
+	self = [super initWithCoder:aDecoder];
+	
+	if (self) {
 		ud = [NSUserDefaults standardUserDefaults];
 		notifCenter = [NSNotificationCenter defaultCenter];
 		
@@ -371,7 +373,19 @@
 	y = [theEvent deltaY];
 	
 	if (abs(x) > abs(y*2)) {
-		
+		// NSLog(@"%f", x);
+		switch ([playerController playerState]) {
+			case kMPCPausedState:
+				if (x < 0) {
+					[playerController frameStep];
+				}
+				break;
+			case kMPCPlayingState:
+				[controlUI changeTimeBy:-x];
+				break;
+			default:
+				break;
+		}
 	} else if (abs(x*2) < abs(y)) {
 		[controlUI changeVolumeBy:[NSNumber numberWithFloat:y*0.2]];
 	}
