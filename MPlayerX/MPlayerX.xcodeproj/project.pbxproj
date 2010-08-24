@@ -83,7 +83,6 @@
 		8629FF72115F2D44001BD30A /* VideoInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CAF25010BA451100848B8E /* VideoInfo.m */; };
 		862F149610C29B0A00F5E970 /* ShortCutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 862F149510C29B0A00F5E970 /* ShortCutManager.m */; };
 		86328DF910EF50C4003C5EE8 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 86328DF810EF50C4003C5EE8 /* dsa_pub.pem */; };
-		8634409910D66924003817B7 /* SliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8634409810D66924003817B7 /* SliderCell.m */; };
 		863B5A7F10F2175C001111F6 /* enterfullscreen.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 863B5A7910F2175C001111F6 /* enterfullscreen.pdf */; };
 		863B5A8010F2175C001111F6 /* exitfillscreen_lr.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 863B5A7A10F2175C001111F6 /* exitfillscreen_lr.pdf */; };
 		863B5A8110F2175C001111F6 /* exitfillscreen_ub.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 863B5A7B10F2175C001111F6 /* exitfillscreen_ub.pdf */; };
@@ -96,11 +95,12 @@
 		865AB3FD10EC82A300065E2F /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 865AB3FC10EC82A300065E2F /* PrefController.m */; };
 		8661414210FA2B7E007F36DA /* SubConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8661414110FA2B7E007F36DA /* SubConverter.m */; };
 		86689CA511304163009DA72C /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 86689CA411304163009DA72C /* logo.png */; };
-		866CCEA511DCDB5F00032F96 /* BGHUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 866CCEA411DCDB5F00032F96 /* BGHUDButtonCell.m */; };
 		866CCF5511DE378300032F96 /* EqualizerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 866CCF5411DE378300032F96 /* EqualizerController.m */; };
 		866CCFAC11DE3EAB00032F96 /* Equalizer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 866CCFAB11DE3EAB00032F96 /* Equalizer.xib */; };
 		8671FAF51120456B00F7E5E5 /* doc_sub.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8671FAF41120456B00F7E5E5 /* doc_sub.icns */; };
 		867FDF351169FD2E000C71A6 /* HueSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 867FDF341169FD2E000C71A6 /* HueSliderCell.m */; };
+		869DA29C1223A2FE00D0D57A /* BGHUDAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 869DA29B1223A2FE00D0D57A /* BGHUDAppKit.framework */; };
+		869DA2E21223A32900D0D57A /* BGHUDAppKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 869DA29B1223A2FE00D0D57A /* BGHUDAppKit.framework */; };
 		86A34A0910F60F7E00AECBB2 /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86A34A0810F60F7E00AECBB2 /* UniversalDetector.framework */; };
 		86A34A2510F60FA000AECBB2 /* UniversalDetector.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 86A34A0810F60F7E00AECBB2 /* UniversalDetector.framework */; };
 		86A5E40C10C7D24D00D061C7 /* wqy-microhei.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E40B10C7D24D00D061C7 /* wqy-microhei.ttc */; };
@@ -167,6 +167,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				869DA2E21223A32900D0D57A /* BGHUDAppKit.framework in Copy Frameworks */,
 				86A34A2510F60FA000AECBB2 /* UniversalDetector.framework in Copy Frameworks */,
 				863F1A4410EF4CE20089C695 /* Sparkle.framework in Copy Frameworks */,
 			);
@@ -246,8 +247,6 @@
 		862F149410C29B0A00F5E970 /* ShortCutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = ShortCutManager.h; sourceTree = "<group>"; };
 		862F149510C29B0A00F5E970 /* ShortCutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 2; path = ShortCutManager.m; sourceTree = "<group>"; };
 		86328DF810EF50C4003C5EE8 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = "../Sparkle.framework/Extras/Signing Tools/dsa_pub.pem"; sourceTree = SOURCE_ROOT; };
-		8634409510D66901003817B7 /* SliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = SliderCell.h; sourceTree = "<group>"; };
-		8634409810D66924003817B7 /* SliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 2; path = SliderCell.m; sourceTree = "<group>"; };
 		863B5A7910F2175C001111F6 /* enterfullscreen.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = enterfullscreen.pdf; sourceTree = "<group>"; };
 		863B5A7A10F2175C001111F6 /* exitfillscreen_lr.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = exitfillscreen_lr.pdf; sourceTree = "<group>"; };
 		863B5A7B10F2175C001111F6 /* exitfillscreen_ub.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = exitfillscreen_ub.pdf; sourceTree = "<group>"; };
@@ -263,8 +262,6 @@
 		8661414010FA2B7E007F36DA /* SubConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = SubConverter.h; sourceTree = "<group>"; };
 		8661414110FA2B7E007F36DA /* SubConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 2; path = SubConverter.m; sourceTree = "<group>"; };
 		86689CA411304163009DA72C /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
-		866CCEA311DCDB5F00032F96 /* BGHUDButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGHUDButtonCell.h; sourceTree = "<group>"; };
-		866CCEA411DCDB5F00032F96 /* BGHUDButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGHUDButtonCell.m; sourceTree = "<group>"; };
 		866CCF5311DE378300032F96 /* EqualizerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EqualizerController.h; sourceTree = "<group>"; };
 		866CCF5411DE378300032F96 /* EqualizerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EqualizerController.m; sourceTree = "<group>"; };
 		866CCFA811DE3E8200032F96 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Equalizer.xib; sourceTree = "<group>"; };
@@ -272,6 +269,7 @@
 		867FDF331169FD2E000C71A6 /* HueSliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = HueSliderCell.h; sourceTree = "<group>"; };
 		867FDF341169FD2E000C71A6 /* HueSliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 2; path = HueSliderCell.m; sourceTree = "<group>"; };
 		868BB6B810EF598500A942B3 /* MplayerX_Update_Appcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MplayerX_Update_Appcast.xml; path = ../update/MplayerX_Update_Appcast.xml; sourceTree = SOURCE_ROOT; };
+		869DA29B1223A2FE00D0D57A /* BGHUDAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BGHUDAppKit.framework; path = ../BGHUDAppKit/BGHUDAppKit.framework; sourceTree = SOURCE_ROOT; };
 		86A34A0810F60F7E00AECBB2 /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniversalDetector.framework; path = ../UniversalDetector/build/Release/UniversalDetector.framework; sourceTree = SOURCE_ROOT; };
 		86A5E40B10C7D24D00D061C7 /* wqy-microhei.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "wqy-microhei.ttc"; sourceTree = "<group>"; };
 		86B99D0010C9418600AB28FB /* OpenURLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = OpenURLController.h; sourceTree = "<group>"; };
@@ -334,6 +332,7 @@
 				8609C28110C6944A00B102CE /* IOKit.framework in Frameworks */,
 				863F1A4110EF4CD40089C695 /* Sparkle.framework in Frameworks */,
 				86A34A0910F60F7E00AECBB2 /* UniversalDetector.framework in Frameworks */,
+				869DA29C1223A2FE00D0D57A /* BGHUDAppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +429,7 @@
 				8609C28010C6944A00B102CE /* IOKit.framework */,
 				863F1A4010EF4CD40089C695 /* Sparkle.framework */,
 				86A34A0810F60F7E00AECBB2 /* UniversalDetector.framework */,
+				869DA29B1223A2FE00D0D57A /* BGHUDAppKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -573,8 +573,6 @@
 			children = (
 				867FDF331169FD2E000C71A6 /* HueSliderCell.h */,
 				867FDF341169FD2E000C71A6 /* HueSliderCell.m */,
-				866CCEA311DCDB5F00032F96 /* BGHUDButtonCell.h */,
-				866CCEA411DCDB5F00032F96 /* BGHUDButtonCell.m */,
 				8617287B10CFAB32003A0CE2 /* ArrowTextField.h */,
 				8617287C10CFAB32003A0CE2 /* ArrowTextField.m */,
 				862923C410C0FE130077B63E /* TimeFormatter.h */,
@@ -583,8 +581,6 @@
 				8654807E10CBB231009438A4 /* FloatWrapFormatter.m */,
 				862926FF10C1507E0077B63E /* TimeSliderCell.h */,
 				862926FE10C1507E0077B63E /* TimeSliderCell.m */,
-				8634409510D66901003817B7 /* SliderCell.h */,
-				8634409810D66924003817B7 /* SliderCell.m */,
 			);
 			name = "UI components";
 			sourceTree = "<group>";
@@ -683,6 +679,7 @@
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				86086A7410BAD11C00459392 /* Copy Binaries */,
 				86CAF21E10BA438D00848B8E /* Copy Frameworks */,
+				869DA5341223C93100D0D57A /* delete redundent files in Framework */,
 				86FD7D9811CE4961001726FD /* Localizations */,
 			);
 			buildRules = (
@@ -811,6 +808,20 @@
 			shellPath = /bin/sh;
 			shellScript = "# shell script goes here\nsvnversion ../ > ver.log\n./updateVersion ver.log MPlayerX-Info.plist\ntouch -amfc MPlayerX-Info.plist\nrm -Rf ver.log\n\nexit 0";
 		};
+		869DA5341223C93100D0D57A /* delete redundent files in Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "delete redundent files in Framework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm -fR \"${CONFIGURATION_BUILD_DIR}/${WRAPPER_NAME}/Contents/Frameworks/BGHUDAppKit.framework/Versions/Current/Resources\"";
+		};
 		86A6E0FB10EFD250001F4890 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -836,7 +847,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\ncd ../update\nexport MPXVER=$(ruby getVerNum.rb ${TARGET_BUILD_DIR}/${FULL_PRODUCT_NAME})\n\ncd ../../localization/trunk/localization/${MPXVER}\n\necho ${MPXVER}\n\nmake clean\n\nmake\n\ncp -R ./results/* ${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/";
+			shellScript = "#!/bin/sh\n\n##cd ../update\n##export MPXVER=$(ruby getVerNum.rb ${TARGET_BUILD_DIR}/${FULL_PRODUCT_NAME})\n\n##cd ../../localization/trunk/localization/${MPXVER}\n\n##echo ${MPXVER}\n\n##make clean\n\n##make\n\n## cp -R ./results/* ${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -865,7 +876,6 @@
 				86B99D0210C9418600AB28FB /* OpenURLController.m in Sources */,
 				8654807F10CBB231009438A4 /* FloatWrapFormatter.m in Sources */,
 				8617287D10CFAB32003A0CE2 /* ArrowTextField.m in Sources */,
-				8634409910D66924003817B7 /* SliderCell.m in Sources */,
 				865AB3FD10EC82A300065E2F /* PrefController.m in Sources */,
 				86D10C1310F4A29A000B573F /* ResizeIndicator.m in Sources */,
 				8661414210FA2B7E007F36DA /* SubConverter.m in Sources */,
@@ -883,7 +893,6 @@
 				861EE1EB11662BF600D16C87 /* PlayerWindow.m in Sources */,
 				861EE37D116718AF00D16C87 /* TitleView.m in Sources */,
 				867FDF351169FD2E000C71A6 /* HueSliderCell.m in Sources */,
-				866CCEA511DCDB5F00032F96 /* BGHUDButtonCell.m in Sources */,
 				866CCF5511DE378300032F96 /* EqualizerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1007,6 +1016,7 @@
 					"\"$(SRCROOT)/../UniversalDetector/build/Release\"",
 					"\"$(SRCROOT)/../Sparkle.framework\"",
 					"\"$(SRCROOT)/..\"",
+					"\"$(SRCROOT)/../BGHUDAppKit\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -1030,6 +1040,7 @@
 					"\"$(SRCROOT)/../UniversalDetector/build/Release\"",
 					"\"$(SRCROOT)/../Sparkle.framework\"",
 					"\"$(SRCROOT)/..\"",
+					"\"$(SRCROOT)/../BGHUDAppKit\"",
 				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1063,7 +1074,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LLVM_LTO = NO;
@@ -1095,7 +1106,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LLVM_LTO = NO;
