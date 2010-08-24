@@ -28,10 +28,12 @@
 				  backing:(NSBackingStoreType)bufferingType
 					defer:(BOOL)flag
 {
-	if (self = [super initWithContentRect:contentRect
-								styleMask:NSBorderlessWindowMask
-								  backing:bufferingType
-									defer:flag]) {
+	
+	self = [super initWithContentRect:contentRect
+							styleMask:NSBorderlessWindowMask
+							  backing:bufferingType
+								defer:flag];
+	if (self) {
 	}
 	return self;
 }

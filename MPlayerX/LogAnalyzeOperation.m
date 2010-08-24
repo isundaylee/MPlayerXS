@@ -24,7 +24,9 @@
 
 -(id) initWithData:(NSData*)analyzeData whenFinishedTarget:(id) target selector:(SEL) selector
 {
-	if (self = [super init]) {
+	self = [super init];
+	
+	if (self) {
 		log = [analyzeData retain];
 		tgt = target;
 		sel = selector;

@@ -49,7 +49,9 @@ NSString * const kCILayerFilterEnabled		= @"enabled";
 
 -(id) init
 {
-	if (self = [super init]) {
+	self = [super init];
+	
+	if (self) {
 		nibLoaded = NO;
 		
 		// 设置name是为了能够通过keyPath访问filter

@@ -100,7 +100,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 					   [NSNumber numberWithUnsignedInt:kSubFileNameRuleContain], kUDKeySubFileNameRule,
 					   boolNo, kUDKeyDTSPassThrough,
 					   boolNo, kUDKeyAC3PassThrough,
-					   [NSNumber numberWithUnsignedInt:1], kUDKeyThreadNum,
+					   [NSNumber numberWithUnsignedInt:2], kUDKeyThreadNum,
 					   boolYes, kUDKeyUseEmbeddedFonts,
 					   [NSNumber numberWithUnsignedInt:5000], kUDKeyCacheSize,
 					   boolYes, kUDKeyPreferIPV6,
@@ -120,7 +120,9 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 #pragma mark Init/Dealloc
 -(id) init
 {
-	if (self = [super init]) {
+	self = [super init];
+	
+	if (self) {
 		ud = [NSUserDefaults standardUserDefaults];
 		notifCenter = [NSNotificationCenter defaultCenter];
 		
@@ -425,8 +427,9 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 							} else {
 								// 如果是在停止状态，那么应该是想打开媒体文件先
 								// 需要根据字幕文件名去寻找影片文件
-								NSURL *autoSearchMediaFile = nil;
-								if (autoSearchMediaFile = [self findFirstMediaFileFromSubFile:path]) {
+								NSURL *autoSearchMediaFile = [self findFirstMediaFileFromSubFile:path];
+								
+								if (autoSearchMediaFile) {
 									// 如果找到了
 									[self playMedia:autoSearchMediaFile];
 								}
@@ -647,7 +650,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 									   [NSNumber numberWithBool:([mplayer.movieInfo.videoInfo count] == 0)], kMPCPlayStartedAudioOnlyKey,
 									   nil]];
 
-	NSLog(@"vc:%d, ac:%d", [mplayer.movieInfo.videoInfo count], [mplayer.movieInfo.audioInfo count]);
+	NSLog(@"vc:%lu, ac:%lu", [mplayer.movieInfo.videoInfo count], [mplayer.movieInfo.audioInfo count]);
 }
 
 -(void) playebackWillStop

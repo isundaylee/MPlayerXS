@@ -41,8 +41,9 @@ NSString * const kMovieInfoKVOVideoInfo		= @"videoInfo";
 
 -(id) init
 {
-	if (self = [super init])
-	{
+	self = [super init];
+	
+	if (self) {
 		NSNumber *zero = [NSNumber numberWithInt:0];
 		
 		demuxer = [kDemuxValueDefault retain];

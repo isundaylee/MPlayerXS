@@ -49,7 +49,9 @@
 
 -(id) init
 {
-	if (self = [super init]) {
+	self = [super init];
+	
+	if (self) {
 		ud = [NSUserDefaults standardUserDefaults];
 		
 		speedStepIncre = [ud floatForKey:kUDKeySpeedStep];

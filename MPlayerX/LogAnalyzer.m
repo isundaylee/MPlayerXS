@@ -27,7 +27,9 @@
 
 -(id) initWithDelegate:(id<LogAnalyzerDelegate>) obj
 {
-	if (self = [super init]) {
+	self = [super init];
+	
+	if (self) {
 		delegate = obj;
 		// 解析log的queue
 		queue = [[NSOperationQueue alloc] init];

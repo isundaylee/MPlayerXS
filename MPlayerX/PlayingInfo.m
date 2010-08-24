@@ -41,7 +41,9 @@
 
 -(id) init
 {
-	if (self = [super init]) {
+	self = [super init];
+	
+	if (self) {
 		NSNumber *floatZero = [NSNumber numberWithFloat:0.0];
 		
 		currentChapter = 0;

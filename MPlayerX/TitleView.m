@@ -27,7 +27,9 @@
 
 - (id)initWithFrame:(NSRect)frame
 {
-    if (self = [super initWithFrame:frame]) {
+	self = [super initWithFrame:frame];
+	
+    if (self) {
 		NSUInteger styleMask = NSTitledWindowMask|NSResizableWindowMask|NSClosableWindowMask|NSMiniaturizableWindowMask;
 		
 		closeButton = [[NSWindow standardWindowButton:NSWindowCloseButton forStyleMask:styleMask] retain];

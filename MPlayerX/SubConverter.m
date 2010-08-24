@@ -29,7 +29,9 @@ NSString * const kWorkDirSubDir = @"Subs";
  
 -(id) init
 {
-	if (self = [super init]) {
+	self = [super init];
+	
+	if (self) {
 		delegate = nil;
 		textSubFileExts = [[NSSet alloc] initWithObjects:@"utf", @"utf8", @"srt", @"ass", @"smi", @"txt", @"ssa", @"smil", @"jss", @"rt", nil];
 		workDirectory = nil;
