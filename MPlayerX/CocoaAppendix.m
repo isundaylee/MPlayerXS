@@ -22,7 +22,7 @@
 #import "LocalizedStrings.h"
 
 @implementation NSColor (MPXAdditional)
--(uint32) convertToHex
+-(uint32) hexValue
 {
 	NSColor *col = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 	return ((((uint32)(255 * [col redComponent]))  <<24) + 

@@ -125,8 +125,9 @@ NSString * const kPMValMsgCharset		= @"noconv";
 #pragma mark Init/Dealloc
 -(id) init
 {
-	if (self = [super init])
-	{
+	self = [super init];
+	
+	if (self) {
 		paramArray = nil;
 		autoSync = 30;
 		frameDrop = NO;
@@ -189,12 +190,12 @@ NSString * const kPMValMsgCharset		= @"noconv";
 
 -(void) setSubFontColor:(NSColor*)col
 {
-	frontColor = [col convertToHex];
+	frontColor = [col hexValue];
 }
 
 -(void) setSubFontBorderColor:(NSColor*)col
 {
-	borderColor = [col convertToHex];
+	borderColor = [col hexValue];
 }
 
 -(void) reset
