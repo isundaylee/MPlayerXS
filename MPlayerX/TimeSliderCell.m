@@ -35,32 +35,47 @@
 
 @implementation TimeSliderCell
 
+#pragma mark -
+#pragma mark Drawing Methods
+
+- (void)drawBarInside:(NSRect)aRect flipped:(BOOL)flipped {
+	
+	if([self sliderType] == NSLinearSlider) {
+		
+		if(![self isVertical]) {
+			
+			[self drawHorizontalBarInFrame: aRect];
+		} else {
+			
+			// [self drawVerticalBarInFrame: aRect];
+		}
+	} else {
+		
+		//Placeholder for when I figure out how to draw NSCircularSlider
+	}
+}
+
+- (void)drawKnob:(NSRect)aRect {
+	
+	if([self sliderType] == NSLinearSlider) {
+		
+		if(![self isVertical]) {
+			
+			[self drawHorizontalKnobInFrame: aRect];
+		} else {
+			
+			// [self drawVerticalKnobInFrame: aRect];
+		}
+	} else {
+		
+		//Place holder for when I figure out how to draw NSCircularSlider
+	}
+}
+
 - (void)drawHorizontalBarInFrame:(NSRect)frame {
 	
 	// Adjust frame based on ControlSize
 	switch ([self controlSize]) {
-			
-		case NSRegularControlSize:
-			
-			if([self numberOfTickMarks] != 0) {
-				
-				if([self tickMarkPosition] == NSTickMarkBelow) {
-					
-					frame.origin.y += 4;
-				} else {
-					
-					frame.origin.y += frame.size.height - 10;
-				}
-			} else {
-				
-				frame.origin.y = frame.origin.y + (((frame.origin.y + frame.size.height) /2) - 2.5f);
-			}
-			
-			frame.origin.x += 2.5f;
-			frame.origin.y += 0.5f;
-			frame.size.width -= 5;
-			frame.size.height = 5;
-			break;
 			
 		case NSSmallControlSize:
 			
@@ -82,29 +97,7 @@
 			frame.origin.y += 0.5f;
 			frame.size.width -= 1;
 			frame.size.height = 5;
-			break;
-			
-		case NSMiniControlSize:
-			
-			if([self numberOfTickMarks] != 0) {
-				
-				if([self tickMarkPosition] == NSTickMarkBelow) {
-					
-					frame.origin.y += 2;
-				} else {
-					
-					frame.origin.y += frame.size.height - 6;
-				}
-			} else {
-				
-				frame.origin.y = frame.origin.y + (((frame.origin.y + frame.size.height) /2) - 2);
-			}
-			
-			frame.origin.x += 0.5f;
-			frame.origin.y += 0.5f;
-			frame.size.width -= 1;
-			frame.size.height = 3;
-			break;
+			break;			
 	}
 	
 	//Draw Bar
@@ -134,27 +127,6 @@
 	
 	switch ([self controlSize]) {
 			
-		case NSRegularControlSize:
-			
-			if([self numberOfTickMarks] != 0) {
-				
-				if([self tickMarkPosition] == NSTickMarkAbove) {
-					
-					frame.origin.y += 2;
-				}
-				
-				frame.origin.x += 2;
-				frame.size.height = 19.0f;
-				frame.size.width = 15.0f;
-			} else {
-				
-				frame.origin.x += 3;
-				frame.origin.y += 3;
-				frame.size.height = 15;
-				frame.size.width = 15;
-			}
-			break;
-			
 		case NSSmallControlSize:
 			rcBounds.origin.y = rcBounds.origin.y + (((rcBounds.origin.y + rcBounds.size.height) /2) - 2.5f);
 			rcBounds.origin.x += 0.5f;
@@ -173,32 +145,12 @@
 			}
 			[path fill];
 			break;
-			
-		case NSMiniControlSize:
-			
-			if([self numberOfTickMarks] != 0) {
-				
-				frame.origin.x += 1;
-				frame.size.height = 11.0f;
-				frame.size.width = 9.0f;
-			} else {
-				
-				frame.origin.x += 2;
-				frame.origin.y += 1;
-				frame.size.height = 9;
-				frame.size.width = 9;
-			}
+		default:
 			break;
 	}
 }
 
-- (BOOL)_usesCustomTrackImage {
-	
-	return YES;
-}
-
 #pragma mark -
-
 #pragma mark internal
 -(NSColor *)sliderTrackColor {
 	return [NSColor colorWithDeviceRed: 0 green: 0 blue: 0 alpha: 0.5];
