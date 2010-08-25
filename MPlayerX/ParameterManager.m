@@ -88,8 +88,6 @@ NSString * const kPMParOverlapSub		= @"-overlapsub";
 NSString * const kPMParRtspOverHttp		= @"-rtsp-stream-over-http";
 NSString * const kPMParMsgCharset		= @"-msgcharset";
 NSString * const kPMValMsgCharset		= @"noconv";
-NSString * const kPMVarMC				= @"-mc";
-NSString * const kPMValZero				= @"0";
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
@@ -229,9 +227,6 @@ NSString * const kPMValZero				= @"0";
 	[paramArray addObject:[NSString stringWithFormat: kPMFMTInt, autoSync]];
 	
 	[paramArray addObject:kPMParSlave];
-	
-	[paramArray addObject:kPMVarMC];
-	[paramArray addObject:kPMValZero];
 	
 	if (frameDrop) {
 		[paramArray addObject:kPMParFrameDrop];
