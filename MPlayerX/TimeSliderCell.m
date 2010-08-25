@@ -43,16 +43,16 @@
 	if([self sliderType] == NSLinearSlider) {
 		
 		if(![self isVertical]) {
-			
+		
 			[self drawHorizontalBarInFrame: aRect];
+			return;
 		} else {
-			
 			// [self drawVerticalBarInFrame: aRect];
 		}
 	} else {
-		
 		//Placeholder for when I figure out how to draw NSCircularSlider
 	}
+	[super drawBarInside:aRect flipped:flipped];
 }
 
 - (void)drawKnob:(NSRect)aRect {
@@ -62,14 +62,14 @@
 		if(![self isVertical]) {
 			
 			[self drawHorizontalKnobInFrame: aRect];
+			return;
 		} else {
-			
 			// [self drawVerticalKnobInFrame: aRect];
 		}
 	} else {
-		
 		//Place holder for when I figure out how to draw NSCircularSlider
 	}
+	[super drawKnob:aRect];
 }
 
 - (void)drawHorizontalBarInFrame:(NSRect)frame {
@@ -97,7 +97,10 @@
 			frame.origin.y += 0.5f;
 			frame.size.width -= 1;
 			frame.size.height = 5;
-			break;			
+			break;
+		default:
+			[super drawHorizontalBarInFrame:frame];
+			return;
 	}
 	
 	//Draw Bar
@@ -146,6 +149,7 @@
 			[path fill];
 			break;
 		default:
+			[super drawHorizontalKnobInFrame:frame];
 			break;
 	}
 }
