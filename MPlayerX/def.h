@@ -77,6 +77,7 @@ extern NSString * const kUDKeyPinPMode;
 extern NSString * const kUDKeyMixToStereoMode;
 extern NSString * const kUDKeyAlwaysShowLBInFullScr;
 extern NSString * const kUDKeyAutoLBHeightInFullScr;
+extern NSString * const kUDKeyAutoResume;
 
 extern NSString * const kUDKeySelectedPrefView;
 extern NSString * const kUDKeyHelpURL;
