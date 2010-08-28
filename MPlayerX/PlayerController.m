@@ -112,6 +112,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 					   boolYes, kUDKeyOverlapSub,
 					   boolYes, kUDKeyRtspOverHttp,
 					   [NSNumber numberWithUnsignedInt:kPMMixDTS5_1ToStereo], kUDKeyMixToStereoMode,
+					   boolNo, kUDKeyAutoResume,
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
@@ -471,13 +472,11 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 {
 	// 内部函数，没有那么必要判断url的有效性
 	NSString *path;	
-	// 将播放开始时间重置
-	[mplayer.pm setStartTime:-1];
+	NSNumber *stime;
+	
 	// 设定字幕大小
 	[mplayer.pm setSubScale:[ud floatForKey:kUDKeySubScale]];
-	
 	[mplayer.pm setSubFontColor: [NSUnarchiver unarchiveObjectWithData: [ud objectForKey:kUDKeySubFontColor]]];
-	
 	[mplayer.pm setSubFontBorderColor: [NSUnarchiver unarchiveObjectWithData: [ud objectForKey:kUDKeySubFontBorderColor]]];
 	
 	[mplayer.pm setForceIndex:[ud boolForKey:kUDKeyForceIndex]];
@@ -504,7 +503,6 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 		
 		// 将文件加入Recent Menu里，只能加入本地文件
 		[[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:url];
-
 	} else {
 		// network stream
 		path = [url absoluteString];
@@ -522,8 +520,8 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	}
 
 	////////////////////////////////////////////////////////////////////
-	// hack always try to use ffmpeg as the demuxer
-	// !! except real media
+	// HACK!!! always try to use ffmpeg as the demuxer
+	// EXCEPT real media
 	NSString *ext = [[path pathExtension] lowercaseString];
 	if ([ext isEqualToString:@"rm"] || [ext isEqualToString:@"rmvb"] ||
 		[ext isEqualToString:@"ra"] || [ext isEqualToString:@"ram"]) {
@@ -533,9 +531,15 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	}
 	////////////////////////////////////////////////////////////////////
 
+	if ([ud boolForKey:kUDKeyAutoResume] && (stime = [bookmarks objectForKey:[lastPlayedPathPre absoluteString]])) {
+		// if AutoResume is ON and there was a record in the bookmarks
+		// and 5s to help the users to remember where they left in the movie
+		[mplayer.pm setStartTime:([stime floatValue] - 5)];
+	} else {
+		[mplayer.pm setStartTime:-1];
+	}
+	
 	[mplayer playMedia:path];
-
-	// NSLog(@"%@", path);
 	
 	SAFERELEASE(lastPlayedPath);
 	lastPlayedPath = lastPlayedPathPre;
