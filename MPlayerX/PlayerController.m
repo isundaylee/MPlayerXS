@@ -102,7 +102,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 					   boolNo, kUDKeyAC3PassThrough,
 					   [NSNumber numberWithUnsignedInt:2], kUDKeyThreadNum,
 					   boolYes, kUDKeyUseEmbeddedFonts,
-					   [NSNumber numberWithUnsignedInt:5000], kUDKeyCacheSize,
+					   [NSNumber numberWithUnsignedInt:10000], kUDKeyCacheSize,
 					   boolYes, kUDKeyPreferIPV6,
 					   boolNo, kUDKeyCachingLocal,
 					   [NSNumber numberWithUnsignedInt:kPMLetterBoxModeNotDisplay], kUDKeyLetterBoxMode,
