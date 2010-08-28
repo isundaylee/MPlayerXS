@@ -50,6 +50,7 @@
 		[self setDelegate:self];
 		// [self setMasksToBounds:YES];
 		[self setAutoresizingMask:kCALayerWidthSizable|kCALayerHeightSizable];
+		[self setDoubleSided:NO];
 	}
 	return self;
 }
@@ -175,8 +176,8 @@
 	glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
 	
 	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
-	*/
 	CGLEnable(ctx, kCGLCEMPEngine);
+	*/
 	
 	SAFERELEASETEXTURECACHE(cache);
 	CVReturn error = CVOpenGLTextureCacheCreate(NULL, NULL, ctx, pf, NULL, &cache);
