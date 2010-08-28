@@ -38,7 +38,7 @@ extern NSString * const kPMValDemuxFFMpeg;
 	NSString *assForceStyle;
 	BOOL assEnabled;
 
-	unsigned char autoSync;
+	// unsigned char autoSync;
 	BOOL frameDrop;
 	unsigned char osdLevel;
 	

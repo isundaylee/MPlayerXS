@@ -31,7 +31,7 @@ NSString * const kPMDefaultSubLang		= @"en,eng,ch,chs,cht,ja,jpn";
 
 NSString * const kPMParMsgLevel		= @"-msglevel";
 NSString * const kPMValMsgLevel		= @"all=-1:global=4:cplayer=4:identify=4";
-NSString * const kPMParAutoSync		= @"-autosync";
+// NSString * const kPMParAutoSync		= @"-autosync";
 NSString * const kPMFMTInt			= @"%d";
 NSString * const kPMParSlave		= @"-slave";
 NSString * const kPMParFrameDrop	= @"-framedrop";
@@ -129,7 +129,7 @@ NSString * const kPMValMsgCharset		= @"noconv";
 	
 	if (self) {
 		paramArray = nil;
-		autoSync = 30;
+		// autoSync = 30;
 		frameDrop = NO;
 		osdLevel = 0;
 		subNameRule = kSubFileNameRuleContain;
@@ -223,8 +223,8 @@ NSString * const kPMValMsgCharset		= @"noconv";
 	[paramArray addObject:kPMParMsgCharset];
 	[paramArray addObject:kPMValMsgCharset];
 
-	[paramArray addObject:kPMParAutoSync];
-	[paramArray addObject:[NSString stringWithFormat: kPMFMTInt, autoSync]];
+	// [paramArray addObject:kPMParAutoSync];
+	// [paramArray addObject:[NSString stringWithFormat: kPMFMTInt, autoSync]];
 	
 	[paramArray addObject:kPMParSlave];
 	
