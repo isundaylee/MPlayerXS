@@ -1,5 +1,5 @@
 /*
- * MPlayerX - def.h
+ * MPlayerX - KeyCode.h
  *
  * Copyright (C) 2009 Zongyao QU
  * 
@@ -18,73 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "coredef.h"
-
-////////////////////////////UserDefaults defination/////////////////////////////////
-extern NSString * const kUDKeyVolume;
-extern NSString * const kUDKeyOnTopMode;
-extern NSString * const kUDKeyCtrlUIAutoHideTime;
-extern NSString * const kUDKeySpeedStep;
-extern NSString * const kUDKeySeekStepLR;
-extern NSString * const kUDKeySeekStepUB;
-extern NSString * const kUDKeyVolumeStep;
-extern NSString * const kUDKeyAutoPlayNext;
-extern NSString * const kUDKeyAPNFuzzy;
-extern NSString * const kUDKeySubFontPath;
-extern NSString * const kUDKeySnapshotSavePath;
-extern NSString * const kUDKeyStartByFullScreen;
-extern NSString * const kUDKeySubDelayStepTime;
-extern NSString * const kUDKeyAudioDelayStepTime;
-extern NSString * const kUDKeyPrefer64bitMPlayer;
-extern NSString * const kUDKeyEnableMultiThread;
-extern NSString * const kUDKeySubScale;
-extern NSString * const kUDKeySubScaleStepValue;
-extern NSString * const kUDKeySwitchTimeHintPressOnAbusolute;
-extern NSString * const kUDKeyTimeTextAltTotal;
-extern NSString * const kUDKeyQuitOnClose;
-extern NSString * const kUDKeySubFontColor;
-extern NSString * const kUDKeySubFontBorderColor;
-extern NSString * const kUDKeyCtrlUIBackGroundAlpha;
-extern NSString * const kUDKeyForceIndex;
-extern NSString * const kUDKeySubFileNameRule;
-extern NSString * const kUDKeyDTSPassThrough;
-extern NSString * const kUDKeyAC3PassThrough;
-extern NSString * const kUDKeyShowOSD;
-extern NSString * const kUDKeyOSDFontSizeMax;
-extern NSString * const kUDKeyOSDFontSizeMin;
-extern NSString * const kUDKeyOSDFrontColor;
-extern NSString * const kUDKeyOSDAutoHideTime;
-extern NSString * const kUDKeyThreadNum;
-extern NSString * const kUDKeyUseEmbeddedFonts;
-extern NSString * const kUDKeyCacheSize;
-extern NSString * const kUDKeyPreferIPV6;
-extern NSString * const kUDKeyCachingLocal;
-extern NSString * const kUDKeyFullScreenKeepOther;
-extern NSString * const kUDKeyLetterBoxMode;
-extern NSString * const kUDKeyLetterBoxModeAlt;
-extern NSString * const kUDKeyLetterBoxHeight;
-extern NSString * const kUDKeyVideoTunerStepValue;
-extern NSString * const kUDKeyARKeyRepeatTimeInterval;
-extern NSString * const kUDKeyARKeyRepeatTimeIntervalLong;
-extern NSString * const kUDKeyPlayWhenOpened;
-extern NSString * const kUDKeyTextSubtitleCharsetConfidenceThresh;
-extern NSString * const kUDKeyTextSubtitleCharsetManual;
-extern NSString * const kUDKeyTextSubtitleCharsetFallback;
-extern NSString * const kUDKeyOverlapSub;
-extern NSString * const kUDKeyRtspOverHttp;
-extern NSString * const kUDKeyFFMpegHandleStream;
-extern NSString * const kUDKeyPinPMode;
-extern NSString * const kUDKeyMixToStereoMode;
-extern NSString * const kUDKeyAlwaysShowLBInFullScr;
-extern NSString * const kUDKeyAutoLBHeightInFullScr;
-extern NSString * const kUDKeyAutoResume;
-
-extern NSString * const kUDKeySelectedPrefView;
-extern NSString * const kUDKeyHelpURL;
-extern NSString * const kUDKeyCloseWindowWhenStopped;
-extern NSString * const kUDKeyResizeStep;
-
-/////////////////////////////////short keys defination/////////////////////////////////
 #define kSCMSwitchTimeHintKeyModifierMask	(NSFunctionKeyMask)
 
 extern NSString * const kSCMVolumeUpKeyEquivalent;

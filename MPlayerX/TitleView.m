@@ -19,7 +19,6 @@
  */
 
 #import "TitleView.h"
-#import "def.h"
 
 @implementation TitleView
 

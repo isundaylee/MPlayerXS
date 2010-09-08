@@ -1,7 +1,7 @@
 /*
- * MPlayerX - def.h
+ * MPlayerX - UserDefaults.h
  *
- * Copyright )C) 2009 Zongyao QU
+ * Copyright (C) 2009 Zongyao QU
  * 
  * MPlayerX is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "coredef.h"
+#import "UserDefaults.h"
 
 ////////////////////////////UserDefaults defination/////////////////////////////////
 NSString * const kUDKeyVolume				= @"volume";
@@ -84,38 +84,3 @@ NSString * const kUDKeySelectedPrefView			= @"SelectedPrefView";
 NSString * const kUDKeyHelpURL					= @"HelpURL";
 NSString * const kUDKeyCloseWindowWhenStopped	= @"CloseOnStopped";
 NSString * const kUDKeyResizeStep				= @"ResizeStep";
-
-/////////////////////////////////short keys defination/////////////////////////////////
-NSString * const kSCMVolumeUpKeyEquivalent		= @"=";
-NSString * const kSCMVolumeDownKeyEquivalent	= @"-";
-NSString * const kSCMSwitchAudioKeyEquivalent	= @"a";
-NSString * const kSCMSwitchSubKeyEquivalent		= @"s";
-NSString * const kSCMSnapShotKeyEquivalent		= @"S";
-NSString * const kSCMMuteKeyEquivalent			= @"m";
-NSString * const kSCMPlayPauseKeyEquivalent		= @" ";
-NSString * const kSCMFullScrnKeyEquivalent		= @"f";
-NSString * const kSCMFillScrnKeyEquivalent		= @"F";
-NSString * const kSCMAcceControlKeyEquivalent	= @"c";
-NSString * const kSCMSwitchVideoKeyEquivalent	= @"v";
-
-NSString * const kSCMSubScaleIncreaseKeyEquivalent		= @"=";
-NSString * const kSCMSubScaleDecreaseKeyEquivalent		= @"-";
-
-NSString * const kSCMPlayFromLastStoppedKeyEquivalent	= @"c";
-
-NSString * const kSCMToggleLockAspectRatioKeyEquivalent	= @"r";
-
-NSString * const kSCMResetLockAspectRatioKeyEquivalent	= @"r";
-
-NSString * const kSCMVideoTunerPanelKeyEquivalent		= @"v";
-
-NSString * const kSCMToggleLetterBoxKeyEquivalent		= @"l";
-
-NSString * const kSCMWindowSizeIncKeyEquivalent			= @"=";
-NSString * const kSCMWindowSizeDecKeyEquivalent			= @"-";
-
-NSString * const kSCMShowMediaInfoKeyEquivalent			= @"i";
-
-NSString * const kSCMEqualizerPanelKeyEquivalent		= @"e";
-
-NSString * const kMPCStringMPlayerX		= @"MPlayerX";

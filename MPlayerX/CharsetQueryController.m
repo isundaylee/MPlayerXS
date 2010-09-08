@@ -20,7 +20,7 @@
 
 #import "CharsetQueryController.h"
 #import "CocoaAppendix.h"
-#import "def.h"
+#import "UserDefaults.h"
 #import "LocalizedStrings.h"
 
 @implementation CharsetQueryController

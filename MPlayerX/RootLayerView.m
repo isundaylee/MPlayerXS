@@ -19,7 +19,8 @@
  */
 
 #import <Quartz/Quartz.h>
-#import "def.h"
+#import "UserDefaults.h"
+#import "KeyCode.h"
 #import "RootLayerView.h"
 #import "DisplayLayer.h"
 #import "ControlUIView.h"
@@ -69,6 +70,7 @@
 					   [NSNumber numberWithBool:NO], kUDKeyStartByFullScreen,
 					   [NSNumber numberWithBool:YES], kUDKeyFullScreenKeepOther,
 					   [NSNumber numberWithBool:NO], kUDKeyQuitOnClose,
+					   [NSNumber numberWithBool:NO], kUDKeyPinPMode,
 					   nil]];
 }
 
@@ -124,6 +126,7 @@
 	
 	// 禁用修改尺寸的action
 	[root setDelegate:self];
+	[root setDoubleSided:NO];
 
 	// 背景颜色
 	CGColorRef col =  CGColorCreateGenericGray(0.0, 1.0);

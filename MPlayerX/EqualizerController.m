@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "def.h"
+#import "KeyCode.h"
 #import "EqualizerController.h"
 #import "PlayerController.h"
 
