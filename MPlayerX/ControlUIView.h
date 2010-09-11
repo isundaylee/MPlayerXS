@@ -32,6 +32,7 @@
 	NSArray *volumeButtonImages;
 	
 	NSGradient *fillGradient;
+	NSColor *backGroundColor;
 
 	// formatters
 	TimeFormatter *timeFormatter;

@@ -35,7 +35,7 @@
 #define CONTROLALPHA		(1)
 #define BACKGROUNDALPHA		(0.9)
 
-#define CONTROL_CORNER_RADIUS	(8)
+#define CONTROL_CORNER_RADIUS	(6)
 
 #define NUMOFVOLUMEIMAGES		(3)	//这个值是除了没有音量之后的image个数
 #define AUTOHIDETIMEINTERNAL	(3)
@@ -109,6 +109,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		
 		shouldHide = NO;
 		fillGradient = nil;
+		backGroundColor = nil;
 		autoHideTimer = nil;
 		autoHideTimeInterval = 0;
 		timeFormatter = [[TimeFormatter alloc] init];
@@ -308,6 +309,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[videoListMenu release];
 	
 	[fillGradient release];
+	[backGroundColor release];
 	
 	[super dealloc];
 }
@@ -315,11 +317,17 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 -(void) refreshBackgroundAlpha
 {
 	[fillGradient release];
+	[backGroundColor release];
+	
 	float backAlpha = [ud floatForKey:kUDKeyCtrlUIBackGroundAlpha];
-	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithCalibratedWhite:0.180 alpha:backAlpha], 0.0,
-																  [NSColor colorWithCalibratedWhite:0.080 alpha:backAlpha], 0.4,
-																  [NSColor colorWithCalibratedWhite:0.080 alpha:backAlpha], 1.0, 
+
+	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithDeviceWhite:0.220 alpha:backAlpha], 0.0,
+																  [NSColor colorWithDeviceWhite:0.150 alpha:backAlpha], 0.33,
+																  [NSColor colorWithDeviceWhite:0.090 alpha:backAlpha], 0.36,
+																  [NSColor colorWithDeviceWhite:0.050 alpha:backAlpha], 1.0,	
 																  nil];
+	backGroundColor = [[NSColor colorWithDeviceWhite:0.333 alpha:backAlpha] retain];
+	
 	[self setNeedsDisplay:YES];
 }
 
@@ -1393,8 +1401,24 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 ////////////////////////////////////////////////draw myself//////////////////////////////////////////////////
 - (void)drawRect:(NSRect)dirtyRect
 {
-	NSBezierPath* fillPath = [NSBezierPath bezierPathWithRoundedRect:[self bounds] xRadius:CONTROL_CORNER_RADIUS yRadius:CONTROL_CORNER_RADIUS];
+	NSRect rc = [self bounds];
+	NSPoint pt;
+	
+	NSBezierPath *fillPath = [NSBezierPath bezierPathWithRoundedRect:rc xRadius:CONTROL_CORNER_RADIUS yRadius:CONTROL_CORNER_RADIUS];
 	[fillGradient drawInBezierPath:fillPath angle:270];
+
+	[backGroundColor set];
+
+	NSBezierPath *hilightPath = [NSBezierPath bezierPath];
+	 
+	pt.x = rc.size.width - CONTROL_CORNER_RADIUS;
+	pt.y = rc.size.height;
+	[hilightPath moveToPoint:pt];
+	
+	pt.x = CONTROL_CORNER_RADIUS;
+	[hilightPath lineToPoint:pt];
+
+	[hilightPath stroke];
 }
 
 -(void) calculateHintTime
