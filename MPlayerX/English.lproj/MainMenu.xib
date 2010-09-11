@@ -12,6 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="594"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -622,24 +623,24 @@
 				<string key="NSName">_NSMainMenu</string>
 			</object>
 			<object class="NSWindowTemplate" id="818772155">
-				<int key="NSWindowStyleMask">8223</int>
+				<int key="NSWindowStyleMask">8211</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{375, 536}, {277, 336}}</string>
+				<string key="NSWindowRect">{{375, 525}, {320, 347}}</string>
 				<int key="NSWTFlags">-461897728</int>
 				<string key="NSWindowTitle">About MPlayerX</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
-				<string key="NSWindowContentMaxSize">{277, 336}</string>
-				<string key="NSWindowContentMinSize">{277, 336}</string>
+				<string key="NSWindowContentMaxSize">{320, 347}</string>
+				<string key="NSWindowContentMinSize">{320, 347}</string>
 				<object class="NSView" key="NSWindowView" id="255223115">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSTextField" id="173260629">
 							<reference key="NSNextResponder" ref="255223115"/>
 							<int key="NSvFlags">303</int>
-							<string key="NSFrame">{{20, 149}, {240, 44}}</string>
+							<string key="NSFrame">{{40, 160}, {240, 44}}</string>
 							<reference key="NSSuperview" ref="255223115"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="3445284">
@@ -686,7 +687,7 @@ bmtzIHRvA</string>
 									<string>NeXT TIFF v4.0 pasteboard type</string>
 								</object>
 							</object>
-							<string key="NSFrame">{{92, 220}, {96, 96}}</string>
+							<string key="NSFrame">{{112, 231}, {96, 96}}</string>
 							<reference key="NSSuperview" ref="255223115"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="587597968">
@@ -706,7 +707,7 @@ bmtzIHRvA</string>
 						<object class="NSTextField" id="922986103">
 							<reference key="NSNextResponder" ref="255223115"/>
 							<int key="NSvFlags">266</int>
-							<string key="NSFrame">{{20, 201}, {240, 11}}</string>
+							<string key="NSFrame">{{40, 212}, {240, 11}}</string>
 							<reference key="NSSuperview" ref="255223115"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="222532058">
@@ -726,18 +727,19 @@ bmtzIHRvA</string>
 						<object class="NSTextField" id="207460897">
 							<reference key="NSNextResponder" ref="255223115"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{20, 20}, {240, 121}}</string>
+							<string key="NSFrame">{{17, 20}, {286, 132}}</string>
 							<reference key="NSSuperview" ref="255223115"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="1036984193">
 								<int key="NSCellFlags">-2078147071</int>
 								<int key="NSCellFlags2">4456448</int>
-								<string type="base64-UTF8" key="NSContents">UHJvamVjdHM6CiAgbXBsYXllciAtIGh0dHA6Ly93d3cubXBsYXllcmhxLmh1CiAgVUNEIC0gaHR0cDov
-L3dha2FiYS5jMy5jeC9zL2FwcHMvdW5hcmNoaXZlci5odG1sCiAgQkdIVURBcHBLaXQgLSBodHRwOi8v
-d3d3LmJpbmFyeW1ldGhvZC5jb20vCiAgV2VuUXVhbiBNaWNyb0hlaSBGb250IC0gaHR0cDovL3d3dy53
-ZW5xLm9yZwoKQXBwbGljYXRvbiBJY29uOgogIE1pbG/FoSBLcnNtYW5vdmnEhywgTG9yZW56byBGYW5j
-aGksIE9pQ2tpbEwsIFJ5b2gKClRyYW5zbGF0aW9uCiAgU2ltcGxpZmllZCBDaGluZXNlIC0gQW5ha2lu
-fk1hY0BtYWNpZGVhLmNvbQ</string>
+								<string type="base64-UTF8" key="NSContents">UmVsYXRlZCBwcm9qZWN0czoKICBtcGxheWVyIC0gaHR0cDovL3d3dy5tcGxheWVyaHEuaHUKICBVQ0Qg
+LSBodHRwOi8vd3d3Lm1vemlsbGEub3JnL3Byb2plY3RzL2ludGwvZGV0ZWN0b3JzcmMuaHRtbAogIEJH
+SFVEQXBwS2l0IC0gaHR0cDovL3d3dy5iaW5hcnltZXRob2QuY29tCiAgV2VuUXVhbiBNaWNyb0hlaSBG
+b250IC0gaHR0cDovL3d3dy53ZW5xLm9yZwogIFNwYXJrbGUgLSBodHRwOi8vc3BhcmtsZS5hbmR5bWF0
+dXNjaGFrLm9yZwoKSWNvbnMgJiBVSToKICBNaWxvxaEgS3JzbWFub3ZpxIcsIExvcmVuem8gRmFuY2hp
+LCBPaUNraWxMLCBSeW9oCgpUcmFuc2xhdGlvbgogIFNpbXBsaWZpZWQgQ2hpbmVzZSAtIEFuYWtpbn5N
+YWNAbWFjaWRlYS5jb20</string>
 								<reference key="NSSupport" ref="22"/>
 								<reference key="NSControlView" ref="207460897"/>
 								<object class="NSColor" key="NSBackgroundColor" id="212435590">
@@ -753,11 +755,12 @@ fk1hY0BtYWNpZGVhLmNvbQ</string>
 							</object>
 						</object>
 					</object>
-					<string key="NSFrameSize">{277, 336}</string>
+					<string key="NSFrameSize">{320, 347}</string>
+					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
-				<string key="NSMinSize">{277, 355}</string>
-				<string key="NSMaxSize">{277, 355}</string>
+				<string key="NSMinSize">{320, 366}</string>
+				<string key="NSMaxSize">{320, 366}</string>
 			</object>
 			<object class="NSWindowTemplate" id="972006081">
 				<int key="NSWindowStyleMask">15</int>
@@ -3770,14 +3773,14 @@ fk1hY0BtYWNpZGVhLmNvbQ</string>
 					<integer value="1"/>
 					<string>TimeSliderCell</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{621, 731}, {277, 336}}</string>
+					<string>{{561, 733}, {320, 347}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{621, 731}, {277, 336}}</string>
+					<string>{{561, 733}, {320, 347}}</string>
 					<boolean value="NO"/>
 					<boolean value="YES"/>
 					<boolean value="YES"/>
-					<string>{277, 336}</string>
-					<string>{277, 336}</string>
+					<string>{320, 347}</string>
+					<string>{320, 347}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
