@@ -132,7 +132,7 @@ NSString *kStringDots = @"...";
 		NSMutableString *renderStr = [title mutableCopy];
 		NSSize dotSize = [kStringDots sizeWithAttributes:titleAttr];
 		NSSize strSize = [renderStr sizeWithAttributes:titleAttr];
-		float widthMax = titleSize.width - 70;
+		float widthMax = titleSize.width - 80;
 		
 		if (strSize.width > widthMax) {
 			// the title less than 3 characters should be never longer than widMax,
