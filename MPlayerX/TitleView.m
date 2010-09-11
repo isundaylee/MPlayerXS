@@ -20,6 +20,8 @@
 
 #import "TitleView.h"
 
+NSString *kStringDots = @"...";
+
 @implementation TitleView
 
 @synthesize title;
@@ -112,10 +114,6 @@
 	
 	dirtyRect.origin.x = 0;
 	dirtyRect.origin.y = 0;
-	
-	//dirtyRect.size = titleSize;
-	//[[NSColor whiteColor] set];
-	//	NSRectFill(dirtyRect);
 
 	dirtyRect.size = leftSize;
 	[tbCornerLeft drawAtPoint:drawPos fromRect:dirtyRect operation:NSCompositeCopy fraction:1.0];
@@ -131,14 +129,30 @@
 				fraction:1.0];
 
 	if (title) {
-		NSAttributedString *t = [[NSAttributedString alloc] initWithString:title attributes:titleAttr];
-		dirtyRect.size = [t size];
+		NSMutableString *renderStr = [title mutableCopy];
+		NSSize dotSize = [kStringDots sizeWithAttributes:titleAttr];
+		NSSize strSize = [renderStr sizeWithAttributes:titleAttr];
+		float widthMax = titleSize.width - 70;
+		
+		if (strSize.width > widthMax) {
+			// the title less than 3 characters should be never longer than widMax,
+			// so it is safe to delete the first three chars, without checking
+			[renderStr deleteCharactersInRange:NSMakeRange(0, 2)];
+			
+			while (dotSize.width + strSize.width > widthMax) {
+				[renderStr deleteCharactersInRange:NSMakeRange(0, 1)];
+				strSize = [renderStr sizeWithAttributes:titleAttr];
+			}
+			[renderStr insertString:kStringDots	atIndex:0];
+		}
+
+		dirtyRect.size = [renderStr sizeWithAttributes:titleAttr];
 		
 		drawPos.x = MAX(70, (titleSize.width -dirtyRect.size.width)/2);
 		drawPos.y = (titleSize.height - dirtyRect.size.height)/2;
 		
-		[t drawAtPoint: drawPos];
-		[t release];
+		[renderStr drawAtPoint:drawPos withAttributes:titleAttr];
+		[renderStr release];
 	}
 }
 
