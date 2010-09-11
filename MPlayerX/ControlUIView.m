@@ -321,12 +321,12 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	float backAlpha = [ud floatForKey:kUDKeyCtrlUIBackGroundAlpha];
 
-	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithDeviceWhite:0.220 alpha:backAlpha], 0.0,
-																  [NSColor colorWithDeviceWhite:0.150 alpha:backAlpha], 0.33,
-																  [NSColor colorWithDeviceWhite:0.090 alpha:backAlpha], 0.36,
-																  [NSColor colorWithDeviceWhite:0.050 alpha:backAlpha], 1.0,	
+	fillGradient = [[NSGradient alloc] initWithColorsAndLocations:[NSColor colorWithDeviceWhite:0.220 alpha:backAlpha], 0.00f,
+																  [NSColor colorWithDeviceWhite:0.150 alpha:backAlpha], 0.33f,
+																  [NSColor colorWithDeviceWhite:0.090 alpha:backAlpha], 0.36f,
+																  [NSColor colorWithDeviceWhite:0.050 alpha:backAlpha], 1.00f,	
 																  nil];
-	backGroundColor = [[NSColor colorWithDeviceWhite:0.333 alpha:backAlpha] retain];
+	backGroundColor = [[NSColor colorWithDeviceWhite:0.45 alpha:backAlpha] retain];
 	
 	[self setNeedsDisplay:YES];
 }

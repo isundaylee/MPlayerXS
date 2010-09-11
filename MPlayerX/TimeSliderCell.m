@@ -20,24 +20,7 @@
 
 #import "TimeSliderCell.h"
 
-@interface TimeSliderCell (SliderCellInternal)
--(NSColor *)sliderTrackColor;
--(NSColor *)strokeColor;
--(NSColor *)disabledSliderTrackColor;
--(NSColor *)disabledStrokeColor;
--(NSShadow *)focusRing;
--(NSShadow *)dropShadow;
--(NSGradient *)highlightKnobColor;
--(NSGradient *)knobColor;
--(NSGradient *)disabledKnobColor;
-@end
-
-
 @implementation TimeSliderCell
-
-#pragma mark -
-#pragma mark Drawing Methods
-
 - (void)drawBarInside:(NSRect)aRect flipped:(BOOL)flipped {
 	
 	if([self sliderType] == NSLinearSlider) {
@@ -94,9 +77,9 @@
 			}
 			
 			frame.origin.x += 0.5f;
-			frame.origin.y += 0.5f;
-			frame.size.width -= 1;
-			frame.size.height = 5;
+			frame.origin.y -= 2.0f;
+			frame.size.width -= 1.0f;
+			frame.size.height = 8.0f;
 			break;
 		default:
 			[super drawHorizontalBarInFrame:frame];
@@ -104,113 +87,60 @@
 	}
 	
 	//Draw Bar
-	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect: frame xRadius: 2 yRadius: 2];
+	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:frame xRadius:4 yRadius:4];
 	
 	if([self isEnabled]) {
 		
-		[[self sliderTrackColor] set];
+		[[NSColor colorWithDeviceWhite:0.04 alpha:0.60] set];
 		[path fill];
 		
-		[[self strokeColor] set];
+		[[NSColor colorWithDeviceWhite:0.50 alpha:0.20] set];
 		[path stroke];
+		
 	} else {
-		
-		[[self disabledSliderTrackColor] set];
+		[[NSColor colorWithDeviceWhite:0.04 alpha:0.60] set];
 		[path fill];
-		
-		[[self disabledStrokeColor] set];
-		[path stroke];
 	}
 }
 
 - (void)drawHorizontalKnobInFrame:(NSRect)frame {
 	
 	NSRect rcBounds = [[self controlView] bounds];
-	NSBezierPath *path;
+	NSBezierPath *path, *dot;
 	
 	switch ([self controlSize]) {
 			
 		case NSSmallControlSize:
 			rcBounds.origin.y = rcBounds.origin.y + (((rcBounds.origin.y + rcBounds.size.height) /2) - 2.5f);
 			rcBounds.origin.x += 0.5f;
-			rcBounds.origin.y += 0.5f;
-			rcBounds.size.width -= 1;
-			rcBounds.size.height = 5;
+			rcBounds.origin.y -= 2.0f;
+			rcBounds.size.width -= 0.5f;
+			rcBounds.size.height = 8.0f;
 			
 			rcBounds.size.width *= ([self floatValue]/[self maxValue]);
 			
-			path = [NSBezierPath bezierPathWithRoundedRect:rcBounds xRadius:2 yRadius:2];
+			path = [NSBezierPath bezierPathWithRoundedRect:rcBounds xRadius:4 yRadius:4];
+			dot  = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(rcBounds.size.width - 6, rcBounds.origin.y + 2.0, 4, 4)];
 			
 			if([self isEnabled]) {
-				[[self strokeColor] set];
+				[[NSColor colorWithDeviceWhite:0.96 alpha:1.0] set];
+				[path fill];
+				
+				[[NSColor colorWithDeviceWhite:0.0 alpha:0.3] set];
+				[path stroke];
 			} else {
-				[[self disabledStrokeColor] set];
+				[[NSColor colorWithDeviceWhite:1.0 alpha:0.3] set];
+				[path fill];
+				
+				[[NSColor colorWithDeviceWhite:0.0 alpha:0.3] set];
+				[path stroke];
 			}
-			[path fill];
+			[[NSColor blackColor] set];
+			[dot fill];
 			break;
 		default:
 			[super drawHorizontalKnobInFrame:frame];
 			break;
 	}
 }
-
-#pragma mark -
-#pragma mark internal
--(NSColor *)sliderTrackColor {
-	return [NSColor colorWithDeviceRed: 0 green: 0 blue: 0 alpha: 0.5];
-}
-
--(NSColor *)strokeColor {
-	
-	return [NSColor colorWithDeviceRed: 0.749f green: 0.761f blue: 0.788f alpha: 1.0];
-}
-
--(NSColor *)disabledSliderTrackColor {
-	
-	return [NSColor colorWithDeviceRed: 0 green: 0 blue: 0 alpha: 0.2];
-}
-
--(NSColor *)disabledStrokeColor {
-	
-	return [NSColor colorWithDeviceRed: 0.749f green: 0.761f blue: 0.788f alpha: 0.2];
-}
-
--(NSShadow *)focusRing {
-	
-	NSShadow *shadow = [[NSShadow alloc] init];
-	[shadow setShadowColor: [NSColor whiteColor]];
-	[shadow setShadowBlurRadius: 3];
-	[shadow setShadowOffset: NSMakeSize( 0, 0)];
-	
-	return [shadow autorelease];
-}
-
--(NSShadow *)dropShadow {
-	
-	NSShadow *shadow = [[NSShadow alloc] init];
-	[shadow setShadowColor: [NSColor blackColor]];
-	[shadow setShadowBlurRadius: 2];
-	[shadow setShadowOffset: NSMakeSize( 0, -1)];
-	
-	return [shadow autorelease];
-}
-
--(NSGradient *)highlightKnobColor {
-	
-	return [[[NSGradient alloc] initWithStartingColor: [NSColor colorWithDeviceRed: 0.451f green: 0.451f blue: 0.455f alpha: 1.0f]
-										  endingColor: [NSColor colorWithDeviceRed: 0.318f green: 0.318f blue: 0.318f alpha: 1.0f]] autorelease];
-}
-
--(NSGradient *)knobColor {
-	
-	return [[[NSGradient alloc] initWithStartingColor: [NSColor colorWithDeviceRed: 0.251f green: 0.251f blue: 0.255f alpha: 1.0f]
-										  endingColor: [NSColor colorWithDeviceRed: 0.118f green: 0.118f blue: 0.118f alpha: 1.0f]] autorelease];
-}
-
--(NSGradient *)disabledKnobColor {
-	
-	return [[[NSGradient alloc] initWithStartingColor: [NSColor colorWithDeviceRed: 0.251f green: 0.251f blue: 0.255f alpha: 1.0f]
-										  endingColor: [NSColor colorWithDeviceRed: 0.118f green: 0.118f blue: 0.118f alpha: 1.0f]] autorelease];
-}
-
 @end
