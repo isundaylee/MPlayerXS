@@ -1408,7 +1408,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	NSRect rc = [self bounds];
 	NSPoint pt;
 	
-	//////////////////// main backgound
+	//////////////////// main background
 	NSBezierPath *fillPath = [NSBezierPath bezierPathWithRoundedRect:rc xRadius:CONTROL_CORNER_RADIUS yRadius:CONTROL_CORNER_RADIUS];
 	[fillGradient drawInBezierPath:fillPath angle:270];
 
@@ -1436,11 +1436,10 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	pt.x = rc.size.width - CONTROL_CORNER_RADIUS;
 	[roundPath appendBezierPathWithArcWithCenter:pt radius:CONTROL_CORNER_RADIUS
 									  startAngle:0 endAngle:90];
-	
 	pt.x = CONTROL_CORNER_RADIUS;
 	pt.y = rc.size.height;
 	[roundPath moveToPoint:pt];
-	
+
 	pt.y = rc.size.height - CONTROL_CORNER_RADIUS;
 	[roundPath appendBezierPathWithArcWithCenter:pt radius:CONTROL_CORNER_RADIUS
 									  startAngle:90 endAngle:180];
