@@ -52,8 +52,8 @@
 #define kMPXStringOSDLetterBoxWillHide		(NSLocalizedString(@"Letterbox will hide", @"OSD hint"))
 #define kMPXStringMenuUnlockAspectRatio		(NSLocalizedString(@"Unlock Aspect Ratio", @"menu"))
 #define kMPXStringMenuLockAspectRatio		(NSLocalizedString(@"Lock Aspect Ratio", @"menu"))
-#define kMPXStringMenuShowLetterBox		(NSLocalizedString(@"Show LetterBox", @"menu"))
-#define kMPXStringMenuHideLetterBox		(NSLocalizedString(@"Hide LetterBox", @"menu"))
+#define kMPXStringMenuShowLetterBox		(NSLocalizedString(@"Show Letterbox", @"menu"))
+#define kMPXStringMenuHideLetterBox		(NSLocalizedString(@"Hide Letterbox", @"menu"))
 #define kMPXStringURLPanelClearMenu		(NSLocalizedString(@"Clear Menu...", @"open url panel"))
 #define kMPXStringSubEncQueryResult		(NSLocalizedString(@"Detected file:\t%@\nEncoding:\t\t%@\nconfidence:\t%2.1f%%", @"SubEncoding"))
 
