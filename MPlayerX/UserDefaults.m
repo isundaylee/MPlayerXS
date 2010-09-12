@@ -74,13 +74,16 @@ NSString * const kUDKeyTextSubtitleCharsetFallback			= @"TextSubCharsetFallback"
 NSString * const kUDKeyOverlapSub				= @"OverlapSub";
 NSString * const kUDKeyRtspOverHttp				= @"RtspOverHttp";
 NSString * const kUDKeyFFMpegHandleStream		= @"FFMpegHandleStream";
-NSString * const kUDKeyPinPMode					= @"PinPMode";
 NSString * const kUDKeyMixToStereoMode			= @"MixToSterMode";
-NSString * const kUDKeyAlwaysShowLBInFullScr	= @"AlwaysShowLBInFullScr";
-NSString * const kUDKeyAutoLBHeightInFullScr	= @"AutoLBHeightInFullScr";
 NSString * const kUDKeyAutoResume				= @"AutoResume";
 
 NSString * const kUDKeySelectedPrefView			= @"SelectedPrefView";
 NSString * const kUDKeyHelpURL					= @"HelpURL";
 NSString * const kUDKeyCloseWindowWhenStopped	= @"CloseOnStopped";
 NSString * const kUDKeyResizeStep				= @"ResizeStep";
+
+NSString * const kUDKeyAutoSaveVTSettings		= @"ASVTS";
+NSString * const kUDKeyAutoSaveEQSettings		= @"ASEQS";
+NSString * const kUDKeyPinPMode					= @"PinPMode";
+NSString * const kUDKeyAlwaysShowLBInFullScr	= @"AlwaysShowLBInFullScr";
+NSString * const kUDKeyAutoLBHeightInFullScr	= @"AutoLBHeightInFullScr";

@@ -70,13 +70,18 @@ extern NSString * const kUDKeyTextSubtitleCharsetFallback;
 extern NSString * const kUDKeyOverlapSub;
 extern NSString * const kUDKeyRtspOverHttp;
 extern NSString * const kUDKeyFFMpegHandleStream;
-extern NSString * const kUDKeyPinPMode;
 extern NSString * const kUDKeyMixToStereoMode;
-extern NSString * const kUDKeyAlwaysShowLBInFullScr;
-extern NSString * const kUDKeyAutoLBHeightInFullScr;
 extern NSString * const kUDKeyAutoResume;
 
+// internal use
 extern NSString * const kUDKeySelectedPrefView;
 extern NSString * const kUDKeyHelpURL;
 extern NSString * const kUDKeyCloseWindowWhenStopped;
 extern NSString * const kUDKeyResizeStep;
+
+// still not implemented
+extern NSString * const kUDKeyAutoSaveVTSettings;			// TODO
+extern NSString * const kUDKeyAutoSaveEQSettings;			// TODO
+extern NSString * const kUDKeyPinPMode;						// TODO
+extern NSString * const kUDKeyAlwaysShowLBInFullScr;		// TODO
+extern NSString * const kUDKeyAutoLBHeightInFullScr;		// TODO
