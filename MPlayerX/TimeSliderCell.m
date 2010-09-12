@@ -90,15 +90,13 @@
 	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:frame xRadius:4 yRadius:4];
 	
 	if([self isEnabled]) {
-		
-		[[NSColor colorWithDeviceWhite:0.04 alpha:0.60] set];
+		[[NSColor colorWithDeviceWhite:0.04 alpha:0.20] set];
 		[path fill];
 		
 		[[NSColor colorWithDeviceWhite:0.50 alpha:0.20] set];
 		[path stroke];
-		
 	} else {
-		[[NSColor colorWithDeviceWhite:0.04 alpha:0.60] set];
+		[[NSColor colorWithDeviceWhite:0.04 alpha:0.20] set];
 		[path fill];
 	}
 }
@@ -125,16 +123,14 @@
 			if([self isEnabled]) {
 				[[NSColor colorWithDeviceWhite:0.96 alpha:1.0] set];
 				[path fill];
-				
-				[[NSColor colorWithDeviceWhite:0.0 alpha:0.3] set];
-				[path stroke];
 			} else {
-				[[NSColor colorWithDeviceWhite:1.0 alpha:0.3] set];
+				[[NSColor colorWithDeviceWhite:0.3 alpha:1.0] set];
 				[path fill];
-				
-				[[NSColor colorWithDeviceWhite:0.0 alpha:0.3] set];
-				[path stroke];
 			}
+				
+			[[NSColor colorWithDeviceWhite:0.0 alpha:0.3] set];
+			[path stroke];
+			
 			[[NSColor blackColor] set];
 			[dot fill];
 			break;
