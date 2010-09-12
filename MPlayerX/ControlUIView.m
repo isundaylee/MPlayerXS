@@ -110,6 +110,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		shouldHide = NO;
 		fillGradient = nil;
 		backGroundColor = nil;
+		backGroundColor2 = nil;
 		autoHideTimer = nil;
 		autoHideTimeInterval = 0;
 		timeFormatter = [[TimeFormatter alloc] init];
@@ -310,6 +311,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	[fillGradient release];
 	[backGroundColor release];
+	[backGroundColor2 release];
 	
 	[super dealloc];
 }
@@ -318,6 +320,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 {
 	[fillGradient release];
 	[backGroundColor release];
+	[backGroundColor2 release];
 	
 	float backAlpha = [ud floatForKey:kUDKeyCtrlUIBackGroundAlpha];
 
@@ -326,7 +329,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 																  [NSColor colorWithDeviceWhite:0.090 alpha:backAlpha], 0.36f,
 																  [NSColor colorWithDeviceWhite:0.050 alpha:backAlpha], 1.00f,	
 																  nil];
-	backGroundColor = [[NSColor colorWithDeviceWhite:0.45 alpha:backAlpha] retain];
+	backGroundColor  = [[NSColor colorWithDeviceWhite:0.45 alpha:backAlpha] retain];
+	backGroundColor2 = [[NSColor colorWithDeviceWhite:0.32 alpha:backAlpha] retain];
 	
 	[self setNeedsDisplay:YES];
 }
@@ -1404,11 +1408,12 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	NSRect rc = [self bounds];
 	NSPoint pt;
 	
+	//////////////////// main backgound
 	NSBezierPath *fillPath = [NSBezierPath bezierPathWithRoundedRect:rc xRadius:CONTROL_CORNER_RADIUS yRadius:CONTROL_CORNER_RADIUS];
 	[fillGradient drawInBezierPath:fillPath angle:270];
 
+	//////////////////// top line
 	[backGroundColor set];
-
 	NSBezierPath *hilightPath = [NSBezierPath bezierPath];
 	 
 	pt.x = rc.size.width - CONTROL_CORNER_RADIUS;
@@ -1419,6 +1424,27 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[hilightPath lineToPoint:pt];
 
 	[hilightPath stroke];
+	
+	//////////////////// round corner line
+	[backGroundColor2 set];
+	
+	NSBezierPath *roundPath = [NSBezierPath bezierPath];
+	pt.x = rc.size.width;
+	pt.y = rc.size.height - CONTROL_CORNER_RADIUS;
+	[roundPath moveToPoint:pt];
+	
+	pt.x = rc.size.width - CONTROL_CORNER_RADIUS;
+	[roundPath appendBezierPathWithArcWithCenter:pt radius:CONTROL_CORNER_RADIUS
+									  startAngle:0 endAngle:90];
+	
+	pt.x = CONTROL_CORNER_RADIUS;
+	pt.y = rc.size.height;
+	[roundPath moveToPoint:pt];
+	
+	pt.y = rc.size.height - CONTROL_CORNER_RADIUS;
+	[roundPath appendBezierPathWithArcWithCenter:pt radius:CONTROL_CORNER_RADIUS
+									  startAngle:90 endAngle:180];
+	[roundPath stroke];
 }
 
 -(void) calculateHintTime

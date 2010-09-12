@@ -33,6 +33,7 @@
 	
 	NSGradient *fillGradient;
 	NSColor *backGroundColor;
+	NSColor *backGroundColor2;
 
 	// formatters
 	TimeFormatter *timeFormatter;
