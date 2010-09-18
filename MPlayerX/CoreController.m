@@ -495,6 +495,8 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 
 -(void) setAudioDelay: (float) delay
 {
+	if (fabsf(delay) < 0.00001f) { delay = 0.0f; }
+	
 	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTFloat, kMPCSetPropertyPreFixPauseKeep, kMPCAudioDelay, delay]]) {
 		[movieInfo.playingInfo setAudioDelay: [NSNumber numberWithFloat: delay]];
 	}
@@ -517,6 +519,8 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 
 -(void) setSubDelay: (float) delay
 {
+	if (fabsf(delay) < 0.00001f) { delay = 0.0f; }
+
 	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTFloat, kMPCSetPropertyPreFixPauseKeep, kMPCSubDelay, delay]]) {
 		[movieInfo.playingInfo setSubDelay:[NSNumber numberWithFloat: delay]];
 	}
