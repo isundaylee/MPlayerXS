@@ -497,7 +497,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 {
 	if (fabsf(delay) < 0.00001f) { delay = 0.0f; }
 	
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTFloat, kMPCSetPropertyPreFixPauseKeep, kMPCAudioDelay, delay]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTFloat, kMPCSetPropertyPreFixPauseKeep, kMPCAudioDelay, -1 * delay]]) {
 		[movieInfo.playingInfo setAudioDelay: [NSNumber numberWithFloat: delay]];
 	}
 }
@@ -521,7 +521,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 {
 	if (fabsf(delay) < 0.00001f) { delay = 0.0f; }
 
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTFloat, kMPCSetPropertyPreFixPauseKeep, kMPCSubDelay, delay]]) {
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTFloat, kMPCSetPropertyPreFixPauseKeep, kMPCSubDelay, -1 * delay]]) {
 		[movieInfo.playingInfo setSubDelay:[NSNumber numberWithFloat: delay]];
 	}
 }
