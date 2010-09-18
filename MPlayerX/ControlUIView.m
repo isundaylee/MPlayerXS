@@ -124,6 +124,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 - (void)awakeFromNib
 {
+	orgHeight = [self bounds].size.height;
+	
 	// 自身的设定
 	[self setAlphaValue:CONTROLALPHA];
 	[self refreshBackgroundAlpha];
@@ -752,7 +754,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	NSRect rcAcc = [accessaryContainer frame];
 	
 	if ([toggleAcceButton state] == NSOnState) {
-		rcSelf.size.height += delta;
+		
+		rcSelf.size.height = orgHeight + delta;
 		rcSelf.origin.y -= MIN(rcSelf.origin.y, delta);
 		
 		[self.animator setFrame:rcSelf];
@@ -765,7 +768,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		
 	} else {
 		[accessaryContainer.animator setHidden: YES];
-		rcSelf.size.height -= delta;
+
+		rcSelf.size.height = orgHeight;
 		rcSelf.origin.y += delta;
 		
 		[self.animator setFrame:rcSelf];

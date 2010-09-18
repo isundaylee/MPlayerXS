@@ -50,6 +50,7 @@
 	NSMenu *videoListMenu;
 		
 	float volStep;
+	float orgHeight;
 
 	IBOutlet PlayerController *playerController;
 	IBOutlet RootLayerView *dispView;
