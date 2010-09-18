@@ -194,8 +194,12 @@ NSString * const kCILayerFilterEnabled		= @"enabled";
 		
 		[VTWin setLevel:NSMainMenuWindowLevel];
 	}
-
-	[VTWin orderFront:self];
+	
+	if ([VTWin isVisible]) {
+		[VTWin orderOut:self];
+	} else {
+		[VTWin orderFront:self];
+	}
 }
 
 -(void) resetFilters:(id)sender

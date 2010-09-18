@@ -66,7 +66,12 @@
 		[self resetEqualizer:nil];
 		[EQPanel setLevel:NSMainMenuWindowLevel];
 	}
-	[EQPanel orderFront:self];
+	
+	if ([EQPanel isVisible]) {
+		[EQPanel orderOut:self];
+	} else {
+		[EQPanel orderFront:self];
+	}
 }
 
 -(IBAction) setEqualizer:(id)sender
