@@ -102,6 +102,13 @@ NSString *kStringDots = @"...";
 											   object:[self window]];
 }
 
+-(void) mouseUp:(NSEvent *)theEvent
+{
+	if ([theEvent clickCount] == 2) {
+		[[self window] performMiniaturize:self];
+	}
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {	
 	NSSize leftSize = [tbCornerLeft size];
