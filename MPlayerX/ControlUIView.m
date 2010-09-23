@@ -365,118 +365,95 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	NSMutableString *dispStr = [[NSMutableString alloc] initWithCapacity:60];
 	
 	if (mi) {
-		int currentID;
 		BOOL showOSD = NO;
 		
 		[dispStr appendFormat:kMPXStringOSDMediaInfoDemuxer, [[mi demuxer] uppercaseString]];
 
-		currentID = [mi.playingInfo currentVideoID];
+		VideoInfo *vi = [mi videoInfoForID:[mi.playingInfo currentVideoID]];
 		
-		if (currentID != kPIVideoIDInvalid) {
+		if (vi) {
 			showOSD = YES;
-			
-			VideoInfo *vi = nil;
-			
-			for(VideoInfo *info in [mi videoInfo]) {
-				if ([info ID] == currentID) {
-					vi = info;
+			NSString *format = [vi format];
+			switch ([format hexValue]) {
+				case 0x10000001:
+					format = @"MPEG-1";
 					break;
-				}
-			}
-			if (vi) {
-				NSString *format = [vi format];
-				switch ([format hexValue]) {
-					case 0x10000001:
-						format = @"MPEG-1";
-						break;
-					case 0x10000002:
-						format = @"MPEG-2";
-						break;
-					case 0x10000005:
-						format = @"H264";
-						break;
-					default:
-						break;
-				}
-				
-				format = [format uppercaseString];
-
-				if ([vi bitRate] < 1) {
-					[dispStr appendFormat:kMPXStringOSDMediaInfoVideoInfoNoBPS,
-					 format,
-					 [vi width],
-					 [vi height],
-					 ((float)[vi fps])];					
-				} else {
-					[dispStr appendFormat:kMPXStringOSDMediaInfoVideoInfo,
-					 format,
-					 [vi width],
-					 [vi height],
-					 ((float)[vi bitRate])/1000.0f,
-					 ((float)[vi fps])];					
-				}
-			}
-		}
-
-		currentID = [mi.playingInfo currentAudioID];
-		
-		if (currentID != kPIAudioIDInvalid) {
-			showOSD = YES;
-			
-			AudioInfo *ai = nil;
-			
-			for(AudioInfo *info in [mi audioInfo]) {
-				if ([info ID] == currentID) {
-					ai = info;
+				case 0x10000002:
+					format = @"MPEG-2";
 					break;
-				}
+				case 0x10000005:
+					format = @"H264";
+					break;
+				default:
+					break;
 			}
-			if (ai) {
-				
-				// This is a hack
-				// mplayer will not always output the string format for audio/video format property
-				// this is a temp list for known value
-				NSString *format = [ai format];
-				
-				switch ([format hexValue]) {
-					case 0x2000:
-						format = @"AC-3";
-						break;
-					case 0x2001:
-						format = @"DTS";
-						break;
-					case 0x55:
-						format = @"MPEG-3";
-						break;
-					case 0x50:
-						format = @"MPEG-1/2";
-						break;
-					case 0x1:
-					case 0x6:
-					case 0x7:
-						format = @"PCM";
-						break;
-					case 0x161:
-					case 0x162:
-					case 0x163:
-						format = @"WMA";
-						break;
-					case 0xF1AC:
-						format = @"FLAC";
-						break;
-
-					default:
-						break;
-				}
-				format = [format uppercaseString];
-				
-				[dispStr appendFormat:kMPXStringOSDMediaInfoAudioInfo,
+			
+			format = [format uppercaseString];
+			
+			if ([vi bitRate] < 1) {
+				[dispStr appendFormat:kMPXStringOSDMediaInfoVideoInfoNoBPS,
 				 format,
-				 ((float)[ai bitRate])/1000.0f,
-				 ((float)[ai sampleRate])/1000.0f,
-				 [ai channels]];
-			}
+				 [vi width],
+				 [vi height],
+				 ((float)[vi fps])];					
+			} else {
+				[dispStr appendFormat:kMPXStringOSDMediaInfoVideoInfo,
+				 format,
+				 [vi width],
+				 [vi height],
+				 ((float)[vi bitRate])/1000.0f,
+				 ((float)[vi fps])];					
+			}			
 		}
+
+		AudioInfo *ai = [mi audioInfoForID:[mi.playingInfo currentAudioID]];
+		
+		if (ai) {
+			showOSD = YES;
+			// This is a hack
+			// mplayer will not always output the string format for audio/video format property
+			// this is a temp list for known value
+			NSString *format = [ai format];
+			
+			switch ([format hexValue]) {
+				case 0x2000:
+					format = @"AC-3";
+					break;
+				case 0x2001:
+					format = @"DTS";
+					break;
+				case 0x55:
+					format = @"MPEG-3";
+					break;
+				case 0x50:
+					format = @"MPEG-1/2";
+					break;
+				case 0x1:
+				case 0x6:
+				case 0x7:
+					format = @"PCM";
+					break;
+				case 0x161:
+				case 0x162:
+				case 0x163:
+					format = @"WMA";
+					break;
+				case 0xF1AC:
+					format = @"FLAC";
+					break;
+					
+				default:
+					break;
+			}
+			format = [format uppercaseString];
+			
+			[dispStr appendFormat:kMPXStringOSDMediaInfoAudioInfo,
+			 format,
+			 ((float)[ai bitRate])/1000.0f,
+			 ((float)[ai sampleRate])/1000.0f,
+			 [ai channels]];			
+		}
+		
 		if (showOSD) {
 			BOOL actOld = [osd isActive];
 			[osd setActive:YES];

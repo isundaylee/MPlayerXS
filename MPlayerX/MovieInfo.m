@@ -75,6 +75,36 @@ NSString * const kMovieInfoKVOVideoInfo		= @"videoInfo";
 	[super dealloc];
 }
 
+-(AudioInfo*) audioInfoForID:(int) audioID
+{
+	AudioInfo *ret = nil;
+	
+	if (audioID != kPIAudioIDInvalid) {
+		for (AudioInfo *info in audioInfo) {
+			if ([info ID] == audioID) {
+				ret = info;
+				break;
+			}
+		}
+	}
+	return ret;
+}
+
+-(VideoInfo*) videoInfoForID:(int) videoID
+{
+	VideoInfo *ret = nil;
+	
+	if (videoID != kPIVideoIDInvalid) {
+		for (VideoInfo *info in videoInfo) {
+			if ([info ID] == videoID) {
+				ret = info;
+				break;
+			}
+		}
+	}
+	return ret;
+}
+
 -(void) resetWithParameterManager:(ParameterManager*)pm
 {
 	NSNumber *zero = [NSNumber numberWithInt:0];

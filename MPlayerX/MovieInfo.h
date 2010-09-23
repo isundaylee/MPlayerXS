@@ -60,4 +60,6 @@ extern NSString * const kMovieInfoKVOVideoInfo;
 @property (retain, readwrite) NSMutableArray *subInfo;
 
 -(void) resetWithParameterManager:(ParameterManager*)pm;
+-(AudioInfo*) audioInfoForID:(int) audioID;
+-(VideoInfo*) videoInfoForID:(int) videoID;
 @end

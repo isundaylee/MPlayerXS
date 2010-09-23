@@ -586,7 +586,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 		if (chSrc == 1) {
 			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@=2:1:1\n", kMPCPausingKeepForce, kMPCAfAddCmd, kMPCPan]];
 		} else if (chSrc == 6) {
-			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@=2:1:0:0:1:1:0:0:1:1:1:1:1\n", kMPCPausingKeepForce, kMPCAfAddCmd, kMPCPan]];
+			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@=2:1:0:0:1:1:0:0:1:0.707:0.707:1:1\n", kMPCPausingKeepForce, kMPCAfAddCmd, kMPCPan]];
 		} else if (chSrc == 8) {
 			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@=2:1:0:0:1:1:0:0:1:1:0:0:1:1:1:1:1\n", kMPCPausingKeepForce, kMPCAfAddCmd, kMPCPan]];
 		}
@@ -632,19 +632,10 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 						
 						if (!([pm ac3Pass] || [pm dtsPass]) && ([pm mixToStereo] != kPMMixToStereoNO)) {
 							
-							int currentID = [movieInfo.playingInfo currentAudioID];
+							AudioInfo *ai = [movieInfo audioInfoForID:[movieInfo.playingInfo currentAudioID]];
 							
-							if (currentID != kPIAudioIDInvalid) {
-								AudioInfo *ai = nil;
-								for(AudioInfo *info in [movieInfo audioInfo]) {
-									if ([info ID] == currentID) {
-										ai = info;
-										break;
-									}
-								}
-								if (ai) {
-									[self mapAudioChannelsFrom:[ai channels] to:2];
-								}
+							if (ai) {
+								[self mapAudioChannelsFrom:[ai channels] to:2];
 							}
 						}
 						
