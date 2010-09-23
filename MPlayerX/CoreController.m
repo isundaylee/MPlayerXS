@@ -578,17 +578,23 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 	}
 }
 
--(void) mapAudioChannelsFrom:(NSInteger)chSrc to:(NSInteger) chDst
+-(void) mapAudioChannelsTo:(NSInteger) chDst
 {
 	[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@\n", kMPCPausingKeepForce, kMPCAfDelCmd, kMPCPan]];
 	
-	if (chDst == 2) {
-		if (chSrc == 1) {
-			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@=2:1:1\n", kMPCPausingKeepForce, kMPCAfAddCmd, kMPCPan]];
-		} else if (chSrc == 6) {
-			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@=2:1:0:0:1:1:0:0:1:0.707:0.707:1:1\n", kMPCPausingKeepForce, kMPCAfAddCmd, kMPCPan]];
-		} else if (chSrc == 8) {
-			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@=2:1:0:0:1:1:0:0:1:1:0:0:1:1:1:1:1\n", kMPCPausingKeepForce, kMPCAfAddCmd, kMPCPan]];
+	AudioInfo *ai = [movieInfo audioInfoForID:[movieInfo.playingInfo currentAudioID]];
+	
+	if (ai) {
+		NSInteger chSrc = [ai channels];
+		
+		if (chDst == 2) {
+			if (chSrc == 1) {
+				[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@=2:1:1\n", kMPCPausingKeepForce, kMPCAfAddCmd, kMPCPan]];
+			} else if (chSrc == 6) {
+				[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@=2:1:0:0:1:1:0:0:1:0.5:0.5:1:1\n", kMPCPausingKeepForce, kMPCAfAddCmd, kMPCPan]];
+			} else if (chSrc == 8) {
+				[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ %@ %@=2:1:0:0:1:1:0:0:1:1:0:0:1:1:1:1:1\n", kMPCPausingKeepForce, kMPCAfAddCmd, kMPCPan]];
+			}
 		}
 	}
 }
@@ -631,12 +637,8 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 					if (((stateOld & kMPCStateMask) == 0) && (state & kMPCStateMask)) {
 						
 						if (!([pm ac3Pass] || [pm dtsPass]) && ([pm mixToStereo] != kPMMixToStereoNO)) {
-							
-							AudioInfo *ai = [movieInfo audioInfoForID:[movieInfo.playingInfo currentAudioID]];
-							
-							if (ai) {
-								[self mapAudioChannelsFrom:[ai channels] to:2];
-							}
+							// at first time core got the info when playback just started, mplayer still could not accpect the comand
+							[self mapAudioChannelsTo:2];
 						}
 						
 						if (delegate) {
@@ -693,7 +695,9 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 				}
 				case kMITypeVideoGotInfo:
 				case kMITypeAudioGotInfo:
-				// 现在还没有实现KVO
+				// This KVO will be called
+				// 1. when playback is opened but not started, core just got the infos
+				// 2. in multi-track media, this will be called when track was changed
 				{
 					NSArray *strArr = [[dict objectForKey:key] componentsSeparatedByString:@":"];
 					int ID = [[strArr objectAtIndex:0] intValue];
@@ -710,6 +714,12 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 						[infoToSet setInfoDataWithArray:strArr];
 						if (type == kMITypeAudioGotInfo) {
 							[movieInfo.playingInfo setCurrentAudioID:ID];
+							
+							if ((state & kMPCStateMask) && (!([pm ac3Pass] || [pm dtsPass])) && ([pm mixToStereo] != kPMMixToStereoNO)) {
+								// pan filter should be set when mplayer could accpect command
+								// in multi-track media, when track is changed, the downmixing pan filter should be set again
+								[self mapAudioChannelsTo:2];
+							}
 						} else {
 							[movieInfo.playingInfo setCurrentVideoID:ID];
 						}

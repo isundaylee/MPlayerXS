@@ -140,6 +140,6 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 
 -(void) setEqualizer:(NSArray*)amps;
 
--(void) mapAudioChannelsFrom:(NSInteger)chSrc to:(NSInteger) chDst;
+-(void) mapAudioChannelsTo:(NSInteger) chDst;
 
 @end
