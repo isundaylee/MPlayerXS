@@ -11,6 +11,7 @@
 			<array>
 				<string>aa3</string>
 				<string>aac</string>
+				<string>ac3</string>
 				<string>acm</string>
 				<string>aif</string>
 				<string>aiff</string>
@@ -206,7 +207,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>893</string>
+	<string>953</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>NSMainNibFile</key>
