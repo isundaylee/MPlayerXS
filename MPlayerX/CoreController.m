@@ -636,10 +636,12 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 					state = [[dict objectForKey:key] intValue];
 					if (((stateOld & kMPCStateMask) == 0) && (state & kMPCStateMask)) {
 						
+						/*
 						if (!([pm ac3Pass] || [pm dtsPass]) && ([pm mixToStereo] != kPMMixToStereoNO)) {
 							// at first time core got the info when playback just started, mplayer still could not accpect the comand
 							[self mapAudioChannelsTo:2];
 						}
+						*/
 						
 						if (delegate) {
 							[delegate playebackStarted];
@@ -714,12 +716,13 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 						[infoToSet setInfoDataWithArray:strArr];
 						if (type == kMITypeAudioGotInfo) {
 							[movieInfo.playingInfo setCurrentAudioID:ID];
-							
+							/*
 							if ((state & kMPCStateMask) && (!([pm ac3Pass] || [pm dtsPass])) && ([pm mixToStereo] != kPMMixToStereoNO)) {
 								// pan filter should be set when mplayer could accpect command
 								// in multi-track media, when track is changed, the downmixing pan filter should be set again
 								[self mapAudioChannelsTo:2];
 							}
+							*/
 						} else {
 							[movieInfo.playingInfo setCurrentVideoID:ID];
 						}

@@ -62,6 +62,7 @@ NSString * const kPMParSubFont		= @"-subfont";
 NSString * const kPMParSubCP		= @"-subcp";
 NSString * const kPMParSubFontAutoScale	= @"-subfont-autoscale";
 NSString * const kPMVal1				= @"1";
+NSString * const kPMVal2				= @"2";
 NSString * const kPMParEmbeddedFonts	= @"-embeddedfonts";
 NSString * const kPMParNoEmbeddedFonts	= @"-noembeddedfonts";
 NSString * const kPMParLavdopts			= @"-lavdopts";
@@ -88,6 +89,7 @@ NSString * const kPMParOverlapSub		= @"-overlapsub";
 NSString * const kPMParRtspOverHttp		= @"-rtsp-stream-over-http";
 NSString * const kPMParMsgCharset		= @"-msgcharset";
 NSString * const kPMValMsgCharset		= @"noconv";
+NSString * const kPMParChannels			= @"-channels";
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
@@ -391,6 +393,9 @@ NSString * const kPMValMsgCharset		= @"noconv";
 			passStr = [passStr stringByAppendingString:kPMParHWAC3];
 		}
 		[paramArray addObject:passStr];
+	} else if (mixToStereo == kPMMixDTS5_1ToStereo) {
+		[paramArray addObject:kPMParChannels];
+		[paramArray addObject:kPMVal2];
 	}
 
 	if (pauseAtStart) {
