@@ -1099,7 +1099,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[self toggleFillScreen:nil];
 	
 	if ([ud boolForKey:kUDKeyCloseWindowWhenStopped]) {
-		[dispView hidePlayerWindow];
+		[dispView closePlayerWindow];
 	}
 }
 

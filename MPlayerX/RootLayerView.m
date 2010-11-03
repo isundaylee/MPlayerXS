@@ -200,9 +200,10 @@
 						name:NSApplicationDidResignActiveNotification object:[NSApplication sharedApplication]];
 }
 
--(void) hidePlayerWindow
+-(void) closePlayerWindow
 {
-	[playerWindow orderOut:self];
+	[playerWindow close];
+	// [playerWindow orderOut:self];
 }
 
 -(void) playBackStopped:(NSNotification*)notif
