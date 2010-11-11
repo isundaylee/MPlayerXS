@@ -80,7 +80,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 +(void) initialize
 {
-	NSNumber *boolYES = [NSNumber numberWithBool:YES];
+	NSNumber *boolYes = [NSNumber numberWithBool:YES];
 	NSNumber *boolNo  = [NSNumber numberWithBool:NO];
 	
 	[[NSUserDefaults standardUserDefaults] 
@@ -91,11 +91,12 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 					   boolNo, kUDKeyTimeTextAltTotal,
 					   [NSNumber numberWithFloat:10], kUDKeyVolumeStep,
 					   [NSNumber numberWithFloat:BACKGROUNDALPHA], kUDKeyCtrlUIBackGroundAlpha,
-					   boolYES, kUDKeyShowOSD,
+					   boolYes, kUDKeyShowOSD,
 					   [NSNumber numberWithFloat:0.1], kUDKeyResizeStep,
-					   boolYES, kUDKeyCloseWindowWhenStopped,
-					   boolYES, kUDKeyAlwaysShowLBInFullScr,
-					   boolYES, kUDKeyAutoLBHeightInFullScr,
+					   boolYes, kUDKeyCloseWindowWhenStopped,
+					   boolYes, kUDKeyAlwaysShowLBInFullScr,
+					   boolYes, kUDKeyAutoLBHeightInFullScr,
+					   boolNo, kUDKeyHideTitlebar,
 					   nil]];
 }
 
@@ -287,6 +288,9 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	// this functioin must be called after the Notification is setuped
 	[playerController setupKVO];
+
+	// force hide titlebar
+	[title setAlphaValue:([ud boolForKey:kUDKeyHideTitlebar])?0:CONTROLALPHA];
 }
 
 -(void) dealloc
@@ -494,8 +498,9 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		NSPoint pos = [[self window] convertScreenToBase:[NSEvent mouseLocation]];
 		
 		// 如果不在这个View的话，那么就隐藏自己
+		// if HideTitlebar is ON, ignore the titlebar area when hiding the cursor
 		if ((!NSPointInRect([self  convertPoint:pos fromView:nil], self.bounds)) && 
-			(!NSPointInRect([title convertPoint:pos fromView:nil], title.bounds))) {
+			((!NSPointInRect([title convertPoint:pos fromView:nil], title.bounds)) || [ud boolForKey:kUDKeyHideTitlebar])) {
 			[self.animator setAlphaValue:0];
 			
 			// 如果是全屏模式也要隐藏鼠标
@@ -509,6 +514,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 				// 不是全屏的话，隐藏resizeindicator
 				// 全屏的话不管
 				[rzIndicator.animator setAlphaValue:0];
+				// 这里应该判断kUDKeyHideTitlebar的，但是由于这里是要隐藏title
+				// 因此多次将AlphaValue设置为0也不会有坏影响
 				[title.animator setAlphaValue:0];
 			}
 		}			
@@ -536,8 +543,12 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	} else {
 		// 不是全屏模式的话，要显示resizeindicator
 		// 全屏的时候不管
-		[rzIndicator.animator setAlphaValue:1];
-		[title.animator setAlphaValue:1];
+		[rzIndicator.animator setAlphaValue:CONTROLALPHA];
+
+		if (![ud boolForKey:kUDKeyHideTitlebar]) {
+			// if kUDKeyHideTitlebar is OFF, go to display the titlebar
+			[title.animator setAlphaValue:CONTROLALPHA];
+		}
 	}
 }
 
@@ -685,6 +696,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 			
 			// 进入全屏，强制隐藏resizeindicator
 			[rzIndicator setAlphaValue:0];
+			// 这里应该判断kUDKeyHideTitlebar的，但是由于这里是要隐藏title
+			// 因此多次将AlphaValue设置为0也不会有坏影响
 			[title setAlphaValue:0];
 			
 			[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
@@ -700,8 +713,12 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 			
 			if ([self alphaValue] > (CONTROLALPHA-0.05)) {
 				// 如果controlUI没有隐藏，那么显示resizeindiccator
-				[rzIndicator.animator setAlphaValue:1];
-				[title.animator setAlphaValue:1];
+				[rzIndicator.animator setAlphaValue:CONTROLALPHA];
+
+				if (![ud boolForKey:kUDKeyHideTitlebar]) {
+					// if kUDKeyHideTitlebar is OFF, go to display the titlebar
+					[title.animator setAlphaValue:CONTROLALPHA];
+				}
 			}
 			
 			[menuToggleLockAspectRatio setEnabled:YES];

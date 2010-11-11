@@ -72,6 +72,7 @@ extern NSString * const kUDKeyRtspOverHttp;
 extern NSString * const kUDKeyFFMpegHandleStream;
 extern NSString * const kUDKeyMixToStereoMode;
 extern NSString * const kUDKeyAutoResume;
+extern NSString * const kUDKeyHideTitlebar;
 
 // internal use
 extern NSString * const kUDKeySelectedPrefView;
