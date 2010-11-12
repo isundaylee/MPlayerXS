@@ -63,14 +63,18 @@
 
 +(void) initialize
 {
+	NSNumber *boolYes = [NSNumber numberWithBool:YES];
+	NSNumber *boolNo  = [NSNumber numberWithBool:NO];
+	
 	[[NSUserDefaults standardUserDefaults] 
 	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 					   [NSNumber numberWithInt:kOnTopModePlaying], kUDKeyOnTopMode,
 					   kSnapshotSaveDefaultPath, kUDKeySnapshotSavePath,
-					   [NSNumber numberWithBool:NO], kUDKeyStartByFullScreen,
-					   [NSNumber numberWithBool:YES], kUDKeyFullScreenKeepOther,
-					   [NSNumber numberWithBool:NO], kUDKeyQuitOnClose,
-					   [NSNumber numberWithBool:NO], kUDKeyPinPMode,
+					   boolNo, kUDKeyStartByFullScreen,
+					   boolYes, kUDKeyFullScreenKeepOther,
+					   boolNo, kUDKeyQuitOnClose,
+					   boolNo, kUDKeyPinPMode,
+					   boolNo, kUDKeyAlwaysHideDockInFullScrn,
 					   nil]];
 }
 
@@ -550,12 +554,6 @@
 	}
 }
 
--(void) refreshFullscreenMode
-{
-	[fullScreenOptions setObject:[NSNumber numberWithBool:![ud boolForKey:kUDKeyFullScreenKeepOther]] 
-						  forKey:NSFullScreenModeAllScreens];
-}
-
 -(BOOL) toggleFullScreen
 {
 	// ！注意：这里的显示状态和mplayer的播放状态时不一样的，比如，mplayer在MP3的时候，播放状态为YES，显示状态为NO
@@ -591,17 +589,29 @@
 		// 强制Lock Aspect Ratio
 		[self setLockAspectRatio:YES];
 
+		BOOL keepOtherSrn = [ud boolForKey:kUDKeyFullScreenKeepOther];
 		// 得到window目前所在的screen
 		NSScreen *chosenScreen = [playerWindow screen];
 		
-		if (chosenScreen == [[NSScreen screens] objectAtIndex:0]) {
+		if (chosenScreen == [[NSScreen screens] objectAtIndex:0] || (!keepOtherSrn)) {
 			// if the main screen
-			[fullScreenOptions setObject:[NSNumber numberWithInt:NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar]
-								  forKey:NSFullScreenModeApplicationPresentationOptions];
+			// there is no reason to always hide Dock, when MPX displayed in the secondary screen
+			// so only do it in main screen
+			if ([ud boolForKey:kUDKeyAlwaysHideDockInFullScrn]) {
+				[fullScreenOptions setObject:[NSNumber numberWithInt:NSApplicationPresentationHideDock | NSApplicationPresentationAutoHideMenuBar]
+									  forKey:NSFullScreenModeApplicationPresentationOptions];
+			} else {
+				[fullScreenOptions setObject:[NSNumber numberWithInt:NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar]
+									  forKey:NSFullScreenModeApplicationPresentationOptions];
+			}
 		} else {
+			// in secondary screens
 			[fullScreenOptions removeObjectForKey:NSFullScreenModeApplicationPresentationOptions];
 		}
 
+		// whether grab all the screens
+		[fullScreenOptions setObject:[NSNumber numberWithBool:!keepOtherSrn] forKey:NSFullScreenModeAllScreens];
+		
 		[self enterFullScreenMode:chosenScreen withOptions:fullScreenOptions];
 		
 		fullScrnDevID = [[[chosenScreen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];

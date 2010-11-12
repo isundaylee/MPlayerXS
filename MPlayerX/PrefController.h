@@ -52,7 +52,6 @@
 -(IBAction) controlUIAppearanceChanged:(id)sender;
 -(IBAction) osdSetChanged:(id)sender;
 -(IBAction) checkCacheFormat:(id)sender;
--(IBAction) fullscreenModeChanged:(id)sender;
 -(IBAction) letterBoxModeChanged:(id)sender;
 -(IBAction) subEncodingSchemeChanged:(id)sender;
 

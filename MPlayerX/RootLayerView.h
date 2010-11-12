@@ -57,8 +57,6 @@
 @property (readonly) CGDirectDisplayID fullScrnDevID;
 @property (assign, readwrite, nonatomic) BOOL lockAspectRatio;
 
--(void) refreshFullscreenMode;
-
 -(void) resetAspectRatio;
 -(void) setPlayerWindowLevel;
 -(void) closePlayerWindow;

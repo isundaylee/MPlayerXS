@@ -77,6 +77,7 @@ NSString * const kUDKeyFFMpegHandleStream		= @"FFMpegHandleStream";
 NSString * const kUDKeyMixToStereoMode			= @"MixToSterMode";
 NSString * const kUDKeyAutoResume				= @"AutoResume";
 NSString * const kUDKeyHideTitlebar				= @"HideTitlebar";
+NSString * const kUDKeyAlwaysHideDockInFullScrn	= @"AlwaysHideDockInFullScrn";
 
 NSString * const kUDKeySelectedPrefView			= @"SelectedPrefView";
 NSString * const kUDKeyHelpURL					= @"HelpURL";

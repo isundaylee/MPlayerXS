@@ -173,11 +173,6 @@ NSString * const PrefToolbarItemIdNetwork	= @"TBINetwork";
 	[ud setInteger:((unsigned int)cache) forKey:kUDKeyCacheSize];
 }
 
--(IBAction) fullscreenModeChanged:(id)sender
-{
-	[dispView refreshFullscreenMode];
-}
-
 -(IBAction) letterBoxModeChanged:(id)sender
 {
 	unsigned int mode = [ud integerForKey:kUDKeyLetterBoxMode];
