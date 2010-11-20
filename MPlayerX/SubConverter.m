@@ -127,16 +127,23 @@ NSString * const kWorkDirSubDir = @"Subs";
 			
 			if (ce != kCFStringEncodingInvalidId) {
 				// 先根据本来的文件名得到workDir的文件路径
-				subPathNew = [subDir stringByAppendingPathComponent:[subPathOld lastPathComponent]];
+				subPathNew = [subDir stringByAppendingPathComponent:
+							  [[subPathOld lastPathComponent] stringByReplacingOccurrencesOfString:@"," withString:@"_"]];
 				
 				// 因为有可能会有重名的情况，所以这里要找到合适的文件名
 				isDir = YES;
 				idx = 0;
-				ext = [subPathNew pathExtension];
-				prefix = [subPathNew stringByDeletingPathExtension];
+				ext = nil;
+				prefix = nil;
 				
 				// 因为有重名的可能性，所以要找到一个不重复的文件名
 				while([fm fileExistsAtPath:subPathNew isDirectory:&isDir] && (!isDir)) {
+					if (ext == nil) {
+						ext = [subPathNew pathExtension];
+					}
+					if (prefix == nil) {
+						prefix = [subPathNew stringByDeletingPathExtension];
+					}
 					// 如果该文件存在那么就寻找下一个不存在的文件名
 					subPathNew = [prefix stringByAppendingFormat:@".mpx.%d.%@", idx++, ext];
 				}
