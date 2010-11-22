@@ -199,9 +199,9 @@
 	[notifCenter addObserver:self selector:@selector(playBackStopped:)
 						name:kMPCPlayStoppedNotification object:playerController];
 	[notifCenter addObserver:self selector:@selector(applicationDidBecomeActive:)
-						name:NSApplicationDidBecomeActiveNotification object:[NSApplication sharedApplication]];
+						name:NSApplicationDidBecomeActiveNotification object:NSApp];
 	[notifCenter addObserver:self selector:@selector(applicationDidResignActive:)
-						name:NSApplicationDidResignActiveNotification object:[NSApplication sharedApplication]];
+						name:NSApplicationDidResignActiveNotification object:NSApp];
 }
 
 -(void) closePlayerWindow
@@ -646,7 +646,7 @@
 	BOOL fullscr = [self isInFullScreenMode];
 	
 	if ((((onTopMode == kOnTopModeAlways)||((onTopMode == kOnTopModePlaying) && (playerController.playerState == kMPCPlayingState)))&&(!fullscr)) ||
-		([[NSApplication sharedApplication] isActive] && fullscr)) {
+		([NSApp isActive] && fullscr)) {
 		[[self window] setLevel: NSTornOffMenuWindowLevel];
 	} else {
 		[[self window] setLevel: NSNormalWindowLevel];
