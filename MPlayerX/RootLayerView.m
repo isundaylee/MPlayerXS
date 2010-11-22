@@ -592,26 +592,29 @@
 		BOOL keepOtherSrn = [ud boolForKey:kUDKeyFullScreenKeepOther];
 		// 得到window目前所在的screen
 		NSScreen *chosenScreen = [playerWindow screen];
+		// Presentation Options
+		NSApplicationPresentationOptions opts;
 		
 		if (chosenScreen == [[NSScreen screens] objectAtIndex:0] || (!keepOtherSrn)) {
 			// if the main screen
 			// there is no reason to always hide Dock, when MPX displayed in the secondary screen
 			// so only do it in main screen
 			if ([ud boolForKey:kUDKeyAlwaysHideDockInFullScrn]) {
-				[fullScreenOptions setObject:[NSNumber numberWithInt:NSApplicationPresentationHideDock | NSApplicationPresentationAutoHideMenuBar]
-									  forKey:NSFullScreenModeApplicationPresentationOptions];
+				opts = NSApplicationPresentationHideDock | NSApplicationPresentationAutoHideMenuBar;
 			} else {
-				[fullScreenOptions setObject:[NSNumber numberWithInt:NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar]
-									  forKey:NSFullScreenModeApplicationPresentationOptions];
+				opts = NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar;
 			}
 		} else {
 			// in secondary screens
-			[fullScreenOptions removeObjectForKey:NSFullScreenModeApplicationPresentationOptions];
+			opts = [NSApp presentationOptions];
 		}
 
+		[fullScreenOptions setObject:[NSNumber numberWithInt:opts]
+							  forKey:NSFullScreenModeApplicationPresentationOptions];
 		// whether grab all the screens
-		[fullScreenOptions setObject:[NSNumber numberWithBool:!keepOtherSrn] forKey:NSFullScreenModeAllScreens];
-		
+		[fullScreenOptions setObject:[NSNumber numberWithBool:!keepOtherSrn]
+							  forKey:NSFullScreenModeAllScreens];
+
 		[self enterFullScreenMode:chosenScreen withOptions:fullScreenOptions];
 		
 		fullScrnDevID = [[[chosenScreen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
