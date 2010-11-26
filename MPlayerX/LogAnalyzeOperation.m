@@ -107,6 +107,15 @@ const char* findNextReturnMark(const char *head, const char *end, const char **s
 			dataHead = retMark +1;		
 		}
 		[pool drain];
+		
+		// release log //
+		// since OperationQueue retain the Operation
+		// and when it release the Operation is unknown
+		// it is better to release the log after it is analyzed
+		@synchronized(log) {
+			[log relase];
+			log = nil;
+		}
 	}
 }
 @end
