@@ -113,7 +113,7 @@ const char* findNextReturnMark(const char *head, const char *end, const char **s
 		// and when it release the Operation is unknown
 		// it is better to release the log after it is analyzed
 		@synchronized(log) {
-			[log relase];
+			[log release];
 			log = nil;
 		}
 	}
