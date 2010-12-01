@@ -686,7 +686,13 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 			[PlayList AutoSearchNextMoviePathFrom:[lastPlayedPath path] 
 										inFormats:[supportVideoFormats setByAddingObjectsFromSet:supportAudioFormats]];
 		if (nextPath != nil) {
+			BOOL pasTemp = [ud boolForKey:kUDKeyPlayWhenOpened];
+			[ud setBool:YES forKey:kUDKeyPlayWhenOpened];
+			
 			[self loadFiles:[NSArray arrayWithObject:nextPath] fromLocal:YES];
+			
+			[ud setBool:pasTemp forKey:kUDKeyPlayWhenOpened];
+
 			return;
 		}
 	}	
