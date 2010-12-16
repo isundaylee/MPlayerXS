@@ -90,6 +90,8 @@ NSString * const kPMParRtspOverHttp		= @"-rtsp-stream-over-http";
 NSString * const kPMParMsgCharset		= @"-msgcharset";
 NSString * const kPMValMsgCharset		= @"noconv";
 NSString * const kPMParChannels			= @"-channels";
+NSString * const kPMParAf				= @"-af";
+NSString * const kPMValScaletempo		= @"scaletempo";
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
@@ -402,7 +404,11 @@ NSString * const kPMParChannels			= @"-channels";
 		[paramArray addObject:kPMParSTPause];
 	}
 	
-	// NSLog(@"%@", [paramArray componentsJoinedByString:@"\n"]);
+	// setting for audio filters
+	[paramArray addObject:kPMParAf];
+	[paramArray addObject:kPMValScaletempo];
+	
+	// MPLog(@"%@", [paramArray componentsJoinedByString:@"\n"]);
 	
 	return paramArray;
 }
