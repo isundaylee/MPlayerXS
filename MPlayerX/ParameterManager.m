@@ -95,8 +95,8 @@ NSString * const kPMValScaletempo		= @"scaletempo";
 NSString * const kPMParVf				= @"-vf";
 
 NSString * const kPMParFieldDominance	= @"-field-dominance";
-NSString * const kPMSubParValYadif		= @"yadif=1:1";
-NSString * const kPMSubParValMcDet		= @"mcdeint=2:1:10";
+NSString * const kPMSubParValYadif		= @"yadif=1";
+NSString * const kPMSubParValMcDet		= @"mcdeint=2:1:5";
 
 NSString * const kPMSubParPPFD			= @"fd";
 NSString * const kPMSubParPPL5			= @"l5";
@@ -428,8 +428,13 @@ NSString * const kPMSlash				= @"/";
 	[paramArray addObject:kPMParAf];
 	[paramArray addObject:kPMValScaletempo];
 	
+	if (PMShouldUsePPFilters(imgEnhance)) {
+		useVideoFilters = YES;
+		usePPFilters = YES;
+	}
+	
 	// video filters
-	if (PMShouldUsePPFilters(deinterlace) || PMShouldUsePPFilters(imgEnhance)) {
+	if (PMShouldUsePPFilters(deinterlace)) {
 		// use PP filters
 		useVideoFilters = YES;
 		usePPFilters = YES;
