@@ -21,12 +21,12 @@
 #import "ParameterManager.h"
 #import "CocoaAppendix.h"
 
-NSString * const kPMDefaultFontPath = @"/System/Library/Fonts/HelveticaNeue.ttc";
+// NSString * const kPMDefaultFontPath = @"/System/Library/Fonts/HelveticaNeue.ttc";
 
 NSString * const kPMDefaultAudioOutput	= @"coreaudio"; 
-NSString * const kPMNoAudio				= @"null";
+// NSString * const kPMNoAudio				= @"null";
 NSString * const kPMDefaultVideoOutput	= @"corevideo"; 
-NSString * const kPMNoVideo				= @"null";
+// NSString * const kPMNoVideo				= @"null";
 NSString * const kPMDefaultSubLang		= @"en,eng,ch,chs,cht,ja,jpn";
 
 NSString * const kPMParMsgLevel		= @"-msglevel";
@@ -92,6 +92,19 @@ NSString * const kPMValMsgCharset		= @"noconv";
 NSString * const kPMParChannels			= @"-channels";
 NSString * const kPMParAf				= @"-af";
 NSString * const kPMValScaletempo		= @"scaletempo";
+NSString * const kPMParVf				= @"-vf";
+
+NSString * const kPMParFieldDominance	= @"-field-dominance";
+NSString * const kPMSubParValYadif		= @"yadif=1:1";
+NSString * const kPMSubParValMcDet		= @"mcdeint=2:1:10";
+
+NSString * const kPMSubParPPFD			= @"fd";
+NSString * const kPMSubParPPL5			= @"l5";
+NSString * const kPMSubParImgEnhNorm	= @"hb:a/vb:a/dr:a";
+NSString * const kPMSubParImgEnhAdv		= @"ha:a/va:a/dr:a";
+NSString * const kPMSubParPPFilter		= @"pp=";
+
+NSString * const kPMSlash				= @"/";
 
 #define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
 
@@ -125,6 +138,8 @@ NSString * const kPMValScaletempo		= @"scaletempo";
 @synthesize rtspOverHttp;
 @synthesize mixToStereo;
 @synthesize demuxer;
+@synthesize deinterlace;
+@synthesize imgEnhance;
 
 #pragma mark Init/Dealloc
 -(id) init
@@ -173,6 +188,8 @@ NSString * const kPMValScaletempo		= @"scaletempo";
 		rtspOverHttp = NO;
 		mixToStereo = kPMMixDTS5_1ToStereo;
 		demuxer = nil;
+		deinterlace = kPMDeInterlaceNone;
+		imgEnhance = kPMImgEnhanceNone;
 	}
 	return self;
 }
@@ -210,6 +227,9 @@ NSString * const kPMValScaletempo		= @"scaletempo";
 
 -(NSArray *) arrayOfParametersWithName:(NSString*) name
 {
+	BOOL useVideoFilters = NO;
+	BOOL usePPFilters    = NO;
+	
 	if (paramArray) {
 		[paramArray removeAllObjects];
 	} else {
@@ -407,6 +427,59 @@ NSString * const kPMValScaletempo		= @"scaletempo";
 	// setting for audio filters
 	[paramArray addObject:kPMParAf];
 	[paramArray addObject:kPMValScaletempo];
+	
+	// video filters
+	if (PMShouldUsePPFilters(deinterlace) || PMShouldUsePPFilters(imgEnhance)) {
+		// use PP filters
+		useVideoFilters = YES;
+		usePPFilters = YES;
+		
+	} else if (deinterlace == kPMDeInterlaceYaMc) {
+		// use vf with Yaif and MC
+		useVideoFilters = YES;
+		[paramArray addObject:kPMParFieldDominance];
+		[paramArray addObject:kPMVal1];
+	}
+
+	// -vf <filter1[=parameter1:parameter2:...],filter2,...>
+	if (useVideoFilters) {
+		NSMutableArray *vfSettings = [[NSMutableArray alloc] initWithCapacity:4];
+		
+		if (deinterlace == kPMDeInterlaceYaMc) {
+			[vfSettings addObject:kPMSubParValYadif];
+			[vfSettings addObject:kPMSubParValMcDet];
+		}
+		
+		if (usePPFilters) {
+			// pp[=filter1[:option1[:option2...]]/[-]filter2...]
+			NSMutableArray* ppSettings = [[NSMutableArray alloc] initWithCapacity:4];
+			
+			if (deinterlace == kPMDeInterlaceFFMpeg) {
+				// (-1 4 2 4 -1)
+				[ppSettings addObject:kPMSubParPPFD];
+			} else if (deinterlace == kPMDeInterlaceLPF5) {
+				// (-1 2 6 2 -1)
+				[ppSettings addObject:kPMSubParPPL5];
+			}
+			
+			if (imgEnhance == kPMImgEnhanceNormal) {
+				// normal deblock
+				[ppSettings addObject:kPMSubParImgEnhNorm];
+			} else if (imgEnhance == kPMImgEnhanceAdvanced) {
+				// accurate deblock
+				[ppSettings addObject:kPMSubParImgEnhAdv];
+			}
+			
+			[vfSettings addObject:[kPMSubParPPFilter stringByAppendingString:[ppSettings componentsJoinedByString:kPMSlash]]];
+
+			[ppSettings release];
+		}
+		
+		[paramArray addObject:kPMParVf];
+		[paramArray addObject:[vfSettings componentsJoinedByString:kPMComma]];
+		
+		[vfSettings release];
+	}
 	
 	// MPLog(@"%@", [paramArray componentsJoinedByString:@"\n"]);
 	
