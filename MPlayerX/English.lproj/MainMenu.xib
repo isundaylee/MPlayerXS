@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10F569</string>
+		<string key="IBDocument.SystemVersion">10H574</string>
 		<string key="IBDocument.InterfaceBuilderVersion">788</string>
-		<string key="IBDocument.AppKitVersion">1038.29</string>
+		<string key="IBDocument.AppKitVersion">1038.35</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="594"/>
+			<integer value="29"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -324,6 +324,25 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
+								<object class="NSMenuItem" id="124910692">
+									<reference key="NSMenu" ref="458109416"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsSeparator">YES</bool>
+									<string key="NSTitle"/>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="89559302">
+									<reference key="NSMenu" ref="458109416"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<string key="NSTitle">Snapshot</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
 							</object>
 						</object>
 					</object>
@@ -482,25 +501,6 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
-								<object class="NSMenuItem" id="124910692">
-									<reference key="NSMenu" ref="891719963"/>
-									<bool key="NSIsDisabled">YES</bool>
-									<bool key="NSIsSeparator">YES</bool>
-									<string key="NSTitle"/>
-									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="35465992"/>
-									<reference key="NSMixedImage" ref="502551668"/>
-								</object>
-								<object class="NSMenuItem" id="89559302">
-									<reference key="NSMenu" ref="891719963"/>
-									<bool key="NSIsDisabled">YES</bool>
-									<string key="NSTitle">Snapshot</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="35465992"/>
-									<reference key="NSMixedImage" ref="502551668"/>
-								</object>
 							</object>
 							<bool key="NSNoAutoenable">YES</bool>
 						</object>
@@ -633,7 +633,7 @@
 				<string key="NSWindowContentMaxSize">{320, 347}</string>
 				<string key="NSWindowContentMinSize">{320, 347}</string>
 				<object class="NSView" key="NSWindowView" id="255223115">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -756,7 +756,6 @@ YWNAbWFjaWRlYS5jb20</string>
 						</object>
 					</object>
 					<string key="NSFrameSize">{320, 347}</string>
-					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{320, 366}</string>
@@ -2880,6 +2879,8 @@ YWNAbWFjaWRlYS5jb20</string>
 							<reference ref="512391316"/>
 							<reference ref="1039724021"/>
 							<reference ref="838516892"/>
+							<reference ref="124910692"/>
+							<reference ref="89559302"/>
 						</object>
 						<reference key="parent" ref="759618259"/>
 					</object>
@@ -2923,8 +2924,6 @@ YWNAbWFjaWRlYS5jb20</string>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="809725105"/>
-							<reference ref="89559302"/>
-							<reference ref="124910692"/>
 							<reference ref="199276934"/>
 							<reference ref="1012303407"/>
 							<reference ref="666544122"/>
@@ -2946,16 +2945,6 @@ YWNAbWFjaWRlYS5jb20</string>
 					<object class="IBObjectRecord">
 						<int key="objectID">784</int>
 						<reference key="object" ref="809725105"/>
-						<reference key="parent" ref="891719963"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">786</int>
-						<reference key="object" ref="89559302"/>
-						<reference key="parent" ref="891719963"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">787</int>
-						<reference key="object" ref="124910692"/>
 						<reference key="parent" ref="891719963"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3408,6 +3397,16 @@ YWNAbWFjaWRlYS5jb20</string>
 						<reference key="object" ref="638018897"/>
 						<reference key="parent" ref="0"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">787</int>
+						<reference key="object" ref="124910692"/>
+						<reference key="parent" ref="458109416"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">786</int>
+						<reference key="object" ref="89559302"/>
+						<reference key="parent" ref="458109416"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -3683,7 +3682,7 @@ YWNAbWFjaWRlYS5jb20</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{{525, 802}, {197, 73}}</string>
-					<string>{{434, 489}, {392, 20}}</string>
+					<string>{{629, 489}, {392, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{74, 862}</string>
@@ -3773,9 +3772,9 @@ YWNAbWFjaWRlYS5jb20</string>
 					<integer value="1"/>
 					<string>TimeSliderCell</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{561, 733}, {320, 347}}</string>
+					<string>{{629, 733}, {320, 347}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{561, 733}, {320, 347}}</string>
+					<string>{{629, 733}, {320, 347}}</string>
 					<boolean value="NO"/>
 					<boolean value="YES"/>
 					<boolean value="YES"/>
@@ -3805,7 +3804,7 @@ YWNAbWFjaWRlYS5jb20</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{897, 853}, {137, 103}}</string>
+					<string>{{768, 356}, {138, 133}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3871,7 +3870,7 @@ YWNAbWFjaWRlYS5jb20</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{617, 166}, {244, 323}}</string>
+					<string>{{812, 196}, {244, 293}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4885,7 +4884,6 @@ YWNAbWFjaWRlYS5jb20</string>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>checkCacheFormat:</string>
 							<string>controlUIAppearanceChanged:</string>
-							<string>fullscreenModeChanged:</string>
 							<string>letterBoxModeChanged:</string>
 							<string>multiThreadChanged:</string>
 							<string>onTopModeChanged:</string>
@@ -4896,7 +4894,6 @@ YWNAbWFjaWRlYS5jb20</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -4914,7 +4911,6 @@ YWNAbWFjaWRlYS5jb20</string>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>checkCacheFormat:</string>
 							<string>controlUIAppearanceChanged:</string>
-							<string>fullscreenModeChanged:</string>
 							<string>letterBoxModeChanged:</string>
 							<string>multiThreadChanged:</string>
 							<string>onTopModeChanged:</string>
@@ -4931,10 +4927,6 @@ YWNAbWFjaWRlYS5jb20</string>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">controlUIAppearanceChanged:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">fullscreenModeChanged:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
