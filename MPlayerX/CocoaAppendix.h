@@ -20,6 +20,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+void MPLog(NSString *format, ...);
+void MPSetLogEnable(BOOL en);
+
 @interface NSMenu (CharsetListAppend)
 -(void) appendCharsetList;
 @end

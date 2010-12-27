@@ -261,7 +261,7 @@
 	
 	dragShouldResize = ((NSMaxX(winRC) - dragMousePos.x < 16) && (dragMousePos.y - NSMinY(winRC) < 16))?YES:NO;
 	
-	// NSLog(@"mouseDown");
+	// MPLog(@"mouseDown");
 }
 
 - (void)mouseDragged:(NSEvent *)event
@@ -307,13 +307,13 @@
 					winRC.origin.y -= (winRC.size.height - [[playerWindow contentView] bounds].size.height);
 					
 					[playerWindow setFrame:[playerWindow frameRectForContentRect:winRC] display:YES];
-					// NSLog(@"should resize");
+					// MPLog(@"should resize");
 				} else {
 					NSPoint winPos = [playerWindow frame].origin;
 					winPos.x += delta.x;
 					winPos.y += delta.y;
 					[playerWindow setFrameOrigin:winPos];
-					// NSLog(@"should move");
+					// MPLog(@"should move");
 				}
 			}
 			break;
@@ -342,7 +342,7 @@
 	}
 	// do not use the playerWindow, since when fullscreen the window holds self is not playerWindow
 	[[self window] makeFirstResponder:self];
-	// NSLog(@"mouseUp");
+	// MPLog(@"mouseUp");
 }
 
 -(void) mouseEntered:(NSEvent *)theEvent
@@ -381,7 +381,7 @@
 	y = [theEvent deltaY];
 	
 	if (abs(x) > abs(y*2)) {
-		// NSLog(@"%f", x);
+		// MPLog(@"%f", x);
 		switch ([playerController playerState]) {
 			case kMPCPausedState:
 				if (x < 0) {

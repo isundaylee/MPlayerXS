@@ -265,7 +265,7 @@ NSString * const kCILayerFilterEnabled		= @"enabled";
 		}
 
 		[layer setValue:[NSNumber numberWithDouble:[sender doubleValue]] forKeyPath:keyPath];
-		//NSLog(@"%@=%f", [[sender cell] representedObject], [sender doubleValue]);
+		//MPLog(@"%@=%f", [[sender cell] representedObject], [sender doubleValue]);
 	}
 }
 

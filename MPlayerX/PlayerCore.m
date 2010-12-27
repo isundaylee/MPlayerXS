@@ -126,7 +126,7 @@
 {
 	// 如果task正在运行
 	if (task && [task isRunning]) {
-		// NSLog(@"%@",cmd);
+		// MPLog(@"%@",cmd);
 		[[[task standardInput] fileHandleForWriting] writeData:[cmd dataUsingEncoding:NSUTF8StringEncoding]];
 		return YES;
 	}

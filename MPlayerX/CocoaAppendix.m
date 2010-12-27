@@ -21,6 +21,25 @@
 #import "CocoaAppendix.h"
 #import "LocalizedStrings.h"
 
+static BOOL logEnable = NO;
+
+void MPLog(NSString *format, ...)
+{
+	if (logEnable) {
+		va_list pl;
+		va_start(pl, format);
+		
+		NSLogv(format, pl);
+
+		va_end(pl);
+	}
+}
+
+void MPSetLogEnable(BOOL en)
+{
+	logEnable = en;
+}
+
 @implementation NSColor (MPXAdditional)
 -(uint32) hexValue
 {

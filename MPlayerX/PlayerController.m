@@ -18,6 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#import "CocoaAppendix.h"
 #import "UserDefaults.h"
 #import "KeyCode.h"
 #import "LocalizedStrings.h"
@@ -117,6 +118,8 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   nil]];
+	
+	MPSetLogEnable([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyLogMode]);
 }
 
 #pragma mark Init/Dealloc
@@ -655,7 +658,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 									   [NSNumber numberWithBool:([mplayer.movieInfo.videoInfo count] == 0)], kMPCPlayStartedAudioOnlyKey,
 									   nil]];
 
-	NSLog(@"vc:%lu, ac:%lu", [mplayer.movieInfo.videoInfo count], [mplayer.movieInfo.audioInfo count]);
+	MPLog(@"vc:%lu, ac:%lu", [mplayer.movieInfo.videoInfo count], [mplayer.movieInfo.audioInfo count]);
 }
 
 -(void) playebackWillStop

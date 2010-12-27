@@ -19,6 +19,7 @@
  */
 
 #import "DisplayLayer.h"
+#import "CocoaAppendix.h"
 
 #define SAFEFREE(x)						{if(x){free(x); x = NULL;}}
 #define SAFERELEASETEXTURECACHE(x)		{if(x){CVOpenGLTextureCacheRelease(x); x=NULL;}}
@@ -118,7 +119,7 @@
 													 NULL, NULL, NULL, &bufRefs[bufTotal]);
 				if (error != kCVReturnSuccess) {
 					[self stop];
-					NSLog(@"video buffer failed");
+					MPLog(@"video buffer failed");
 					break;
 				}				
 			}
@@ -165,8 +166,8 @@
 
 	CGLContextObj ctx = [super copyCGLContextForPixelFormat:pf];
 
-	NSLog(@"ctx:%d", (ctx != 0));
-	NSLog(@"pfrc:%d", CGLGetPixelFormatRetainCount(pf));
+	MPLog(@"ctx:%d", (ctx != 0));
+	MPLog(@"pfrc:%d", CGLGetPixelFormatRetainCount(pf));
 	
 	CGLLockContext(ctx);
 
@@ -186,7 +187,7 @@
 	
 	if(error != kCVReturnSuccess) {
 		cache = NULL;
-		NSLog(@"video cache create failed");
+		MPLog(@"video cache create failed");
 	}
 	return ctx;
 }

@@ -20,42 +20,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-#undef MPX_DEBUG
 int main(int argc, char *argv[])
 {
-	int ret;
-
-#ifdef MPX_DEBUG
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	NSString *home = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-	NSString *logDir = [[NSString alloc] initWithFormat:@"%@/Logs", home];
-	NSString *logPath = [[NSString alloc] initWithFormat:@"%@/MPlayerX.log",logDir];
-	NSFileManager *fm = [NSFileManager defaultManager];
-	
-	if (![fm fileExistsAtPath:logDir]) {
-		// log folder does not exist
-		[fm createDirectoryAtPath:logDir withIntermediateDirectories:YES attributes:nil error:NULL];
-	}
-
-	if ([fm fileExistsAtPath:logPath] &&
-		[[[fm attributesOfItemAtPath:logPath error:NULL] objectForKey:NSFileSize] unsignedLongLongValue] > 100000) {
-		[fm removeItemAtPath:logPath error:NULL];
-	}
-
-	int stderrRes = dup(STDERR_FILENO);
-	FILE *logFile = freopen([logPath UTF8String], "a", stderr);
-	[logPath release];
-	[logDir release];
-	NSLog(@"=====================started=====================");
-#endif // MPX_DEBUG
-	
-    ret =  NSApplicationMain(argc,  (const char **) argv);
-#ifdef MPX_DEBUG
-	fflush(logFile);
-	dup2(stderrRes, STDERR_FILENO);
-	fclose(logFile);
-	[pool drain];
-#endif //MPX_DEBUG
-	return ret;
+	return NSApplicationMain(argc,  (const char **) argv);
 }

@@ -20,6 +20,7 @@
 
 #import "CoreController.h"
 #import <sys/mman.h>
+#import "CocoaAppendix.h"
 
 #define kPollingTimeForTimePos	(1)
 
@@ -221,7 +222,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 									[NSNumber numberWithBool:byForce], kMPCPlayStoppedByForceKey,
 									[movieInfo.playingInfo currentTime], kMPCPlayStoppedTimeKey, nil]];
 	}
-	NSLog(@"terminated:%d", byForce);
+	MPLog(@"terminated:%d", byForce);
 }
 
 - (void) playerCore:(id)player outputAvailable:(NSData*)outData
@@ -233,14 +234,14 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 {
 	NSString *log = [[NSString alloc] initWithData:errData encoding:NSUTF8StringEncoding];
 	
-	NSLog(@"ERR:%@", log);
+	MPLog(@"ERR:%@", log);
 	[log release];
 }
 
 //////////////////////////////////////////////protocol for render/////////////////////////////////////////////////////
 -(int) startWithWidth:(bycopy NSUInteger)width withHeight:(bycopy NSUInteger)height withPixelFormat:(bycopy OSType)pixelFormat withAspect:(bycopy float)aspect
 {
-	// NSLog(@"start");
+	// MPLog(@"start");
 	if (dispDelegate) {
 		// make the DisplayFormat
 		DisplayFormat fmt;
@@ -266,7 +267,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 		// 打开shmem
 		int shMemID = shm_open([sharedBufferName UTF8String], O_RDONLY, S_IRUSR);
 		if (shMemID == -1) {
-			NSLog(@"shm_open Failed!");
+			MPLog(@"shm_open Failed!");
 			return 1;
 		}
 		
@@ -276,7 +277,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 		
 		if (imageData == MAP_FAILED) {
 			imageData = NULL;
-			NSLog(@"mmap Failed");
+			MPLog(@"mmap Failed");
 			return 1;
 		}
 		char *dataBuf[2];
@@ -550,7 +551,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 		// 找到了编码方式
 		NSArray *newPaths = [subConv convertTextSubsAndEncodings:[NSDictionary dictionaryWithObjectsAndKeys:cpStr, path, nil]];
 		if (newPaths && [newPaths count]) {
-			// NSLog(@"%@", [NSString stringWithFormat:@"%@ \"%@\"", kMPCSubLoad, [newPaths objectAtIndex:0]]);
+			// MPLog(@"%@", [NSString stringWithFormat:@"%@ \"%@\"", kMPCSubLoad, [newPaths objectAtIndex:0]]);
 			[playerCore sendStringCommand:[NSString stringWithFormat:@"%@ \"%@\"\n", kMPCSubLoad, [newPaths objectAtIndex:0]]];
 		}
 	}
@@ -607,7 +608,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 	for (NSString *key in dict) {
 		NSString *keyPath = [keyPathDict objectForKey:key];
 		
-		// NSLog(@"%@", dict);
+		// MPLog(@"%@", dict);
 		if (keyPath) {
 			int type = [[typeDict objectForKey:key] intValue];
 			
@@ -625,7 +626,7 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 					break;
 				case kMITypeSubAppend:
 					// 会发生insert的KVO change
-					// NSLog(@"%@", obj);
+					// MPLog(@"%@", obj);
 					[[movieInfo mutableArrayValueForKey:kMovieInfoKVOSubInfo] addObject: [[dict objectForKey:key] lastPathComponent]];
 					break;
 				case kMITypeStateChanged:
