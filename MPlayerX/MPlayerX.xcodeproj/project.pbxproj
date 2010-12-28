@@ -92,6 +92,7 @@
 		863F1A4110EF4CD40089C695 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863F1A4010EF4CD40089C695 /* Sparkle.framework */; };
 		863F1A4410EF4CE20089C695 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 863F1A4010EF4CD40089C695 /* Sparkle.framework */; };
 		8654807F10CBB231009438A4 /* FloatWrapFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8654807E10CBB231009438A4 /* FloatWrapFormatter.m */; };
+		865A5D2A12CA0E100021CF8E /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 865A5D2912CA0E100021CF8E /* AppController.m */; };
 		865AB3FD10EC82A300065E2F /* PrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 865AB3FC10EC82A300065E2F /* PrefController.m */; };
 		8661414210FA2B7E007F36DA /* SubConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8661414110FA2B7E007F36DA /* SubConverter.m */; };
 		86689CA511304163009DA72C /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 86689CA411304163009DA72C /* logo.png */; };
@@ -258,6 +259,8 @@
 		86450B871108840700E79645 /* LocalizedStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = LocalizedStrings.h; sourceTree = "<group>"; };
 		8654807D10CBB231009438A4 /* FloatWrapFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = FloatWrapFormatter.h; sourceTree = "<group>"; };
 		8654807E10CBB231009438A4 /* FloatWrapFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 2; path = FloatWrapFormatter.m; sourceTree = "<group>"; };
+		865A5D2812CA0E100021CF8E /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
+		865A5D2912CA0E100021CF8E /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 		865AB3FB10EC82A300065E2F /* PrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = PrefController.h; sourceTree = "<group>"; };
 		865AB3FC10EC82A300065E2F /* PrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 2; path = PrefController.m; sourceTree = "<group>"; };
 		8661414010FA2B7E007F36DA /* SubConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = SubConverter.h; sourceTree = "<group>"; };
@@ -593,6 +596,8 @@
 		86B99CFE10C93E4D00AB28FB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				865A5D2812CA0E100021CF8E /* AppController.h */,
+				865A5D2912CA0E100021CF8E /* AppController.m */,
 				860F6725111C5A7D00190BCC /* VideoTunerController.h */,
 				860F6726111C5A7D00190BCC /* VideoTunerController.m */,
 				866CCF5311DE378300032F96 /* EqualizerController.h */,
@@ -900,6 +905,7 @@
 				867FDF351169FD2E000C71A6 /* HueSliderCell.m in Sources */,
 				866CCF5511DE378300032F96 /* EqualizerController.m in Sources */,
 				86C02AEF12309BCF004E8181 /* UserDefaults.m in Sources */,
+				865A5D2A12CA0E100021CF8E /* AppController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1066,10 +1072,9 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = MPX_DEBUG;
 				GCC_REUSE_STRINGS = YES;
 				GCC_SHORT_ENUMS = NO;
-				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1080,7 +1085,6 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LLVM_LTO = NO;
@@ -1101,7 +1105,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_REUSE_STRINGS = YES;
 				GCC_SHORT_ENUMS = NO;
-				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1112,7 +1116,6 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LLVM_LTO = NO;

@@ -25,9 +25,9 @@
 #import "PlayerController.h"
 #import "PlayList.h"
 #import <sys/sysctl.h>
-#import <Sparkle/Sparkle.h>
 #import "OpenURLController.h"
 #import "CharsetQueryController.h"
+#import "AppController.h"
 
 NSString * const kMPCPlayOpenedNotification			= @"kMPCPlayOpenedNotification";
 NSString * const kMPCPlayOpenedURLKey				= @"kMPCPlayOpenedURLKey";
@@ -45,8 +45,6 @@ NSString * const kMPCPlayInfoUpdatedKeyPathKey		= @"kMPCPlayInfoUpdatedKeyPathKe
 NSString * const kMPCPlayInfoUpdatedChangeDictKey	= @"kMPCPlayInfoUpdatedChangeDictKey";
 
 NSString * const kMPCDefaultSubFontPath			= @"wqy-microhei.ttc";
-
-NSString * const kMPCFMTBookmarkPath	= @"%@/Library/Preferences/%@.bookmarks.plist";
 
 NSString * const kMPCMplayerNameMT		= @"mplayer-mt";
 NSString * const kMPCMplayerName		= @"mplayer";
@@ -69,6 +67,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 @end
 
 @interface PlayerController (PlayerControllerInternal)
+-(BOOL) shouldRun64bitMPlayer;
 -(void) preventSystemSleep;
 -(void) playMedia:(NSURL*)url;
 -(NSURL*) findFirstMediaFileFromSubFile:(NSString*)path;
@@ -115,11 +114,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 					   boolYes, kUDKeyRtspOverHttp,
 					   [NSNumber numberWithUnsignedInt:kPMMixDTS5_1ToStereo], kUDKeyMixToStereoMode,
 					   boolNo, kUDKeyAutoResume,
-					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
-					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
-					   nil]];
-	
-	MPSetLogEnable([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyLogMode]);
+					   nil]];	
 }
 
 #pragma mark Init/Dealloc
@@ -134,14 +129,50 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 		mplayer = [[CoreController alloc] init];
 		[mplayer setDelegate:self];
 		
+		/////////////////////////setup subconverter////////////////////
+		NSFileManager *fm = [NSFileManager defaultManager];
+		BOOL isDir = NO;
+		NSString *workDir = [[[fm URLForDirectory:NSApplicationSupportDirectory
+										 inDomain:NSUserDomainMask
+								appropriateForURL:NULL
+										   create:YES
+											error:NULL] path] stringByAppendingPathComponent:kMPCStringMPlayerX];
+		
+		if ([fm fileExistsAtPath:workDir isDirectory:&isDir] && (!isDir)) {
+			// 如果存在但不是文件夹的话
+			[fm removeItemAtPath:workDir error:NULL];
+		}
+		if (!isDir) {
+			// 如果原来不存在这个文件夹或者存在的是文件的话，都需要重建文件夹
+			if (![fm createDirectoryAtPath:workDir withIntermediateDirectories:YES attributes:nil error:NULL]) {
+				workDir = nil;
+			}
+		}
+		[mplayer setWorkDirectory:workDir];
+		[mplayer setSubConverterDelegate:self];
+
+		/////////////////////////setup CoreController////////////////////
+		[self setMultiThreadMode:[ud boolForKey:kUDKeyEnableMultiThread]];
+		
+		// 得到字幕字体文件的路径
+		NSString *subFontPath = [ud stringForKey:kUDKeySubFontPath];
+		
+		if ([subFontPath isEqualToString:kMPCDefaultSubFontPath]) {
+			// 如果是默认的路径的话，需要添加一些路径头
+			[mplayer.pm setSubFont:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:subFontPath]];
+		} else {
+			// 否则直接设定
+			[mplayer.pm setSubFont:subFontPath];
+		}
+		
+		// 决定是否使用64bit的mplayer
+		[mplayer.pm setPrefer64bMPlayer:[self shouldRun64bitMPlayer]];
+
 		lastPlayedPath = nil;
 		lastPlayedPathPre = nil;
-		supportVideoFormats = nil;
-		supportAudioFormats = nil;
-		supportSubFormats = nil;
-		bookmarks = nil;
-		
-		kvoSetuped = NO;
+
+		kvoSetuped = NO;		
+
 	}
 	return self;
 }
@@ -206,88 +237,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 
 -(void) awakeFromNib
 {
-	// 初始化CoreController
-	NSBundle *mainBundle = [NSBundle mainBundle];
-	NSString *homeDirectory = NSHomeDirectory();
-	
-	[aboutText setStringValue:[NSString stringWithFormat: @"MPlayerX %@ (r%@) by Zongyao QU@2009,2010", 
-							   [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
-							   [mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]]];
-	
-	/////////////////////////setup CoreController////////////////////
-	[self setMultiThreadMode:[ud boolForKey:kUDKeyEnableMultiThread]];
-	
-	// 得到字幕字体文件的路径
-	NSString *subFontPath = [ud stringForKey:kUDKeySubFontPath];
-	
-	if ([subFontPath isEqualToString:kMPCDefaultSubFontPath]) {
-		// 如果是默认的路径的话，需要添加一些路径头
-		[mplayer.pm setSubFont:[[mainBundle resourcePath] stringByAppendingPathComponent:subFontPath]];
-	} else {
-		// 否则直接设定
-		[mplayer.pm setSubFont:subFontPath];
-	}
-	
-	// 决定是否使用64bit的mplayer
-	[mplayer.pm setPrefer64bMPlayer:[self shouldRun64bitMPlayer]];
-
-	/////////////////////////setup self////////////////////
-	// 建立支持格式的Set
-	for( NSDictionary *dict in [mainBundle objectForInfoDictionaryKey:@"CFBundleDocumentTypes"]) {
-
-		NSString *obj = [dict objectForKey:@"CFBundleTypeName"];
-		// 对不同种类的格式
-		if ([obj isEqualToString:@"Audio Media"]) {
-			// 如果是音频文件
-			supportAudioFormats = [[NSSet alloc] initWithArray:[dict objectForKey:@"CFBundleTypeExtensions"]];
-		
-		} else if ([obj isEqualToString:@"Video Media"]) {
-			// 如果是视频文件
-			supportVideoFormats = [[NSSet alloc] initWithArray:[dict objectForKey:@"CFBundleTypeExtensions"]];
-		} else if ([obj isEqualToString:@"Subtitle"]) {
-			// 如果是字幕文件
-			supportSubFormats = [[NSSet alloc] initWithArray:[dict objectForKey:@"CFBundleTypeExtensions"]];
-		}
-	}
-	
-	/////////////////////////setup bookmarks////////////////////
-	// 得到书签的文件名
-	NSString *lastStoppedTimePath = [NSString stringWithFormat:kMPCFMTBookmarkPath, 
-															   homeDirectory, [mainBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
-	// 得到记录播放时间的dict
-	bookmarks = [[NSMutableDictionary alloc] initWithContentsOfFile:lastStoppedTimePath];
-	if (!bookmarks) {
-		// 如果文件不存在或者格式非法
-		bookmarks = [[NSMutableDictionary alloc] initWithCapacity:10];
-	}
-	[openUrlController initURLList:bookmarks];
-	
-	/////////////////////////setup auto update////////////////////
-	// 设定手动更新
-	[[SUUpdater sharedUpdater] setAutomaticallyChecksForUpdates:NO];
-	
-	/////////////////////////setup subconverter////////////////////
-	NSFileManager *fm = [NSFileManager defaultManager];
-	BOOL isDir = NO;
-	NSString *workDir = [[[fm URLForDirectory:NSApplicationSupportDirectory
-									 inDomain:NSUserDomainMask
-							appropriateForURL:NULL
-									   create:YES
-										error:NULL] path] stringByAppendingPathComponent:kMPCStringMPlayerX];
-
-	if ([fm fileExistsAtPath:workDir isDirectory:&isDir] && (!isDir)) {
-		// 如果存在但不是文件夹的话
-		[fm removeItemAtPath:workDir error:NULL];
-	}
-	if (!isDir) {
-		// 如果原来不存在这个文件夹或者存在的是文件的话，都需要重建文件夹
-		if (![fm createDirectoryAtPath:workDir withIntermediateDirectories:YES attributes:nil error:NULL]) {
-			workDir = nil;
-		}
-	}
-	[mplayer setWorkDirectory:workDir];
-	
-	[mplayer setSubConverterDelegate:self];
+	[openUrlController initURLList:[[AppController sharedAppController] bookmarks]];
 	
 	/////////////////////////setup sleep timer////////////////////
 	// 开启Timer防止睡眠
@@ -320,11 +270,6 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 
 	[mplayer release];
 	[lastPlayedPath release];
-	[supportVideoFormats release];
-	[supportAudioFormats release];
-	[supportSubFormats release];
-	
-	[bookmarks release];
 
 	[super dealloc];
 }
@@ -419,12 +364,13 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 						// 如果文件存在
 						NSString *ext = [[path pathExtension] lowercaseString];
 						
-						if ([supportVideoFormats containsObject:ext] || [supportAudioFormats containsObject:ext]) {
+						if ([[[AppController sharedAppController] supportVideoFormats] containsObject:ext] || 
+							[[[AppController sharedAppController] supportAudioFormats] containsObject:ext]) {
 							// 如果是支持的格式
 							[self playMedia:file];
 							break;
 							
-						} else if ([supportSubFormats containsObject:ext]) {
+						} else if ([[[AppController sharedAppController] supportSubFormats] containsObject:ext]) {
 							// 如果是字幕文件
 							if (PlayerCouldAcceptCommand) {
 								// 如果是在播放状态，就加载字幕
@@ -535,7 +481,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	}
 	////////////////////////////////////////////////////////////////////
 
-	if ([ud boolForKey:kUDKeyAutoResume] && (stime = [bookmarks objectForKey:[lastPlayedPathPre absoluteString]])) {
+	if ([ud boolForKey:kUDKeyAutoResume] && (stime = [[[AppController sharedAppController] bookmarks] objectForKey:[lastPlayedPathPre absoluteString]])) {
 		// if AutoResume is ON and there was a record in the bookmarks
 		// and 5s to help the users to remember where they left in the movie
 		[mplayer.pm setStartTime:([stime floatValue] - 5)];
@@ -580,7 +526,8 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 			[directoryEnumerator skipDescendants];
 
 		} else if ([[fileAttr objectForKey:NSFileType] isEqualToString: NSFileTypeRegular] &&
-					([supportVideoFormats containsObject:ext] || [supportAudioFormats containsObject:ext])) {
+					([[[AppController sharedAppController] supportVideoFormats] containsObject:ext] || 
+					 [[[AppController sharedAppController] supportAudioFormats] containsObject:ext])) {
 			// 如果是正常文件，并且是媒体文件
 			NSString *mediaName = [[mediaFile stringByDeletingPathExtension] lowercaseString];
 			
@@ -636,7 +583,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 -(void) playebackOpened
 {
 	// 用文件名查找有没有之前的播放记录
-	NSNumber *stopTime = [bookmarks objectForKey:[lastPlayedPathPre absoluteString]];
+	NSNumber *stopTime = [[[AppController sharedAppController] bookmarks] objectForKey:[lastPlayedPathPre absoluteString]];
 	NSDictionary *dict;
 
 	if (stopTime) {
@@ -675,11 +622,11 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	if (stoppedByForce) {
 		// 如果是强制停止
 		// 用文件名做key，记录这个文件的播放时间
-		[bookmarks setObject:[dict objectForKey:kMPCPlayStoppedTimeKey] forKey:[lastPlayedPath absoluteString]];
+		[[[AppController sharedAppController] bookmarks] setObject:[dict objectForKey:kMPCPlayStoppedTimeKey] forKey:[lastPlayedPath absoluteString]];
 	} else {
 		// 自然关闭
 		// 删除这个文件key的播放时间
-		[bookmarks removeObjectForKey:[lastPlayedPath absoluteString]];
+		[[[AppController sharedAppController] bookmarks] removeObjectForKey:[lastPlayedPath absoluteString]];
 	}
 	
 	if ([ud boolForKey:kUDKeyAutoPlayNext] && [lastPlayedPath isFileURL] && (!stoppedByForce)) {
@@ -687,7 +634,9 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 		//如果不是本地文件，肯定返回nil
 		NSString *nextPath = 
 			[PlayList AutoSearchNextMoviePathFrom:[lastPlayedPath path] 
-										inFormats:[supportVideoFormats setByAddingObjectsFromSet:supportAudioFormats]];
+										inFormats:[[[AppController sharedAppController] supportVideoFormats] 
+												   setByAddingObjectsFromSet:[[AppController sharedAppController] supportAudioFormats]]];
+		
 		if (nextPath != nil) {
 			BOOL pasTemp = [ud boolForKey:kUDKeyPlayWhenOpened];
 			[ud setBool:YES forKey:kUDKeyPlayWhenOpened];
@@ -872,59 +821,5 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	if (PlayerCouldAcceptCommand) {
 		[mplayer setEqualizer:amps];
 	}
-}
-/////////////////////////////////////Actions//////////////////////////////////////
--(IBAction) openFile:(id) sender
-{
-	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-	[openPanel setCanChooseFiles:YES];
-	[openPanel setCanChooseDirectories:NO];
-	[openPanel setResolvesAliases:NO];
-	// 现在还不支持播放列表，因此禁用多选择
-	[openPanel setAllowsMultipleSelection:NO];
-	[openPanel setCanCreateDirectories:NO];
-	[openPanel setTitle:kMPXStringOpenMediaFiles];
-	
-	if ([openPanel runModal] == NSFileHandlingPanelOKButton) {
-		[self loadFiles:[openPanel URLs] fromLocal:YES];
-	}
-}
-
--(IBAction) showHelp:(id) sender
-{
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[ud stringForKey:kUDKeyHelpURL]]];
-}
-/////////////////////////////////////Application Delegate//////////////////////////////////////
--(BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename
-{
-	[self loadFiles:[NSArray arrayWithObject:filename] fromLocal:YES];
-	return YES;
-}
-
--(void) application:(NSApplication *)theApplication openFiles:(NSArray *)filenames
-{
-	[self loadFiles:filenames fromLocal:YES];
-	[theApplication replyToOpenOrPrint:NSApplicationDelegateReplySuccess];
-}
-
--(NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication *)sender
-{
-	[self stop];
-
-	[ud synchronize];
-
-	NSString *lastStoppedTimePath = [NSString stringWithFormat:kMPCFMTBookmarkPath, 
-															   NSHomeDirectory(), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
-
-	[openUrlController syncToBookmark:bookmarks];
-	
-	[bookmarks writeToFile:lastStoppedTimePath atomically:YES];
-	
-	return NSTerminateNow;	
-}
-
--(void) applicationDidFinishLaunching:(NSNotification *)notification
-{
-	[[SUUpdater sharedUpdater] checkForUpdatesInBackground];
 }
 @end

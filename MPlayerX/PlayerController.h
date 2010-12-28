@@ -48,16 +48,10 @@ extern NSString * const kMPCPlayInfoUpdatedChangeDictKey;
 	CoreController *mplayer;
 	NSURL *lastPlayedPath;
 	NSURL *lastPlayedPathPre;
-	NSSet *supportVideoFormats;
-	NSSet *supportAudioFormats;
-	NSSet *supportSubFormats;
 
-	NSMutableDictionary *bookmarks;
-	
 	BOOL kvoSetuped;
 
 	IBOutlet ControlUIView *controlUI;
-	IBOutlet NSTextField *aboutText;
 	IBOutlet OpenURLController *openUrlController;
 	IBOutlet CharsetQueryController *charsetController;
 }
@@ -104,8 +98,5 @@ extern NSString * const kMPCPlayInfoUpdatedChangeDictKey;
 -(void) setEqualizer:(NSArray*) amps;
 
 -(void) loadSubFile:(NSString*)subPath;
-
--(IBAction) openFile:(id) sender;
--(IBAction) showHelp:(id) sender;
 
 @end
