@@ -76,7 +76,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 @end
 
 @interface PlayerController (SubConverterDelegate)
--(NSString*) subConverter:(SubConverter*)subConv detectedFile:(NSString*)path ofCharsetName:(NSString*)charsetName confidence:(float)confidence;
+-(NSString*) subConverter:(id)subConv detectedFile:(NSString*)path ofCharsetName:(NSString*)charsetName confidence:(float)confidence;
 @end
 
 @implementation PlayerController

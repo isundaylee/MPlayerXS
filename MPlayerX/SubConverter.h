@@ -23,13 +23,6 @@
 
 @class UniversalDetector, SubConverter;
 
-@protocol SubConverterDelegate
-/** \return 返回值需要符合IANA标准, 或者nil不改变当前值 */
--(NSString*) subConverter:(SubConverter*)subConv detectedFile:(NSString*)path ofCharsetName:(NSString*)charsetName confidence:(float)confidence;
-@end
-
-
-
 @interface SubConverter : NSObject
 {
 	id<SubConverterDelegate> delegate;

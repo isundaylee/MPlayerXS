@@ -18,6 +18,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+typedef struct {
+	NSUInteger width;
+	NSUInteger height;
+	NSUInteger bytes;
+	OSType pixelFormat;
+	CGFloat aspect;
+}DisplayFormat;
+
 // the protocol for displaying the video
 @protocol CoreDisplayDelegate
 -(int)  coreController:(id)sender startWithFormat:(DisplayFormat)df buffer:(char**)data total:(NSUInteger)num;
@@ -32,13 +40,10 @@
 -(void) playebackWillStop;
 @end
 
-typedef struct {
-	NSUInteger width;
-	NSUInteger height;
-	NSUInteger bytes;
-	OSType pixelFormat;
-	CGFloat aspect;
-}DisplayFormat;
+@protocol SubConverterDelegate
+/** \return 返回值需要符合IANA标准, 或者nil不改变当前值 */
+-(NSString*) subConverter:(id)subConv detectedFile:(NSString*)path ofCharsetName:(NSString*)charsetName confidence:(float)confidence;
+@end
 
 // 指定两种arch的mplayer路径时所用的key
 extern NSString * const kI386Key;

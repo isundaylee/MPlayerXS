@@ -634,8 +634,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 -(IBAction) seekTo:(id) sender
 {
-	float time;
-	
 	if ([sender isKindOfClass:[NSMenuItem class]]) {
 		// action from menu
 		sender = [NSNumber numberWithFloat:MAX(0, (((float)[sender tag]) / LASTSTOPPEDTIMERATIO) - 5)];

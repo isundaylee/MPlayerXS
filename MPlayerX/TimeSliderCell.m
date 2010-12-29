@@ -49,7 +49,7 @@
 {
 	BOOL ret = [super startTrackingAt:startPoint inView:controlView];
 	
-	MPLog("Start Tracking = %d\n", ret);
+	MPLog(@"Start Tracking = %d\n", ret);
 	
 	return ret;
 }
@@ -58,7 +58,7 @@
 {
 	BOOL ret = [super trackMouse:theEvent inRect:cellFrame ofView:controlView untilMouseUp:untilMouseUp];
 	
-	MPLog("Track Mouse = %d\n", ret);
+	MPLog(@"Track Mouse = %d\n", ret);
 	
 	return ret;	
 }
@@ -67,14 +67,14 @@
 {
 	[super stopTracking:lastPoint at:stopPoint inView:controlView mouseIsUp:flag];
 	
-	MPLog("Stop Tracking\n");
+	MPLog(@"Stop Tracking\n");
 }
 
 - (BOOL)continueTracking:(NSPoint)lastPoint at:(NSPoint)currentPoint inView:(NSView *)controlView
 {
 	BOOL ret = [super continueTracking:lastPoint at:currentPoint inView:controlView];
 	
-	MPLog("Conti Tracking = %d\n", ret);
+	MPLog(@"Conti Tracking = %d\n", ret);
 	
 	return ret;	
 }
