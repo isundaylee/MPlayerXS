@@ -53,7 +53,6 @@ static BOOL init_ed = NO;
 {
 	if (sharedInstance == nil) {
 		sharedInstance = [[super allocWithZone:nil] init];
-
 	}
 	return sharedInstance;
 }
@@ -72,27 +71,27 @@ static BOOL init_ed = NO;
 		
 		NSBundle *mainBundle = [NSBundle mainBundle];
 		// 建立支持格式的Set
-		for( NSDictionary *dict in [mainBundle objectForInfoDictionaryKey:@"CFBundleDocumentTypes"]) {
+		for( NSDictionary *dict in [mainBundle objectForInfoDictionaryKey:CFBundleDocumentTypes]) {
 			
-			NSString *obj = [dict objectForKey:@"CFBundleTypeName"];
+			NSString *obj = [dict objectForKey:CFBundleTypeName];
 			// 对不同种类的格式
 			if ([obj isEqualToString:@"Audio Media"]) {
 				// 如果是音频文件
-				supportAudioFormats = [[NSSet alloc] initWithArray:[dict objectForKey:@"CFBundleTypeExtensions"]];
+				supportAudioFormats = [[NSSet alloc] initWithArray:[dict objectForKey:CFBundleTypeExtensions]];
 				
 			} else if ([obj isEqualToString:@"Video Media"]) {
 				// 如果是视频文件
-				supportVideoFormats = [[NSSet alloc] initWithArray:[dict objectForKey:@"CFBundleTypeExtensions"]];
+				supportVideoFormats = [[NSSet alloc] initWithArray:[dict objectForKey:CFBundleTypeExtensions]];
 			} else if ([obj isEqualToString:@"Subtitle"]) {
 				// 如果是字幕文件
-				supportSubFormats = [[NSSet alloc] initWithArray:[dict objectForKey:@"CFBundleTypeExtensions"]];
+				supportSubFormats = [[NSSet alloc] initWithArray:[dict objectForKey:CFBundleTypeExtensions]];
 			}
 		}
 		
 		/////////////////////////setup bookmarks////////////////////
 		// 得到书签的文件名
 		NSString *lastStoppedTimePath = [NSString stringWithFormat:kMPCFMTBookmarkPath, 
-										 NSHomeDirectory(), [mainBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
+										 NSHomeDirectory(), [mainBundle objectForInfoDictionaryKey:CFBundleIdentifier]];
 		// 得到记录播放时间的dict
 		bookmarks = [[NSMutableDictionary alloc] initWithContentsOfFile:lastStoppedTimePath];
 		if (!bookmarks) {
@@ -127,10 +126,24 @@ static BOOL init_ed = NO;
 {
 	NSBundle *mainBundle = [NSBundle mainBundle];
 
+	// setup version info
 	[aboutText setStringValue:[NSString stringWithFormat: @"MPlayerX %@ (r%@) by Zongyao QU@2009,2010", 
-							   [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
-							   [mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]]];
-	
+							   [mainBundle objectForInfoDictionaryKey:CFBundleShortVersionString],
+							   [mainBundle objectForInfoDictionaryKey:CFBundleVersion]]];
+
+	// setup url list for OpenURL Panel
+	[openUrlController initURLList:bookmarks];
+
+	// setup sleep timer
+	NSTimer *prevSlpTimer = [NSTimer timerWithTimeInterval:20
+													target:playerController
+												  selector:@selector(preventSystemSleep)
+												  userInfo:nil
+												   repeats:YES];
+	NSRunLoop *rl = [NSRunLoop mainRunLoop];
+	[rl addTimer:prevSlpTimer forMode:NSDefaultRunLoopMode];
+	[rl addTimer:prevSlpTimer forMode:NSModalPanelRunLoopMode];
+	[rl addTimer:prevSlpTimer forMode:NSEventTrackingRunLoopMode];	
 }
 
 /////////////////////////////////////Actions//////////////////////////////////////
@@ -174,7 +187,7 @@ static BOOL init_ed = NO;
 	[ud synchronize];
 	
 	NSString *lastStoppedTimePath = [NSString stringWithFormat:kMPCFMTBookmarkPath, 
-									 NSHomeDirectory(), [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]];
+									 NSHomeDirectory(), [[NSBundle mainBundle] objectForInfoDictionaryKey:CFBundleIdentifier]];
 	
 	[openUrlController syncToBookmark:bookmarks];
 	

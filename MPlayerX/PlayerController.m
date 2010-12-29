@@ -67,6 +67,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 @end
 
 @interface PlayerController (PlayerControllerInternal)
+-(void) showAlertPanelModal:(NSString*) str;
 -(BOOL) shouldRun64bitMPlayer;
 -(void) preventSystemSleep;
 -(void) playMedia:(NSURL*)url;
@@ -129,6 +130,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 		mplayer = [[CoreController alloc] init];
 		[mplayer setDelegate:self];
 		
+		// TODO Need test
 		/////////////////////////setup subconverter////////////////////
 		NSFileManager *fm = [NSFileManager defaultManager];
 		BOOL isDir = NO;
@@ -171,21 +173,9 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 		lastPlayedPath = nil;
 		lastPlayedPathPre = nil;
 
-		kvoSetuped = NO;		
-
+		kvoSetuped = NO;
 	}
 	return self;
-}
-
--(BOOL) shouldRun64bitMPlayer
-{
-	int value = 0 ;
-	unsigned long length = sizeof(value);
-	
-	if ((sysctlbyname("hw.optional.x86_64", &value, &length, NULL, 0) == 0) && (value == 1))
-		return [ud boolForKey:kUDKeyPrefer64bitMPlayer];
-	
-	return NO;
 }
 
 -(void) setupKVO
@@ -235,23 +225,6 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	}
 }
 
--(void) awakeFromNib
-{
-	[openUrlController initURLList:[[AppController sharedAppController] bookmarks]];
-	
-	/////////////////////////setup sleep timer////////////////////
-	// 开启Timer防止睡眠
-	NSTimer *prevSlpTimer = [NSTimer timerWithTimeInterval:20 
-													target:self
-												  selector:@selector(preventSystemSleep)
-												  userInfo:nil
-												   repeats:YES];
-	NSRunLoop *rl = [NSRunLoop mainRunLoop];
-	[rl addTimer:prevSlpTimer forMode:NSDefaultRunLoopMode];
-	[rl addTimer:prevSlpTimer forMode:NSModalPanelRunLoopMode];
-	[rl addTimer:prevSlpTimer forMode:NSEventTrackingRunLoopMode];
-}
-
 -(void) dealloc
 {
 	if (kvoSetuped) {
@@ -286,13 +259,6 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
--(void) preventSystemSleep
-{
-	if (mplayer.state == kMPCPlayingState) {
-		UpdateSystemActivity(UsrActivity);
-	}
-}
-
 -(id) setDisplayDelegateForMPlayer:(id<CoreDisplayDelegate>) delegate
 {
 	[mplayer setDispDelegate:delegate];
@@ -314,26 +280,6 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	return [mplayer movieInfo];
 }
 
--(NSString*) subConverter:(SubConverter*)subConv detectedFile:(NSString*)path ofCharsetName:(NSString*)charsetName confidence:(float)confidence
-{
-	NSString *ret = nil;
-	
-	if (confidence <= [ud floatForKey:kUDKeyTextSubtitleCharsetConfidenceThresh]) {
-		// 当置信率小于阈值时
-		CFStringEncoding ce;
-		
-		if ([ud boolForKey:kUDKeyTextSubtitleCharsetManual]) {
-			// 如果是手动指定的话
-			ce = [charsetController askForSubEncodingForFile:path charsetName:charsetName confidence:confidence];
-		} else {
-			// 如果是自动fallback
-			ce = [ud integerForKey:kUDKeyTextSubtitleCharsetFallback];
-		}
-		ret = (NSString*)CFStringConvertEncodingToIANACharSetName(ce);
-	}
-	return ret;
-}
-
 -(void) loadFiles:(NSArray*)files fromLocal:(BOOL)local
 {
 	if (files) {
@@ -344,8 +290,8 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		
 		for (id file in files) {
-			// 如果是字符串的话先转到URL
-
+		
+			// 如果是字符串的话先转到URL	
 			if ([file isKindOfClass:[NSString class]]) {
 				if (local) {
 					file = [NSURL fileURLWithPath:file isDirectory:NO];
@@ -389,23 +335,17 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 								// 没有找到。说明按照当前的文件名规则并不存在相应的媒体文件
 								if (!autoSearchMediaFile) {
 									// 如果没有找到合适的播放文件
-									id alertPanel = NSGetAlertPanel(kMPXStringError, kMPXStringCantFindMediaFile, kMPXStringOK, nil, nil);
-									[NSApp runModalForWindow:alertPanel];
-									NSReleaseAlertPanel(alertPanel);
+									[self showAlertPanelModal:kMPXStringCantFindMediaFile];
 								}
 								break;
 							}
 						} else {
 							// 否则提示
-							id alertPanel = NSGetAlertPanel(kMPXStringError, kMPXStringFileNotSupported, kMPXStringOK, nil, nil);
-							[NSApp runModalForWindow:alertPanel];
-							NSReleaseAlertPanel(alertPanel);
+							[self showAlertPanelModal:kMPXStringFileNotSupported];
 						}
 					} else {
 						// 文件不存在
-						id alertPanel = NSGetAlertPanel(kMPXStringError, kMPXStringFileNotExist, kMPXStringOK, nil, nil);
-						[NSApp runModalForWindow:alertPanel];
-						NSReleaseAlertPanel(alertPanel);
+						[self showAlertPanelModal:kMPXStringFileNotExist];
 					}
 				} else {
 					// 如果是非本地文件
@@ -579,78 +519,6 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 							 nil]];
 }
 
-///////////////////////////////////////MPlayer Notifications/////////////////////////////////////////////
--(void) playebackOpened
-{
-	// 用文件名查找有没有之前的播放记录
-	NSNumber *stopTime = [[[AppController sharedAppController] bookmarks] objectForKey:[lastPlayedPathPre absoluteString]];
-	NSDictionary *dict;
-
-	if (stopTime) {
-		dict = [NSDictionary dictionaryWithObjectsAndKeys:
-				lastPlayedPathPre, kMPCPlayOpenedURLKey, 
-				stopTime, kMPCPlayLastStoppedTimeKey,
-				nil];
-	} else {
-		dict = [NSDictionary dictionaryWithObjectsAndKeys: lastPlayedPathPre, kMPCPlayOpenedURLKey, nil];		
-	}
-
-	[notifCenter postNotificationName:kMPCPlayOpenedNotification object:self userInfo:dict];
-}
-
--(void) playebackStarted
-{
-	[notifCenter postNotificationName:kMPCPlayStartedNotification object:self 
-							 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-									   [NSNumber numberWithBool:([mplayer.movieInfo.videoInfo count] == 0)], kMPCPlayStartedAudioOnlyKey,
-									   nil]];
-
-	MPLog(@"vc:%lu, ac:%lu", [mplayer.movieInfo.videoInfo count], [mplayer.movieInfo.audioInfo count]);
-}
-
--(void) playebackWillStop
-{
-	[notifCenter postNotificationName:kMPCPlayWillStopNotification object:self userInfo:nil];
-}
-
--(void) playebackStopped:(NSDictionary*)dict
-{	
-	BOOL stoppedByForce = [[dict objectForKey:kMPCPlayStoppedByForceKey] boolValue];
-
-	[notifCenter postNotificationName:kMPCPlayStoppedNotification object:self userInfo:nil];
-
-	if (stoppedByForce) {
-		// 如果是强制停止
-		// 用文件名做key，记录这个文件的播放时间
-		[[[AppController sharedAppController] bookmarks] setObject:[dict objectForKey:kMPCPlayStoppedTimeKey] forKey:[lastPlayedPath absoluteString]];
-	} else {
-		// 自然关闭
-		// 删除这个文件key的播放时间
-		[[[AppController sharedAppController] bookmarks] removeObjectForKey:[lastPlayedPath absoluteString]];
-	}
-	
-	if ([ud boolForKey:kUDKeyAutoPlayNext] && [lastPlayedPath isFileURL] && (!stoppedByForce)) {
-		//如果不是强制关闭的话
-		//如果不是本地文件，肯定返回nil
-		NSString *nextPath = 
-			[PlayList AutoSearchNextMoviePathFrom:[lastPlayedPath path] 
-										inFormats:[[[AppController sharedAppController] supportVideoFormats] 
-												   setByAddingObjectsFromSet:[[AppController sharedAppController] supportAudioFormats]]];
-		
-		if (nextPath != nil) {
-			BOOL pasTemp = [ud boolForKey:kUDKeyPlayWhenOpened];
-			[ud setBool:YES forKey:kUDKeyPlayWhenOpened];
-			
-			[self loadFiles:[NSArray arrayWithObject:nextPath] fromLocal:YES];
-			
-			[ud setBool:pasTemp forKey:kUDKeyPlayWhenOpened];
-
-			return;
-		}
-	}	
-	[notifCenter postNotificationName:kMPCPlayFinalizedNotification object:self userInfo:nil];
-}
-
 ////////////////////////////////////////////////cooperative actions with UI//////////////////////////////////////////////////
 -(void) stop
 {
@@ -821,5 +689,124 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	if (PlayerCouldAcceptCommand) {
 		[mplayer setEqualizer:amps];
 	}
+}
+
+//////////////////////////////////////private methods////////////////////////////////////////////////////
+-(BOOL) shouldRun64bitMPlayer
+{
+	int value = 0 ;
+	unsigned long length = sizeof(value);
+	
+	if ((sysctlbyname("hw.optional.x86_64", &value, &length, NULL, 0) == 0) && (value == 1))
+		return [ud boolForKey:kUDKeyPrefer64bitMPlayer];
+	
+	return NO;
+}
+
+-(void) showAlertPanelModal:(NSString*) str
+{
+	id alertPanel = NSGetAlertPanel(kMPXStringError, str, kMPXStringOK, nil, nil);
+	[NSApp runModalForWindow:alertPanel];
+	NSReleaseAlertPanel(alertPanel);
+}
+
+-(void) preventSystemSleep
+{
+	if (mplayer.state == kMPCPlayingState) {
+		UpdateSystemActivity(UsrActivity);
+	}
+}
+
+///////////////////////////////////////MPlayer Notifications/////////////////////////////////////////////
+-(void) playebackOpened
+{
+	// 用文件名查找有没有之前的播放记录
+	NSNumber *stopTime = [[[AppController sharedAppController] bookmarks] objectForKey:[lastPlayedPathPre absoluteString]];
+	NSDictionary *dict;
+
+	if (stopTime) {
+		dict = [NSDictionary dictionaryWithObjectsAndKeys:
+				lastPlayedPathPre, kMPCPlayOpenedURLKey, 
+				stopTime, kMPCPlayLastStoppedTimeKey,
+				nil];
+	} else {
+		dict = [NSDictionary dictionaryWithObjectsAndKeys: lastPlayedPathPre, kMPCPlayOpenedURLKey, nil];		
+	}
+
+	[notifCenter postNotificationName:kMPCPlayOpenedNotification object:self userInfo:dict];
+}
+
+-(void) playebackStarted
+{
+	[notifCenter postNotificationName:kMPCPlayStartedNotification object:self 
+							 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+									   [NSNumber numberWithBool:([mplayer.movieInfo.videoInfo count] == 0)], kMPCPlayStartedAudioOnlyKey,
+									   nil]];
+
+	MPLog(@"vc:%lu, ac:%lu", [mplayer.movieInfo.videoInfo count], [mplayer.movieInfo.audioInfo count]);
+}
+
+-(void) playebackWillStop
+{
+	[notifCenter postNotificationName:kMPCPlayWillStopNotification object:self userInfo:nil];
+}
+
+-(void) playebackStopped:(NSDictionary*)dict
+{	
+	BOOL stoppedByForce = [[dict objectForKey:kMPCPlayStoppedByForceKey] boolValue];
+
+	[notifCenter postNotificationName:kMPCPlayStoppedNotification object:self userInfo:nil];
+
+	if (stoppedByForce) {
+		// 如果是强制停止
+		// 用文件名做key，记录这个文件的播放时间
+		[[[AppController sharedAppController] bookmarks] setObject:[dict objectForKey:kMPCPlayStoppedTimeKey] forKey:[lastPlayedPath absoluteString]];
+	} else {
+		// 自然关闭
+		// 删除这个文件key的播放时间
+		[[[AppController sharedAppController] bookmarks] removeObjectForKey:[lastPlayedPath absoluteString]];
+	}
+	
+	if ([ud boolForKey:kUDKeyAutoPlayNext] && [lastPlayedPath isFileURL] && (!stoppedByForce)) {
+		//如果不是强制关闭的话
+		//如果不是本地文件，肯定返回nil
+		NSString *nextPath = 
+			[PlayList AutoSearchNextMoviePathFrom:[lastPlayedPath path] 
+										inFormats:[[[AppController sharedAppController] supportVideoFormats] 
+												   setByAddingObjectsFromSet:[[AppController sharedAppController] supportAudioFormats]]];
+		
+		if (nextPath != nil) {
+			BOOL pasTemp = [ud boolForKey:kUDKeyPlayWhenOpened];
+			[ud setBool:YES forKey:kUDKeyPlayWhenOpened];
+			
+			[self loadFiles:[NSArray arrayWithObject:nextPath] fromLocal:YES];
+			
+			[ud setBool:pasTemp forKey:kUDKeyPlayWhenOpened];
+
+			return;
+		}
+	}	
+	[notifCenter postNotificationName:kMPCPlayFinalizedNotification object:self userInfo:nil];
+}
+
+/////////////////////////////////SubConverter Delegate methods/////////////////////////////////////
+-(NSString*) subConverter:(SubConverter*)subConv detectedFile:(NSString*)path ofCharsetName:(NSString*)charsetName confidence:(float)confidence
+{
+	NSString *ret = nil;
+	
+	if (confidence <= [ud floatForKey:kUDKeyTextSubtitleCharsetConfidenceThresh]) {
+		// 当置信率小于阈值时
+		CFStringEncoding ce;
+		
+		if ([ud boolForKey:kUDKeyTextSubtitleCharsetManual]) {
+			// 如果是手动指定的话
+			ce = [charsetController askForSubEncodingForFile:path charsetName:charsetName confidence:confidence];
+		} else {
+			// 如果是自动fallback
+			ce = [ud integerForKey:kUDKeyTextSubtitleCharsetFallback];
+		}
+		ret = (NSString*)CFStringConvertEncodingToIANACharSetName(ce);
+	}
+	return ret;
 }
 @end
