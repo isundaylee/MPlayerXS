@@ -18,6 +18,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+// the protocol for displaying the video
+@protocol CoreDisplayDelegate
+-(int)  coreController:(id)sender startWithFormat:(DisplayFormat)df buffer:(char**)data total:(NSUInteger)num;
+-(void) coreController:(id)sender draw:(NSUInteger)frameNum;
+-(void) coreControllerStop:(id)sender;
+@end
+
+@protocol CoreControllerDelegate
+-(void) playebackOpened;
+-(void) playebackStarted;
+-(void) playebackStopped:(NSDictionary*)dict;
+-(void) playebackWillStop;
+@end
+
 typedef struct {
 	NSUInteger width;
 	NSUInteger height;

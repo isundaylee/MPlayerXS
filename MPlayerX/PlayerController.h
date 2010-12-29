@@ -19,7 +19,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "CoreController.h"
+#import "coredef.h"
 
 ///////////////////////////Notifications///////////////////////////
 extern NSString * const kMPCPlayOpenedNotification;
@@ -38,9 +38,9 @@ extern NSString * const kMPCPlayInfoUpdatedKeyPathKey;
 extern NSString * const kMPCPlayInfoUpdatedChangeDictKey;
 
 
-@class ControlUIView, OpenURLController, CharsetQueryController;
+@class ControlUIView, OpenURLController, CharsetQueryController, CoreController;
 
-@interface PlayerController : NSObject <NSApplicationDelegate, SubConverterDelegate, CoreControllerDelegate>
+@interface PlayerController : NSObject <SubConverterDelegate, CoreControllerDelegate>
 {
 	NSUserDefaults *ud;
 	NSNotificationCenter *notifCenter;
@@ -73,7 +73,10 @@ extern NSString * const kMPCPlayInfoUpdatedChangeDictKey;
 -(void) togglePlayPause;	/** 返回PlayPause是否成功 */
 -(BOOL) toggleMute;			/** 返回现在的mute状态 */
 -(float) setVolume:(float) vol;	/** 返回现在的音量 */
--(float) seekTo:(float) time;	/** 返回现在要去的时间 */
+
+// time 总是为要达到的时间
+-(float) seekTo:(float)time mode:(SEEK_MODE)seekMode;	/** 返回现在要去的时间 */
+
 -(void) frameStep;
 
 -(float) changeTimeBy:(float) delta;  /** 返回现在的时间值 */

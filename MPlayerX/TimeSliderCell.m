@@ -19,8 +19,66 @@
  */
 
 #import "TimeSliderCell.h"
+#import "CocoaAppendix.h"
 
 @implementation TimeSliderCell
+
+@synthesize dragging;
+
+-(id) init
+{
+	self = [super init];
+	
+	if (self) {
+		dragging = NO;
+	}
+	return self;
+}
+
+-(id) initWithCoder:(NSCoder*) decoder
+{
+	self = [super initWithCoder:decoder];
+	
+	if (self) {
+		dragging = NO;
+	}
+	return self;
+}
+
+-(BOOL) startTrackingAt:(NSPoint)startPoint inView:(NSView*)controlView
+{
+	BOOL ret = [super startTrackingAt:startPoint inView:controlView];
+	
+	MPLog("Start Tracking = %d\n", ret);
+	
+	return ret;
+}
+
+- (BOOL)trackMouse:(NSEvent *)theEvent inRect:(NSRect)cellFrame ofView:(NSView *)controlView untilMouseUp:(BOOL)untilMouseUp
+{
+	BOOL ret = [super trackMouse:theEvent inRect:cellFrame ofView:controlView untilMouseUp:untilMouseUp];
+	
+	MPLog("Track Mouse = %d\n", ret);
+	
+	return ret;	
+}
+
+- (void)stopTracking:(NSPoint)lastPoint at:(NSPoint)stopPoint inView:(NSView *)controlView mouseIsUp:(BOOL)flag
+{
+	[super stopTracking:lastPoint at:stopPoint inView:controlView mouseIsUp:flag];
+	
+	MPLog("Stop Tracking\n");
+}
+
+- (BOOL)continueTracking:(NSPoint)lastPoint at:(NSPoint)currentPoint inView:(NSView *)controlView
+{
+	BOOL ret = [super continueTracking:lastPoint at:currentPoint inView:controlView];
+	
+	MPLog("Conti Tracking = %d\n", ret);
+	
+	return ret;	
+}
+
 - (void)drawBarInside:(NSRect)aRect flipped:(BOOL)flipped {
 	
 	if([self sliderType] == NSLinearSlider) {

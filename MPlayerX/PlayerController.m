@@ -28,6 +28,7 @@
 #import "OpenURLController.h"
 #import "CharsetQueryController.h"
 #import "AppController.h"
+#import "CoreController.h"
 
 NSString * const kMPCPlayOpenedNotification			= @"kMPCPlayOpenedNotification";
 NSString * const kMPCPlayOpenedURLKey				= @"kMPCPlayOpenedURLKey";
@@ -558,11 +559,15 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	return vol;
 }
 
--(float) seekTo:(float) time
+-(float) seekTo:(float)time mode:(SEEK_MODE)seekMode
 {
 	// playingInfo的currentTime是通过获取log来同步的，因此这里不进行直接设定
 	if (PlayerCouldAcceptCommand && mplayer.movieInfo.seekable) {
-		time = [mplayer setTimePos:time mode:kMPCSeekModeAbsolute];
+		if (seekMode == kMPCSeekModeRelative) {
+			time -= [mplayer.movieInfo.playingInfo.currentTime floatValue];
+		}
+		
+		time = [mplayer setTimePos:time mode:seekMode];
 		[mplayer.la stop];
 		return time;
 	}

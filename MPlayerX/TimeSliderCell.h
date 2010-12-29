@@ -23,6 +23,9 @@
 
 @interface TimeSliderCell : BGHUDSliderCell
 {
+	BOOL dragging;
 }
+
+@property (readonly, getter=isDragging) BOOL dragging;
 
 @end

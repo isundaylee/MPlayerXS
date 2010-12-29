@@ -26,20 +26,6 @@
 #import "LogAnalyzer.h"
 #import "SubConverter.h"
 
-// the protocol for displaying the video
-@protocol CoreDisplayDelegate
--(int)  coreController:(id)sender startWithFormat:(DisplayFormat)df buffer:(char**)data total:(NSUInteger)num;
--(void) coreController:(id)sender draw:(NSUInteger)frameNum;
--(void) coreControllerStop:(id)sender;
-@end
-
-@protocol CoreControllerDelegate
--(void) playebackOpened;
--(void) playebackStarted;
--(void) playebackStopped:(NSDictionary*)dict;
--(void) playebackWillStop;
-@end
-
 extern NSString * const kMPCPlayStoppedByForceKey;
 extern NSString * const kMPCPlayStoppedTimeKey;
 
@@ -105,6 +91,7 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 
 /** 返回设定的时间值，如果是-1，那说明没有成功发送，但是即使成功发送了，也不会更新playingInfo的currentTime属性，
  *  这个属性会在单独的线程更新，需要用KVO来获取
+ *  time 在相对模式时为delta，绝对模式时为目的时间
  */
 -(float) setTimePos:(float)time mode:(SEEK_MODE)seekMode;
 

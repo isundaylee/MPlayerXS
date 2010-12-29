@@ -634,19 +634,17 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 -(IBAction) seekTo:(id) sender
 {
+	float time;
+	
 	if ([sender isKindOfClass:[NSMenuItem class]]) {
-		
+		// action from menu
 		sender = [NSNumber numberWithFloat:MAX(0, (((float)[sender tag]) / LASTSTOPPEDTIMERATIO) - 5)];
 	}
 	
-	// 这里并没有直接更新controlUI的代码
-	// 因为controlUI会KVO mplayer.movieInfo.playingInfo.currentTime
-	// playerController的seekTo方法里会根据新设定的时间修改currentTime
-	// 因此这里不用直接更新界面
-	float time = [playerController seekTo:[sender floatValue]];
-	
-	// [timeSlider setFloatValue:time];
-	
+	// when dragging, use absolute seeking
+	float time = [playerController seekTo:[sender floatValue]
+									 mode:([[timeSlider cell] isDragging])?kMPCSeekModeAbsolute:kMPCSeekModeRelative];
+
 	[self updateHintTime];
 	
 	if ([osd isActive] && (time > 0)) {
@@ -662,10 +660,10 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 -(void) changeTimeBy:(float) delta
 {
-	float time = [playerController changeTimeBy:delta];
+	delta = [playerController changeTimeBy:delta];
 
-	if ([osd isActive] && (time > 0)) {
-		NSString *osdStr = [timeFormatter stringForObjectValue:[NSNumber numberWithFloat:time]];
+	if ([osd isActive] && (delta > 0)) {
+		NSString *osdStr = [timeFormatter stringForObjectValue:[NSNumber numberWithFloat:delta]];
 		double length = [timeSlider maxValue];
 		
 		if (length > 0) {
