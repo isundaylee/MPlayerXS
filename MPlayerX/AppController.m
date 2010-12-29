@@ -44,6 +44,7 @@ static BOOL init_ed = NO;
 	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
+					   [NSNumber numberWithBool:NO], kUDKeyLogMode,
 					   nil]];
 
 	MPSetLogEnable([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyLogMode]);
@@ -111,13 +112,13 @@ static BOOL init_ed = NO;
 
 -(void) dealloc
 {
-	sharedInstance = nil;
-	
 	[supportVideoFormats release];
 	[supportAudioFormats release];
 	[supportSubFormats release];
 	
 	[bookmarks release];
+	
+	sharedInstance = nil;
 	
 	[super dealloc];
 }
