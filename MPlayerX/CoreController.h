@@ -106,7 +106,7 @@ extern NSString * const kMPCPlayStoppedTimeKey;
 /** 返回设定的时间值，如果是-1，那说明没有成功发送，但是即使成功发送了，也不会更新playingInfo的currentTime属性，
  *  这个属性会在单独的线程更新，需要用KVO来获取
  */
--(float) setTimePos: (float) time;
+-(float) setTimePos:(float)time mode:(SEEK_MODE)seekMode;
 
 /** 成功发送的话，playingInfo的volume属性会被更新,返回能够被更新的正确值 */
 -(float) setVolume: (float) vol;

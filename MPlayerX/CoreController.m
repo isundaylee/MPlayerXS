@@ -39,6 +39,7 @@ NSString * const kMPCPlayStoppedTimeKey			= @"kMPCPlayStoppedTimeKey";
 
 NSString * const kCmdStringFMTFloat		= @"%@ %@ %f\n";
 NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
+NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 
 #define SAFERELEASETIMER(x)		{if(x) {[x invalidate]; [x release]; x = nil;}}
 
@@ -456,10 +457,22 @@ NSString * const kCmdStringFMTInteger	= @"%@ %@ %d\n";
 	}
 }
 
--(float) setTimePos: (float) time
+-(float) setTimePos:(float)time mode:(SEEK_MODE)seekMode
 {
-	time = MAX(time, 0);
-	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTFloat, kMPCPausingKeepForce, kMPCSeekCmd, time - [movieInfo.playingInfo.currentTime floatValue]]]) {
+	float base;
+	// parameter time
+	// kMPCSeekModeRelative : the delta time to jump
+	// kMPCSeekModeAbsolute : the abs time to jump
+
+	if (seekMode == kMPCSeekModeAbsolute) {
+		time = MAX(time, 0);
+		base = 0;
+	} else {
+		base = [movieInfo.playingInfo.currentTime floatValue];
+	}
+	
+	if ([playerCore sendStringCommand:[NSString stringWithFormat:kCmdStringFMTTimeSeek, kMPCPausingKeepForce, kMPCSeekCmd, time, seekMode]]) {
+		time += base;
 		[movieInfo.playingInfo setCurrentTime:[NSNumber numberWithFloat:time]];
 		return time;
 	}

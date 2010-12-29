@@ -562,7 +562,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 {
 	// playingInfo的currentTime是通过获取log来同步的，因此这里不进行直接设定
 	if (PlayerCouldAcceptCommand && mplayer.movieInfo.seekable) {
-		time = [mplayer setTimePos:time];
+		time = [mplayer setTimePos:time mode:kMPCSeekModeAbsolute];
 		[mplayer.la stop];
 		return time;
 	}
@@ -573,7 +573,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 {
 	// playingInfo的currentTime是通过获取log来同步的，因此这里不进行直接设定
 	if (PlayerCouldAcceptCommand && mplayer.movieInfo.seekable) {
-		delta = [mplayer setTimePos:[mplayer.movieInfo.playingInfo.currentTime floatValue] + delta];	
+		delta = [mplayer setTimePos:delta mode:kMPCSeekModeRelative];
 		[mplayer.la stop];
 		return delta;
 	}

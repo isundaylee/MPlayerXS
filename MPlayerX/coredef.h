@@ -47,6 +47,11 @@ typedef enum
 #define kPMMixToStereoNO		(0)
 #define kPMMixDTS5_1ToStereo	(1)
 
+typedef enum
+{
+	kMPCSeekModeRelative = 0,
+	kMPCSeekModeAbsolute = 2
+} SEEK_MODE;
 
 // KVO观测的属性的KeyPath
 extern NSString * const kKVOPropertyKeyPathCurrentTime;
