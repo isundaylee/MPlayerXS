@@ -20,6 +20,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "coredef.h"
+#import "MovieInfo.h"
 
 ///////////////////////////Notifications///////////////////////////
 extern NSString * const kMPCPlayOpenedNotification;
@@ -64,7 +65,7 @@ extern NSString * const kMPCPlayInfoUpdatedChangeDictKey;
 -(int) playerState;
 -(BOOL) couldAcceptCommand;
 
--(id) mediaInfo;
+-(MovieInfo*) mediaInfo;
 -(void) setMultiThreadMode:(BOOL) mt;
 
 -(void) loadFiles:(NSArray*)files fromLocal:(BOOL)local;

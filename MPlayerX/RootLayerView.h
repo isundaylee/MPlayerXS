@@ -19,7 +19,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "CoreController.h"
+#import "coredef.h"
 
 @class ControlUIView, PlayerController, ShortCutManager, DisplayLayer, OsdText, VideoTunerController, TitleView;
 
@@ -65,7 +65,7 @@
 -(BOOL) toggleFillScreen;
 
 -(void) changeWindowSizeBy:(NSSize)delta animate:(BOOL)animate;
-
--(IBAction) writeSnapshotToFile:(id)sender;
+-(CIImage*) snapshot;
+-(CGFloat) aspectRatio;
 
 @end

@@ -12,7 +12,6 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="81"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2105,14 +2104,6 @@ YWNAbWFjaWRlYS5jb20</string>
 					<int key="connectionID">895</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">writeSnapshotToFile:</string>
-						<reference key="source" ref="439893737"/>
-						<reference key="destination" ref="89559302"/>
-					</object>
-					<int key="connectionID">896</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">initialFirstResponder</string>
 						<reference key="source" ref="972006081"/>
@@ -2439,6 +2430,22 @@ YWNAbWFjaWRlYS5jb20</string>
 						<reference key="destination" ref="105068016"/>
 					</object>
 					<int key="connectionID">971</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">writeSnapshotToFile:</string>
+						<reference key="source" ref="594612133"/>
+						<reference key="destination" ref="89559302"/>
+					</object>
+					<int key="connectionID">972</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">dispView</string>
+						<reference key="source" ref="594612133"/>
+						<reference key="destination" ref="439893737"/>
+					</object>
+					<int key="connectionID">973</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3707,7 +3714,7 @@ YWNAbWFjaWRlYS5jb20</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{{525, 802}, {197, 73}}</string>
-					<string>{{629, 489}, {392, 20}}</string>
+					<string>{{779, 489}, {392, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{74, 862}</string>
@@ -3829,7 +3836,7 @@ YWNAbWFjaWRlYS5jb20</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{768, 356}, {138, 133}}</string>
+					<string>{{918, 356}, {138, 133}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3904,7 +3911,7 @@ YWNAbWFjaWRlYS5jb20</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{726, 376}, {178, 113}}</string>
+					<string>{{876, 376}, {178, 113}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{{145, 474}, {199, 203}}</string>
@@ -3968,7 +3975,7 @@ YWNAbWFjaWRlYS5jb20</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">971</int>
+			<int key="maxID">973</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3982,9 +3989,11 @@ YWNAbWFjaWRlYS5jb20</string>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>openFile:</string>
 							<string>showHelp:</string>
+							<string>writeSnapshotToFile:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
@@ -3995,6 +4004,7 @@ YWNAbWFjaWRlYS5jb20</string>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>openFile:</string>
 							<string>showHelp:</string>
+							<string>writeSnapshotToFile:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -4006,6 +4016,10 @@ YWNAbWFjaWRlYS5jb20</string>
 								<string key="name">showHelp:</string>
 								<string key="candidateClassName">id</string>
 							</object>
+							<object class="IBActionInfo">
+								<string key="name">writeSnapshotToFile:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
@@ -4013,12 +4027,14 @@ YWNAbWFjaWRlYS5jb20</string>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>aboutText</string>
+							<string>dispView</string>
 							<string>openUrlController</string>
 							<string>playerController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSTextField</string>
+							<string>RootLayerView</string>
 							<string>OpenURLController</string>
 							<string>PlayerController</string>
 						</object>
@@ -4028,6 +4044,7 @@ YWNAbWFjaWRlYS5jb20</string>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>aboutText</string>
+							<string>dispView</string>
 							<string>openUrlController</string>
 							<string>playerController</string>
 						</object>
@@ -4036,6 +4053,10 @@ YWNAbWFjaWRlYS5jb20</string>
 							<object class="IBToOneOutletInfo">
 								<string key="name">aboutText</string>
 								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">dispView</string>
+								<string key="candidateClassName">RootLayerView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">openUrlController</string>
@@ -5143,17 +5164,6 @@ YWNAbWFjaWRlYS5jb20</string>
 				<object class="IBPartialClassDescription">
 					<string key="className">RootLayerView</string>
 					<string key="superclassName">NSView</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">writeSnapshotToFile:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">writeSnapshotToFile:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">writeSnapshotToFile:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">

@@ -77,6 +77,8 @@ extern NSString * const kUDKeyAlwaysHideDockInFullScrn;
 extern NSString * const kUDKeyLogMode;
 extern NSString * const kUDKeyImgEnhanceMethod;
 extern NSString * const kUDKeyDeIntMethod;
+extern NSString * const kUDKeyAutoShowLBInFullScr;
+extern NSString * const kUDKeyAutoFSLBMode;
 
 // internal use
 extern NSString * const kUDKeySelectedPrefView;
@@ -88,4 +90,4 @@ extern NSString * const kUDKeyResizeStep;
 extern NSString * const kUDKeyAutoSaveVTSettings;			// TODO
 extern NSString * const kUDKeyAutoSaveEQSettings;			// TODO
 extern NSString * const kUDKeyPinPMode;						// TODO
-extern NSString * const kUDKeyAutoShowLBInFullScr;		// TODO
+

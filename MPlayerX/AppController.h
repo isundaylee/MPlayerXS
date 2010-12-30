@@ -20,7 +20,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class PlayerController, OpenURLController;
+@class PlayerController, OpenURLController, RootLayerView;
 
 @interface AppController : NSObject <NSApplicationDelegate>
 {
@@ -36,6 +36,7 @@
 	IBOutlet NSTextField *aboutText;
 	IBOutlet PlayerController *playerController;
 	IBOutlet OpenURLController *openUrlController;
+	IBOutlet RootLayerView *dispView;
 }
 
 @property (readonly) NSMutableDictionary *bookmarks;
@@ -47,5 +48,6 @@
 
 -(IBAction) openFile:(id) sender;
 -(IBAction) showHelp:(id) sender;
+-(IBAction) writeSnapshotToFile:(id)sender;
 
 @end

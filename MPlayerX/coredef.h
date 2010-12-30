@@ -45,6 +45,12 @@ typedef struct {
 -(NSString*) subConverter:(id)subConv detectedFile:(NSString*)path ofCharsetName:(NSString*)charsetName confidence:(float)confidence;
 @end
 
+// 如果要得到log解析后的结果，可以用这个delegate函数
+// 返回的是A=B字符串中，A为key，B为value的Dict
+@protocol LogAnalyzerDelegate
+-(void) logAnalyzeFinished:(NSDictionary*) dict;
+@end
+
 // 指定两种arch的mplayer路径时所用的key
 extern NSString * const kI386Key;
 extern NSString * const kX86_64Key;
@@ -89,6 +95,16 @@ typedef enum
 /*************************************************************************/
 
 extern NSString * const kPMValDemuxFFMpeg;
+
+extern NSString * const kMPCPlayStoppedByForceKey;
+extern NSString * const kMPCPlayStoppedTimeKey;
+
+#define kMPCStoppedState	(0x0000)		/**< 完全停止状态 */
+#define kMPCOpenedState		(0x0001)		/**< 播放打开，但是还没有开始播放 */
+#define kMPCPlayingState	(0x0100)		/**< 正在播放并且没有暂停 */
+#define kMPCPausedState		(0x0101)		/**< 有文件正在播放但是暂停中 */
+
+#define kMPCStateMask		(0x0100)
 
 // KVO观测的属性的KeyPath
 extern NSString * const kKVOPropertyKeyPathCurrentTime;

@@ -19,12 +19,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-
-// 如果要得到log解析后的结果，可以用这个delegate函数
-// 返回的是A=B字符串中，A为key，B为value的Dict
-@protocol LogAnalyzerDelegate
--(void) logAnalyzeFinished:(NSDictionary*) dict;
-@end
+#import "coredef.h"
 
 @interface LogAnalyzer : NSObject 
 {

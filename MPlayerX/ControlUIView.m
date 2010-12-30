@@ -31,6 +31,7 @@
 #import "TitleView.h"
 #import "CocoaAppendix.h"
 #import "TimeFormatter.h"
+#import "DisplayLayer.h"
 
 #define CONTROLALPHA		(1)
 #define BACKGROUNDALPHA		(0.9)
@@ -95,6 +96,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 					   [NSNumber numberWithFloat:0.1], kUDKeyResizeStep,
 					   boolYes, kUDKeyCloseWindowWhenStopped,
 					   boolYes, kUDKeyAutoShowLBInFullScr,
+					   [NSNumber numberWithUnsignedInt:kPMLetterBoxModeBottomOnly], kUDKeyAutoFSLBMode,
 					   boolNo, kUDKeyHideTitlebar,
 					   nil]];
 }
@@ -698,8 +700,59 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 			[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
 			[menuToggleLockAspectRatio setEnabled:NO];
 
+/*
+			if (([ud boolForKey:kUDKeyAutoShowLBInFullScr]) &&
+				([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay) &&
+				([[[playerController mediaInfo] subInfo] count] > 0)) {
+				// 如果自动显示全屏字幕框 && 现在没有显示字幕框 && 有字幕 的话，显示字幕框
+				CGFloat ar = [dispView aspectRatio];
+				
+				if (IsDisplayLayerAspectValid(ar)) {
+					// if the aspect ratio is valid
+					NSSize sz = [dispView bounds].size;
+					float margin = ((sz.height* ar) / sz.width) - 1.0f;
+					
+					if (margin > 0.0f) {
+						// if it is a wide screen movie
+						NSInteger mode = [ud integerForKey:kUDKeyAutoFSLBMode];
+						switch (mode) {
+							case kPMLetterBoxModeBoth:
+								[playerController setLetterBox:YES top:margin/2 bottom:margin/2];
+								break;
+							case kPMLetterBoxModeTopOnly:
+								[playerController setLetterBox:YES top:margin bottom:-1.0f];
+								break;
+							case kPMLetterBoxModeBottomOnly:
+								[playerController setLetterBox:YES top:-1.0f bottom:margin];
+								break;
+							default:
+								break;
+						}
+					}
+				}
+			}
+ */
 		} else {
 			// 退出全屏
+/*
+			NSInteger mode = [ud integerForKey:kUDKeyLetterBoxMode];
+			float margin = [ud floatForKey:kUDKeyLetterBoxHeight];
+			
+			switch (mode) {
+				case kPMLetterBoxModeBoth:
+					[playerController setLetterBox:YES top:margin bottom:margin];
+					break;
+				case kPMLetterBoxModeTopOnly:
+					[playerController setLetterBox:YES top:margin bottom:-1.0f];
+					break;
+				case kPMLetterBoxModeBottomOnly:
+					[playerController setLetterBox:YES top:-1.0f bottom:margin];
+					break;
+				default:
+					[playerController setLetterBox:YES top:-1.0f bottom:-1.0f];
+					break;
+			}
+*/
 			CGDisplayShowCursor(dispView.fullScrnDevID);
 
 			[fullScreenButton setState: NSOffState];

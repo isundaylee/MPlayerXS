@@ -278,7 +278,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	return PlayerCouldAcceptCommand;
 }
 
--(id) mediaInfo
+-(MovieInfo*) mediaInfo
 {
 	return [mplayer movieInfo];
 }

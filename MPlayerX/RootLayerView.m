@@ -34,8 +34,6 @@
 #define kOnTopModeAlways		(1)
 #define kOnTopModePlaying		(2)
 
-#define kSnapshotSaveDefaultPath	(@"~/Desktop")
-
 @interface RootLayerView (RootLayerViewInternal)
 -(NSSize) calculateContentSize:(NSSize)refSize;
 -(NSPoint) calculatePlayerWindowPosition:(NSSize)winSize;
@@ -69,7 +67,6 @@
 	[[NSUserDefaults standardUserDefaults] 
 	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 					   [NSNumber numberWithInt:kOnTopModePlaying], kUDKeyOnTopMode,
-					   kSnapshotSaveDefaultPath, kUDKeySnapshotSavePath,
 					   boolNo, kUDKeyStartByFullScreen,
 					   boolYes, kUDKeyFullScreenKeepOther,
 					   boolNo, kUDKeyQuitOnClose,
@@ -492,44 +489,14 @@
 	}
 }
 
--(IBAction) writeSnapshotToFile:(id)sender
+-(CIImage*) snapshot
 {
-	if (displaying)
-	{
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		// 得到图像数据
-		CIImage *snapshot = [dispLayer snapshot];
-		
-		if (snapshot != nil) {
-			// 得到图像的Rep
-			NSBitmapImageRep *imRep = [[NSBitmapImageRep alloc] initWithCIImage:snapshot];
-			// 设定这个Rep的存储方式
-			NSData *imData = [NSBitmapImageRep representationOfImageRepsInArray:[NSArray arrayWithObject:imRep]
-																	  usingType:NSPNGFileType
-																	 properties:nil];
-			// 得到存储文件夹
-			NSString *savePath = [ud stringForKey:kUDKeySnapshotSavePath];
-			
-			// 如果是默认路径，那么就更换为绝对地址
-			if ([savePath isEqualToString:kSnapshotSaveDefaultPath]) {
-				savePath = [savePath stringByExpandingTildeInPath];
-			}
-			NSString *mediaPath = ([playerController.lastPlayedPath isFileURL])?([playerController.lastPlayedPath path]):([playerController.lastPlayedPath absoluteString]);
-			// 创建文件名
-			// 修改文件名中的：，因为：无法作为文件名存储
-			savePath = [NSString stringWithFormat:@"%@/%@_%@.png",
-						savePath, 
-						[[mediaPath lastPathComponent] stringByDeletingPathExtension],
-						[[NSDateFormatter localizedStringFromDate:[NSDate date]
-														dateStyle:NSDateFormatterMediumStyle
-														timeStyle:NSDateFormatterMediumStyle] 
-						 stringByReplacingOccurrencesOfString:@":" withString:@"."]];							   
-			// 写文件
-			[imData writeToFile:savePath atomically:YES];
-			[imRep release];
-		}
-		[pool drain];
-	}
+	return [dispLayer snapshot];
+}
+
+-(CGFloat) aspectRatio
+{
+	return [dispLayer aspectRatio];
 }
 
 -(void) changeWindowSizeBy:(NSSize)delta animate:(BOOL)animate

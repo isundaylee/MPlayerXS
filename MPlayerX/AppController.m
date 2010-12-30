@@ -25,6 +25,9 @@
 #import "PlayerController.h"
 #import "OpenURLController.h"
 #import "LocalizedStrings.h"
+#import "RootLayerView.h"
+
+#define kSnapshotSaveDefaultPath	(@"~/Desktop")
 
 NSString * const kMPCFMTBookmarkPath	= @"%@/Library/Preferences/%@.bookmarks.plist";
 
@@ -45,6 +48,7 @@ static BOOL init_ed = NO;
 					   @"http://mplayerx.googlecode.com/svn/trunk/update/appcast.xml", @"SUFeedURL",
 					   @"http://code.google.com/p/mplayerx/wiki/Help?tm=6", kUDKeyHelpURL,
 					   [NSNumber numberWithBool:NO], kUDKeyLogMode,
+					   kSnapshotSaveDefaultPath, kUDKeySnapshotSavePath,
 					   nil]];
 
 	MPSetLogEnable([[NSUserDefaults standardUserDefaults] boolForKey:kUDKeyLogMode]);
@@ -168,6 +172,44 @@ static BOOL init_ed = NO;
 {
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[ud stringForKey:kUDKeyHelpURL]]];
 }
+
+-(IBAction) writeSnapshotToFile:(id)sender
+{
+	// 得到图像数据
+	CIImage *snapshot = [dispView snapshot];
+	
+	if (snapshot != nil) {
+		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		// 得到图像的Rep
+		NSBitmapImageRep *imRep = [[NSBitmapImageRep alloc] initWithCIImage:snapshot];
+		// 设定这个Rep的存储方式
+		NSData *imData = [NSBitmapImageRep representationOfImageRepsInArray:[NSArray arrayWithObject:imRep]
+																  usingType:NSPNGFileType
+																 properties:nil];
+		// 得到存储文件夹
+		NSString *savePath = [ud stringForKey:kUDKeySnapshotSavePath];
+		
+		// 如果是默认路径，那么就更换为绝对地址
+		if ([savePath isEqualToString:kSnapshotSaveDefaultPath]) {
+			savePath = [savePath stringByExpandingTildeInPath];
+		}
+		NSString *mediaPath = ([playerController.lastPlayedPath isFileURL])?([playerController.lastPlayedPath path]):([playerController.lastPlayedPath absoluteString]);
+		// 创建文件名
+		// 修改文件名中的：，因为：无法作为文件名存储
+		savePath = [NSString stringWithFormat:@"%@/%@_%@.png",
+					savePath, 
+					[[mediaPath lastPathComponent] stringByDeletingPathExtension],
+					[[NSDateFormatter localizedStringFromDate:[NSDate date]
+													dateStyle:NSDateFormatterMediumStyle
+													timeStyle:NSDateFormatterMediumStyle] 
+					 stringByReplacingOccurrencesOfString:@":" withString:@"."]];							   
+		// 写文件
+		[imData writeToFile:savePath atomically:YES];
+		[imRep release];
+		[pool drain];
+	}
+}
+
 /////////////////////////////////////Application Delegate//////////////////////////////////////
 -(BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename
 {

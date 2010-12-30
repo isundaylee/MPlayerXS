@@ -21,6 +21,8 @@
 #import "CoreController.h"
 #import <sys/mman.h>
 #import "CocoaAppendix.h"
+#import "MovieInfo.h"
+#import "SubConverter.h"
 
 #define kPollingTimeForTimePos	(1)
 

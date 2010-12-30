@@ -22,19 +22,9 @@
 #import "coredef.h"
 #import "PlayerCore.h"
 #import "ParameterManager.h"
-#import "MovieInfo.h"
 #import "LogAnalyzer.h"
-#import "SubConverter.h"
 
-extern NSString * const kMPCPlayStoppedByForceKey;
-extern NSString * const kMPCPlayStoppedTimeKey;
-
-#define kMPCStoppedState	(0x0000)		/**< 完全停止状态 */
-#define kMPCOpenedState		(0x0001)		/**< 播放打开，但是还没有开始播放 */
-#define kMPCPlayingState	(0x0100)		/**< 正在播放并且没有暂停 */
-#define kMPCPausedState		(0x0101)		/**< 有文件正在播放但是暂停中 */
-
-#define kMPCStateMask		(0x0100)
+@class LogAnalyzer, ParameterManager, MovieInfo, PlayerCore, SubConverter;
 
 @interface CoreController : NSObject <PlayerCoreDelegate, LogAnalyzerDelegate>
 {

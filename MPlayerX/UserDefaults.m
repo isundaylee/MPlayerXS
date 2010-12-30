@@ -81,6 +81,8 @@ NSString * const kUDKeyAlwaysHideDockInFullScrn	= @"AlwaysHideDockInFullScrn";
 NSString * const kUDKeyLogMode					= @"LogMode";
 NSString * const kUDKeyImgEnhanceMethod			= @"ImgEnhMethod";
 NSString * const kUDKeyDeIntMethod				= @"DeIntMethod";
+NSString * const kUDKeyAutoShowLBInFullScr		= @"AutoShowLBInFullScr";
+NSString * const kUDKeyAutoFSLBMode				= @"AutoFSLBMode";
 
 NSString * const kUDKeySelectedPrefView			= @"SelectedPrefView";
 NSString * const kUDKeyHelpURL					= @"HelpURL";
@@ -90,4 +92,3 @@ NSString * const kUDKeyResizeStep				= @"ResizeStep";
 NSString * const kUDKeyAutoSaveVTSettings		= @"ASVTS";
 NSString * const kUDKeyAutoSaveEQSettings		= @"ASEQS";
 NSString * const kUDKeyPinPMode					= @"PinPMode";
-NSString * const kUDKeyAutoShowLBInFullScr		= @"AutoShowLBInFullScr";
