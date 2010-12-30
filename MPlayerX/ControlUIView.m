@@ -94,8 +94,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 					   boolYes, kUDKeyShowOSD,
 					   [NSNumber numberWithFloat:0.1], kUDKeyResizeStep,
 					   boolYes, kUDKeyCloseWindowWhenStopped,
-					   boolYes, kUDKeyAlwaysShowLBInFullScr,
-					   boolYes, kUDKeyAutoLBHeightInFullScr,
+					   boolYes, kUDKeyAutoShowLBInFullScr,
 					   boolNo, kUDKeyHideTitlebar,
 					   nil]];
 }

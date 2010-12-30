@@ -90,5 +90,4 @@ NSString * const kUDKeyResizeStep				= @"ResizeStep";
 NSString * const kUDKeyAutoSaveVTSettings		= @"ASVTS";
 NSString * const kUDKeyAutoSaveEQSettings		= @"ASEQS";
 NSString * const kUDKeyPinPMode					= @"PinPMode";
-NSString * const kUDKeyAlwaysShowLBInFullScr	= @"AlwaysShowLBInFullScr";
-NSString * const kUDKeyAutoLBHeightInFullScr	= @"AutoLBHeightInFullScr";
+NSString * const kUDKeyAutoShowLBInFullScr		= @"AutoShowLBInFullScr";
