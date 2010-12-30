@@ -72,6 +72,24 @@ typedef enum
 	kMPCSeekModeAbsolute = 2
 } SEEK_MODE;
 
+/** !!WARNING!! the settings using post process filters should match the marco below */
+#define PMShouldUsePPFilters(x)	((x) & 0xC0)
+
+/*************************************************************************
+ * WARNING if the values are changed
+ * the tags in the preference panel MUST be modified to match the values */
+#define kPMDeInterlaceNone		(0x00)
+#define kPMDeInterlaceFFMpeg	(0x41)
+#define kPMDeInterlaceLPF5		(0x42)
+#define kPMDeInterlaceYaMc		(0x03)
+
+#define kPMImgEnhanceNone		(0x00)
+#define kPMImgEnhanceNormal		(0x81)
+#define kPMImgEnhanceAdvanced	(0x82)
+/*************************************************************************/
+
+extern NSString * const kPMValDemuxFFMpeg;
+
 // KVO观测的属性的KeyPath
 extern NSString * const kKVOPropertyKeyPathCurrentTime;
 extern NSString * const kKVOPropertyKeyPathLength;

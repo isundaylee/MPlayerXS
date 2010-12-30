@@ -80,6 +80,7 @@ NSString * const kUDKeyHideTitlebar				= @"HideTitlebar";
 NSString * const kUDKeyAlwaysHideDockInFullScrn	= @"AlwaysHideDockInFullScrn";
 NSString * const kUDKeyLogMode					= @"LogMode";
 NSString * const kUDKeyImgEnhanceMethod			= @"ImgEnhMethod";
+NSString * const kUDKeyDeIntMethod				= @"DeIntMethod";
 
 NSString * const kUDKeySelectedPrefView			= @"SelectedPrefView";
 NSString * const kUDKeyHelpURL					= @"HelpURL";

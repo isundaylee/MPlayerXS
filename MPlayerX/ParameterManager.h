@@ -21,19 +21,6 @@
 #import <Cocoa/Cocoa.h>
 #import "coredef_private.h"
 
-extern NSString * const kPMValDemuxFFMpeg;
-
-#define PMShouldUsePPFilters(x)	((x) & 0xC000)
-
-#define kPMDeInterlaceNone		(0)
-#define kPMDeInterlaceFFMpeg	(0x4001)
-#define kPMDeInterlaceLPF5		(0x4002)
-#define kPMDeInterlaceYaMc		(0x0003)
-
-#define kPMImgEnhanceNone		(0)
-#define kPMImgEnhanceNormal		(0x8001)
-#define kPMImgEnhanceAdvanced	(0x8002)
-
 @interface ParameterManager : NSObject 
 {
 	NSMutableArray *paramArray;
