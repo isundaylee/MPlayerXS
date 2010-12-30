@@ -75,6 +75,7 @@ extern NSString * const kUDKeyAutoResume;
 extern NSString * const kUDKeyHideTitlebar;
 extern NSString * const kUDKeyAlwaysHideDockInFullScrn;
 extern NSString * const kUDKeyLogMode;
+extern NSString * const kUDKeyImgEnhanceMethod;
 
 // internal use
 extern NSString * const kUDKeySelectedPrefView;
