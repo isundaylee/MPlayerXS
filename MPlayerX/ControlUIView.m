@@ -85,7 +85,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	[[NSUserDefaults standardUserDefaults] 
 	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-					   [NSNumber numberWithFloat:100], kUDKeyVolume,
+					   [NSNumber numberWithFloat:50], kUDKeyVolume,
 					   [NSNumber numberWithDouble:AUTOHIDETIMEINTERNAL], kUDKeyCtrlUIAutoHideTime,
 					   boolNo, kUDKeySwitchTimeHintPressOnAbusolute,
 					   boolNo, kUDKeyTimeTextAltTotal,
