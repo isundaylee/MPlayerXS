@@ -25,58 +25,52 @@
 
 @synthesize dragging;
 
--(id) init
-{
-	self = [super init];
-	
-	if (self) {
-		dragging = NO;
-	}
-	return self;
-}
-
 -(id) initWithCoder:(NSCoder*) decoder
 {
 	self = [super initWithCoder:decoder];
 	
 	if (self) {
 		dragging = NO;
+		dragState = kTSDragStopped;
 	}
 	return self;
 }
 
 -(BOOL) startTrackingAt:(NSPoint)startPoint inView:(NSView*)controlView
 {
-	BOOL ret = [super startTrackingAt:startPoint inView:controlView];
+	// MPLog(@"Start Trackinng");
+	dragState = kTSDragStarted;
 	
-	MPLog(@"Start Tracking = %d\n", ret);
-	
-	return ret;
-}
-
-- (BOOL)trackMouse:(NSEvent *)theEvent inRect:(NSRect)cellFrame ofView:(NSView *)controlView untilMouseUp:(BOOL)untilMouseUp
-{
-	BOOL ret = [super trackMouse:theEvent inRect:cellFrame ofView:controlView untilMouseUp:untilMouseUp];
-	
-	MPLog(@"Track Mouse = %d\n", ret);
-	
-	return ret;	
+	return [super startTrackingAt:startPoint inView:controlView];
 }
 
 - (void)stopTracking:(NSPoint)lastPoint at:(NSPoint)stopPoint inView:(NSView *)controlView mouseIsUp:(BOOL)flag
 {
-	[super stopTracking:lastPoint at:stopPoint inView:controlView mouseIsUp:flag];
+	// MPLog(@"Stop Tracking\n");
+	dragState = kTSDragStopped;
 	
-	MPLog(@"Stop Tracking\n");
+	[super stopTracking:lastPoint at:stopPoint inView:controlView mouseIsUp:flag];	
 }
 
 - (BOOL)continueTracking:(NSPoint)lastPoint at:(NSPoint)currentPoint inView:(NSView *)controlView
 {
-	BOOL ret = [super continueTracking:lastPoint at:currentPoint inView:controlView];
+	// MPLog(@"Conti Tracking\n");
+	switch (dragState) {
+		// stopped
+		case kTSDragStopped:
+			dragging = NO;
+			break;
+		// started
+		case kTSDragStarted:
+			dragState = kTSDragContinue;
+			break;
+		// continue
+		default:
+			dragging = YES;
+			break;
+	}
 	
-	MPLog(@"Conti Tracking = %d\n", ret);
-	
-	return ret;	
+	return [super continueTracking:lastPoint at:currentPoint inView:controlView];
 }
 
 - (void)drawBarInside:(NSRect)aRect flipped:(BOOL)flipped {

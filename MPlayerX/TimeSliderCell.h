@@ -21,9 +21,17 @@
 #import <Cocoa/Cocoa.h>
 #import <BGHUDAppKit/BGHUDAppKit.h>
 
+typedef enum
+{
+	kTSDragStopped  = 0,
+	kTSDragStarted  = 1,
+	kTSDragContinue = 2
+} TSDRAG_STATE;
+
 @interface TimeSliderCell : BGHUDSliderCell
 {
 	BOOL dragging;
+	TSDRAG_STATE dragState;
 }
 
 @property (readonly, getter=isDragging) BOOL dragging;
