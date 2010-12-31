@@ -31,10 +31,22 @@
 	NSImage *tbCornerRight;
 	NSImage *tbMiddle;
 	
+	NSImage *imgCloseActive;
+	NSImage *imgCloseInactive;
+	NSImage *imgCloseRollover;
+	
+	NSImage *imgMiniActive;
+	NSImage *imgMiniInactive;
+	NSImage *imgMiniRollover;
+	
+	NSImage *imgZoomActive;
+	NSImage *imgZoomInactive;
+	NSImage *imgZoomRollover;
+
 	NSString *title;
 	NSDictionary *titleAttr;
 	
-	NSTrackingArea *trackArea;
+	BOOL mouseEntered;
 }
 
 @property(retain, readwrite) NSString *title;

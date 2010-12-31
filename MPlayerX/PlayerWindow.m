@@ -63,6 +63,17 @@
 	[titlebar setNeedsDisplay:YES];
 }
 
+-(BOOL) validateMenuItem:(NSMenuItem *)menuItem
+{
+	SEL action = [menuItem action];
+	if ((action == @selector(performClose:)) ||
+		(action == @selector(performMiniaturize:)) ||
+		(action == @selector(performZoom:))) {
+		return YES;
+	}
+	return [super validateMenuItem:menuItem];
+}
+
 -(void) performZoom:(id)sender
 {
 	[self zoom:sender];

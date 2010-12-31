@@ -254,6 +254,7 @@
 		[controlUI showUp];
 		[controlUI updateHintTime];
 	}
+	[titlebar mouseMoved:theEvent];
 }
 
 -(void)mouseDown:(NSEvent *)theEvent
@@ -540,23 +541,22 @@
 			opts = [NSApp presentationOptions];
 		}
 
-		[fullScreenOptions setObject:[NSNumber numberWithInt:opts]
-							  forKey:NSFullScreenModeApplicationPresentationOptions];
+		[fullScreenOptions setObject:[NSNumber numberWithInt:opts] forKey:NSFullScreenModeApplicationPresentationOptions];
 		// whether grab all the screens
-		[fullScreenOptions setObject:[NSNumber numberWithBool:!keepOtherSrn]
-							  forKey:NSFullScreenModeAllScreens];
+		[fullScreenOptions setObject:[NSNumber numberWithBool:!keepOtherSrn] forKey:NSFullScreenModeAllScreens];
 
 		[self enterFullScreenMode:chosenScreen withOptions:fullScreenOptions];
-		
+
+		[playerWindow orderOut:self];
+
 		fullScrnDevID = [[[chosenScreen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
-		
+
 		// 得到screen的分辨率，并和播放中的图像进行比较
 		// 知道是横图还是竖图
 		NSSize sz = [chosenScreen frame].size;
 		
 		[controlUI setFillScreenMode:(((sz.height * [dispLayer aspectRatio]) >= sz.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
 							   state:([dispLayer fillScreen])?NSOnState:NSOffState];
-		[playerWindow orderOut:self];
 	} else {
 		return NO;
 	}

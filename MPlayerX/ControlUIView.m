@@ -706,7 +706,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 			// 退出全屏
 			CGDisplayShowCursor(dispView.fullScrnDevID);
 
-			[fullScreenButton setState: NSOffState];
+			[fullScreenButton setState:NSOffState];
 
 			[fillScreenButton setHidden: YES];
 			

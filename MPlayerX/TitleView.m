@@ -19,51 +19,81 @@
  */
 
 #import "TitleView.h"
+#import "CocoaAppendix.h"
 
-NSString *kStringDots = @"...";
+static NSString * const kStringDots = @"...";
+static NSRect trackRect;
 
 @implementation TitleView
 
 @synthesize title;
+
++(void) initialize
+{
+	trackRect = NSMakeRect(0, 0, 70, 23);
+}
 
 - (id)initWithFrame:(NSRect)frame
 {
 	self = [super initWithFrame:frame];
 	
     if (self) {
-		NSUInteger styleMask = NSTitledWindowMask|NSResizableWindowMask|NSClosableWindowMask|NSMiniaturizableWindowMask;
-		
-		closeButton = [[NSWindow standardWindowButton:NSWindowCloseButton forStyleMask:styleMask] retain];
-		miniButton  = [[NSWindow standardWindowButton:NSWindowMiniaturizeButton forStyleMask:styleMask] retain];
-		zoomButton  = [[NSWindow standardWindowButton:NSWindowZoomButton forStyleMask:styleMask] retain];
-		
 		title = nil;
 		titleAttr = [[NSDictionary alloc]
 					 initWithObjectsAndKeys:
 					 [NSColor whiteColor], NSForegroundColorAttributeName,
 					 [NSFont titleBarFontOfSize:12], NSFontAttributeName,
 					 nil];
-		frame.size.width = 64;
-		frame.size.height = 20;
-		frame.origin.x = 1;
-		frame.origin.y = 1;
 
-		tbCornerLeft = [[NSImage imageNamed:@"titlebar-corner-left.png"] retain];
-		tbCornerRight= [[NSImage imageNamed:@"titlebar-corner-right.png"] retain];
-		tbMiddle = [[NSImage imageNamed:@"titlebar-middle.png"] retain];
+		tbCornerLeft	= [[NSImage imageNamed:@"titlebar-corner-left.png"] retain];
+		tbCornerRight	= [[NSImage imageNamed:@"titlebar-corner-right.png"] retain];
+		tbMiddle		= [[NSImage imageNamed:@"titlebar-middle.png"] retain];
 
-		trackArea = nil;
-		// [self addTrackingArea:trackArea];
-    }
+		imgCloseActive	 = [[NSImage imageNamed:@"close-active.tiff"] retain];
+		imgCloseInactive = [[NSImage imageNamed:@"close-inactive-disabled.tiff"] retain];
+		imgCloseRollover = [[NSImage imageNamed:@"close-rollover.tiff"] retain];
+		
+		imgMiniActive	 = [[NSImage imageNamed:@"minimize-active.tiff"] retain];
+		imgMiniInactive	 = [[NSImage imageNamed:@"minimize-inactive-disabled.tiff"] retain];
+		imgMiniRollover	 = [[NSImage imageNamed:@"minimize-rollover.tiff"] retain];
+		
+		imgZoomActive	 = [[NSImage imageNamed:@"zoom-active.tiff"] retain];
+		imgZoomInactive	 = [[NSImage imageNamed:@"zoom-inactive-disabled.tiff"] retain];
+		imgZoomRollover	 = [[NSImage imageNamed:@"zoom-rollover.tiff"] retain];
+
+		closeButton = [[NSButton alloc] initWithFrame:NSMakeRect( 4, 0, 22, 22)];
+		miniButton  = [[NSButton alloc] initWithFrame:NSMakeRect(25, 0, 22, 22)];
+		zoomButton  = [[NSButton alloc] initWithFrame:NSMakeRect(46, 0, 22, 22)];
+		
+		[closeButton setButtonType:NSSwitchButton];
+		[closeButton setImage:imgCloseActive];
+		[closeButton setImagePosition:NSImageOnly];
+		[closeButton setBordered:NO];		
+		[closeButton setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
+		[closeButton setContinuous:NO];
+
+		[miniButton setButtonType:NSSwitchButton];
+		[miniButton setImage:imgMiniActive];
+		[miniButton setImagePosition:NSImageOnly];
+		[miniButton setBordered:NO];
+		[miniButton setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
+		[miniButton setContinuous:NO];
+		
+		[zoomButton setButtonType:NSSwitchButton];
+		[zoomButton setImage:imgZoomActive];
+		[zoomButton setImagePosition:NSImageOnly];
+		[zoomButton setBordered:NO];
+		[zoomButton setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
+		[zoomButton setContinuous:NO];
+		
+		mouseEntered = NO;
+	}
     return self;
 }
 
 -(void) dealloc
 {
-	// [self removeTrackingArea:trackArea];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[trackArea release];
 	
 	[title release];
 	[titleAttr release];
@@ -76,22 +106,34 @@ NSString *kStringDots = @"...";
 	[tbCornerRight release];
 	[tbMiddle release];
 	
+	[imgCloseActive release];
+	[imgCloseInactive release];
+	[imgCloseRollover release];
+	
+	[imgMiniActive release];
+	[imgMiniInactive release];
+	[imgMiniRollover release];
+	
+	[imgZoomActive release];
+	[imgZoomInactive release];
+	[imgZoomRollover release];
+
 	[super dealloc];
 }
 
 -(void) awakeFromNib
 {
 	[self addSubview:closeButton];
-	[closeButton setFrameOrigin:NSMakePoint(9.0, 2.0)];
-	[closeButton setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
-	
 	[self addSubview:miniButton];
-	[miniButton setFrameOrigin:NSMakePoint(30.0, 2.0)];
-	[miniButton setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
-	
 	[self addSubview:zoomButton];
-	[zoomButton setFrameOrigin:NSMakePoint(51.0, 2.0)];
-	[zoomButton setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
+	
+	[closeButton setTarget:[self window]];
+	[miniButton setTarget:[self window]];
+	[zoomButton setTarget:[self window]];
+	
+	[closeButton setAction:@selector(performClose:)];
+	[miniButton setAction:@selector(performMiniaturize:)];
+	[zoomButton setAction:@selector(performZoom:)];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(windowDidBecomKey:)
@@ -103,10 +145,41 @@ NSString *kStringDots = @"...";
 											   object:[self window]];
 }
 
+-(BOOL) acceptsFirstMouse:(NSEvent *)event { return YES; }
+-(BOOL) acceptsFirstResponder { return YES; }
+
 -(void) mouseUp:(NSEvent *)theEvent
 {
 	if ([theEvent clickCount] == 2) {
 		[[self window] performMiniaturize:self];
+	}
+}
+
+-(void) mouseMoved:(NSEvent *)theEvent
+{
+	BOOL mouseIn = NSPointInRect([self convertPoint:[theEvent locationInWindow] fromView:nil], trackRect);
+	
+	if (mouseIn != mouseEntered) {
+		// 状态发生变化
+		mouseEntered = mouseIn;
+		
+		if (mouseEntered) {
+			// entered
+			[closeButton setImage:imgCloseRollover];
+			[miniButton setImage:imgMiniRollover];
+			[zoomButton setImage:imgZoomRollover];			
+		} else {
+			// exited
+			if ([[self window] isKeyWindow]) {
+				[closeButton setImage:imgCloseActive];
+				[miniButton setImage:imgMiniActive];
+				[zoomButton setImage:imgZoomActive];
+			} else {
+				[closeButton setImage:imgCloseInactive];
+				[miniButton setImage:imgMiniInactive];
+				[zoomButton setImage:imgZoomInactive];				
+			}
+		}
 	}
 }
 
@@ -164,19 +237,18 @@ NSString *kStringDots = @"...";
 	}
 }
 
-
 -(void) windowDidBecomKey:(NSNotification*) notif
 {
-	[closeButton setEnabled:YES];
-	[miniButton setEnabled:YES];
-	[zoomButton setEnabled:YES];
+	[closeButton setImage:imgCloseActive];
+	[miniButton setImage:imgMiniActive];
+	[zoomButton setImage:imgZoomActive];
 }
 
 -(void) windowDidResignKey:(NSNotification*) notif
 {
-	[closeButton setEnabled:NO];
-	[miniButton setEnabled:NO];
-	[zoomButton setEnabled:NO];
+	[closeButton setImage:imgCloseInactive];
+	[miniButton setImage:imgMiniInactive];
+	[zoomButton setImage:imgZoomInactive];
 }
 
 @end
