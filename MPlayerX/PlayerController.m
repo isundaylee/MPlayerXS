@@ -115,7 +115,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 					   boolYes, kUDKeyOverlapSub,
 					   boolYes, kUDKeyRtspOverHttp,
 					   [NSNumber numberWithUnsignedInt:kPMMixDTS5_1ToStereo], kUDKeyMixToStereoMode,
-					   boolNo, kUDKeyAutoResume,
+					   boolYes, kUDKeyAutoResume,
 					   [NSNumber numberWithUnsignedInt:kPMImgEnhanceNone], kUDKeyImgEnhanceMethod,
 					   [NSNumber numberWithUnsignedInt:kPMDeInterlaceNone], kUDKeyDeIntMethod,
 					   nil]];	
