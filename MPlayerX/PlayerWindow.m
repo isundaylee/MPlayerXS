@@ -40,8 +40,6 @@
 
 -(void) awakeFromNib
 {
-	// this function has bug 
-	// [self center];
 	[self setHasShadow:YES];
 	[self setCollectionBehavior:NSWindowCollectionBehaviorManaged];
 	

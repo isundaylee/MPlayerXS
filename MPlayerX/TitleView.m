@@ -47,6 +47,11 @@ NSString *kStringDots = @"...";
 		frame.size.height = 20;
 		frame.origin.x = 1;
 		frame.origin.y = 1;
+
+		tbCornerLeft = [[NSImage imageNamed:@"titlebar-corner-left.png"] retain];
+		tbCornerRight= [[NSImage imageNamed:@"titlebar-corner-right.png"] retain];
+		tbMiddle = [[NSImage imageNamed:@"titlebar-middle.png"] retain];
+
 		trackArea = nil;
 		// [self addTrackingArea:trackArea];
     }
@@ -87,11 +92,7 @@ NSString *kStringDots = @"...";
 	[self addSubview:zoomButton];
 	[zoomButton setFrameOrigin:NSMakePoint(51.0, 2.0)];
 	[zoomButton setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
-	
-	tbCornerLeft = [[NSImage imageNamed:@"titlebar-corner-left.png"] retain];
-	tbCornerRight= [[NSImage imageNamed:@"titlebar-corner-right.png"] retain];
-	tbMiddle = [[NSImage imageNamed:@"titlebar-middle.png"] retain];
-	
+
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(windowDidBecomKey:)
 												 name:NSWindowDidBecomeKeyNotification
