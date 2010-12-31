@@ -699,60 +699,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 			
 			[menuToggleLockAspectRatio setTitle:([dispView lockAspectRatio])?(kMPXStringMenuUnlockAspectRatio):(kMPXStringMenuLockAspectRatio)];
 			[menuToggleLockAspectRatio setEnabled:NO];
-
-/*
-			if (([ud boolForKey:kUDKeyAutoShowLBInFullScr]) &&
-				([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay) &&
-				([[[playerController mediaInfo] subInfo] count] > 0)) {
-				// 如果自动显示全屏字幕框 && 现在没有显示字幕框 && 有字幕 的话，显示字幕框
-				CGFloat ar = [dispView aspectRatio];
-				
-				if (IsDisplayLayerAspectValid(ar)) {
-					// if the aspect ratio is valid
-					NSSize sz = [dispView bounds].size;
-					float margin = ((sz.height* ar) / sz.width) - 1.0f;
-					
-					if (margin > 0.0f) {
-						// if it is a wide screen movie
-						NSInteger mode = [ud integerForKey:kUDKeyAutoFSLBMode];
-						switch (mode) {
-							case kPMLetterBoxModeBoth:
-								[playerController setLetterBox:YES top:margin/2 bottom:margin/2];
-								break;
-							case kPMLetterBoxModeTopOnly:
-								[playerController setLetterBox:YES top:margin bottom:-1.0f];
-								break;
-							case kPMLetterBoxModeBottomOnly:
-								[playerController setLetterBox:YES top:-1.0f bottom:margin];
-								break;
-							default:
-								break;
-						}
-					}
-				}
-			}
- */
 		} else {
 			// 退出全屏
-/*
-			NSInteger mode = [ud integerForKey:kUDKeyLetterBoxMode];
-			float margin = [ud floatForKey:kUDKeyLetterBoxHeight];
-			
-			switch (mode) {
-				case kPMLetterBoxModeBoth:
-					[playerController setLetterBox:YES top:margin bottom:margin];
-					break;
-				case kPMLetterBoxModeTopOnly:
-					[playerController setLetterBox:YES top:margin bottom:-1.0f];
-					break;
-				case kPMLetterBoxModeBottomOnly:
-					[playerController setLetterBox:YES top:-1.0f bottom:margin];
-					break;
-				default:
-					[playerController setLetterBox:YES top:-1.0f bottom:-1.0f];
-					break;
-			}
-*/
 			CGDisplayShowCursor(dispView.fullScrnDevID);
 
 			[fullScreenButton setState: NSOffState];
@@ -768,7 +716,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 					[title.animator setAlphaValue:CONTROLALPHA];
 				}
 			}
-			
 			[menuToggleLockAspectRatio setEnabled:YES];
 		}
 	} else {
@@ -820,7 +767,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		rcAcc.origin.x = (rcSelf.size.width - rcAcc.size.width) / 2;
 		[accessaryContainer setFrameOrigin:rcAcc.origin];
 	}
-	
 	[hintTime.animator setAlphaValue:0];
 }
 
@@ -864,7 +810,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		// 如果是字幕的最后一项，那么就轮到隐藏字幕菜单选项
 		mItem = [subListMenu itemWithTag:-1];
 	}
-	
 	[self setSubWithID:mItem];
 }
 
@@ -1025,25 +970,44 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 
 -(IBAction) toggleLetterBox:(id)sender
 {
+	NSInteger lbMode = [ud integerForKey:kUDKeyLetterBoxMode];
+
 	if (sender) {
 		// 说明是从menu激发的事件
 		// 如果是nil，说明是内部激发的事件，那么只是更新menu状态
-		if ([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay) {
+		if (lbMode == kPMLetterBoxModeNotDisplay) {
 			// 没有在显示
-			[ud setInteger:[ud integerForKey:kUDKeyLetterBoxModeAlt] forKey:kUDKeyLetterBoxMode];
+			lbMode = [ud integerForKey:kUDKeyLetterBoxModeAlt];
+			[ud setInteger:lbMode forKey:kUDKeyLetterBoxMode];
 		} else {
 			// 正在显示
-			[ud setInteger:kPMLetterBoxModeNotDisplay forKey:kUDKeyLetterBoxMode];
+			lbMode = kPMLetterBoxModeNotDisplay;
+			[ud setInteger:lbMode forKey:kUDKeyLetterBoxMode];
 		}
 	}
 
-	if ([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay) {
-		[menuToggleLetterBox setTitle:kMPXStringMenuShowLetterBox];
-		[osd setStringValue:kMPXStringOSDLetterBoxWillHide owner:kOSDOwnerOther updateTimer:YES];
-	} else {
-		[menuToggleLetterBox setTitle:kMPXStringMenuHideLetterBox];
-		[osd setStringValue:kMPXStringOSDLetterBoxWillShow owner:kOSDOwnerOther updateTimer:YES];
+	// not in the fullscreen mode
+	float margin = [ud floatForKey:kUDKeyLetterBoxHeight];
+
+	switch (lbMode) {
+		case kPMLetterBoxModeBoth:
+			[menuToggleLetterBox setTitle:kMPXStringMenuHideLetterBox];
+			[playerController setLetterBox:YES top:margin bottom:margin];
+			break;
+		case kPMLetterBoxModeBottomOnly:
+			[menuToggleLetterBox setTitle:kMPXStringMenuHideLetterBox];
+			[playerController setLetterBox:YES top:-1.0f bottom:margin];
+			break;
+		case kPMLetterBoxModeTopOnly:
+			[menuToggleLetterBox setTitle:kMPXStringMenuHideLetterBox];
+			[playerController setLetterBox:YES top:margin bottom:-1.0f];
+			break;
+		default:
+			[menuToggleLetterBox setTitle:kMPXStringMenuShowLetterBox];
+			[playerController setLetterBox:NO top:-1.0f bottom:-1.0f];
+			break;
 	}
+	[playerController changeTimeBy:0.01f];
 }
 
 -(IBAction) stepWindowSize:(id)sender

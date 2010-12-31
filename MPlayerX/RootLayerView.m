@@ -37,7 +37,8 @@
 @interface RootLayerView (RootLayerViewInternal)
 -(NSSize) calculateContentSize:(NSSize)refSize;
 -(NSPoint) calculatePlayerWindowPosition:(NSSize)winSize;
--(void) adjustWindowSizeAndAspectRatio:(NSSize) sizeVal;
+-(void) adjustWindowCoordinateAndAspectRatio:(NSSize) sizeVal;
+-(NSSize) adjustWindowCoordinateTo:(NSSize)sizeVal;
 -(void) setupLayers;
 -(void) reorderSubviews;
 
@@ -203,8 +204,8 @@
 
 -(void) closePlayerWindow
 {
-	[playerWindow close];
-	// [playerWindow orderOut:self];
+	// 这里不能用close方法，因为如果用close的话会激发wiindowWillClose方法
+	[playerWindow orderOut:self];
 }
 
 -(void) playBackStopped:(NSNotification*)notif
@@ -212,6 +213,7 @@
 	firstDisplay = YES;
 	[self setPlayerWindowLevel];
 	[playerWindow setTitle:kMPCStringMPlayerX];
+	[[self layer] setContents:(id)[logo CGImage]];
 }
 
 -(void) playBackStarted:(NSNotification*)notif
@@ -219,8 +221,13 @@
 	[self setPlayerWindowLevel];
 
 	if ([[[notif userInfo] objectForKey:kMPCPlayStartedAudioOnlyKey] boolValue]) {
+		// if audio only
+		[[self layer] setContents:(id)[logo CGImage]];
 		[playerWindow setContentSize:[playerWindow contentMinSize]];
 		[playerWindow makeKeyAndOrderFront:nil];
+	} else {
+		// if has video
+		[[self layer] setContents:nil];
 	}
 }
 
@@ -418,43 +425,7 @@
 	// 如果是全屏，playerWindow是否还拥有rootLayerView不知道
 	// 但是全屏的时候并不会立即调整窗口的大小，而是会等推出全屏的时候再调整
 	// 如果不是全屏，那么根据现在的size得到最合适的size
-	[self adjustWindowSizeAndAspectRatio:[[playerWindow contentView] bounds].size];
-}
-
-
--(NSSize) calculateContentSize:(NSSize)refSize
-{
-	NSSize dispSize = [dispLayer displaySize];
-	CGFloat aspectRatio = [dispLayer aspectRatio];
-	
-	NSSize screenContentSize = [playerWindow contentRectForFrameRect:[[playerWindow screen] visibleFrame]].size;
-	NSSize minSize = [playerWindow contentMinSize];
-	
-	if ((refSize.width < 0) || (refSize.height < 0)) {
-		// 非法尺寸
-		if (aspectRatio <= 0) {
-			// 没有在播放
-			refSize = [[playerWindow contentView] bounds].size;
-		} else {
-			// 在播放就用影片尺寸
-			refSize.height = dispSize.height;
-			refSize.width = refSize.height * aspectRatio;
-		}
-	}
-	
-	refSize.width  = MAX(minSize.width, MIN(screenContentSize.width, refSize.width));
-	refSize.height = MAX(minSize.height, MIN(screenContentSize.height, refSize.height));
-	
-	if (aspectRatio > 0) {
-		if (refSize.width > (refSize.height * aspectRatio)) {
-			// 现在的movie是竖图
-			refSize.width = refSize.height*aspectRatio;
-		} else {
-			// 现在的movie是横图
-			refSize.height = refSize.width/aspectRatio;
-		}
-	}
-	return refSize;
+	[self adjustWindowCoordinateAndAspectRatio:[[playerWindow contentView] bounds].size];
 }
 
 -(void) magnifyWithEvent:(NSEvent *)event
@@ -533,14 +504,9 @@
 		// 在退出全屏之前，这个view并不属于window，设定contentsize不起作用
 		if (shouldResize) {
 			shouldResize = NO;
-			NSSize sz = [self calculateContentSize:[[playerWindow contentView] bounds].size];
 			
-			NSPoint pos = [self calculatePlayerWindowPosition:sz];
-			
-			NSRect rc = NSMakeRect(pos.x, pos.y, sz.width, sz.height);
-			rc = [playerWindow frameRectForContentRect:rc];
+			NSSize sz = [self adjustWindowCoordinateTo:[[playerWindow contentView] bounds].size];
 
-			[playerWindow setFrame:rc display:YES];
 			[playerWindow setContentAspectRatio:sz];			
 		}
 
@@ -674,7 +640,7 @@
 		
 		[VTController resetFilters:self];
 		
-		[self adjustWindowSizeAndAspectRatio:NSMakeSize(-1, -1)];
+		[self adjustWindowCoordinateAndAspectRatio:NSMakeSize(-1, -1)];
 		
 		[controlUI displayStarted];
 		
@@ -687,13 +653,17 @@
 		}
 	} else {
 		[controlUI displayStarted];
+		
+		if ([self isInFullScreenMode]) {
+			shouldResize = YES;
+		} else {
+			[self adjustWindowCoordinateTo:[[playerWindow contentView] bounds].size];
+		}
 	}
 }
 
--(void) adjustWindowSizeAndAspectRatio:(NSSize) sizeVal
+-(void) adjustWindowCoordinateAndAspectRatio:(NSSize) sizeVal
 {
-	NSSize sz;
-
 	// 调用该函数会使DispLayer锁定并且窗口的比例也会锁定
 	// 因此在这里设定lock是安全的
 	lockAspectRatio = YES;
@@ -708,28 +678,70 @@
 		
 		// 如果是全屏开始的，那么还需要设定ControlUI的FillScreen状态
 		// 全屏的时候，view的size和screen的size是一样的
-		sz = [self bounds].size;
+		sizeVal = [self bounds].size;
 		
-		CGFloat aspectRatio = [dispLayer aspectRatio];
-		[controlUI setFillScreenMode:(((sz.height * aspectRatio) >= sz.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
+		[controlUI setFillScreenMode:(((sizeVal.height * [dispLayer aspectRatio]) >= sizeVal.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
 							   state:([dispLayer fillScreen])?NSOnState:NSOffState];
 	} else {
 		// 如果没有在全屏
-		sz = [self calculateContentSize:sizeVal];
-		
-		NSPoint pos = [self calculatePlayerWindowPosition:sz];
-		
-		NSRect rc = NSMakeRect(pos.x, pos.y, sz.width, sz.height);
-		rc = [playerWindow frameRectForContentRect:rc];
-		
-		[playerWindow setFrame:rc display:YES];
-		[playerWindow setContentAspectRatio:sz];
+		sizeVal = [self adjustWindowCoordinateTo:sizeVal];
+
+		[playerWindow setContentAspectRatio:sizeVal];
 		
 		if (![playerWindow isVisible]) {
-			[[self layer] setContents:nil];
 			[playerWindow makeKeyAndOrderFront:self];
 		}
 	}
+}
+
+-(NSSize) adjustWindowCoordinateTo:(NSSize)sizeVal
+{
+	sizeVal = [self calculateContentSize:sizeVal];
+	
+	NSPoint pos = [self calculatePlayerWindowPosition:sizeVal];
+
+	NSRect rc = NSMakeRect(pos.x, pos.y, sizeVal.width, sizeVal.height);
+	
+	rc = [playerWindow frameRectForContentRect:rc];
+	
+	[playerWindow setFrame:rc display:YES];
+	
+	return sizeVal;
+}
+
+-(NSSize) calculateContentSize:(NSSize)refSize
+{
+	NSSize dispSize = [dispLayer displaySize];
+	CGFloat aspectRatio = [dispLayer aspectRatio];
+	
+	NSSize screenContentSize = [playerWindow contentRectForFrameRect:[[playerWindow screen] visibleFrame]].size;
+	NSSize minSize = [playerWindow contentMinSize];
+	
+	if ((refSize.width < 0) || (refSize.height < 0)) {
+		// 非法尺寸
+		if (aspectRatio <= 0) {
+			// 没有在播放
+			refSize = [[playerWindow contentView] bounds].size;
+		} else {
+			// 在播放就用影片尺寸
+			refSize.height = dispSize.height;
+			refSize.width = refSize.height * aspectRatio;
+		}
+	}
+	
+	refSize.width  = MAX(minSize.width, MIN(screenContentSize.width, refSize.width));
+	refSize.height = MAX(minSize.height, MIN(screenContentSize.height, refSize.height));
+	
+	if (aspectRatio > 0) {
+		if (refSize.width > (refSize.height * aspectRatio)) {
+			// 现在的movie是竖图
+			refSize.width = refSize.height*aspectRatio;
+		} else {
+			// 现在的movie是横图
+			refSize.height = refSize.width/aspectRatio;
+		}
+	}
+	return refSize;
 }
 
 -(NSPoint) calculatePlayerWindowPosition:(NSSize) winSize
@@ -742,7 +754,7 @@
 	
 	// would not let the monitor screen cut the window
 	NSRect screenRc = [[playerWindow screen] visibleFrame];
-		
+
 	pos.x = MAX(screenRc.origin.x, MIN(pos.x, screenRc.origin.x + screenRc.size.width - winSize.width));
 	pos.y = MAX(screenRc.origin.y, MIN(pos.y, screenRc.origin.y + screenRc.size.height- winSize.height));
 	
@@ -761,7 +773,6 @@
 	displaying = NO;
 	[controlUI displayStopped];
 	[playerWindow setContentResizeIncrements:NSMakeSize(1.0, 1.0)];
-	[[self layer] setContents:(id)[logo CGImage]];
 }
 ////////////////////////////Application Notification////////////////////////////
 -(void) applicationDidBecomeActive:(NSNotification*)notif
@@ -776,6 +787,8 @@
 ///////////////////////////////////////////PlayerWindow delegate//////////////////////////////////////////////
 -(void) windowWillClose:(NSNotification *)notification
 {
+	[[notification object] orderOut:nil];
+	
 	if ([ud boolForKey:kUDKeyQuitOnClose]) {
 		[NSApp terminate:nil];
 	} else {
