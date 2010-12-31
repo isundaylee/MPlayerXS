@@ -223,35 +223,39 @@ NSString * const PrefToolbarItemIdNetwork	= @"TBINetwork";
 }
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
 {
-	NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
+	NSToolbarItem *item = nil;
 	
 	if ([itemIdentifier isEqualToString:PrefToolBarItemIdGeneral]) {
+		item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 		[item setLabel:PrefTBILabelGeneral];
 		[item setImage:[NSImage imageNamed:NSImageNamePreferencesGeneral]];
 		[item setTag:0];
 		
 	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdVideo]) {
+		item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 		[item setLabel:PrefTBILabelVideo];
 		[item setImage:[NSImage imageNamed:@"toolbar_video"]];
 		[item setTag:1];
 		
 	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdAudio]) {
+		item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 		[item setLabel:PrefTBILabelAudio];
 		[item setImage:[NSImage imageNamed:@"toolbar_audio"]];
 		[item setTag:2];
 		
 	} else if ([itemIdentifier isEqualToString:PrefToolBarItemIdSubtitle]) {
+		item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 		[item setLabel:PrefTBILabelSubtitle];
 		[item setImage:[NSImage imageNamed:NSImageNameFontPanel]];
 		[item setTag:3];
 		
 	} else if ([itemIdentifier isEqualToString:PrefToolbarItemIdNetwork]) {
+		item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
 		[item setLabel:PrefTBILabelNetwork];
 		[item setImage:[NSImage imageNamed:NSImageNameNetwork]];
 		[item setTag:4];
 		
 	} else {
-		[item release];
 		return nil;
 	}
 
