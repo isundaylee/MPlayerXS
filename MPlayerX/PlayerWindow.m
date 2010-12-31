@@ -53,10 +53,9 @@
 	[self setFrameOrigin:winRC.origin];
 }
 
--(BOOL) canBecomeKeyWindow
-{ return YES;}
--(BOOL) canBecomeMainWindow
-{ return YES;}
+-(BOOL) canBecomeKeyWindow { return YES;}
+-(BOOL) canBecomeMainWindow { return YES;}
+-(BOOL) acceptsFirstResponder { return YES; }
 
 -(void) setTitle:(NSString *)aString
 {

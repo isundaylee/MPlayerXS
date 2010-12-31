@@ -323,6 +323,9 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[super dealloc];
 }
 
+-(BOOL) acceptsFirstMouse:(NSEvent *)event { return YES; }
+-(BOOL) acceptsFirstResponder { return YES; }
+
 -(void) refreshBackgroundAlpha
 {
 	[fillGradient release];

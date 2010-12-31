@@ -245,10 +245,8 @@
 	}
 }
 
-- (BOOL)acceptsFirstMouse:(NSEvent *)event 
-{ return YES; }
--(BOOL) acceptsFirstResponder
-{ return YES; }
+-(BOOL) acceptsFirstMouse:(NSEvent *)event { return YES; }
+-(BOOL) acceptsFirstResponder { return YES; }
 
 -(void) mouseMoved:(NSEvent *)theEvent
 {
