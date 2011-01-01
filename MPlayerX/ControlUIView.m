@@ -137,6 +137,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	////////////////////////////////////////set KeyEquivalents////////////////////////////////////////
 	[volumeButton setKeyEquivalent:kSCMMuteKeyEquivalent];
 	[playPauseButton setKeyEquivalent:kSCMPlayPauseKeyEquivalent];
+	[fullScreenButton setKeyEquivalentModifierMask:kSCMFullscreenKeyEquivalentModifierFlagMask];
+	[fullScreenButton setKeyEquivalent:kSCMFullScrnKeyEquivalent];
 
 	[menuSnapshot setKeyEquivalent:kSCMSnapShotKeyEquivalent];
 
@@ -172,6 +174,10 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuToggleFullScreen setKeyEquivalent:kSCMFullScrnKeyEquivalent];
 	[menuToggleFillScreen setKeyEquivalent:kSCMFillScrnKeyEquivalent];
 	[menuToggleAuxiliaryCtrls setKeyEquivalent:kSCMAcceControlKeyEquivalent];
+	
+	[menuMoveToTrash setKeyEquivalentModifierMask:kSCMMoveToTrashKeyEquivalentModifierFlagMask];
+	unichar keyTemp = kSCMMoveToTrashKeyEquivalent;
+	[menuMoveToTrash setKeyEquivalent:[NSString stringWithCharacters:&keyTemp length:1]];
 
 	////////////////////////////////////////load Images////////////////////////////////////////
 	// 初始化音量大小图标

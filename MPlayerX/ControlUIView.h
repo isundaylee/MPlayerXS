@@ -94,6 +94,7 @@
 	IBOutlet NSMenuItem *menuToggleFullScreen;
 	IBOutlet NSMenuItem *menuToggleFillScreen;
 	IBOutlet NSMenuItem *menuToggleAuxiliaryCtrls;
+	IBOutlet NSMenuItem *menuMoveToTrash;
 }
 
 ////////////////////////////////显示相关////////////////////////////////
