@@ -20,6 +20,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#define SAFERELEASE(x)		{if(x) {[x release];x = nil;}}
+
 void MPLog(NSString *format, ...);
 void MPSetLogEnable(BOOL en);
 
@@ -33,4 +35,8 @@ void MPSetLogEnable(BOOL en);
 
 @interface NSString (MPXAdditional)
 -(unsigned int)hexValue;
+@end
+
+@interface NSEvent (MPXAdditional)
++(NSEvent*) makeKeyDownEvent:(NSString*)str modifierFlags:(NSUInteger)flags;
 @end

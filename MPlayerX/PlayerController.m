@@ -56,8 +56,6 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 
 #define kThreadsNumMax	(8)
 
-#define SAFERELEASE(x)		{if(x) {[x release];x = nil;}}
-
 #define PlayerCouldAcceptCommand	(((mplayer.state) & 0x0100)!=0)
 
 @interface PlayerController (CoreControllerDelegate)

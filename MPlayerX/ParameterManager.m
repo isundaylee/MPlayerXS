@@ -101,8 +101,6 @@ NSString * const kPMSubParPPFilter		= @"pp=";
 
 NSString * const kPMSlash				= @"/";
 
-#define SAFERELEASE(x)	if(x) {[x release]; x = nil;}
-
 #define kSubScaleNoAss		(8.0)
 
 @implementation ParameterManager

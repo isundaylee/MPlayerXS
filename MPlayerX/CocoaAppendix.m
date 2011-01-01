@@ -543,3 +543,19 @@ void MPSetLogEnable(BOOL en)
 }
 @end
 
+@implementation NSEvent (MPXAdditional)
++(NSEvent*) makeKeyDownEvent:(NSString*)str modifierFlags:(NSUInteger)flags
+{
+	return [NSEvent keyEventWithType:NSKeyDown
+							location:NSMakePoint(0, 0)
+					   modifierFlags:flags
+						   timestamp:0
+						windowNumber:0
+							 context:nil
+						  characters:str
+		 charactersIgnoringModifiers:str
+						   isARepeat:NO
+							 keyCode:0];
+}
+@end
+
