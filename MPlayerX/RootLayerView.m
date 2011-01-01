@@ -29,6 +29,7 @@
 #import "OsdText.h"
 #import "VideoTunerController.h"
 #import "TitleView.h"
+#import "CocoaAppendix.h"
 
 #define kOnTopModeNormal		(0)
 #define kOnTopModeAlways		(1)
@@ -332,11 +333,7 @@
 				[controlUI changeAudioBalanceBy:nil];
 				break;
 			case 0:
-				[controlUI performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
-															 windowNumber:0 context:nil
-															   characters:kSCMFullScrnKeyEquivalent
-											  charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
-																isARepeat:NO keyCode:0]];
+				[controlUI performKeyEquivalent:[NSEvent makeKeyDownEvent:kSCMFullScrnKeyEquivalent modifierFlags:kSCMFullscreenKeyEquivalentModifierFlagMask]];
 				break;
 			default:
 				break;
@@ -642,11 +639,7 @@
 		[controlUI displayStarted];
 		
 		if ([ud boolForKey:kUDKeyStartByFullScreen] && (![self isInFullScreenMode])) {
-			[controlUI performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
-														 windowNumber:0 context:nil
-														   characters:kSCMFullScrnKeyEquivalent
-										  charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
-															isARepeat:NO keyCode:0]];
+			[controlUI performKeyEquivalent:[NSEvent makeKeyDownEvent:kSCMFullScrnKeyEquivalent modifierFlags:kSCMFullscreenKeyEquivalentModifierFlagMask]];
 		}
 	} else {
 		[controlUI displayStarted];
