@@ -21,17 +21,12 @@
 #import "ParameterManager.h"
 #import "CocoaAppendix.h"
 
-// NSString * const kPMDefaultFontPath = @"/System/Library/Fonts/HelveticaNeue.ttc";
-
 NSString * const kPMDefaultAudioOutput	= @"coreaudio"; 
-// NSString * const kPMNoAudio				= @"null";
 NSString * const kPMDefaultVideoOutput	= @"corevideo"; 
-// NSString * const kPMNoVideo				= @"null";
 NSString * const kPMDefaultSubLang		= @"en,eng,ch,chs,cht,ja,jpn";
 
 NSString * const kPMParMsgLevel		= @"-msglevel";
 NSString * const kPMValMsgLevel		= @"all=-1:global=4:cplayer=4:identify=4";
-// NSString * const kPMParAutoSync		= @"-autosync";
 NSString * const kPMFMTInt			= @"%d";
 NSString * const kPMParSlave		= @"-slave";
 NSString * const kPMParFrameDrop	= @"-framedrop";
@@ -149,12 +144,11 @@ NSString * const kPMSlash				= @"/";
 	
 	if (self) {
 		paramArray = nil;
-		// autoSync = 30;
 		frameDrop = NO;
 		osdLevel = 0;
 		subNameRule = kSubFileNameRuleContain;
 		// 默认禁用-font
-		font = nil; // [[NSString alloc] initWithString:kPMDefaultFontPath]; // Everyone Should have this font
+		font = nil;
 		ao = [[NSString alloc] initWithString:kPMDefaultAudioOutput];
 		vo = [[NSString alloc] initWithString:kPMDefaultVideoOutput];
 		subPreferedLanguage = [[NSString alloc] initWithString:kPMDefaultSubLang];
@@ -251,9 +245,6 @@ NSString * const kPMSlash				= @"/";
 	[paramArray addObject:kPMParMsgCharset];
 	[paramArray addObject:kPMValMsgCharset];
 
-	// [paramArray addObject:kPMParAutoSync];
-	// [paramArray addObject:[NSString stringWithFormat: kPMFMTInt, autoSync]];
-	
 	[paramArray addObject:kPMParSlave];
 	
 	if (frameDrop) {
