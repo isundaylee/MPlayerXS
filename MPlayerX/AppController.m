@@ -129,13 +129,6 @@ static BOOL init_ed = NO;
 
 -(void) awakeFromNib
 {
-	NSBundle *mainBundle = [NSBundle mainBundle];
-
-	// setup version info
-	[aboutText setStringValue:[NSString stringWithFormat: @"MPlayerX %@ (r%@) by Zongyao QU@2009,2010", 
-							   [mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionStringKey"],
-							   [mainBundle objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey]]];
-
 	// setup url list for OpenURL Panel
 	[openUrlController initURLList:bookmarks];
 

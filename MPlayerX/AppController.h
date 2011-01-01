@@ -32,8 +32,7 @@
 	NSSet *supportSubFormats;
 
 	NSMutableDictionary *bookmarks;
-	
-	IBOutlet NSTextField *aboutText;
+
 	IBOutlet PlayerController *playerController;
 	IBOutlet OpenURLController *openUrlController;
 	IBOutlet RootLayerView *dispView;

@@ -108,6 +108,7 @@
 		866CCF5511DE378300032F96 /* EqualizerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 866CCF5411DE378300032F96 /* EqualizerController.m */; };
 		866CCFAC11DE3EAB00032F96 /* Equalizer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 866CCFAB11DE3EAB00032F96 /* Equalizer.xib */; };
 		8671FAF51120456B00F7E5E5 /* doc_sub.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8671FAF41120456B00F7E5E5 /* doc_sub.icns */; };
+		8674A56512CF294F009A2D05 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8674A56412CF294F009A2D05 /* Credits.rtf */; };
 		867FDF351169FD2E000C71A6 /* HueSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 867FDF341169FD2E000C71A6 /* HueSliderCell.m */; };
 		869DA29C1223A2FE00D0D57A /* BGHUDAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 869DA29B1223A2FE00D0D57A /* BGHUDAppKit.framework */; };
 		869DA2E21223A32900D0D57A /* BGHUDAppKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 869DA29B1223A2FE00D0D57A /* BGHUDAppKit.framework */; };
@@ -288,6 +289,7 @@
 		866CCF5411DE378300032F96 /* EqualizerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EqualizerController.m; sourceTree = "<group>"; };
 		866CCFA811DE3E8200032F96 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Equalizer.xib; sourceTree = "<group>"; };
 		8671FAF41120456B00F7E5E5 /* doc_sub.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = doc_sub.icns; sourceTree = "<group>"; };
+		8674A56212CF2942009A2D05 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		867FDF331169FD2E000C71A6 /* HueSliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = HueSliderCell.h; sourceTree = "<group>"; };
 		867FDF341169FD2E000C71A6 /* HueSliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 2; path = HueSliderCell.m; sourceTree = "<group>"; };
 		868BB6B810EF598500A942B3 /* MplayerX_Update_Appcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MplayerX_Update_Appcast.xml; path = ../update/MplayerX_Update_Appcast.xml; sourceTree = SOURCE_ROOT; };
@@ -592,6 +594,7 @@
 		866CD15011DF137200032F96 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				8674A56412CF294F009A2D05 /* Credits.rtf */,
 				86030A9211F1E00600F8D1E8 /* Localizable.strings */,
 				860EF90D1127BAE40015B6EE /* MainMenu.xib */,
 				860EF90F1127BB050015B6EE /* Pref.xib */,
@@ -829,6 +832,7 @@
 				863D0A9F12CDE85900170081 /* zoom-active.tiff in Resources */,
 				863D0AA012CDE85900170081 /* zoom-inactive-disabled.tiff in Resources */,
 				863D0AA212CDE85900170081 /* zoom-rollover.tiff in Resources */,
+				8674A56512CF294F009A2D05 /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1007,6 +1011,14 @@
 				866CCFA811DE3E8200032F96 /* English */,
 			);
 			name = Equalizer.xib;
+			sourceTree = "<group>";
+		};
+		8674A56412CF294F009A2D05 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8674A56212CF2942009A2D05 /* English */,
+			);
+			name = Credits.rtf;
 			sourceTree = "<group>";
 		};
 		86E7A8FE1155EBCD0014155D /* SubEncoding.xib */ = {
