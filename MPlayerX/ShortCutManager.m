@@ -25,6 +25,7 @@
 #import "ControlUIView.h"
 #import "RootLayerView.h"
 #import "AppleRemote.h"
+#import "CocoaAppendix.h"
 
 #define kSCMRepeatCounterThreshold	(6)
 
@@ -163,25 +164,6 @@
 					case kSCMSubDelayResetShortcutKey:
 						[playerController setSubDelay:0];
 						break;
-					case kSCMFullScrnShortcutKey:
-						ret = [controlUI performKeyEquivalent:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0)
-																		  modifierFlags:0 timestamp:0
-																		   windowNumber:0 context:nil
-																			 characters:kSCMFullScrnKeyEquivalent
-															charactersIgnoringModifiers:kSCMFullScrnKeyEquivalent
-																			  isARepeat:NO keyCode:0]];
-						break;
-					case kSCMDeleteFileShortCutKey:
-					{
-						NSURL *path = [[playerController lastPlayedPath] retain];
-						
-						if (path && [path isFileURL]) {
-							[playerController stop];
-							[[NSWorkspace sharedWorkspace] recycleURLs:[NSArray arrayWithObject:path] completionHandler:nil];
-						}
-						[path release];
-						break;
-					}
 					default:
 						ret = NO;
 						break;
@@ -234,6 +216,7 @@
 	NSString *keyEqTemp = nil;
 	id target = nil;
 	SEL action = NULL;
+	NSUInteger modifierFlagMask = 0;
 	
 	if (pressedDown) {
 		repeatCanceled = NO;
@@ -255,13 +238,13 @@
 						
 			case kRemoteButtonMenu:
 				keyEqTemp = kSCMFullScrnKeyEquivalent;
-				target = controlUI;
+				target = mainMenu;
 				action = @selector(performKeyEquivalent:);
 				break;			
 			
 			case kRemoteButtonMenu_Hold:
 				keyEqTemp = kSCMFillScrnKeyEquivalent;
-				target = controlUI;
+				target = mainMenu;
 				action = @selector(performKeyEquivalent:);
 				break;
 			
@@ -279,8 +262,7 @@
 				key = NSRightArrowFunctionKey;
 				target = self;
 				action = @selector(processKeyDown:);
-				break;			
-						
+				break;
 			case kRemoteButtonLeft_Hold:
 				repeatEntered = YES;
 				repeatCounter = 0;
@@ -297,17 +279,9 @@
 		if (target && action) {
 			NSEvent *event;
 			if (keyEqTemp) {
-				event = [NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
-									 windowNumber:0 context:nil
-									   characters:keyEqTemp
-					  charactersIgnoringModifiers:keyEqTemp
-										isARepeat:NO keyCode:0];
+				event = [NSEvent makeKeyDownEvent:keyEqTemp modifierFlags:modifierFlagMask];
 			} else {
-				event = [NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
-									 windowNumber:0 context:nil
-									   characters:[NSString stringWithCharacters:&key length:1]
-					  charactersIgnoringModifiers:[NSString stringWithCharacters:&key length:1]
-										isARepeat:NO keyCode:0];
+				event = [NSEvent makeKeyDownEvent:[NSString stringWithCharacters:&key length:1] modifierFlags:modifierFlagMask];
 			}
 			[self simulateEvent:[NSArray arrayWithObjects:target, [NSNumber numberWithInteger:((NSInteger)action)], event, nil]];
 		}		
