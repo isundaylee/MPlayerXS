@@ -71,7 +71,7 @@
 		(action == @selector(performZoom:))) {
 		return YES;
 	}
-	return [super validateMenuItem:menuItem];
+	return YES;
 }
 
 -(void) performZoom:(id)sender
