@@ -144,6 +144,13 @@ static BOOL init_ed = NO;
 	[rl addTimer:prevSlpTimer forMode:NSEventTrackingRunLoopMode];	
 }
 
+-(BOOL) validateMenuItem:(NSMenuItem *)menuItem
+{
+	if ([menuItem action] == @selector(moveToTrash:)) {
+		return ([playerController lastPlayedPath] != nil);
+	}
+	return YES;
+}
 /////////////////////////////////////Actions//////////////////////////////////////
 -(IBAction) openFile:(id) sender
 {
@@ -161,7 +168,7 @@ static BOOL init_ed = NO;
 	}
 }
 
--(IBAction) showHelp:(id) sender
+-(IBAction) gotoWikiPage:(id) sender
 {
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[ud stringForKey:kUDKeyHelpURL]]];
 }
@@ -203,6 +210,16 @@ static BOOL init_ed = NO;
 	}
 }
 
+-(IBAction) moveToTrash:(id) sender
+{
+	NSURL *path = [[playerController lastPlayedPath] retain];
+		
+	if (path && [path isFileURL]) {
+		[playerController stop];
+		[[NSWorkspace sharedWorkspace] recycleURLs:[NSArray arrayWithObject:path] completionHandler:nil];
+	}
+	[path release];
+}
 /////////////////////////////////////Application Delegate//////////////////////////////////////
 -(BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
