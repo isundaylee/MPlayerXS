@@ -31,12 +31,14 @@ NSString * const PrefToolBarItemIdVideo		= @"TBIVideo";
 NSString * const PrefToolBarItemIdAudio		= @"TBIAudio";
 NSString * const PrefToolBarItemIdSubtitle	= @"TBISubtitle";
 NSString * const PrefToolbarItemIdNetwork	= @"TBINetwork";
+NSString * const PrefToolbarItemIdAdvanced	= @"TBIAdvanced";
 
 #define PrefTBILabelGeneral			(kMPXStringTBILabelGeneral)
 #define PrefTBILabelVideo			(kMPXStringTBILabelVideo)
 #define PrefTBILabelAudio			(kMPXStringTBILabelAudio)
 #define PrefTBILabelSubtitle		(kMPXStringTBILabelSubtitle)
 #define PrefTBILabelNetwork			(kMPXStringTBILabelNetwork)
+#define PrefTBILabelAdvanced		(kMPXStringTBILabelAdvanced)
 
 @implementation PrefController
 
@@ -89,7 +91,7 @@ NSString * const PrefToolbarItemIdNetwork	= @"TBINetwork";
 		
 		CGFloat winH = [prefWin frame].size.height;
 		
-		prefViews = [[NSArray alloc] initWithObjects:viewGeneral, viewVideo, viewAudio, viewSub, viewNetwork, nil];
+		prefViews = [[NSArray alloc] initWithObjects:viewGeneral, viewVideo, viewAudio, viewSub, viewNetwork, viewAdvanced, nil];
 		
 		NSToolbarItem *tbi = [[prefToolbar items] objectAtIndex:[ud integerForKey:kUDKeySelectedPrefView]];
 		
@@ -211,7 +213,7 @@ NSString * const PrefToolbarItemIdNetwork	= @"TBINetwork";
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
 	return [NSArray arrayWithObjects:PrefToolBarItemIdGeneral, PrefToolBarItemIdVideo, PrefToolBarItemIdAudio,
-									PrefToolBarItemIdSubtitle, PrefToolbarItemIdNetwork, nil];
+									PrefToolBarItemIdSubtitle, PrefToolbarItemIdNetwork, PrefToolbarItemIdAdvanced, nil];
 }
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
@@ -254,6 +256,12 @@ NSString * const PrefToolbarItemIdNetwork	= @"TBINetwork";
 		[item setLabel:PrefTBILabelNetwork];
 		[item setImage:[NSImage imageNamed:NSImageNameNetwork]];
 		[item setTag:4];
+		
+	} else if([itemIdentifier isEqualToString:PrefToolbarItemIdAdvanced]) {
+		item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
+		[item setLabel:PrefTBILabelAdvanced];
+		[item setImage:[NSImage imageNamed:NSImageNameAdvanced]];
+		[item setTag:5];
 		
 	} else {
 		return nil;

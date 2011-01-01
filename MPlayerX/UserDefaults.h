@@ -79,6 +79,7 @@ extern NSString * const kUDKeyImgEnhanceMethod;
 extern NSString * const kUDKeyDeIntMethod;
 extern NSString * const kUDKeyAutoShowLBInFullScr;
 extern NSString * const kUDKeyAutoFSLBMode;
+extern NSString * const kUDKeyExtraOptions;
 
 // internal use
 extern NSString * const kUDKeySelectedPrefView;

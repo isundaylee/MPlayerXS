@@ -30,6 +30,8 @@
 #define kMPXStringTBILabelAudio			(NSLocalizedString(@"Audio", @"PrefToolBarLabel"))
 #define kMPXStringTBILabelSubtitle		(NSLocalizedString(@"Subtitle", @"PrefToolBarLabel"))
 #define kMPXStringTBILabelNetwork		(NSLocalizedString(@"Network", @"PrefToolBarLabel"))
+#define kMPXStringTBILabelAdvanced		(NSLocalizedString(@"Advanced", @"PrefToolBarLabel"))
+
 #define kMPXStringDisable				(NSLocalizedString(@"Disable", nil))
 #define kMPXStringOSDSettingChanged		(NSLocalizedString(@"OSD settings changed", @"OSD hint"))
 #define kMPXStringOSDPlaybackStopped	(NSLocalizedString(@"Stopped", @"OSD hint"))

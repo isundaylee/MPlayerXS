@@ -83,6 +83,7 @@ NSString * const kUDKeyImgEnhanceMethod			= @"ImgEnhMethod";
 NSString * const kUDKeyDeIntMethod				= @"DeIntMethod";
 NSString * const kUDKeyAutoShowLBInFullScr		= @"AutoShowLBInFullScr";
 NSString * const kUDKeyAutoFSLBMode				= @"AutoFSLBMode";
+NSString * const kUDKeyExtraOptions				= @"ExtraOptions";
 
 NSString * const kUDKeySelectedPrefView			= @"SelectedPrefView";
 NSString * const kUDKeyHelpURL					= @"HelpURL";

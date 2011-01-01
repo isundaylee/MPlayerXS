@@ -140,6 +140,7 @@ NSString * const kPMSlash				= @"/";
 @synthesize demuxer;
 @synthesize deinterlace;
 @synthesize imgEnhance;
+@synthesize extraOptions;
 
 #pragma mark Init/Dealloc
 -(id) init
@@ -190,6 +191,8 @@ NSString * const kPMSlash				= @"/";
 		demuxer = nil;
 		deinterlace = kPMDeInterlaceNone;
 		imgEnhance = kPMImgEnhanceNone;
+		
+		extraOptions = nil;
 	}
 	return self;
 }
@@ -205,6 +208,7 @@ NSString * const kPMSlash				= @"/";
 	[subCP release];
 	[textSubs release];
 	[vobSub release];
+	[extraOptions release];
 	
 	[super dealloc];
 }
@@ -474,20 +478,28 @@ NSString * const kPMSlash				= @"/";
 				// accurate deblock
 				[ppSettings addObject:kPMSubParImgEnhAdv];
 			}
-			
 			[vfSettings addObject:[kPMSubParPPFilter stringByAppendingString:[ppSettings componentsJoinedByString:kPMSlash]]];
 
 			[ppSettings release];
 		}
-		
 		[paramArray addObject:kPMParVf];
 		[paramArray addObject:[vfSettings componentsJoinedByString:kPMComma]];
 		
 		[vfSettings release];
 	}
-	
-	// MPLog(@"%@", [paramArray componentsJoinedByString:@"\n"]);
-	
+
+	if (extraOptions) {
+		NSArray *extrasArray = [extraOptions componentsSeparatedByString:@" "];
+		
+		if (extrasArray) {
+			for (NSString *str in extrasArray) {
+				if (str && (![str isEqualToString:@""])) {
+					[paramArray addObject:str];
+				}
+			}
+		}
+	}
+
 	return paramArray;
 }
 

@@ -118,6 +118,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 					   boolYes, kUDKeyAutoResume,
 					   [NSNumber numberWithUnsignedInt:kPMImgEnhanceNone], kUDKeyImgEnhanceMethod,
 					   [NSNumber numberWithUnsignedInt:kPMDeInterlaceNone], kUDKeyDeIntMethod,
+					   @"", kUDKeyExtraOptions,
 					   nil]];	
 }
 
@@ -386,7 +387,9 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 	
 	[mplayer.pm setImgEnhance:[ud integerForKey:kUDKeyImgEnhanceMethod]];
 	[mplayer.pm setDeinterlace:[ud integerForKey:kUDKeyDeIntMethod]];
-	
+
+	[mplayer.pm setExtraOptions:[ud stringForKey:kUDKeyExtraOptions]];
+
 	// 这里必须要retain，否则如果用lastPlayedPath作为参数传入的话会有问题
 	lastPlayedPathPre = [[url absoluteURL] retain];
 	

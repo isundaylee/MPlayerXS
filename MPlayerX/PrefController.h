@@ -37,6 +37,7 @@
 	IBOutlet NSView *viewAudio;
 	IBOutlet NSView *viewSub;
 	IBOutlet NSView *viewNetwork;
+	IBOutlet NSView *viewAdvanced;
 	
     IBOutlet PlayerController *playerController;
     IBOutlet RootLayerView *dispView;

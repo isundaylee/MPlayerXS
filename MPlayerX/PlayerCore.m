@@ -87,6 +87,8 @@
 			[task setArguments: [NSArray arrayWithObject:moviePath]];
 		}
 		
+		MPLog(@"%@", [[task arguments] componentsJoinedByString:@"\n"]);
+		
 		// 设置环境参数
 		NSMutableDictionary *env = [[[NSProcessInfo processInfo] environment] mutableCopy];
 		[env setObject:@"1" forKey:@"DYLD_BIND_AT_LAUNCH"]; //delete the message for DYLD
