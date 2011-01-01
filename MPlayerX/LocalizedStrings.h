@@ -56,6 +56,10 @@
 #define kMPXStringMenuHideLetterBox		(NSLocalizedString(@"Hide Letterbox", @"menu"))
 #define kMPXStringURLPanelClearMenu		(NSLocalizedString(@"Clear Menu...", @"open url panel"))
 #define kMPXStringSubEncQueryResult		(NSLocalizedString(@"Detected file:\t%@\nEncoding:\t\t%@\nconfidence:\t%2.1f%%", @"SubEncoding"))
+#define kMPXStringMenuEnterFullscrn		(NSLocalizedString(@"Enter Fullscreen", @"menu"))
+#define kMPXStringMenuExitFullscrn		(NSLocalizedString(@"Exit Fullscreen", @"menu"))
+#define kMPXStringMenuShowAuxCtrls		(NSLocalizedString(@"Show Auxiliary Controls", @"menu"))
+#define kMPXStringMenuHideAuxCtrls		(NSLocalizedString(@"Hide Auxiliary Controls", @"menu"))
 
 #define kMPXStringOSDMediaInfoDemuxer			(NSLocalizedString(@"Demuxer: %@\n", @"OSD hint media info"))
 #define kMPXStringOSDMediaInfoVideoInfoNoBPS	(NSLocalizedString(@"Video: %@, %d×%d, %.1ffps\n", @"OSD hint media info"))

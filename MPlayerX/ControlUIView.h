@@ -91,6 +91,9 @@
 	IBOutlet NSMenuItem *menuSizeInc;
 	IBOutlet NSMenuItem *menuSizeDec;
 	IBOutlet NSMenuItem *menuShowMediaInfo;
+	IBOutlet NSMenuItem *menuToggleFullScreen;
+	IBOutlet NSMenuItem *menuToggleFillScreen;
+	IBOutlet NSMenuItem *menuToggleAuxiliaryCtrls;
 }
 
 ////////////////////////////////显示相关////////////////////////////////

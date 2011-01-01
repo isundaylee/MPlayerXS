@@ -131,16 +131,15 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	// 自身的设定
 	[self setAlphaValue:CONTROLALPHA];
 	[self refreshBackgroundAlpha];
+	// 自动隐藏设定
+	[self refreshAutoHideTimer];
 	
-	//----------------- set KeyEquivalents --------------------------
+	////////////////////////////////////////set KeyEquivalents////////////////////////////////////////
 	[volumeButton setKeyEquivalent:kSCMMuteKeyEquivalent];
 	[playPauseButton setKeyEquivalent:kSCMPlayPauseKeyEquivalent];
-	[fullScreenButton setKeyEquivalent:kSCMFullScrnKeyEquivalent];
-	[fillScreenButton setKeyEquivalent:kSCMFillScrnKeyEquivalent];
-	[toggleAcceButton setKeyEquivalent:kSCMAcceControlKeyEquivalent];
 
 	[menuSnapshot setKeyEquivalent:kSCMSnapShotKeyEquivalent];
-	
+
 	[menuSubScaleInc setKeyEquivalentModifierMask:kSCMSubScaleIncreaseKeyEquivalentModifierFlagMask];
 	[menuSubScaleInc setKeyEquivalent:kSCMSubScaleIncreaseKeyEquivalent];
 	[menuSubScaleDec setKeyEquivalentModifierMask:kSCMSubScaleDecreaseKeyEquivalentModifierFlagMask];
@@ -169,8 +168,12 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuSizeDec setKeyEquivalent:kSCMWindowSizeDecKeyEquivalent];
 	
 	[menuShowMediaInfo setKeyEquivalent:kSCMShowMediaInfoKeyEquivalent];
+	
+	[menuToggleFullScreen setKeyEquivalent:kSCMFullScrnKeyEquivalent];
+	[menuToggleFillScreen setKeyEquivalent:kSCMFillScrnKeyEquivalent];
+	[menuToggleAuxiliaryCtrls setKeyEquivalent:kSCMAcceControlKeyEquivalent];
 
-	//----------------- load Images --------------------------
+	////////////////////////////////////////load Images////////////////////////////////////////
 	// 初始化音量大小图标
 	volumeButtonImages = [[NSArray alloc] initWithObjects:	[NSImage imageNamed:@"vol_no"], [NSImage imageNamed:@"vol_low"],
 															[NSImage imageNamed:@"vol_mid"], [NSImage imageNamed:@"vol_high"],
@@ -180,14 +183,11 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 								  [NSArray arrayWithObjects:[NSImage imageNamed:@"fillscreen_lr"], [NSImage imageNamed:@"exitfillscreen_lr"], nil], kFillScreenButtonImageLRKey,
 								  [NSArray arrayWithObjects:[NSImage imageNamed:@"fillscreen_ub"], [NSImage imageNamed:@"exitfillscreen_ub"], nil], kFillScreenButtonImageUBKey, 
 								  nil];
-
-	// 自动隐藏设定
-	[self refreshAutoHideTimer];
 	
 	// 从userdefault中获得default 音量值
-	[volumeSlider setFloatValue:[ud floatForKey:kUDKeyVolume]];
-	[self setVolume:volumeSlider];
-	// 只有拖拽和按下鼠标的时候触发事件
+	// [volumeSlider setFloatValue:];
+	[self setVolume:[ud objectForKey:kUDKeyVolume]];
+	
 	// Mask mouseup event
 	[[volumeSlider cell] sendActionOn:NSLeftMouseDownMask|NSLeftMouseDraggedMask];
 
@@ -263,9 +263,17 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	[menuToggleLetterBox setTitle:([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay)?(kMPXStringMenuShowLetterBox):
 																										 (kMPXStringMenuHideLetterBox)];
-
 	[menuShowMediaInfo setEnabled:NO];
+
+	[menuToggleFullScreen setEnabled:NO];
+	[menuToggleFullScreen setTitle:kMPXStringMenuEnterFullscrn];
 	
+	[menuToggleFillScreen setEnabled:NO];
+	
+	[toggleAcceButton setTag:NO];
+	[menuToggleAuxiliaryCtrls setTag:NO];
+	[menuToggleAuxiliaryCtrls setTitle:kMPXStringMenuShowAuxCtrls];
+
 	// set OSD active status
 	[osd setActive:NO];
 	
@@ -609,9 +617,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	if ([volumeSlider isEnabled]) {
 		// 这里必须要从sender拿到floatValue，而不能直接从volumeSlider拿
 		// 因为有可能是键盘快捷键，这个时候，ShortCutManager会发一个NSNumber作为sender过来
-		float vol = [sender floatValue];
-		vol = [playerController setVolume:vol];
-		
+		float vol = [playerController setVolume:[sender floatValue]];
+
 		// update buttons status
 		[volumeSlider setFloatValue: vol];
 		
@@ -683,11 +690,13 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 			// 进入全屏
 			
 			[fullScreenButton setState: NSOnState];
+			[menuToggleFullScreen setTitle:kMPXStringMenuExitFullscrn];
 
 			// fillScreenButton的Image设定之类的，
 			// 在RootLayerView里面实现，因为设定这个需要比较多的参数
 			// 会让接口变的很难看
 			[fillScreenButton setHidden: NO];
+			[menuToggleFillScreen setEnabled:YES];
 			
 			// 如果自己已经被hide了，那么就把鼠标也hide
 			if ([self alphaValue] < (CONTROLALPHA-0.05)) {
@@ -707,8 +716,10 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 			CGDisplayShowCursor(dispView.fullScrnDevID);
 
 			[fullScreenButton setState:NSOffState];
+			[menuToggleFullScreen setTitle:kMPXStringMenuEnterFullscrn];
 
 			[fillScreenButton setHidden: YES];
+			[menuToggleFillScreen setEnabled:NO];
 			
 			if ([self alphaValue] > (CONTROLALPHA-0.05)) {
 				// 如果controlUI没有隐藏，那么显示resizeindiccator
@@ -724,8 +735,11 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	} else {
 		// 失败
 		[fullScreenButton setState: NSOffState];
+		[menuToggleFullScreen setTitle:kMPXStringMenuEnterFullscrn];
+		
 		[fillScreenButton setHidden: YES];
-
+		[menuToggleFillScreen setEnabled:NO];
+		
 		[menuToggleLockAspectRatio setEnabled:NO];
 	}
 
@@ -744,9 +758,9 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	NSRect rcSelf = [self frame];
 	CGFloat delta = accessaryContainer.frame.size.height -10;
 	NSRect rcAcc = [accessaryContainer frame];
-	
-	if ([toggleAcceButton state] == NSOnState) {
-		
+
+	if ([sender tag] == NO) {
+		// to show
 		rcSelf.size.height = orgHeight + delta;
 		rcSelf.origin.y -= MIN(rcSelf.origin.y, delta);
 		
@@ -757,6 +771,11 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		[accessaryContainer setFrameOrigin:rcAcc.origin];
 		
 		[accessaryContainer.animator setHidden: NO];
+		
+		[menuToggleAuxiliaryCtrls setTitle:kMPXStringMenuHideAuxCtrls];
+		[menuToggleAuxiliaryCtrls setTag:YES];
+		[toggleAcceButton setState:NSOnState];
+		[toggleAcceButton setTag:YES];
 		
 	} else {
 		[accessaryContainer.animator setHidden: YES];
@@ -769,6 +788,11 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		rcAcc.origin.y = 0;
 		rcAcc.origin.x = (rcSelf.size.width - rcAcc.size.width) / 2;
 		[accessaryContainer setFrameOrigin:rcAcc.origin];
+		
+		[menuToggleAuxiliaryCtrls setTitle:kMPXStringMenuShowAuxCtrls];
+		[menuToggleAuxiliaryCtrls setTag:NO];
+		[toggleAcceButton setState:NSOffState];
+		[toggleAcceButton setTag:NO];
 	}
 	[hintTime.animator setAlphaValue:0];
 }
@@ -1037,6 +1061,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 -(void) displayStarted
 {
 	[fullScreenButton setHidden: NO];
+	[menuToggleFullScreen setEnabled:YES];
 	
 	[menuSnapshot setEnabled:YES];
 	
@@ -1049,9 +1074,10 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 -(void) displayStopped
 {
 	[fullScreenButton setHidden: YES];
-
-	[menuSnapshot setEnabled:NO];
+	[menuToggleFullScreen setEnabled:NO];
 	
+	[menuSnapshot setEnabled:NO];
+
 	[menuToggleLockAspectRatio setEnabled:NO];
 }
 
