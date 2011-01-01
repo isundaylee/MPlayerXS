@@ -141,11 +141,10 @@
 	
 	// 自动尺寸适应
 	[root setAutoresizingMask:kCALayerWidthSizable|kCALayerHeightSizable];
-	
-	NSBundle *mainB = [NSBundle mainBundle];
+
 	logo = [[NSBitmapImageRep alloc] initWithCIImage:
 			[CIImage imageWithContentsOfURL:
-			 [[mainB resourceURL] URLByAppendingPathComponent:@"logo.png"]]];
+			 [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:@"logo.png"]]];
 	[root setContentsGravity:kCAGravityCenter];
 	[root setContents:(id)[logo CGImage]];
 	
