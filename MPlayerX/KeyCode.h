@@ -30,7 +30,7 @@ extern NSString * const kSCMPlayPauseKeyEquivalent;
 extern NSString * const kSCMSwitchVideoKeyEquivalent;
 
 extern NSString * const kSCMFullScrnKeyEquivalent;
-#define kSCMFullScrnShortcutKey		('f')
+#define kSCMFullscreenKeyEquivalentModifierFlagMask				(NSCommandKeyMask)
 
 extern NSString * const kSCMFillScrnKeyEquivalent;
 extern NSString * const kSCMAcceControlKeyEquivalent;
@@ -68,8 +68,6 @@ extern NSString * const kSCMToggleLetterBoxKeyEquivalent;
 #define kSCMSubDelayMinusShortcutKey		('[')
 #define kSCMSubDelayResetShortcutKey		('\\')
 
-#define kSCMDeleteFileShortCutKey			(NSDeleteCharacter)
-
 #define kSCMFFMpegHandleStreamShortCurKey	(NSCommandKeyMask)
 
 extern NSString * const kSCMWindowSizeIncKeyEquivalent;
@@ -83,3 +81,6 @@ extern NSString * const kSCMEqualizerPanelKeyEquivalent;
 #define kSCMEqualizerPanelKeyEquivalentModifierFlagMask		(NSControlKeyMask)
 
 extern NSString * const kMPCStringMPlayerX;
+
+#define kSCMMoveToTrashKeyEquivalent					(NSBackspaceCharacter)
+#define kSCMMoveToTrashKeyEquivalentModifierFlagMask	(NSCommandKeyMask)
