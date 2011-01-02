@@ -408,7 +408,6 @@
 
 -(void) moveFrameToCenter
 {
-	// [dispLayer setPositionOffset:NO];
 	[dispLayer setPositoinOffsetRatio:CGPointMake(0, 0)];
 }
 

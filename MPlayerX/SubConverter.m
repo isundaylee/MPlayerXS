@@ -45,8 +45,9 @@ NSString * const kWorkDirSubDir = @"Subs";
 {
 	[textSubFileExts release];
 	[workDirectory release];
-	[detector release];
-	
+
+	@synchronized (detector) { [detector release]; }
+
 	[super dealloc];
 }
 
@@ -74,17 +75,19 @@ NSString * const kWorkDirSubDir = @"Subs";
 	if (path && [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && (!isDir) &&
 		[textSubFileExts containsObject:[[path pathExtension] lowercaseString]]) {
 
-		[detector analyzeContentsOfFile:path];
-		cpStr = [detector MIMECharset];
-		
-		if (delegate) {
-			NSString *cpPrefer = [delegate subConverter:self detectedFile:path ofCharsetName:cpStr confidence:[detector confidence]];
-			if (cpPrefer && (cpPrefer != cpStr)) {
-				cpStr = cpPrefer;
+		@synchronized(detector) {
+			[detector analyzeContentsOfFile:path];
+			cpStr = [detector MIMECharset];
+			
+			if (delegate) {
+				NSString *cpPrefer = [delegate subConverter:self detectedFile:path ofCharsetName:cpStr confidence:[detector confidence]];
+				if (cpPrefer && (cpPrefer != cpStr)) {
+					cpStr = cpPrefer;
+				}
 			}
+			[cpStr retain];
+			[detector reset];
 		}
-		[cpStr retain];
-		[detector reset];
 	}
 	return [cpStr autorelease];
 }
@@ -229,22 +232,22 @@ NSString * const kWorkDirSubDir = @"Subs";
 			
 			if ([textSubFileExts containsObject: ext]) {
 				// 如果是文本字幕文件
-				[detector analyzeContentsOfFile: subPath];
-				
-				cpStr = [detector MIMECharset];
+				@synchronized (detector) {
+					[detector analyzeContentsOfFile: subPath];
+					
+					cpStr = [detector MIMECharset];
 
-				if (delegate) {
-					NSString *cpPrefer = [delegate subConverter:self detectedFile:subPath ofCharsetName:cpStr confidence:[detector confidence]];
-					if (cpPrefer && (cpPrefer != cpStr)) {
-						cpStr = cpPrefer;
+					if (delegate) {
+						NSString *cpPrefer = [delegate subConverter:self detectedFile:subPath ofCharsetName:cpStr confidence:[detector confidence]];
+						if (cpPrefer && (cpPrefer != cpStr)) {
+							cpStr = cpPrefer;
+						}
 					}
+					if (cpStr) {
+						[subEncDict setObject:cpStr forKey:subPath];
+					}
+					[detector reset];					
 				}
-				
-				if (cpStr) {
-					[subEncDict setObject:cpStr forKey:subPath];
-				}
-				
-				[detector reset];				
 			} else if (vobPath && [ext isEqualToString:@"sub"]) {
 				// 如果是vobsub并且设定要寻找vobsub
 				[*vobPath release];
