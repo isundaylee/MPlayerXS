@@ -447,11 +447,7 @@
 	}
 
 	if (key) {
-		[shortCutManager processKeyDown:[NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
-													 windowNumber:0 context:nil
-													   characters:nil
-									  charactersIgnoringModifiers:[NSString stringWithCharacters:&key length:1]
-														isARepeat:NO keyCode:0]];
+		[shortCutManager processKeyDown:[NSEvent makeKeyDownEvent:[NSString stringWithCharacters:&key length:1] modifierFlags:0]];
 	}
 }
 

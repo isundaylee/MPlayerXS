@@ -290,7 +290,6 @@
 		repeatCanceled = YES;
 		repeatEntered = NO;
 	}
-
 }
 
 -(void) simulateEvent:(NSArray *)arg
@@ -320,11 +319,7 @@
 				} else {
 					key = NSDownArrowFunctionKey;
 				}
-				newEv = [NSEvent keyEventWithType:NSKeyDown location:NSMakePoint(0, 0) modifierFlags:0 timestamp:0
-									 windowNumber:0 context:nil
-									   characters:[NSString stringWithCharacters:&key length:1]
-					  charactersIgnoringModifiers:[NSString stringWithCharacters:&key length:1]
-										isARepeat:NO keyCode:0];
+				newEv = [NSEvent makeKeyDownEvent:[NSString stringWithCharacters:&key length:1] modifierFlags:0];
 				timeLong = [ud floatForKey:kUDKeyARKeyRepeatTimeIntervalLong];
 			} else {
 				newEv = evt;
