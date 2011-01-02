@@ -157,8 +157,7 @@
 	[dispLayer setBounds:[root bounds]];
 	[dispLayer setPosition:CGPointMake(root.bounds.size.width/2, root.bounds.size.height/2)];
 }
--(id<CAAction>) actionForLayer:(CALayer*)layer forKey:(NSString*)event
-{ return ((id<CAAction>)[NSNull null]); }
+-(id<CAAction>) actionForLayer:(CALayer*)layer forKey:(NSString*)event { return ((id<CAAction>)[NSNull null]); }
 
 -(void) reorderSubviews
 {
