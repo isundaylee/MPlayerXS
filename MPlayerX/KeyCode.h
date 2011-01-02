@@ -83,3 +83,5 @@ extern NSString * const kMPCStringMPlayerX;
 
 #define kSCMMoveToTrashKeyEquivalent					(NSBackspaceCharacter)
 #define kSCMMoveToTrashKeyEquivalentModifierFlagMask	(NSCommandKeyMask)
+
+extern NSString * const kSCMMoveFrameToCenterKeyEquivalent;

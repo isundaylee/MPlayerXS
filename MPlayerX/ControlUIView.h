@@ -95,6 +95,7 @@
 	IBOutlet NSMenuItem *menuToggleFillScreen;
 	IBOutlet NSMenuItem *menuToggleAuxiliaryCtrls;
 	IBOutlet NSMenuItem *menuMoveToTrash;
+	IBOutlet NSMenuItem *menuMoveFrameToCenter;
 }
 
 ////////////////////////////////显示相关////////////////////////////////
@@ -153,5 +154,7 @@ extern NSString * const kFillScreenButtonImageUBKey;
 -(IBAction) stepWindowSize:(id)sender;
 
 -(IBAction) showMediaInfo:(id)sender;
+
+-(IBAction) moveFrameToCenter:(id)sender;
 
 @end

@@ -39,6 +39,14 @@
 	DisplayFormat fmt;
 	BOOL fillScreen;
 	CGFloat externalAspectRatio;
+	
+	BOOL positionOffset;
+	CGRect renderRatio;
+	
+	BOOL flagFillScrnChanged;
+	BOOL flagAspectRatioChanged;
+	BOOL flagPositionOffsetChanged;
+	BOOL refitBounds;
 }
 
 @property (readwrite, assign) BOOL fillScreen;
@@ -52,5 +60,11 @@
 -(void) stop;
 
 -(CIImage*) snapshot;
+
+-(void) setPositionOffset:(BOOL)offset;
+-(void) setPositoinOffsetRatio:(CGPoint) ratio;
+-(CGPoint) positionOffsetRatio;
+
+-(void) adujustToFitBounds;
 
 @end

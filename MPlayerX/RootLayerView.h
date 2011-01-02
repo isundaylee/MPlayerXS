@@ -68,4 +68,5 @@
 -(CIImage*) snapshot;
 -(CGFloat) aspectRatio;
 
+-(void) moveFrameToCenter;
 @end

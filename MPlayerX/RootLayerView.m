@@ -43,9 +43,10 @@
 -(void) setupLayers;
 -(void) reorderSubviews;
 
--(void) playBackStopped:(NSNotification*)notif;
--(void) playBackStarted:(NSNotification*)notif;
 -(void) playBackOpened:(NSNotification*)notif;
+-(void) playBackStarted:(NSNotification*)notif;
+-(void) playBackStopped:(NSNotification*)notif;
+
 -(void) applicationDidBecomeActive:(NSNotification*)notif;
 -(void) applicationDidResignActive:(NSNotification*)notif;
 @end
@@ -196,6 +197,7 @@
 						name:kMPCPlayStartedNotification object:playerController];
 	[notifCenter addObserver:self selector:@selector(playBackStopped:)
 						name:kMPCPlayStoppedNotification object:playerController];
+
 	[notifCenter addObserver:self selector:@selector(applicationDidBecomeActive:)
 						name:NSApplicationDidBecomeActiveNotification object:NSApp];
 	[notifCenter addObserver:self selector:@selector(applicationDidResignActive:)
@@ -275,43 +277,54 @@
 			[controlUI changeAudioBalanceBy:[NSNumber numberWithFloat:([event deltaX] * 2) / self.bounds.size.width]];
 			break;
 		case 0:
-			if (![self isInFullScreenMode]) {
-				// 全屏的时候不能移动屏幕
+			{
 				NSPoint posNow = [NSEvent mouseLocation];
 				NSPoint delta;
 				delta.x = (posNow.x - dragMousePos.x);
 				delta.y = (posNow.y - dragMousePos.y);
 				dragMousePos = posNow;
-				
-				if (dragShouldResize) {
-					NSRect winRC = [playerWindow frame];
-					NSRect newFrame = NSMakeRect(winRC.origin.x,
-												 posNow.y, 
-												 posNow.x-winRC.origin.x,
-												 winRC.size.height + winRC.origin.y - posNow.y);
-					
-					winRC.size = [playerWindow contentRectForFrameRect:newFrame].size;
-					
-					if (displaying && lockAspectRatio) {
-						// there is video displaying
-						winRC.size = [self calculateContentSize:winRC.size];
-					} else {
-						NSSize minSize = [playerWindow contentMinSize];
-						
-						winRC.size.width = MAX(winRC.size.width, minSize.width);
-						winRC.size.height= MAX(winRC.size.height, minSize.height);
-					}
 
-					winRC.origin.y -= (winRC.size.height - [[playerWindow contentView] bounds].size.height);
-					
-					[playerWindow setFrame:[playerWindow frameRectForContentRect:winRC] display:YES];
-					// MPLog(@"should resize");
+				if (![self isInFullScreenMode]) {
+					// 全屏的时候不能移动屏幕
+
+					if (dragShouldResize) {
+						NSRect winRC = [playerWindow frame];
+						NSRect newFrame = NSMakeRect(winRC.origin.x,
+													 posNow.y, 
+													 posNow.x-winRC.origin.x,
+													 winRC.size.height + winRC.origin.y - posNow.y);
+						
+						winRC.size = [playerWindow contentRectForFrameRect:newFrame].size;
+						
+						if (displaying && lockAspectRatio) {
+							// there is video displaying
+							winRC.size = [self calculateContentSize:winRC.size];
+						} else {
+							NSSize minSize = [playerWindow contentMinSize];
+							
+							winRC.size.width = MAX(winRC.size.width, minSize.width);
+							winRC.size.height= MAX(winRC.size.height, minSize.height);
+						}
+						
+						winRC.origin.y -= (winRC.size.height - [[playerWindow contentView] bounds].size.height);
+						
+						[playerWindow setFrame:[playerWindow frameRectForContentRect:winRC] display:YES];
+						// MPLog(@"should resize");
+					} else {
+						NSPoint winPos = [playerWindow frame].origin;
+						winPos.x += delta.x;
+						winPos.y += delta.y;
+						[playerWindow setFrameOrigin:winPos];
+						// MPLog(@"should move");
+					}
 				} else {
-					NSPoint winPos = [playerWindow frame].origin;
-					winPos.x += delta.x;
-					winPos.y += delta.y;
-					[playerWindow setFrameOrigin:winPos];
-					// MPLog(@"should move");
+					// 不是全屏的时候，移动渲染区域
+					CGPoint pt = [dispLayer positionOffsetRatio];
+					CGSize sz = dispLayer.bounds.size;
+					pt.x += delta.x / sz.width;
+					pt.y += delta.y / sz.height;
+					
+					[dispLayer setPositoinOffsetRatio:pt];
 				}
 			}
 			break;
@@ -391,6 +404,12 @@
 	} else if (abs(x*2) < abs(y)) {
 		[controlUI changeVolumeBy:[NSNumber numberWithFloat:y*0.2]];
 	}
+}
+
+-(void) moveFrameToCenter
+{
+	// [dispLayer setPositionOffset:NO];
+	[dispLayer setPositoinOffsetRatio:CGPointMake(0, 0)];
 }
 
 -(void) setLockAspectRatio:(BOOL) lock
@@ -495,7 +514,10 @@
 
 			[playerWindow setContentAspectRatio:sz];			
 		}
-
+		// 推出全屏，重新根据现在的尺寸比例渲染图像
+		[dispLayer adujustToFitBounds];
+		[dispLayer setPositionOffset:NO];
+		
 		[playerWindow makeKeyAndOrderFront:self];
 		[playerWindow makeFirstResponder:self];
 		
@@ -534,6 +556,10 @@
 
 		[self enterFullScreenMode:chosenScreen withOptions:fullScreenOptions];
 
+		// 推出全屏，重新根据现在的尺寸比例渲染图像
+		[dispLayer adujustToFitBounds];
+		[dispLayer setPositionOffset:YES];
+
 		[playerWindow orderOut:self];
 
 		fullScrnDevID = [[[chosenScreen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
@@ -545,6 +571,7 @@
 		[controlUI setFillScreenMode:(((sz.height * [dispLayer aspectRatio]) >= sz.width)?kFillScreenButtonImageUBKey:kFillScreenButtonImageLRKey)
 							   state:([dispLayer fillScreen])?NSOnState:NSOffState];
 	} else {
+		[dispLayer adujustToFitBounds];
 		return NO;
 	}
 	// 暂停的时候能够正确显示

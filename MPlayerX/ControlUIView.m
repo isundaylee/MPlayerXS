@@ -178,6 +178,8 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuMoveToTrash setKeyEquivalentModifierMask:kSCMMoveToTrashKeyEquivalentModifierFlagMask];
 	unichar keyTemp = kSCMMoveToTrashKeyEquivalent;
 	[menuMoveToTrash setKeyEquivalent:[NSString stringWithCharacters:&keyTemp length:1]];
+	
+	[menuMoveFrameToCenter setKeyEquivalent:kSCMMoveFrameToCenterKeyEquivalent];
 
 	////////////////////////////////////////load Images////////////////////////////////////////
 	// 初始化音量大小图标
@@ -1051,6 +1053,12 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		[dispView changeWindowSizeBy:NSMakeSize(step, step) animate:YES];
 	}
 }
+
+-(IBAction) moveFrameToCenter:(id)sender
+{
+	[dispView moveFrameToCenter];
+}
+
 ////////////////////////////////////////////////FullscreenThings//////////////////////////////////////////////////
 -(void) setFillScreenMode:(NSString*)modeKey state:(NSInteger) state
 {
@@ -1165,6 +1173,9 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	if ([ud boolForKey:kUDKeyCloseWindowWhenStopped]) {
 		[dispView closePlayerWindow];
 	}
+	
+	// 播放全部结束，将渲染区放回中心
+	[dispView moveFrameToCenter];
 }
 
 -(void) playInfoUpdated:(NSNotification*)notif

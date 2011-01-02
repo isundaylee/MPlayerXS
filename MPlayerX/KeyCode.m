@@ -53,4 +53,6 @@ NSString * const kSCMShowMediaInfoKeyEquivalent			= @"i";
 
 NSString * const kSCMEqualizerPanelKeyEquivalent		= @"e";
 
-NSString * const kMPCStringMPlayerX		= @"MPlayerX";
+NSString * const kMPCStringMPlayerX						= @"MPlayerX";
+
+NSString * const kSCMMoveFrameToCenterKeyEquivalent		= @"t";

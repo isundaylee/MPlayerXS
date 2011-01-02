@@ -28,8 +28,6 @@
 
 @implementation DisplayLayer
 
-@synthesize fillScreen;
-
 //////////////////////////////////////Init/Dealloc/////////////////////////////////////
 - (id) init
 {
@@ -52,14 +50,18 @@
 		// [self setMasksToBounds:YES];
 		[self setAutoresizingMask:kCALayerWidthSizable|kCALayerHeightSizable];
 		[self setDoubleSided:NO];
+		
+		positionOffset = NO;
+		renderRatio = CGRectMake(0, 0, 1, 1);
+
+		flagFillScrnChanged = YES;
+		flagAspectRatioChanged = YES;
+		flagPositionOffsetChanged = YES;
+		refitBounds = YES;
 	}
 	return self;
 }
-
--(id<CAAction>) actionForLayer:(CALayer*)layer forKey:(NSString*)event
-{
-	return ((id<CAAction>)[NSNull null]);
-}
+-(id<CAAction>) actionForLayer:(CALayer*)layer forKey:(NSString*)event { return ((id<CAAction>)[NSNull null]); }
 
 - (void)dealloc
 {
@@ -101,6 +103,40 @@
 -(void) setExternalAspectRatio:(CGFloat)ar
 {
 	externalAspectRatio = (ar>0)?(ar):(kDisplayAscpectRatioInvalid);
+	flagAspectRatioChanged = YES;
+}
+
+-(BOOL) fillScreen
+{
+	return fillScreen;
+}
+
+-(void) setFillScreen:(BOOL)fills
+{
+	fillScreen = fills;
+	flagFillScrnChanged = YES;
+}
+
+-(CGPoint) positionOffsetRatio
+{
+	return renderRatio.origin;
+}
+
+-(void) setPositoinOffsetRatio:(CGPoint) ratio
+{
+	renderRatio.origin = ratio;
+	flagPositionOffsetChanged = YES;
+}
+
+-(void) setPositionOffset:(BOOL)offset
+{
+	positionOffset = offset;
+	flagPositionOffsetChanged = YES;
+}
+
+-(void) adujustToFitBounds
+{
+	refitBounds = YES;
 }
 
 -(int) startWithFormat:(DisplayFormat)displayFormat buffer:(char**)data total:(NSUInteger)num
@@ -124,6 +160,7 @@
 				}				
 			}
 		}
+		flagAspectRatioChanged = YES;
 	}
 	return (bufRefs)?0:1;
 }
@@ -149,7 +186,8 @@
 		
 		memset(&fmt, 0, sizeof(fmt));
 		fmt.aspect = kDisplayAscpectRatioInvalid;
-
+		flagAspectRatioChanged = YES;
+		
 		[self setNeedsDisplay];
 	}
 }
@@ -172,14 +210,7 @@
 	CGLLockContext(ctx);
 
 	CGLSetParameter(ctx, kCGLCPSwapInterval, &i);
-	/*
-	glEnable(GL_TEXTURE_RECTANGLE_ARB);
-	glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
-	
-	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
-	CGLEnable(ctx, kCGLCEMPEngine);
-	*/
-	
+
 	SAFERELEASETEXTURECACHE(cache);
 	CVReturn error = CVOpenGLTextureCacheCreate(NULL, NULL, ctx, pf, NULL, &cache);
 	
@@ -216,17 +247,40 @@
 		
 		if (error == kCVReturnSuccess) {
 			// draw
-			CGRect rc = self.superlayer.bounds;
-			CGFloat sAspect = [self aspectRatio];
 			
-			if (((sAspect * rc.size.height) > rc.size.width) == fillScreen) {
-				rc.size.width = rc.size.height * sAspect;
-			} else {
-				rc.size.height = rc.size.width / sAspect;
+			if (flagFillScrnChanged || flagAspectRatioChanged || refitBounds) {
+				MPLog(@"as fil changed");
+				CGRect rc = self.superlayer.bounds;
+				CGFloat sAspect = [self aspectRatio];
+				
+				if (((sAspect * rc.size.height) > rc.size.width) == fillScreen) {
+					rc.size.width = rc.size.height * sAspect;
+				} else {
+					rc.size.height = rc.size.width / sAspect;
+				}
+				
+				self.bounds = rc;
+				
+				flagAspectRatioChanged = NO;
+				flagFillScrnChanged = NO;
+				refitBounds = NO;
 			}
-			
-			[self setBounds:rc];
-			
+
+			if (flagPositionOffsetChanged) {
+				MPLog(@"pos changed");
+				CGRect rc = self.superlayer.bounds;
+				CGPoint pt = CGPointMake(rc.size.width/2, rc.size.height/2);
+				
+				rc = self.bounds;
+				
+				if (positionOffset) {
+					pt.x += rc.size.width  * renderRatio.origin.x;
+					pt.y += rc.size.height * renderRatio.origin.y;
+				}
+				self.position = pt;
+				
+				flagPositionOffsetChanged = NO;
+			}
 			GLenum target = CVOpenGLTextureGetTarget(tex);
 
 			glEnable(target);
