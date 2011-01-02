@@ -43,7 +43,6 @@ extern NSString * const kSCMSubScaleDecreaseKeyEquivalent;
 extern NSString * const kSCMPlayFromLastStoppedKeyEquivalent;
 #define kSCMPlayFromLastStoppedKeyEquivalentModifierFlagMask	(NSShiftKeyMask)
 
-#define kSCMDragSubPosModifierFlagMask							(NSCommandKeyMask)
 #define kSCMDragAudioBalanceModifierFlagMask					(NSAlternateKeyMask)
 
 extern NSString * const kSCMToggleLockAspectRatioKeyEquivalent;

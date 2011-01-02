@@ -270,11 +270,6 @@
 - (void)mouseDragged:(NSEvent *)event
 {
 	switch ([event modifierFlags] & (NSShiftKeyMask| NSControlKeyMask|NSAlternateKeyMask|NSCommandKeyMask)) {
-		case kSCMDragSubPosModifierFlagMask:
-			// 改变Sub Position
-			// 目前在ass enable的情况下不能工作
-			[controlUI changeSubPosBy:[NSNumber numberWithFloat:([event deltaY] * 2) / self.bounds.size.height]];
-			break;
 		case kSCMDragAudioBalanceModifierFlagMask:
 			// 这个也基本不能工作
 			[controlUI changeAudioBalanceBy:[NSNumber numberWithFloat:([event deltaX] * 2) / self.bounds.size.width]];
