@@ -61,10 +61,17 @@
 #define kMPXStringMenuShowAuxCtrls		(NSLocalizedString(@"Show Auxiliary Controls", @"menu"))
 #define kMPXStringMenuHideAuxCtrls		(NSLocalizedString(@"Hide Auxiliary Controls", @"menu"))
 
-#define kMPXStringOSDMediaInfoDemuxer			(NSLocalizedString(@"Demuxer: %@\n", @"OSD hint media info"))
-#define kMPXStringOSDMediaInfoVideoInfoNoBPS	(NSLocalizedString(@"Video: %@, %d×%d, %.1ffps\n", @"OSD hint media info"))
-#define kMPXStringOSDMediaInfoVideoInfo			(NSLocalizedString(@"Video: %@, %d×%d, %.1fkbps, %.1ffps\n", @"OSD hint media info"))
-#define kMPXStringOSDMediaInfoAudioInfo			(NSLocalizedString(@"Audio: %@, %.1fkbps, %.1fkHz, %d channels", @"OSD hint media info"))
+#define kMPXStringInfoNoInfo					(NSLocalizedString(@"No Info", @"Inspector Info"))
+#define kMPXStringInfoTrackInfoVideo			(NSLocalizedString(@"Video:%d", @"Inspector Info"))
+#define kMPXStringInfoTrackInfoAudio			(NSLocalizedString(@"Audio:%d", @"Inspector Info"))
+#define kMPXStringInfoTrackInfoSubtitle			(NSLocalizedString(@"Subtitle:%d", @"Inspector Info"))
+#define kMPXStringInfoTrackTrackText			(NSLocalizedString(@" tracks", @"Inspector Info"))
+
+#define kMPXStringInfoVideoInfoNoBPS			(NSLocalizedString(@"%@, %d×%d, %.1ffps\n", @"OSD hint media info"))
+#define kMPXStringInfoAudioInfoNoBPS			(NSLocalizedString(@"%@, %.1fkHz, %d channels", @"OSD hint media info"))
+
+#define kMPXStringInfoVideoInfo					(NSLocalizedString(@"%@, %.1fkbps, %d×%d, %.1ffps\n", @"OSD hint media info"))
+#define kMPXStringInfoAudioInfo					(NSLocalizedString(@"%@, %.1fkbps, %.1fkHz, %d channels", @"OSD hint media info"))
 
 #define kMPXStringUseFFMpegHandleStream			(NSLocalizedString(@"⌘-OK: Use FFMpeg to handle the stream", @"OpenURL Panel"))
 #define kMPXStringUseMPlayerHandleStream		(NSLocalizedString(@"⌘-OK: Use MPlayer to handle the stream", @"OpenURL Panel"))
