@@ -223,6 +223,14 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 				  forKeyPath:kKVOPropertyKeyPathVideoInfo
 					 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
 					 context:NULL];
+		[mplayer addObserver:self
+				  forKeyPath:kKVOPropertyKeyPathAudioInfoID
+					 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+					 context:NULL];
+		[mplayer addObserver:self
+				  forKeyPath:kKVOPropertyKeyPathVideoInfoID
+					 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+					 context:NULL];
 		kvoSetuped = YES;	
 	}
 }
@@ -240,6 +248,9 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 		[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathCachingPercent];
 		[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathAudioInfo];
 		[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathVideoInfo];
+		[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathAudioInfoID];
+		[mplayer removeObserver:self forKeyPath:kKVOPropertyKeyPathVideoInfoID];
+		
 		kvoSetuped = NO;
 	}
 
@@ -256,6 +267,7 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 								 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 										   keyPath, kMPCPlayInfoUpdatedKeyPathKey,
 										   change, kMPCPlayInfoUpdatedChangeDictKey, nil]];
+		MPLog(@"%@", keyPath);
 		return;
 	}
 	[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
