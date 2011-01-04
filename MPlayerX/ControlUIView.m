@@ -271,8 +271,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	[menuToggleLetterBox setTitle:([ud integerForKey:kUDKeyLetterBoxMode] == kPMLetterBoxModeNotDisplay)?(kMPXStringMenuShowLetterBox):
 																										 (kMPXStringMenuHideLetterBox)];
-	[menuShowMediaInfo setEnabled:NO];
-
 	[menuToggleFullScreen setEnabled:NO];
 	[menuToggleFullScreen setTitle:kMPXStringMenuEnterFullscrn];
 	
@@ -379,116 +377,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 		[osd setActive:new];
 	}
 }
-
--(void) showMediaInfo:(id)sender
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	MovieInfo *mi = [playerController mediaInfo];
-	
-	NSMutableString *dispStr = [[NSMutableString alloc] initWithCapacity:60];
-	
-	if (mi) {
-		BOOL showOSD = NO;
-		
-		[dispStr appendFormat:kMPXStringOSDMediaInfoDemuxer, [[mi demuxer] uppercaseString]];
-
-		VideoInfo *vi = [mi videoInfoForID:[mi.playingInfo currentVideoID]];
-		
-		if (vi) {
-			showOSD = YES;
-			NSString *format = [vi format];
-			switch ([format hexValue]) {
-				case 0x10000001:
-					format = @"MPEG-1";
-					break;
-				case 0x10000002:
-					format = @"MPEG-2";
-					break;
-				case 0x10000005:
-					format = @"H264";
-					break;
-				default:
-					break;
-			}
-			
-			format = [format uppercaseString];
-			
-			if ([vi bitRate] < 1) {
-				[dispStr appendFormat:kMPXStringOSDMediaInfoVideoInfoNoBPS,
-				 format,
-				 [vi width],
-				 [vi height],
-				 ((float)[vi fps])];					
-			} else {
-				[dispStr appendFormat:kMPXStringOSDMediaInfoVideoInfo,
-				 format,
-				 [vi width],
-				 [vi height],
-				 ((float)[vi bitRate])/1000.0f,
-				 ((float)[vi fps])];					
-			}			
-		}
-
-		AudioInfo *ai = [mi audioInfoForID:[mi.playingInfo currentAudioID]];
-		
-		if (ai) {
-			showOSD = YES;
-			// This is a hack
-			// mplayer will not always output the string format for audio/video format property
-			// this is a temp list for known value
-			NSString *format = [ai format];
-			
-			switch ([format hexValue]) {
-				case 0x2000:
-					format = @"AC-3";
-					break;
-				case 0x2001:
-					format = @"DTS";
-					break;
-				case 0x55:
-					format = @"MPEG-3";
-					break;
-				case 0x50:
-					format = @"MPEG-1/2";
-					break;
-				case 0x1:
-				case 0x6:
-				case 0x7:
-					format = @"PCM";
-					break;
-				case 0x161:
-				case 0x162:
-				case 0x163:
-					format = @"WMA";
-					break;
-				case 0xF1AC:
-					format = @"FLAC";
-					break;
-					
-				default:
-					break;
-			}
-			format = [format uppercaseString];
-			
-			[dispStr appendFormat:kMPXStringOSDMediaInfoAudioInfo,
-			 format,
-			 ((float)[ai bitRate])/1000.0f,
-			 ((float)[ai sampleRate])/1000.0f,
-			 [ai channels]];			
-		}
-		
-		if (showOSD) {
-			BOOL actOld = [osd isActive];
-			[osd setActive:YES];
-			[osd setStringValue:dispStr owner:kOSDOwnerMediaInfo updateTimer:YES];
-			[osd setActive:actOld];
-		}
-	}
-	[dispStr release];
-	[pool drain];
-}
-
 ////////////////////////////////////////////////AutoHideThings//////////////////////////////////////////////////
 -(void) refreshAutoHideTimer
 {
@@ -1119,8 +1007,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	
 	[menuSwitchAudio setEnabled:YES];
 	[menuSwitchVideo setEnabled:YES];
-	
-	[menuShowMediaInfo setEnabled:YES];
 }
 
 -(void) playBackWillStop:(NSNotification*)notif
@@ -1157,8 +1043,6 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 	[menuSubScaleInc setEnabled:NO];
 	[menuSubScaleDec setEnabled:NO];
 	[menuPlayFromLastStoppedPlace setEnabled:NO];
-	
-	[menuShowMediaInfo setEnabled:NO];
 }
 
 -(void) playBackFinalized:(NSNotification*)notif
@@ -1182,7 +1066,7 @@ NSString * const kStringFMTTimeAppendTotal	= @" / %@";
 {
 	NSString *keyPath = [[notif userInfo] objectForKey:kMPCPlayInfoUpdatedKeyPathKey];
 	NSDictionary *change = [[notif userInfo] objectForKey:kMPCPlayInfoUpdatedChangeDictKey];
-	
+
 	if ([keyPath isEqualToString:kKVOPropertyKeyPathCurrentTime]) {
 		// 得到现在的播放时间
 		[self gotCurentTime:[change objectForKey:NSKeyValueChangeNewKey]];

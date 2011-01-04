@@ -153,8 +153,5 @@ extern NSString * const kFillScreenButtonImageUBKey;
 
 -(IBAction) stepWindowSize:(id)sender;
 
--(IBAction) showMediaInfo:(id)sender;
-
 -(IBAction) moveFrameToCenter:(id)sender;
-
 @end
