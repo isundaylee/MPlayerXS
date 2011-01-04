@@ -138,13 +138,10 @@
 				// 如果是nil，那么就用现在的值
 				aString = [self stringValue];
 			}
-			
+
 			NSSize sz = [[self superview] bounds].size;
 			
 			float fontSize = MIN(fontSizeMax, MAX(fontSizeMin, (sz.height*fontSizeRatio) + fontSizeOffset));
-			if (ow == kOSDOwnerMediaInfo) {
-				fontSize *= 0.7;
-			}
 
 			NSFont *font = [NSFont systemFontOfSize:fontSize];
 			
