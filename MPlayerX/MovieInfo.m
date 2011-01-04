@@ -75,13 +75,15 @@ NSString * const kMovieInfoKVOVideoInfo		= @"videoInfo";
 	[super dealloc];
 }
 
--(AudioInfo*) audioInfoForID:(int) audioID
+-(AudioInfo*) audioInfoForID:(NSNumber*)audioID
 {
 	AudioInfo *ret = nil;
 	
-	if (audioID != kPIAudioIDInvalid) {
+	if (audioID) {
+		NSInteger intID = [audioID intValue];
+		
 		for (AudioInfo *info in audioInfo) {
-			if ([info ID] == audioID) {
+			if ([info ID] == intID) {
 				ret = info;
 				break;
 			}
@@ -90,13 +92,14 @@ NSString * const kMovieInfoKVOVideoInfo		= @"videoInfo";
 	return ret;
 }
 
--(VideoInfo*) videoInfoForID:(int) videoID
+-(VideoInfo*) videoInfoForID:(NSNumber*)videoID
 {
 	VideoInfo *ret = nil;
 	
-	if (videoID != kPIVideoIDInvalid) {
+	if (videoID) {
+		NSInteger intID = [videoID intValue];
 		for (VideoInfo *info in videoInfo) {
-			if ([info ID] == videoID) {
+			if ([info ID] == intID) {
 				ret = info;
 				break;
 			}
@@ -108,7 +111,7 @@ NSString * const kMovieInfoKVOVideoInfo		= @"videoInfo";
 -(void) resetWithParameterManager:(ParameterManager*)pm
 {
 	NSNumber *zero = [NSNumber numberWithInt:0];
-	
+
 	if (pm) {
 		[playingInfo resetWithParameterManager:pm];
 	}

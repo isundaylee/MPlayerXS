@@ -48,8 +48,8 @@
 		
 		currentChapter = 0;
 		currentTime = [floatZero retain];
-		currentAudioID = kPIAudioIDInvalid;
-		currentVideoID = kPIVideoIDInvalid;
+		currentAudioID = nil;
+		currentVideoID = nil;
 		currentSub = 0;
 		volume = 100;
 		audioBalance = 0;
@@ -73,6 +73,9 @@
 	[subScale release];
 	[cachingPercent release];
 	
+	[currentAudioID release];
+	[currentVideoID release];
+	
 	[super dealloc];
 }
 
@@ -81,8 +84,6 @@
 	NSNumber *floatZero = [NSNumber numberWithFloat:0.0];
 	
 	currentChapter = 0;
-	currentAudioID = kPIAudioIDInvalid;
-	currentVideoID = kPIVideoIDInvalid;
 	currentSub = 0;
 	// 将来可能都会用到KVO
 	[self setAudioBalance:0];
@@ -97,5 +98,8 @@
 	[self setSubDelay:floatZero];
 	[self setSpeed:[NSNumber numberWithFloat:1]];
 	[self setCachingPercent:floatZero];
+
+	[self setCurrentAudioID:nil];
+	[self setCurrentVideoID:nil];
 }
 @end
