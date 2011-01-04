@@ -270,11 +270,15 @@
 
 - (void)mouseDragged:(NSEvent *)event
 {
+	BOOL ShiftKeyPressed = NO;
+	
 	switch ([event modifierFlags] & (NSShiftKeyMask| NSControlKeyMask|NSAlternateKeyMask|NSCommandKeyMask)) {
 		case kSCMDragAudioBalanceModifierFlagMask:
 			// 这个也基本不能工作
 			[controlUI changeAudioBalanceBy:[NSNumber numberWithFloat:([event deltaX] * 2) / self.bounds.size.width]];
 			break;
+		case NSShiftKeyMask:
+			ShiftKeyPressed = YES;
 		case 0:
 			{
 				NSPoint posNow = [NSEvent mouseLocation];
@@ -320,10 +324,23 @@
 					// 不是全屏的时候，移动渲染区域
 					CGPoint pt = [dispLayer positionOffsetRatio];
 					CGSize sz = dispLayer.bounds.size;
-					pt.x += delta.x / sz.width;
-					pt.y += delta.y / sz.height;
 					
+					delta.x /= sz.width;
+					delta.y /= sz.height;
+					
+					if (ShiftKeyPressed) {
+						if (fabsf(delta.x) > fabsf(delta.y)) {
+							delta.y = 0;
+						} else {
+							delta.x = 0;
+						}
+					}
+					
+					pt.x += delta.x;
+					pt.y += delta.y;
+
 					[dispLayer setPositoinOffsetRatio:pt];
+					[dispLayer setNeedsDisplay];
 				}
 			}
 			break;
@@ -386,7 +403,7 @@
 	x = [theEvent deltaX];
 	y = [theEvent deltaY];
 	
-	if (abs(x) > abs(y*2)) {
+	if (fabsf(x) > fabsf(y*2)) {
 		// MPLog(@"%f", x);
 		switch ([playerController playerState]) {
 			case kMPCPausedState:
@@ -400,7 +417,7 @@
 			default:
 				break;
 		}
-	} else if (abs(x*2) < abs(y)) {
+	} else if (fabsf(x*2) < fabsf(y)) {
 		[controlUI changeVolumeBy:[NSNumber numberWithFloat:y*0.2]];
 	}
 }
@@ -408,6 +425,7 @@
 -(void) moveFrameToCenter
 {
 	[dispLayer setPositoinOffsetRatio:CGPointMake(0, 0)];
+	[dispLayer setNeedsDisplay];
 }
 
 -(void) setLockAspectRatio:(BOOL) lock
