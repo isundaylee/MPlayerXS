@@ -715,6 +715,8 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 					int ID = [[strArr objectAtIndex:0] intValue];
 					NSArray *obj = [self valueForKeyPath:keyPath];
 					id infoToSet = nil;
+					NSString *idKeyPath = nil;
+					NSNumber *currentID;
 					
 					for (id info in obj) {
 						if ([info ID] == ID) {
@@ -724,19 +726,16 @@ NSString * const kCmdStringFMTTimeSeek	= @"%@ %@ %f %d\n";
 					}
 					if (infoToSet) {
 						[infoToSet setInfoDataWithArray:strArr];
-						if (type == kMITypeAudioGotInfo) {
-							[movieInfo.playingInfo setCurrentAudioID:ID];
-						} else {
-							[movieInfo.playingInfo setCurrentVideoID:ID];
-						}
+						currentID = [NSNumber numberWithInt:ID];
 					} else {
-						if (type == kMITypeAudioGotInfo) {
-							[movieInfo.playingInfo setCurrentAudioID:kPIAudioIDInvalid];
-						} else {
-							[movieInfo.playingInfo setCurrentVideoID:kPIVideoIDInvalid];
-						}
+						currentID = nil;
 					}
-
+					if (type == kMITypeAudioGotInfo) {
+						idKeyPath = kKVOPropertyKeyPathAudioInfoID;
+					} else {
+						idKeyPath = kKVOPropertyKeyPathVideoInfoID;
+					}
+					[self setValue:currentID forKeyPath:idKeyPath];
 					break;	
 				}
 				default:
