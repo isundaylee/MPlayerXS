@@ -288,7 +288,7 @@
 				dragMousePos = posNow;
 
 				if (![self isInFullScreenMode]) {
-					// 全屏的时候不能移动屏幕
+					// 非全屏的时候移动窗口
 
 					if (dragShouldResize) {
 						NSRect winRC = [playerWindow frame];
@@ -321,7 +321,7 @@
 						// MPLog(@"should move");
 					}
 				} else {
-					// 不是全屏的时候，移动渲染区域
+					// 全屏的时候，移动渲染区域
 					CGPoint pt = [dispLayer positionOffsetRatio];
 					CGSize sz = dispLayer.bounds.size;
 					
@@ -329,10 +329,13 @@
 					delta.y /= sz.height;
 					
 					if (ShiftKeyPressed) {
-						if (fabsf(delta.x) > fabsf(delta.y)) {
+						if (fabsf(delta.x) > fabsf(2 * delta.y)) {
 							delta.y = 0;
-						} else {
+						} else if (fabsf(2 * delta.x) < fabsf(delta.y)) {
 							delta.x = 0;
+						} else {
+							// if use shift to drag the area, only X or only Y are accepted
+							break;
 						}
 					}
 					
