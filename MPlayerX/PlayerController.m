@@ -815,7 +815,8 @@ NSString * const kMPCFFMpegProtoHead	= @"ffmpeg://";
 /////////////////////////////////SubConverter Delegate methods/////////////////////////////////////
 -(NSString*) subConverter:(SubConverter*)subConv detectedFile:(NSString*)path ofCharsetName:(NSString*)charsetName confidence:(float)confidence
 {
-	NSString *ret = nil;
+	// 当置信率高于阈值的时候，直接返回传入的 charsetName
+	NSString *ret = charsetName;
 	
 	if (confidence <= [ud floatForKey:kUDKeyTextSubtitleCharsetConfidenceThresh]) {
 		// 当置信率小于阈值时
