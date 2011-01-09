@@ -1,15 +1,15 @@
 #!/bin/sh
 
 #########clear the current files#########
-rm -Rf MPlayerX.app
-rm -Rf MPlayerX.zip
-rm -Rf ../../releases/MPlayerX.zip
+rm -Rf ./MPlayerX.app
+rm -Rf ./MPlayerX.zip
+rm -Rf ../releases/MPlayerX.zip
 
 #########copy the newly release app#########
-cp -R ../MPlayerX/build/Release/MPlayerX.app ./MPlayerX.app
+cp -R ../MPlayerX/MPlayerX/build/Release/MPlayerX.app ./MPlayerX.app
 
 ##########zip it#########
-zip -ry MPlayerX.zip MPlayerX.app > /dev/null
+zip -ry ./MPlayerX.zip ./MPlayerX.app > /dev/null
 
 ##########get the create time#########
 ruby GetTime.rb "./MPlayerX.zip"
@@ -29,11 +29,9 @@ security find-generic-password -g -s "MPlayerX Private Key" 1>/dev/null 2>key.tx
 ruby parsePriKey.rb key.txt > key2.txt
 openssl dgst -sha1 -binary "./MPlayerX.zip" | openssl dgst -dss1 -sign key2.txt | openssl enc -base64
 
-#diff key2.txt ../Sparkle.framework/Extras/Signing\ Tools/dsa_priv.pem
+mv MPlayerX.zip ../releases/
 
-mv MPlayerX.zip ../../releases/
-
-rm -Rf MPlayerX.app
-rm -Rf ../MPlayerX/build/Release/MPlayerX.app
+rm -Rf ./MPlayerX.app
+rm -Rf ../MPlayerX/MPlayerX/build/Release/MPlayerX.app
 rm -Rf key.txt
-rm -Rf key2.txt
+##rm -Rf key2.txt
