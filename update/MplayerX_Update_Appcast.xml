@@ -9,32 +9,35 @@
             <title>Version 1.0.0</title>
 			<description><![CDATA[
 				<p>Hi, what a long absence, I'm still alive, MPlayerX too.</p>
-				<p>Now I'm planning some, relatively, big feature into MPlayerX for the next release. It may cost some time. Before doing it, I thought I'd better release once. So actually it isn't a exciting release, just a little step forward.</p>
+				<p>Now I'm planning some, relatively, big feature into MPlayerX for the next major release. It may cost some time. Before doing it, I thought I'd better release once. So actually 1.0.1 isn't a exciting release, just a little step forward.</p>
 				
 				<h3>MPlayerX 1.0.1</h3>
 				2011/01/07
 				<ul>
-					<li>Pref: AutoResume playback</li>
-					<li>Pref: when entering fullscreen, always hide dock</li>
-					<li>Pref: interlacing methods</li>
-					<li>Pref: PostProcess methods</li>
-					<li>Pref: add extra options to mplayer directly</li>
-					<li>Pref: <strong>add hidden setting: HideTitlebar</strong></li>
-					<li>Pref: add hidden setting: LogMode</li>
+					<li>Pref: AutoResume playback.</li>
+					<li>Pref: when entering fullscreen, always hide dock.(issue 181)</li>
+					<li>Pref: interlacing methods.</li>
+					<li>Pref: PostProcess methods.</li>
+					<li>Pref: pass extra options to mplayer directly.</li>
+					<li>Pref: <strong>add hidden setting: HideTitlebar</strong>.(issue 174)</li>
+					<li>Pref: add hidden setting: LogMode.</li>
+					<li>Pref: Save your settings in Video Tuner and Equalizer.(issue 64)</li>
 					<li>UI  : new file type icon. <strong>Fanchi, Ryoh, THANK YOU!!</strong></li>
 					<li>UI  : new style of playback control.<strong>Evan, THANK YOU!!</strong></li>
-					<li>UI  : polished the traffic light buttons</li>
-					<li>UI  : when pausing, press → for frame step</li>
-					<li>UI  : add Inspector panel</li>
-					<li>UI  : menu reorder</li>
-					<li>Core: use FFMpeg as the default demuxer(except RealMedia)</li>
-					<li>Core: downmix to 2 channels now should work</li>
-					<li>Core: scale the tempo when changing playback speed</li>
-					<li>Core: show/hide letterbox now work immediately, don't have to restart the playback</li>
-					<li>Core: when in full screen, just dragging the frame freely</li>
-					<li>Fix : in fullscreen, play window will still be on top of other floating windows</li>
-					<li>Fix : load subtitles with comma in the filename</li>
-					<li>Fix : seeking problem when dragging the time slider</li>
+					<li>UI  : polished the traffic light buttons.</li>
+					<li>UI  : when pausing, press → for frame step.</li>
+					<li>UI  : add Inspector panel.</li>
+					<li>UI  : menu refinement.</li>
+					<li>UI  : in Fullscreen, you could drag the movie area.(issue 136)</li>
+					<li>Core: use FFMpeg as the default demuxer(except RealMedia).</li>
+					<li>Core: downmix to 2 channels now should work.</li>
+					<li>Core: scale the tempo when changing playback speed.</li>
+					<li>Core: show/hide letterbox now work immediately, don't have to restart the playback.</li>
+					<li>Core: when in full screen, just dragging the frame freely.</li>
+					<li>Fix : in fullscreen, play window will still be on top of other floating windows.</li>
+					<li>Fix : load subtitles with comma in the filename.</li>
+					<li>Fix : seeking problem when dragging the time slider.(issue 151)</li>
+					<li>and many minor fixes.</li>
 				</ul>
 				
 				<h3>MPlayerX 1.0.0</h3>
