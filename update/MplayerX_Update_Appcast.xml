@@ -37,6 +37,7 @@
 					<li>Fix : in fullscreen, play window will still be on top of other floating windows.</li>
 					<li>Fix : load subtitles with comma in the filename.</li>
 					<li>Fix : seeking problem when dragging the time slider.(issue 151)</li>
+					<li>Fix : Apple Remote will bring up the light of the dimmed screen.(issue 220)</li>
 					<li>and many minor fixes.</li>
 				</ul>
 				
