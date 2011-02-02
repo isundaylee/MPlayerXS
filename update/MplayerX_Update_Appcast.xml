@@ -33,7 +33,6 @@
 					<li>Core: downmix to 2 channels now should work.</li>
 					<li>Core: scale the tempo when changing playback speed.</li>
 					<li>Core: show/hide letterbox now work immediately, don't have to restart the playback.</li>
-					<li>Core: when in full screen, just dragging the frame freely.</li>
 					<li>Fix : in fullscreen, play window will still be on top of other floating windows.</li>
 					<li>Fix : load subtitles with comma in the filename.</li>
 					<li>Fix : seeking problem when dragging the time slider.(issue 151)</li>
