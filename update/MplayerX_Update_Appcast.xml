@@ -16,26 +16,27 @@
 				<ul>
 					<li>Pref: AutoResume playback.</li>
 					<li>Pref: when entering fullscreen, always hide dock.(issue 181)</li>
-					<li>Pref: interlacing methods.</li>
+					<li>Pref: Deinterlacing methods.</li>
 					<li>Pref: PostProcess methods.</li>
-					<li>Pref: pass extra options to mplayer directly.(issue 214)</li>
-					<li>Pref: <strong>add hidden setting: HideTitlebar</strong>.(issue 174)</li>
-					<li>Pref: add hidden setting: LogMode.</li>
+					<li>Pref: Pass extra options to mplayer directly.(issue 214)</li>
+					<li>Pref: Add hidden setting: HideTitlebar.(issue 174)</li>
+					<li>Pref: Add hidden setting: LogMode.</li>
 					<li>Pref: Save your settings in Video Tuner and Equalizer.(issue 64)</li>
-					<li>UI  : new file type icon. <strong>Fanchi, Ryoh, THANK YOU!!</strong></li>
-					<li>UI  : new style of playback control.<strong>Evan, THANK YOU!!</strong></li>
-					<li>UI  : polished the traffic light buttons.(issue 199)</li>
-					<li>UI  : when pausing, press → for frame step.</li>
-					<li>UI  : add Inspector panel.</li>
-					<li>UI  : menu refinement.</li>
-					<li>UI  : in Fullscreen, you could drag the movie area.(issue 136)</li>
-					<li>Core: use FFMpeg as the default demuxer(except RealMedia).</li>
-					<li>Core: downmix to 2 channels now should work.</li>
-					<li>Core: keep the pitch when changing playback speed.(issue 213, 205)</li>
-					<li>Core: show/hide letterbox now work immediately, don't have to restart the playback.</li>
-					<li>Fix : in fullscreen, play window will still be on top of other floating windows.</li>
-					<li>Fix : load subtitles with comma in the filename.</li>
-					<li>Fix : seeking problem when dragging the time slider.(issue 151)</li>
+					<li>UI  : Japanese translation added. <strong>Cyokey, THANK YOU!!</strong></li>
+					<li>UI  : New file type icon. <strong>Fanchi, Ryoh, THANK YOU!!</strong></li>
+					<li>UI  : New style of playback control.<strong>Evan, THANK YOU!!</strong></li>
+					<li>UI  : Polished the traffic light buttons.(issue 199)</li>
+					<li>UI  : When pausing, press → for frame step.</li>
+					<li>UI  : Add Inspector panel.</li>
+					<li>UI  : Menu refinement.</li>
+					<li>UI  : In Fullscreen, you could drag the movie area.(issue 136)</li>
+					<li>Core: Use FFMpeg as the default demuxer(except RealMedia).</li>
+					<li>Core: Downmix to 2 channels now should work.</li>
+					<li>Core: Keep the pitch when changing playback speed.(issue 213, 205)</li>
+					<li>Core: Show/hide letterbox now work immediately, don't have to restart the playback.</li>
+					<li>Fix : In fullscreen, play window will still be on top of other floating windows.</li>
+					<li>Fix : Load subtitles with comma in the filename.</li>
+					<li>Fix : Seeking problem when dragging the time slider.(issue 151)</li>
 					<li>Fix : Apple Remote will bring up the light of the dimmed screen.(issue 220)</li>
 					<li>and many minor fixes.</li>
 				</ul>
