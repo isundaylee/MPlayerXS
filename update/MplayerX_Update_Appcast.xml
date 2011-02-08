@@ -20,11 +20,12 @@
 					<li>Pref: PostProcess methods.</li>
 					<li>Pref: Pass extra options to mplayer directly.(issue 214)</li>
 					<li>Pref: Add hidden setting: HideTitlebar.(issue 174)</li>
-					<li>Pref: Add hidden setting: LogMode.</li>
 					<li>Pref: Save your settings in Video Tuner and Equalizer.(issue 64)</li>
+					<li>UI  : Portuguese translation added. <strong>Sérgio, THANK YOU!!</strong></li>
+					<li>UI  : Russian translation added. <strong>Yaroslav, THANK YOU!!</strong></li>
 					<li>UI  : Japanese translation added. <strong>Cyokey, THANK YOU!!</strong></li>
 					<li>UI  : New file type icon. <strong>Fanchi, Ryoh, THANK YOU!!</strong></li>
-					<li>UI  : New style of playback control.<strong>Evan, THANK YOU!!</strong></li>
+					<li>UI  : Improvement of playback control.<strong>Evan, THANK YOU!!</strong></li>
 					<li>UI  : Polished the traffic light buttons.(issue 199)</li>
 					<li>UI  : When pausing, press → for frame step.</li>
 					<li>UI  : Add Inspector panel.</li>
