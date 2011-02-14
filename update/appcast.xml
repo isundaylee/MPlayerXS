@@ -6,8 +6,45 @@
       <description>MplayerX</description>
       <language>en</language>      
          <item>
-            <title>Version 1.0.0</title>
-			<description><![CDATA[
+            <title>Version 1.0.1</title>
+			<description><![CDATA[							
+				<h3>MPlayerX 1.0.1</h3>
+				2011/02/14
+				<p>Hi, what a long absence, I'm still alive, MPlayerX too.</p>
+				<p>Now I'm planning some, relatively, big feature into MPlayerX for the next major release. It may cost some time. Before doing it, I thought I'd better release once. So actually 1.0.1 isn't a exciting release, just a little step forward.</p>
+				<p>There gonna be a long thanks list in this version, and I am really greatful and glad to see there are more and more people involved into this project</p>
+				<p>THANK YOU <strong>Sérgio, Yaroslav, Cyokey, Catskin, Fanchi, Ryoh, Evan</strong>. You help is deeply appreciated.
+				<p> </p>
+				<ul>
+					<li>Pref: AutoResume playback.</li>
+					<li>Pref: when entering fullscreen, always hide dock.(issue 181)</li>
+					<li>Pref: Deinterlacing methods.</li>
+					<li>Pref: PostProcess methods.</li>
+					<li>Pref: Pass extra options to mplayer directly.(issue 214)</li>
+					<li>Pref: Add hidden setting: HideTitlebar.(issue 174)</li>
+					<li>Pref: Save your settings in Video Tuner and Equalizer.(issue 64)</li>
+					<li>UI  : Portuguese translation added.</li>
+					<li>UI  : Russian translation added.</li>
+					<li>UI  : Japanese translation added.</li>
+					<li>UI  : Traditional Chinese translation added.</li>
+					<li>UI  : New file type icon.</li>
+					<li>UI  : Improvement of playback control.</li>
+					<li>UI  : Polished the traffic light buttons.(issue 199)</li>
+					<li>UI  : When pausing, press → for frame step.</li>
+					<li>UI  : Add Inspector panel.</li>
+					<li>UI  : Menu refinement.</li>
+					<li>UI  : In Fullscreen, you could drag the movie area.(issue 136)</li>
+					<li>Core: Use FFMpeg as the default demuxer(except RealMedia).</li>
+					<li>Core: Downmix to 2 channels now should work.</li>
+					<li>Core: Keep the pitch when changing playback speed.(issue 213, 205)</li>
+					<li>Core: Show/hide letterbox now work immediately, don't have to restart the playback.</li>
+					<li>Fix : In fullscreen, play window will still be on top of other floating windows.</li>
+					<li>Fix : Load subtitles with comma in the filename.</li>
+					<li>Fix : Seeking problem when dragging the time slider.(issue 151)</li>
+					<li>Fix : Apple Remote will bring up the light of the dimmed screen.(issue 220)</li>
+					<li>and many minor fixes.</li>
+				</ul>
+
 				<h3>MPlayerX 1.0.0</h3>
 				2010/07/19
 				<ul>
@@ -133,11 +170,11 @@
             ]]></description>
             <pubDate>Mon, 19 Jul 2010 01:42:02 +0900</pubDate>
             <enclosure url="http://mplayerx.googlecode.com/svn/releases/MPlayerX.zip"
-					   sparkle:version="893"
-					   sparkle:shortVersionString="1.0.0"
-					   length="12417277"
+					   sparkle:version="1118"
+					   sparkle:shortVersionString="1.0.1"
+					   length="13166239"
 					   type="application/octet-stream"
-					   sparkle:dsaSignature="MC0CFG7aLnlheOnWRVob+DyAlLjKgEAxAhUAtzzFP297xlHTuw43xstZmiqAXlw=" />
+					   sparkle:dsaSignature="MC0CFHZDjp/X9XV9GqqalCvJ3QVFo0/8AhUAuhf9WiCO4j50qqSaZxIrRSXqoPk=" />
          </item>
    </channel>
 </rss>

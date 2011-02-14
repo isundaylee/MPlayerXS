@@ -14,7 +14,8 @@
 				<p>Hi, what a long absence, I'm still alive, MPlayerX too.</p>
 				<p>Now I'm planning some, relatively, big feature into MPlayerX for the next major release. It may cost some time. Before doing it, I thought I'd better release once. So actually 1.0.1 isn't a exciting release, just a little step forward.</p>
 				<p>There gonna be a long thanks list in this version, and I am really greatful and glad to see there are more and more people involved into this project</p>
-				<p>THANK YOU <strong>Sérgio, Yaroslav, Cyokey, Fanchi, Ryoh, Evan</strong>. You help is deeply appreciated.
+				<p>THANK YOU <strong>Sérgio, Yaroslav, Cyokey, Catskin, Fanchi, Ryoh, Evan</strong>. You help is deeply appreciated.
+				<p> </p>
 				<ul>
 					<li>Pref: AutoResume playback.</li>
 					<li>Pref: when entering fullscreen, always hide dock.(issue 181)</li>
@@ -26,6 +27,7 @@
 					<li>UI  : Portuguese translation added.</li>
 					<li>UI  : Russian translation added.</li>
 					<li>UI  : Japanese translation added.</li>
+					<li>UI  : Traditional Chinese translation added.</li>
 					<li>UI  : New file type icon.</li>
 					<li>UI  : Improvement of playback control.</li>
 					<li>UI  : Polished the traffic light buttons.(issue 199)</li>
