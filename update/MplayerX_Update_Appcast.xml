@@ -6,9 +6,17 @@
       <description>MplayerX</description>
       <language>en</language>      
          <item>
-            <title>Version 1.0.0</title>
+            <title>Version 1.0.2</title>
 			<description><![CDATA[
 				
+				<h3>MPlayerX 1.0.2</h3>
+				2011/02/15
+				<ul>
+					<li>Fix : time control bar coordination issue</li>
+					<li>Fix : update frame image when seek forward/backward while pausing</li>
+					<li>Fix : move bookmarks to Application Support/MPlayerX/</li>
+				</ul>
+
 				<h3>MPlayerX 1.0.1</h3>
 				2011/01/07
 				<p>Hi, what a long absence, I'm still alive, MPlayerX too.</p>
