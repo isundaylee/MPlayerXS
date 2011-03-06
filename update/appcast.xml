@@ -6,9 +6,17 @@
       <description>MplayerX</description>
       <language>en</language>      
          <item>
-            <title>Version 1.0.2</title>
+            <title>Version 1.0.3</title>
 			<description><![CDATA[
 			
+				<h3>IMPORTANT!!!</h3>
+				<h4>THIS IS NOT A NEW VERSION RELEASE NOTIFICATION!</h4>
+				<h4>Sorry I have to use this way to let you know that</h4>
+				<p>MPlayerX has entered <a href="http://itunes.apple.com/en/app/mplayerx/id421131143?mt=12">Mac App Store</a></p>
+				<p>And Sparkle way will stop updating from 1.0.2</p>
+				<p>Please go to Mac App Store to get the latest MPlayerX, and keep updating</p>
+				<p>And thank you all who helped MPlayerX on this operation</p>
+				
 				<h3>MPlayerX 1.0.2</h3>
 				2011/02/15
 				<ul>
@@ -180,8 +188,8 @@
             ]]></description>
             <pubDate>Mon, 19 Jul 2010 01:42:02 +0900</pubDate>
             <enclosure url="http://mplayerx.googlecode.com/svn/releases/MPlayerX.zip"
-					   sparkle:version="1129"
-					   sparkle:shortVersionString="1.0.2"
+					   sparkle:version="1130"
+					   sparkle:shortVersionString="1.0.3"
 					   length="13166008"
 					   type="application/octet-stream"
 					   sparkle:dsaSignature="MCwCFELMXhoB1K1D9hCHRPmxU/VGzrtLAhRSYe+t+3sBgWTL9LGqSm27pF6mHA==" />
