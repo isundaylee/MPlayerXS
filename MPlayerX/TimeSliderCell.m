@@ -167,7 +167,8 @@
 			rcBounds.size.width -= 0.5f;
 			rcBounds.size.height = 8.0f;
 			
-			rcBounds.size.width *= ([self floatValue]/[self maxValue]);
+            float full = ([self maxValue] == 0 ? 1 : [self maxValue]);
+			rcBounds.size.width *= ([self floatValue]/full);
 			
 			path = [NSBezierPath bezierPathWithRoundedRect:rcBounds xRadius:4 yRadius:4];
 			dot  = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(rcBounds.size.width - 6, rcBounds.origin.y + 2.0, 4, 4)];
