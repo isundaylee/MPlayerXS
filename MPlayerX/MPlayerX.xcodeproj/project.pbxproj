@@ -33,6 +33,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		15B5138E1843F44B002A65A7 /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B5138D1843F44B002A65A7 /* UniversalDetector.framework */; };
 		86030A9311F1E00600F8D1E8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 86030A9211F1E00600F8D1E8 /* Localizable.strings */; };
 		86034C3210D13DBF001CB180 /* fold.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 86034C3010D13DBF001CB180 /* fold.pdf */; };
 		86034C3310D13DBF001CB180 /* unfold.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 86034C3110D13DBF001CB180 /* unfold.pdf */; };
@@ -113,8 +114,6 @@
 		867FDF351169FD2E000C71A6 /* HueSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 867FDF341169FD2E000C71A6 /* HueSliderCell.m */; };
 		869DA29C1223A2FE00D0D57A /* BGHUDAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 869DA29B1223A2FE00D0D57A /* BGHUDAppKit.framework */; };
 		869DA2E21223A32900D0D57A /* BGHUDAppKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 869DA29B1223A2FE00D0D57A /* BGHUDAppKit.framework */; };
-		86A34A0910F60F7E00AECBB2 /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86A34A0810F60F7E00AECBB2 /* UniversalDetector.framework */; };
-		86A34A2510F60FA000AECBB2 /* UniversalDetector.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 86A34A0810F60F7E00AECBB2 /* UniversalDetector.framework */; };
 		86A5E40C10C7D24D00D061C7 /* wqy-microhei.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 86A5E40B10C7D24D00D061C7 /* wqy-microhei.ttc */; };
 		86B99D0210C9418600AB28FB /* OpenURLController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86B99D0110C9418600AB28FB /* OpenURLController.m */; };
 		86B9E23712D1B0910094B55E /* Inspector.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B9E23612D1B0910094B55E /* Inspector.xib */; };
@@ -182,7 +181,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				869DA2E21223A32900D0D57A /* BGHUDAppKit.framework in Copy Frameworks */,
-				86A34A2510F60FA000AECBB2 /* UniversalDetector.framework in Copy Frameworks */,
 				863F1A4410EF4CE20089C695 /* Sparkle.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -193,6 +191,7 @@
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		15B5138D1843F44B002A65A7 /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniversalDetector.framework; path = ../../../../Library/Frameworks/UniversalDetector.framework; sourceTree = "<group>"; };
 		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 2; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -298,7 +297,6 @@
 		867FDF341169FD2E000C71A6 /* HueSliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 2; path = HueSliderCell.m; sourceTree = "<group>"; };
 		868BB6B810EF598500A942B3 /* MplayerX_Update_Appcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = MplayerX_Update_Appcast.xml; path = ../update/MplayerX_Update_Appcast.xml; sourceTree = SOURCE_ROOT; };
 		869DA29B1223A2FE00D0D57A /* BGHUDAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BGHUDAppKit.framework; path = ../BGHUDAppKit/BGHUDAppKit.framework; sourceTree = SOURCE_ROOT; };
-		86A34A0810F60F7E00AECBB2 /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniversalDetector.framework; path = ../UniversalDetector/build/Release/UniversalDetector.framework; sourceTree = SOURCE_ROOT; };
 		86A5E40B10C7D24D00D061C7 /* wqy-microhei.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "wqy-microhei.ttc"; sourceTree = "<group>"; };
 		86B99D0010C9418600AB28FB /* OpenURLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = OpenURLController.h; sourceTree = "<group>"; };
 		86B99D0110C9418600AB28FB /* OpenURLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 2; path = OpenURLController.m; sourceTree = "<group>"; };
@@ -357,13 +355,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				869DA29C1223A2FE00D0D57A /* BGHUDAppKit.framework in Frameworks */,
+				863F1A4110EF4CD40089C695 /* Sparkle.framework in Frameworks */,
+				15B5138E1843F44B002A65A7 /* UniversalDetector.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				8608653910BA56A700459392 /* OpenGL.framework in Frameworks */,
 				8608654010BA56C100459392 /* QuartzCore.framework in Frameworks */,
 				8609C28110C6944A00B102CE /* IOKit.framework in Frameworks */,
-				863F1A4110EF4CD40089C695 /* Sparkle.framework in Frameworks */,
-				86A34A0910F60F7E00AECBB2 /* UniversalDetector.framework in Frameworks */,
-				869DA29C1223A2FE00D0D57A /* BGHUDAppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,13 +452,13 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				15B5138D1843F44B002A65A7 /* UniversalDetector.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 				8608653810BA56A700459392 /* OpenGL.framework */,
 				8608653F10BA56C100459392 /* QuartzCore.framework */,
 				8609C28010C6944A00B102CE /* IOKit.framework */,
 				863F1A4010EF4CD40089C695 /* Sparkle.framework */,
-				86A34A0810F60F7E00AECBB2 /* UniversalDetector.framework */,
 				869DA29B1223A2FE00D0D57A /* BGHUDAppKit.framework */,
 			);
 			name = Frameworks;
@@ -759,6 +757,7 @@
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MPlayerX" */;
 			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -1099,10 +1098,13 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../UniversalDetector/build/Release\"",
-					"\"$(SRCROOT)/../Sparkle.framework\"",
-					"\"$(SRCROOT)/..\"",
-					"\"$(SRCROOT)/../BGHUDAppKit\"",
+					"\\\"$(SRCROOT)/../UniversalDetector/build/Release\\\"",
+					"\\\"$(SRCROOT)/../Sparkle.framework\\\"",
+					"\\\"$(SRCROOT)/..\\\"",
+					"\\\"$(SRCROOT)/../BGHUDAppKit\\\"",
+					"$(USER_LIBRARY_DIR)/Frameworks",
+					/Users/Sunday/Programming/Git/mplayerx/Sparkle.framework,
+					/Users/Sunday/Programming/Git/mplayerx/BGHUDAppKit,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -1123,10 +1125,13 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../UniversalDetector/build/Release\"",
-					"\"$(SRCROOT)/../Sparkle.framework\"",
-					"\"$(SRCROOT)/..\"",
-					"\"$(SRCROOT)/../BGHUDAppKit\"",
+					"\\\"$(SRCROOT)/../UniversalDetector/build/Release\\\"",
+					"\\\"$(SRCROOT)/../Sparkle.framework\\\"",
+					"\\\"$(SRCROOT)/..\\\"",
+					"\\\"$(SRCROOT)/../BGHUDAppKit\\\"",
+					"$(USER_LIBRARY_DIR)/Frameworks",
+					/Users/Sunday/Programming/Git/mplayerx/Sparkle.framework,
+					/Users/Sunday/Programming/Git/mplayerx/BGHUDAppKit,
 				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1148,7 +1153,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_REUSE_STRINGS = YES;
 				GCC_SHORT_ENUMS = NO;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1164,7 +1169,7 @@
 				LLVM_LTO = NO;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Debug;
@@ -1179,7 +1184,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_REUSE_STRINGS = YES;
 				GCC_SHORT_ENUMS = NO;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1194,7 +1199,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LLVM_LTO = NO;
 				PREBINDING = YES;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
