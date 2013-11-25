@@ -39,7 +39,7 @@
 {
 	[[NSUserDefaults standardUserDefaults] 
 	 registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
-					   [NSNumber numberWithFloat:0.1], kUDKeySpeedStep,
+					   [NSNumber numberWithFloat:0.3], kUDKeySpeedStep,
 					   [NSNumber numberWithFloat:10], kUDKeySeekStepLR,
 					   [NSNumber numberWithFloat:60], kUDKeySeekStepUB,
 					   [NSNumber numberWithFloat:0.1], kUDKeySubDelayStepTime,
